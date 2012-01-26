@@ -10,5 +10,6 @@
   - Jacob Flynn
   - Max Stillwell
   - Sasha Solomon
+<<<<<<< HEAD
 
 Testing aptana git.
