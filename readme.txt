@@ -3,6 +3,9 @@
  ** Description **
   - Fill me in!
 
+ ** Contact Address **
+  - cs-tab@uidaho.edu
+
  ** Sponsor **
   - Susan Hess
 
@@ -10,7 +13,3 @@
   - Jacob Flynn
   - Max Stillwell
   - Sasha Solomon
-
-This is a test.
-
-I am also testing.
