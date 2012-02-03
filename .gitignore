@@ -15,10 +15,10 @@
 /tmp
 
 #Ignore all LaTeX auxiliary files.
-/docs/*.aux
-/docs/*.txt
-/docs/*.out
-/docs/*.toc
+/Documents/*.aux
+/Documents/*.txt
+/Documents/*.out
+/Documents/*.toc
 
 *.project
 *.class
