@@ -1,7 +1,15 @@
 *** TAB (Teaching Assistant for Bassoon) ***
 
  ** Description **
-  - Fill me in!
+  - Ever wanted to know the best Bassoon fingering to use for a passage of music but don't want to look 
+  through pages upon pages of fingerings? Well then, TAB is for you! TAB (Teaching Assistant for Bassoon) 
+  is a web application for looking up Bassoon fingerings for a note or series of notes. TAB is currently 
+  in development by a Senior Design Team from the University of Idaho. Questions or suggestions? Send us 
+  an email at cs-tab@uidaho.edu!
+
+ ** Links **
+  - Team Webpage: ???
+  - Git Wiki: https://github.com/Sverk/TAB/wiki
 
  ** Contact Address **
   - cs-tab@uidaho.edu
