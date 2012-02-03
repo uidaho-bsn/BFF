@@ -1,0 +1,167 @@
+%-------------------------------------
+%LaTeX Template by Max Stillwell
+%-------------------------------------
+\documentclass[12pt]{article}
+\usepackage{parskip}
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+\usepackage{url}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\hypersetup{bookmarks=true, unicode=false, pdftoolbar=true, pdfmenubar=true, 
+	pdfstartview={FitV}, pdftitle={CS 470 Project 1}, pdfauthor={Max Stillwell}{Jacob Flynn}{Sasha Solomon}, 
+	pdfkeywords={TAB} {Bassoon}, pdfnewwindow=true, colorlinks=true, 
+	linkcolor=blue, citecolor=green, filecolor=magenta, urlcolor=blue}
+
+\fancyhf{}
+	\headheight 14.49998pt
+	\pagestyle{fancy}
+	\rhead{Teaching Assistant for Bassoon}
+	\lfoot{\thepage}
+	\cfoot{of}
+	\rfoot{\pageref{LastPage}}
+
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0.6cm}
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+\renewcommand{\arraystretch}{1.5}
+
+\begin{document}
+	%\maketitle
+	%\clearpage
+
+	\tableofcontents
+	\newpage
+
+	\section{Requirements}
+
+			\begin{tabular}{ | p{3cm} | p{13cm} |}
+				\hline
+				\multicolumn{2}{ | l | }{\textbf{Requirement Name Here}} \\
+				\hline
+				\textbf{Description} & Description Goes Here \\ \hline
+				\textbf{Notes} & 
+					\begin{itemize}
+						\item Notes go here
+					\end{itemize} \\
+				\hline
+			\end{tabular}
+
+		\subsection{Application Requirements}
+			\begin{itemize}
+				\item Present a primary (common/most used) note/fingering combination.
+				\item Present alternate fingering combinations. \\
+					\textbf{Notes:}
+					\begin{itemize}
+						\item Sorted by hole coverage, based on expertise.
+					\end{itemize}
+				\item Allow the input of new note/fingerings combinations.
+				\item Allow the editing of note/fingerings combinations.
+				\item Allow the removal of note/fingerings combinations.
+				\item Be viewable on most web browsers including mobile web browsers.
+			\end{itemize}
+
+		\subsection{User Requirements}
+			\begin{tabular}{ | p{3cm} | p{13cm} |}
+				\hline
+				\multicolumn{2}{ | l | }{\textbf{Fingering Request for Notes}} \\
+				\hline
+				\textbf{Description} & Ability to select a series of up to three fingerings and request a fingering progression for those notes. \\ \hline
+				\textbf{Notes} & 
+					\begin{itemize}
+						\item Can request alternate fingerings.
+						\item Can view example music for the fingerings.
+						\item Can sort fingerings by hole coverage or expertise level.
+						\item Can "Like" or "Dislike" the given fingerings. (Requires Login)
+						\item Can submit a new fingering for the chosen note progression. (Requires Login)
+							\begin{itemize}
+								\item Can attach example music to the new fingering. (Requires Login)
+								\item Can set the expertise level of the new fingering. (Requires Login)
+							\end{itemize}
+					\end{itemize} \\
+				\hline
+			\end{tabular}
+
+		\subsection{Administrative User Requirements}
+			\begin{tabular}{ | p{3cm} | p{13cm} |}
+				\hline
+				\multicolumn{2}{ | l | }{\textbf{Add New Fingering}} \\
+				\hline
+				\textbf{Description} & Ability to add a new fingering for a given set of notes. (Requires Login) \\ \hline
+				\textbf{Notes} & 
+					\begin{itemize}
+						\item None
+					\end{itemize} \\
+				\hline
+			\end{tabular}
+			\begin{tabular}{ | p{3cm} | p{13cm} |}
+				\hline
+				\multicolumn{2}{ | l | }{\textbf{Remove Existing Fingering}} \\
+				\hline
+				\textbf{Description} & Ability to remove a new fingering from the database. (Requires Login) \\ \hline
+				\textbf{Notes} & 
+					\begin{itemize}
+						\item None
+					\end{itemize} \\
+				\hline
+			\end{tabular}
+			\begin{tabular}{ | p{3cm} | p{13cm} |}
+				\hline
+				\multicolumn{2}{ | l | }{\textbf{Update Fingering}} \\
+				\hline
+				\textbf{Description} & Ability to update and existing fingering in the database. (Requires Login) \\ \hline
+				\textbf{Notes} & 
+					\begin{itemize}
+						\item None.
+					\end{itemize} \\
+				\hline
+			\end{tabular}
+			\begin{tabular}{ | p{3cm} | p{13cm} |}
+				\hline
+				\multicolumn{2}{ | l | }{\textbf{Approve User Added Fingering}} \\
+				\hline
+				\textbf{Description} & Approve a fingering added by a user for use in the database. (Requires Login) \\ \hline
+				\textbf{Notes} & 
+					\begin{itemize}
+						\item None.
+					\end{itemize} \\
+				\hline
+			\end{tabular}
+			\begin{tabular}{ | p{3cm} | p{13cm} |}
+				\hline
+				\multicolumn{2}{ | l | }{\textbf{Deny User Added Fingering}} \\
+				\hline
+				\textbf{Description} & Deny a fingering added by a user. (Requires Login) \\ \hline
+				\textbf{Notes} & 
+					\begin{itemize}
+						\item None.
+					\end{itemize} \\
+				\hline
+			\end{tabular}
+			\begin{tabular}{ | p{3cm} | p{13cm} |}
+				\hline
+				\multicolumn{2}{ | l | }{\textbf{Freeze User Like/Dislike Options}} \\
+				\hline
+				\textbf{Description} & Ability to prevent users from Like/Disliking specific fingerings or all fingerings. (Requires Login) \\ \hline
+				\textbf{Notes} & 
+					\begin{itemize}
+						\item None.
+					\end{itemize} \\
+				\hline
+			\end{tabular}
+			\begin{tabular}{ | p{3cm} | p{13cm} |}
+				\hline
+				\multicolumn{2}{ | l | }{\textbf{Unfreeze User Like/Dislike Options}} \\
+				\hline
+				\textbf{Description} & Ability to allow users to Like/Dislike specific fingerings or all fingerings. (Requires Login) \\ \hline
+				\textbf{Notes} & 
+					\begin{itemize}
+						\item None.
+					\end{itemize} \\
+				\hline
+			\end{tabular}
+
+\end{document}
