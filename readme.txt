@@ -18,6 +18,9 @@
  ** Sponsor **
   - Susan Hess
 
+ ** Advisor **
+  - Terry Soule
+
  ** Developers **
   - Jacob Flynn
   - Max Stillwell
