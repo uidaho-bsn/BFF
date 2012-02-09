@@ -5,6 +5,29 @@ class ApplicationController < ActionController::Base
   before_filter :redirect_to_mobile_if_applicable
   before_filter :prepend_view_path_if_mobile
   
+  def login_required
+    if session[:user]
+      return true
+    end
+    flash[:warning]='Please login to continue'
+    session[:return_to]=request.request_uri
+    redirect_to :controller => "user", :action => "login"
+    return false 
+  end
+
+  def current_user
+    session[:user]
+  end
+
+  def redirect_to_stored
+    if return_to = session[:return_to]
+      session[:return_to]=nil
+      redirect_to_url(return_to)
+    else
+      redirect_to :controller=>'user', :action=>'welcome'
+    end
+  end
+  
   private
   
   def set_mobile_prefrences
@@ -27,7 +50,7 @@ class ApplicationController < ActionController::Base
   end
   
   def redirect_to_mobile_if_applicable
-    unless mobile_request? || cookies[:prefer_full_site] || !mobiler_browser?
+    unless mobile_request? || cookies[:prefer_full_site] || !mobile_browser?
       redirect_to request.protocol + "m." + request_with_port.gsub(/^www\./, '') + request.request_uri and return
     end
   end
@@ -38,7 +61,7 @@ class ApplicationController < ActionController::Base
   helper_method :mobile_request?
   
   def mobile_browser?
-    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][(iPhone|iPod|iPad|Android)/]
+    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(iPhone|iPod|iPad|Android)/]
   end
   helper_method :mobile_browser?
 end

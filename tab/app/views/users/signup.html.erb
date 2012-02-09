@@ -1,0 +1,16 @@
+<%= form_tag :action=> "signup" %>
+	<label for="user_login">Username</label><br/>
+	<%= text_field "user", "login", :size => 20 %><br/>
+	
+	<label for="user_password">Password</label><br/>
+	<%= password_field "user", "password", :size => 20 %><br/>
+	
+	<label for="user_password_confirmation">Password Confirmation</label><br/>
+	<%= password_field "user", "password_confirmation", :size => 20 %><br/>
+	
+	<label for="user_email">Email</label><br/>
+	<%= text_field "user", "email",  :size => 20 %><br/>
+	
+	<%= submit_tag "Signup" %>
+	<%= link_to "Signup 2", signup_user_path, :method => :post%>
+<%= %>

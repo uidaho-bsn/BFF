@@ -1,4 +1,6 @@
 Tab::Application.routes.draw do
+  #resources :users
+
   get "home/index"
 
   # The priority is based upon order of creation:
@@ -26,7 +28,16 @@ Tab::Application.routes.draw do
   #       get 'sold'
   #     end
   #   end
-
+    resources :users do
+      collection do
+        get 'signup'
+        post :signup
+        get 'login'
+        get 'forgot_password'
+        get 'change_password'
+      end
+    end
+    
   # Sample resource route with sub-resources:
   #   resources :products do
   #     resources :comments, :sales

@@ -5,5 +5,5 @@ class HomeController < ApplicationController
   def mobile_request?
     request.subdomains.first == 'm'
   end
-  helper_method :modbile_request?
+  helper_method :mobile_request?
 end
