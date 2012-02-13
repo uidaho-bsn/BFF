@@ -1,167 +1,159 @@
 require 'test_helper'
 
 class UserTest < Test::Unit::TestCase
-  def test_auth 
-    #check that we can login we a valid user 
-    assert_equal  @bob, User.authenticate("bob", "test")    
-    #wrong username
-    assert_nil    User.authenticate("nonbob", "test")
-    #wrong password
-    assert_nil    User.authenticate("bob", "wrongpass")
-    #wrong login and pass
-    assert_nil    User.authenticate("nonbob", "wrongpass")
+  def test_auth
+    #Check login for valid user.
+    assert_equal @bob, User.authenticate("bob", "test"), "Couldn't authenticate bob! He may not exist."
+    #Check wrong username.
+    assert_nil User.authenticate("nonbob", "test"), "Wrongly authenticated nonbob! He shouldn't exist."
+    #Check wrong password.
+    assert_nil User.authenticate("bob", "wrongpass"), "Wrongly authenticated bob's password!"
+    #Check wrong username & password.
+    assert_nil User.authenticate("nonbob", "wrongpass"), "Wrongly authenticated an incorrect login & password!"
   end
 
-  def test_passwordchange
-    # check success
-    assert_equal @longbob, User.authenticate("longbob", "longtest")
-    #change password
+  def test_password_change
+    #Check that an exisitng user works.
+    assert_equal @longbob, User.authenticate("longbob", "longtest"), "Couldn't authenticate with current password."
+    #Check changing the password.
     @longbob.password = @longbob.password_confirmation = "nonbobpasswd"
-    assert @longbob.save
-    #new password works
-    assert_equal @longbob, User.authenticate("longbob", "nonbobpasswd")
-    #old pasword doesn't work anymore
-    assert_nil   User.authenticate("longbob", "longtest")
-    #change back again
+    assert @longbob.save, "Couldn't save user!"
+    #Check that new password works.
+    assert_equal @longbob, User.authenticate("longbob", "nonbobpasswd"), "New password did not work."
+    #Check that old password doesn't work.
+    assert_nil User.authenticate("longbob", "longtest"), "Old password worked and should not have."
+    #Change back again.
     @longbob.password = @longbob.password_confirmation = "longtest"
-    assert @longbob.save
-    assert_equal @longbob, User.authenticate("longbob", "longtest")
-    assert_nil   User.authenticate("longbob", "nonbobpasswd")
+    assert @longbob.save, "Couldn't save user!"
+    assert_equal @longbob, User.authenticate("longbob", "longtest"), "Couldn't authenticate user with password."
+    assert_nil User.authenticate("longbob", "nonbobpasswd"), "Old password managed to authnticate when it shouldn't have."
   end
 
   def test_disallowed_passwords
-    #check thaat we can't create a user with any of the disallowed paswords
-    u = User.new    
-    u.login = "nonbob"
-    u.email = "nonbob@mcbob.com"
-    #too short
-    u.password = u.password_confirmation = "tiny" 
-    assert !u.save     
-    assert u.errors.invalid?('password')
-    #too long
-    u.password = u.password_confirmation = "hugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehuge"
-    assert !u.save     
-    assert u.errors.invalid?('password')
-    #empty
-    u.password = u.password_confirmation = ""
-    assert !u.save    
-    assert u.errors.invalid?('password')
-    #ok
-    u.password = u.password_confirmation = "bobs_secure_password"
-    assert u.save     
-    assert u.errors.empty? 
+    #Setup.
+    usr = User.new    
+    usr.login = "nonbob"
+    usr.email = "nonbob@mcbob.com"
+    #Check too short.
+    usr.password = usr.password_confirmation = "tiny" 
+    assert !usr.save, "Couldn't save user!"
+    assert usr.errors[:password], "Wrongly allowed a password that is too short."
+    #Check too long.
+    usr.password = usr.password_confirmation = "hugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehugehuge"
+    assert !usr.save, "Couldn't save user!"
+    assert usr.errors[:password], "Wrongly allowed a password that is too long."
+    #Check empty.
+    usr.password = usr.password_confirmation = ""
+    assert !usr.save, "Couldn't save user!"
+    assert usr.errors[:password], "Wrongly allowed an empty password."
+    #Check valid.
+    usr.password = usr.password_confirmation = "bobs_secure_password"
+    assert usr.save, "Couldn't save user!"
+    assert usr.errors.empty?, "Wrongly disallowed a valid password."
   end
 
-  def test_bad_logins
-    #check we cant create a user with an invalid username
-    u = User.new  
-    u.password = u.password_confirmation = "bobs_secure_password"
-    u.email = "okbob@mcbob.com"
-    #too short
-    u.login = "x"
-    assert !u.save     
-    assert u.errors.invalid?('login')
-    #too long
-    u.login = "hugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhug"
-    assert !u.save     
-    assert u.errors.invalid?('login')
-    #empty
-    u.login = ""
-    assert !u.save
-    assert u.errors.invalid?('login')
-    #ok
-    u.login = "okbob"
-    assert u.save  
-    assert u.errors.empty?
-    #no email
-    u.email=nil   
-    assert !u.save     
-    assert u.errors.invalid?('email')
-    #invalid email
-    u.email='notavalidemail'   
-    assert !u.save     
-    assert u.errors.invalid?('email')
-    #ok
-    u.email="validbob@mcbob.com"
-    assert u.save  
-    assert u.errors.empty?
+  def test_bad_username
+    #Setup.
+    usr = User.new  
+    usr.password = usr.password_confirmation = "bobs_secure_password"
+    usr.email = "okbob@mcbob.com"
+    #Check too short.
+    usr.login = "x"
+    assert !usr.save, "Couldn't save user!"
+    assert usr.errors[:login], "Wrongly allowed a short username."
+    #Check too long.
+    usr.login = "hugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhugebobhug"
+    assert !usr.save, "Couldn't save user!"
+    assert usr.errors[:login], "Wrongly allowed a long username."
+    #Check empty.
+    usr.login = ""
+    assert !usr.save, "Couldn't save user!"
+    assert usr.errors[:login], "Wrongly allowed an empty username."
+    #Check valid.
+    usr.login = "okbob"
+    assert usr.save, "Couldn't save user!"
+    assert usr.errors.empty?, "Wrongly disallowed a correct username."
+  end
+
+  def test_invalid_email
+    #Setup.
+    usr = User.new
+    usr.login = "nonbob"
+    usr.password = usr.password_confirmation = "bobs_secure_password"
+    #Check invalid email.
+    usr.email='notavalidemail'
+    assert !usr.save, "Couldn't save user!"
+    assert usr.errors[:email], "Wrongly allowed an incorrect email."
+    #Check no email.
+    usr.email=""
+    assert !usr.save, "Couldn't save user!"
+    assert usr.errors[:email], "Wrongly allowed an empty email."
+    #Check valid email.
+    usr.email = "okbob@mcbob.com"
+    assert usr.save, "Couldn't save user!"
+    assert usr.errors.empty?, "Wrongly disallowed a correct email."
   end
 
   def test_collision
-    #check can't create new user with existing username
-    u = User.new
-    u.login = "existingbob"
-    u.password = u.password_confirmation = "bobs_secure_password"
-    assert !u.save
+    #Check creating a new user with existing username.
+    usr = User.new
+    usr.login = "existingbob"
+    usr.password = usr.password_confirmation = "bobs_secure_password"
+    assert !usr.save, "Wrongly allowed a username collision."
   end
 
   def test_create
-    #check create works and we can authenticate after creation
-    u = User.new
-    u.login      = "nonexistingbob"
-    u.password = u.password_confirmation = "bobs_secure_password"
-    u.email="nonexistingbob@mcbob.com"  
-    assert_not_nil u.salt
-    assert u.save
-    assert_equal 10, u.salt.length
-    assert_equal u, User.authenticate(u.login, u.password)
+    #Check that create works and we can authenticate after creation.
+    usr = User.new
+    usr.login = "nonexistingbob"
+    usr.password = usr.password_confirmation = "bobs_secure_password"
+    usr.email = "nonexistingbob@mcbob.com"  
+    assert_not_nil usr.salt, "User's salt not set!"
+    assert usr.save, "Couldn't save user!"
+    assert_equal 10, usr.salt.length, "User's salt is too short!"
+    assert_equal usr, User.authenticate(usr.login, usr.password), "Couldn't authenticate the created user!"
 
-    u = User.new(:login => "newbob", :password => "newpassword", :password_confirmation => "newpassword", :email => "newbob@mcbob.com" )
-    assert_not_nil u.salt
-    assert_not_nil u.password
-    assert_not_nil u.hashed_password
-    assert u.save 
-    assert_equal u, User.authenticate(u.login, u.password)
-
+    usr = User.new(:login => "newbob", :password => "newpassword", :password_confirmation => "newpassword", :email => "newbob@mcbob.com" )
+    assert_not_nil usr.salt, "User's salt not set!"
+    assert_not_nil usr.password, "User's password not set!"
+    assert_not_nil usr.hashed_password, "User's hased password not set!"
+    assert usr.save, "Couldn't save user!"
+    assert_equal usr, User.authenticate(usr.login, usr.password), "Couldn't authenticated the created user!"
   end
 
   def test_send_new_password
-    #check user authenticates
-    assert_equal  @bob, User.authenticate("bob", "test")    
-    #send new password
+    #Check that the user authenticates.
+    assert_equal  @bob, User.authenticate("bob", "test"), "Couldn't authenticate a valid user."
+    #Check sending a new password.
     sent = @bob.send_new_password
-    assert_not_nil sent
-    #old password no longer workd
-    assert_nil User.authenticate("bob", "test")
-    #email sent...
-    assert_equal "Your password is ...", sent.subject
-    #... to bob
-    assert_equal @bob.email, sent.to[0]
-    assert_match Regexp.new("Your username is bob."), sent.body
-    #can authenticate with the new password
+    assert_not_nil sent, "New password not assigned!"
+    #Check old password no longer works.
+    assert_nil User.authenticate("bob", "test"), "Wrongly allowed user's old password to work."
+    #Check email sent.
+    assert_equal "Your password is ...", sent.subject, "Email as not sent."
+    #Check it was to bob.
+    assert_equal @bob.email, sent.to[0], "Email was sent to wrong user."
+    assert_match Regexp.new("Your username is bob."), sent.body, "Email was sent to wrong user."
+    #Check that new password works.
     new_pass = $1 if Regexp.new("Your new password is (\\w+).") =~ sent.body 
-    assert_not_nil new_pass
-    assert_equal  @bob, User.authenticate("bob", new_pass)    
+    assert_not_nil new_pass, "New password is null."
+    assert_equal  @bob, User.authenticate("bob", new_pass), "Could authenticate with the new password."    
   end
 
   def test_rand_str
     new_pass = User.random_string(10)
-    assert_not_nil new_pass
-    assert_equal 10, new_pass.length
+    assert_not_nil new_pass, "Random string not created."
+    assert_equal 10, new_pass.length, "Random string not long enough."
   end
 
   def test_sha1
-    u=User.new
-    u.login      = "nonexistingbob"
-    u.email="nonexistingbob@mcbob.com"  
-    u.salt="1000"
-    u.password = u.password_confirmation = "bobs_secure_password"
-    assert u.save   
-    assert_equal 'b1d27036d59f9499d403f90e0bcf43281adaa844', u.hashed_password
-    assert_equal 'b1d27036d59f9499d403f90e0bcf43281adaa844', User.encrypt("bobs_secure_password", "1000")
-  end
-
-  def test_protected_attributes
-    #check attributes are protected
-    u = User.new(:id=>999999, :salt=>"I-want-to-set-my-salt", :login => "badbob", :password => "newpassword", :password_confirmation => "newpassword", :email => "badbob@mcbob.com" )
-    assert u.save
-    assert_not_equal 999999, u.id
-    assert_not_equal "I-want-to-set-my-salt", u.salt
-
-    u.update_attributes(:id=>999999, :salt=>"I-want-to-set-my-salt", :login => "verybadbob")
-    assert u.save
-    assert_not_equal 999999, u.id
-    assert_not_equal "I-want-to-set-my-salt", u.salt
-    assert_equal "verybadbob", u.login
+    usr = User.new
+    usr.login = "nonexistingbob"
+    usr.email = "nonexistingbob@mcbob.com"  
+    usr.salt = "1000"
+    usr.password = usr.password_confirmation = "bobs_secure_password"
+    assert usr.save, "Couldn't save user!"
+    assert_equal 'b1d27036d59f9499d403f90e0bcf43281adaa844', usr.hashed_password, "User's hashed password not equal to correct hash."
+    assert_equal 'b1d27036d59f9499d403f90e0bcf43281adaa844', User.encrypt("bobs_secure_password", "1000"), "Users hashed password doesn't match encrypt's hashed password."
   end
 end

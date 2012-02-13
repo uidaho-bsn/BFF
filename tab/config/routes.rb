@@ -30,11 +30,14 @@ Tab::Application.routes.draw do
   #   end
     resources :users do
       collection do
-        get 'signup'
-        post :signup
+        get 'register'
+        post :register
         get 'login'
+        post :login
+        get :logout
         get 'forgot_password'
         get 'change_password'
+        get 'welcome'
       end
     end
     
