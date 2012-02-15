@@ -1,7 +1,26 @@
 Tab::Application.routes.draw do
-  #resources :users
+  get 'home/index'
 
-  get "home/index"
+  #scope 'admin', :as => 'admin' do
+  #  resources :users
+  #end
+
+  resources :users, :path_names => {:new => 'register', :show => 'profile'}, 
+    :only => [:index, :show, :new, :create, :edit, :update, :destroy] do
+      member do
+        get 'profile'
+      end
+      
+      collection do
+        get 'login'
+        post :login
+        get :logout
+        get 'forgot_password'
+        get 'change_password'
+      end
+  end
+
+  root :to => 'home#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -28,18 +47,6 @@ Tab::Application.routes.draw do
   #       get 'sold'
   #     end
   #   end
-    resources :users do
-      collection do
-        get 'register'
-        post :register
-        get 'login'
-        post :login
-        get :logout
-        get 'forgot_password'
-        get 'change_password'
-        get 'welcome'
-      end
-    end
     
   # Sample resource route with sub-resources:
   #   resources :products do
@@ -61,10 +68,6 @@ Tab::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-    root :to => 'home#index'
 
   # See how all your routes lay out with "rake routes"
 
