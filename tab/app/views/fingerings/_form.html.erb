@@ -1,0 +1,97 @@
+<%= form_for(@fingering) do |f| %>
+  <% if @fingering.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@fingering.errors.count, "error") %> prohibited this fingering from being saved:</h2>
+
+      <ul>
+      <% @fingering.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :LT1 %><br />
+    <%= f.text_field :LT1 %>
+  </div>
+  <div class="field">
+    <%= f.label :LT2 %><br />
+    <%= f.text_field :LT2 %>
+  </div>
+  <div class="field">
+    <%= f.label :LT3 %><br />
+    <%= f.text_field :LT3 %>
+  </div>
+  <div class="field">
+    <%= f.label :LT4 %><br />
+    <%= f.text_field :LT4 %>
+  </div>
+  <div class="field">
+    <%= f.label :LT5 %><br />
+    <%= f.text_field :LT5 %>
+  </div>
+  <div class="field">
+    <%= f.label :LT6 %><br />
+    <%= f.text_field :LT6 %>
+  </div>
+  <div class="field">
+    <%= f.label :LT7 %><br />
+    <%= f.text_field :LT7 %>
+  </div>
+  <div class="field">
+    <%= f.label :W %><br />
+    <%= f.text_field :W %>
+  </div>
+  <div class="field">
+    <%= f.label :RT1 %><br />
+    <%= f.text_field :RT1 %>
+  </div>
+  <div class="field">
+    <%= f.label :RT2 %><br />
+    <%= f.text_field :RT2 %>
+  </div>
+  <div class="field">
+    <%= f.label :RT3 %><br />
+    <%= f.text_field :RT3 %>
+  </div>
+  <div class="field">
+    <%= f.label :RT4 %><br />
+    <%= f.text_field :RT4 %>
+  </div>
+  <div class="field">
+    <%= f.label :LeftI %><br />
+    <%= f.text_field :LeftI %>
+  </div>
+  <div class="field">
+    <%= f.label :LeftM %><br />
+    <%= f.text_field :LeftM %>
+  </div>
+  <div class="field">
+    <%= f.label :LeftR %><br />
+    <%= f.text_field :LeftR %>
+  </div>
+  <div class="field">
+    <%= f.label :LeftL %><br />
+    <%= f.text_field :LeftL %>
+  </div>
+  <div class="field">
+    <%= f.label :RightI %><br />
+    <%= f.text_field :RightI %>
+  </div>
+  <div class="field">
+    <%= f.label :RightM %><br />
+    <%= f.text_field :RightM %>
+  </div>
+  <div class="field">
+    <%= f.label :RightR %><br />
+    <%= f.text_field :RightR %>
+  </div>
+  <div class="field">
+    <%= f.label :RightL %><br />
+    <%= f.text_field :RightL %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

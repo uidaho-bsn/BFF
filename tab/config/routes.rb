@@ -1,4 +1,10 @@
 Tab::Application.routes.draw do
+  resources :fi_nos
+
+  resources :fingerings
+
+  resources :notes
+
   get 'home/index'
 
   #scope 'admin', :as => 'admin' do

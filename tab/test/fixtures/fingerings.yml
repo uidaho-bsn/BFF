@@ -1,0 +1,45 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  LT1: 
+  LT2: 
+  LT3: 
+  LT4: 
+  LT5: 
+  LT6: 
+  LT7: 
+  W: 
+  RT1: 
+  RT2: 
+  RT3: 
+  RT4: 
+  LeftI: 
+  LeftM: 
+  LeftR: 
+  LeftL: 
+  RightI: 
+  RightM: 
+  RightR: 
+  RightL: 
+
+two:
+  LT1: 
+  LT2: 
+  LT3: 
+  LT4: 
+  LT5: 
+  LT6: 
+  LT7: 
+  W: 
+  RT1: 
+  RT2: 
+  RT3: 
+  RT4: 
+  LeftI: 
+  LeftM: 
+  LeftR: 
+  LeftL: 
+  RightI: 
+  RightM: 
+  RightR: 
+  RightL: 

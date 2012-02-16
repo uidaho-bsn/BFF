@@ -1,0 +1,25 @@
+<%= form_for(@fi_no) do |f| %>
+  <% if @fi_no.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@fi_no.errors.count, "error") %> prohibited this fi_no from being saved:</h2>
+
+      <ul>
+      <% @fi_no.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :noteID %><br />
+    <%= f.text_field :noteID %>
+  </div>
+  <div class="field">
+    <%= f.label :fingeringIDList %><br />
+    <%= f.text_field :fingeringIDList %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
