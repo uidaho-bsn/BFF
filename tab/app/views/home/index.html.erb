@@ -1,10 +1,42 @@
-<h1>Welcome to the Temporary TAB Hompage!</h1>
+<!DOCTYPE html>
 
-<p>This page will contain various links to the various features of TAB that will be merged at a later time into 
-	a much shinier page.</p>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>TAB</title>
+		<meta name="TAB" content="Fill me in!" />
+	    <!--[if lt IE 9]>
+      		<script src="//html5shim.googlecode.com/sin/trunk/html5.js"></script>
+    	<![endif]-->
+	</head>
 	
-<h1>Links</h1>
-	<ul>
-		<li><%= link_to 'Users', 'users' %></li>
-	</ul>
-
+	<body>
+		<h1>Welcome to the Temporary TAB Hompage!</h1>
+		
+		<p>This page will contain various links to the various features of TAB that will be merged at a later time into 
+			a much shinier page.</p>
+			
+		<h1>Links</h1>
+			<ul>
+				<li><%= link_to 'Users', 'users' %></li>
+			</ul>
+			
+			
+		<canvas id="canvas" width="838" height="220"></canvas>
+		<script>
+			var canvasContext = document.getElementById("canvas").getContext("2d");
+			canvasContext.fillRext(250,25,150,100);
+			
+			canvasContext.beginPath();
+			canvasContext.arc(450,110,100,Math.PI * 1/2, Math.PI * 3/2);
+			canvasContext.lineWidth = 15;
+			canvasContext.lineCap = 'round';
+			canvasContext.strokeStyle = 'rgba(255,127,0,0.5)';
+			canvasContext.stroke();
+		</script>
+			
+		<footer>
+			
+		</footer>
+	</body>
+</html>
