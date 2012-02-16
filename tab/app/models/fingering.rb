@@ -1,7 +1,7 @@
 class Fingering < ActiveRecord::Base
 end
 
-  #***Front***
+  #***Back***
   #Left Thumb
   #attr_accessor :LT1, :LT2, :LT3, :LT4, :LT5, :LT6, :LT7
   #Whisper Key
@@ -9,6 +9,6 @@ end
   #Right Thumb
   #attr_accessor :RT1, :RT2, :RT3, :RT4
 
-  #***Back***
+  #***Front***
   #Left/Right(I = Index, M = Middle, R = Ring, L = Little) Finger
   #attr_accessor :LeftI, :LeftM, :LeftR, :LeftL, :RightI, :RightM, :RightR, :RightL
