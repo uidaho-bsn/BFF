@@ -8,11 +8,45 @@
 		<%= javascript_include_tag "application" %>
 		<%= csrf_meta_tags %>
 	    <!--[if lt IE 9]>
-      		<script src="//html5shim.googlecode.com/sin/trunk/html5.js"></script>
-    	<![endif]-->
+	  		<script src="//html5shim.googlecode.com/sin/trunk/html5.js"></script>
+		<![endif]-->
 	</head>
 	
-	<body>
+	<script type="application/x-javascript">
+		function draw() 
+		{
+	  		var canvas = document.getElementById("canvas");
+	  		if (canvas.getContext) 
+	  		{
+	    		var ctx = canvas.getContext("2d");
+	
+	    		ctx.fillStyle = "rgb(200,0,0)";
+	    		ctx.fillRect (10, 10, 55, 50);
+	
+	    		ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+        		ctx.fillRect (30, 30, 55, 50);
+      		}
+    	}
+    	
+    	//Begin Note Interface
+    	function draw_staff(width, height)
+    	{
+    		var canvas = document.getElementById("note_view")
+    		if (canvas.getContext)
+    		{
+    			var ctx = canvas.getContext("2d")
+    			
+    			ctx.beginPath();
+    				ctx.moveTo(75,50);
+    				ctx.lineTo(100,75);
+    				ctx.lineTo(100,25);
+					ctx.closePath();
+				ctx.stroke();
+    		}
+    	}
+	</script>
+
+	<body onload="draw(); draw_staff();">
 		<h1>Welcome to the Temporary TAB Hompage!</h1>
 		
 		<p>This page will contain various links to the various features of TAB that will be merged at a later time into 
@@ -24,18 +58,10 @@
 			</ul>
 			
 		<h1>Some HTML 5 Testing</h1>
-		<canvas id="canvas" width="838" height="220"></canvas>
-		<script>
-			var canvasContext = document.getElementById("canvas").getContext("2d");
-		 	canvasContext.fillRect(250, 25, 150, 100);
-		  
-		  	canvasContext.beginPath();
-		  	canvasContext.arc(450, 110, 100, Math.PI * 1/2, Math.PI * 3/2);
-		  	canvasContext.lineWidth = 15;
-		  	canvasContext.lineCap = 'round';
-		  	canvasContext.strokeStyle = 'rgba(255, 127, 0, 0.5)';
-		  	canvasContext.stroke();
-		</script>
+			<canvas id="canvas" width="150" height="150"></canvas>
+		
+		<h1>Interface Testing</h1>
+			<canvas id="note_view" width="200" height="200"></canvas>
 			
 		<footer>
 			Test Footer
