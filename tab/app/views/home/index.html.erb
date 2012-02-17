@@ -5,7 +5,7 @@
 		<title>TAB</title>
 		<meta name="TAB" content="Fill me in!" />
 		<%= stylesheet_link_tag "application", :media => "all" %>
-		<%= javascript_include_tag "application" %>
+		<%= javascript_include_tag :home %>
 		<%= csrf_meta_tags %>
 	    <!--[if lt IE 9]>
 	  		<script src="//html5shim.googlecode.com/sin/trunk/html5.js"></script>
@@ -27,26 +27,9 @@
         		ctx.fillRect (30, 30, 55, 50);
       		}
     	}
-    	
-    	//Begin Note Interface
-    	function draw_staff(width, height)
-    	{
-    		var canvas = document.getElementById("note_view")
-    		if (canvas.getContext)
-    		{
-    			var ctx = canvas.getContext("2d")
-    			
-    			ctx.beginPath();
-    				ctx.moveTo(75,50);
-    				ctx.lineTo(100,75);
-    				ctx.lineTo(100,25);
-					ctx.closePath();
-				ctx.stroke();
-    		}
-    	}
 	</script>
 
-	<body onload="draw(); draw_staff();">
+	<body onload="draw(); DrawStaff();">
 		<h1>Welcome to the Temporary TAB Hompage!</h1>
 		
 		<p>This page will contain various links to the various features of TAB that will be merged at a later time into 
