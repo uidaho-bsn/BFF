@@ -1,4 +1,6 @@
 Tab::Application.routes.draw do
+  resources :example_musics
+
   resources :fi_nos
 
   resources :fingerings
