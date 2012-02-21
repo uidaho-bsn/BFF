@@ -6,7 +6,7 @@ Tab::Application.routes.draw do
   resources :notes
 
   get 'home/index'
-
+  
   #scope 'admin', :as => 'admin' do
   #  resources :users
   #end
