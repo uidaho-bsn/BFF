@@ -22,5 +22,7 @@ Terry Soule
 
 == Developers
 Jacob Flynn
+
 Max Stillwell
+
 Sasha Solomon
