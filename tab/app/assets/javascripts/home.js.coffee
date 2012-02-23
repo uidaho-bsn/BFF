@@ -12,17 +12,14 @@ window.Home.draw = () ->
   @ctx.fillRect(30, 30, 55, 50)
   
   Home.DrawStaff()
+  test()
 
-window.Home.DrawStaff = () ->
+window.Home.DrawStaff = ->
   @ctx = document.getElementById('note_view').getContext('2d')
   @img = new Image()
-  @img.onload = () ->
-    @ctx.drawImage(img, 0, 0)
-  @img.src = 'images/music_staff.png'
-  
-  @ctx.beginPath()
-  @ctx.moveTo(75,50)
-  @ctx.lineTo(100,75)
-  @ctx.lineTo(100,25)
-  @ctx.closePath()
+  @img.onload = ->
+    @ctx.beginPath()
+    @ctx.drawImage(img, 10, 10, 150, 150)
+    @ctx.closePath()
   @ctx.stroke()
+  @img.src = 'images/music_staff.png'
