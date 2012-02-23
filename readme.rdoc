@@ -1,6 +1,6 @@
-*** TAB (Teaching Assistant for Bassoon) ***
+== TAB (Teaching Assistant for Bassoon)
 
- ** Description **
+== Description
   - Ever wanted to know the best Bassoon fingering to use for a passage of music but 
   don't want to look through pages upon pages of fingerings? Well then, TAB is for 
   you! TAB (Teaching Assistant for Bassoon) is a web application for looking up 
@@ -8,20 +8,20 @@
   by a Senior Design Team from the University of Idaho. Questions or suggestions? 
   Send us an email at cs-tab@uidaho.edu!
 
- ** Links **
+== Links:
   - Team Webpage: http://seniordesign.engr.uidaho.edu/2011-2012/BassoonApp/index.html
   - Git Wiki: https://github.com/Sverk/TAB/wiki
 
- ** Contact Address **
+== Contact Address:
   - cs-tab@uidaho.edu
 
- ** Sponsor **
+== Sponsor:
   - Susan Hess
 
- ** Advisor **
+== Advisor:
   - Terry Soule
 
- ** Developers **
+== Developers:
   - Jacob Flynn
   - Max Stillwell
   - Sasha Solomon
