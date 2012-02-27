@@ -12,25 +12,63 @@
 		<![endif]-->
 	</head>
 
-	<body onload="Interface.draw();">
-		<h1>Welcome to the Temporary TAB Hompage!</h1>
-		
-		<p>This page will contain various links to the various features of TAB that will be merged at a later time into 
-			a much shinier page.</p>
-			
-		<h1>Links</h1>
-			<ul>
-				<li><%= link_to 'Users', 'users' %></li>
-			</ul>
-			
-		<h1>Some HTML 5 Testing</h1>
-			<canvas id="canvas" width="150" height="150"></canvas>
-		
-		<h1>Interface Testing</h1>
-			<canvas id="note_view" width="200" height="200"></canvas>
-			
-		<footer>
-			Test Footer
-		</footer>
+	<body class="home">
+		<div id="header">
+			<div class="wrapper">
+				<a href="index.html"><img id="" src="" alt="" /></a>
+			</div>					
+		</div>
+		<div id="menu">
+			<div id="menu-holder">
+				<div class="wrapper">
+					<ul id="nav" class="sf-menu">
+						<li class="current-menu-item"><a href="#">Home</a></li>
+						<li><a href="features.html">Users</a>
+							<ul>
+								<li><a href="#"><span>Login</span></a></li>
+								<li><a href="#"><span>Register</span></a></li>
+								<li><a href="#"><span>Profile</span></a></li>
+							</ul>
+						</li>
+						<li><a href="contact.html">Contact</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="main">
+			<canvas id="note_view" width="100%" height="500"></canvas>
+		</div>
+		<div id="footer">
+			<div class="wrapper">
+				<ul id="footer-cols">
+					<li class="col">
+						<h6>Pages</h6>
+						<ul>
+							<li class="page_item"><a href="index.html">Home</a></li>
+						</ul>
+					</li>
+					<li class="col">
+						<h6>Links</h6>
+						<ul>
+							<li><a href="#">GitHub Repo</a></li>
+						</ul>
+					</li>
+					<li class="col">
+						<h6>About</h6>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div id="bottom">
+			<div class="wrapper">
+				<div id="bottom-text">
+					2012 Team TAB. Template by <a href="http://www.luiszuno.com"> Luiszuno.com</a> 
+				</div>
+				<ul class="social ">
+					<li><a href="http://www.github.com" class="poshytip  github" title="GitHub"></a></li>
+				</ul>
+				<div id="to-top" class="poshytip" title="To top"></div>
+			</div>
+		</div>
 	</body>
 </html>
