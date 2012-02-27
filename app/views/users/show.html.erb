@@ -1,0 +1,28 @@
+
+
+<%user = session[:user]%>
+<% if user != nil %>
+
+<table>
+	<tr>
+		<th><% User.find(session[:user]).login %></th>
+		<th><% User.find(session[:user]).email %></th>
+		<th><%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<% if user.isAdmin %>
+		<% @users.each do |usr| %>
+			<tr>
+				<td><%= usr.login %></td>
+				<td><%= usr.email %></td>
+				<td><%= link_to 'Show', usr %></td>
+				<td><%= link_to 'Edit', edit_user_path(usr) %></td>
+				<td><%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %></td>
+			</tr>
+		<% end %>
+	<% end %>
+
+</table>
+
+<% end %>

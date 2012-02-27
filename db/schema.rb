@@ -11,7 +11,39 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120209183225) do
+ActiveRecord::Schema.define(:version => 20120216211413) do
+
+  create_table "fingerings", :force => true do |t|
+    t.integer  "LT1"
+    t.integer  "LT2"
+    t.integer  "LT3"
+    t.integer  "LT4"
+    t.integer  "LT5"
+    t.integer  "LT6"
+    t.integer  "LT7"
+    t.integer  "W"
+    t.integer  "RT1"
+    t.integer  "RT2"
+    t.integer  "RT3"
+    t.integer  "RT4"
+    t.integer  "LeftI"
+    t.integer  "LeftM"
+    t.integer  "LeftR"
+    t.integer  "LeftL"
+    t.integer  "RightI"
+    t.integer  "RightM"
+    t.integer  "RightR"
+    t.integer  "RightL"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "notes", :force => true do |t|
+    t.string   "note",       :limit => nil
+    t.string   "tone",       :limit => nil
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "login"

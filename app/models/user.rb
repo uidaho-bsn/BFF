@@ -10,7 +10,8 @@ class User < ActiveRecord::Base
   
   attr_protected :id, :salt
   
-  attr_accessor :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :admin
+  #admin -> true or false.
   
   def self.authenticate(login, pass)
     usr = find(:first, :conditions=>["login = ?", login])
@@ -23,6 +24,14 @@ class User < ActiveRecord::Base
     @password = pass
     self.salt = User.random_string(10) if !self.salt? #Do we want to change salt everytime the password is changed?
     self.hashed_password = User.encrypt(@password, self.salt)
+  end
+  
+  def admin=(ad)
+    @admin = ad
+  end
+  
+  def isAdmin
+    return self.admin
   end
     
   def send_new_password
