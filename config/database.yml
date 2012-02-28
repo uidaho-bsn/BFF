@@ -2,7 +2,7 @@ development:
   adapter: postgresql
   host: localhost
   username: postgres
-  password:
+  password: ?!
   database: db/development
   pool: 5
   timeout: 5000
