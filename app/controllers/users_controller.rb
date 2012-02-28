@@ -46,7 +46,7 @@ class UsersController < ApplicationController
   def logout
     session[:user] = nil
     flash[:message] = "Logged Out"
-    redirect_to :action => 'login'
+    redirect_to root_url
   end
 
   def forgot_password
