@@ -1,28 +1,29 @@
+<% content_for :head do %>
+	<title><% User.find(session[:user]).login %>'s Profile</title>
+<% end %>
 
-
-<%user = session[:user]%>
-<% if user != nil %>
-
-<table>
-	<tr>
-		<th><% User.find(session[:user]).login %></th>
-		<th><% User.find(session[:user]).email %></th>
-		<th><%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %></th>
-		<th></th>
-		<th></th>
-	</tr>
-	<% if user.isAdmin %>
-		<% @users.each do |usr| %>
+<% content_for :content do %>
+	<% if session[:user] != nil %>
+		<h1><% User.find(session[:user]) %></h1>
+		<table>
 			<tr>
-				<td><%= usr.login %></td>
-				<td><%= usr.email %></td>
-				<td><%= link_to 'Show', usr %></td>
-				<td><%= link_to 'Edit', edit_user_path(usr) %></td>
-				<td><%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %></td>
+				<th><% User.find(session[:user]).login %></th>
+				<th><% User.find(session[:user]).email %></th>
+				<th><%= link_to 'Destroy', User.find(session[:user]), confirm: 'Are you sure?', method: :delete %></th>
+				<th></th>
+				<th></th>
 			</tr>
-		<% end %>
+			<% if User.find(session[:user]).isAdmin %>
+				<% @users.each do |usr| %>
+					<tr>
+						<td><%= usr.login %></td>
+						<td><%= usr.email %></td>
+						<td><%= link_to 'Show', usr %></td>
+						<td><%= link_to 'Edit', edit_user_path(usr) %></td>
+						<td><%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %></td>
+					</tr>
+				<% end %>
+			<% end %>
+		</table>
 	<% end %>
-
-</table>
-
 <% end %>

@@ -2,7 +2,9 @@
 	<div id="menu-holder">
 		<div class="wrapper">
 			<ul id="nav" class="sf-menu">
-				<li class="current-menu-item"><a href="#">Home</a></li>
+				<li class="current-menu-item"><%= link_to "Home", root_url %></li>
+				<li><a href="https://github.com/Sverk/TAB/issues?sort=created&direction=desc&state=open">Report a Bug</a></li>
+				<li><%= link_to "Users List", "users/index" %></li>
 				<li><a href="#">Contact</a></li>
 			</ul>
 		</div>

@@ -1,29 +1,26 @@
-<h1>Listing users</h1>
-
-<table>
-  <tr>
-	<th><% User.find(session[:user]).login %></th>
-	<th><% User.find(session[:user]).email %></th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-  <% @users.each do |usr| %>
-   <tr>
-    <td><%= usr.login %></td>
-    <td><%= usr.email %></td>
-    <td><%= link_to 'Show', usr %></td>
-    <td><%= link_to 'Edit', edit_user_path(usr) %></td>
-    <td><%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %></td>
-   </tr>
-  <% end %>
-
-</table>
-
-<br />
-
-<%= link_to 'Show', session[:user] %>
-
-
-<%= link_to 'Register', 'users/register' %> <%= link_to 'Login', login_users_path %> <%= link_to 'Logout', logout_users_path %>
+<% content_for :content do %>
+	<h1>Listing users</h1>
+	
+	<table>
+	  <tr>
+		<th><% User.find(session[:user]).login %></th>
+		<th><% User.find(session[:user]).email %></th>
+	    <th></th>
+	    <th></th>
+	    <th></th>
+	  </tr>
+	
+	  <% @users.each do |usr| %>
+	    <%= usr.login %>
+	    <%= usr.email %>
+	    <%= link_to 'Show', usr %>
+	    <%= link_to 'Edit', edit_user_path(usr) %>
+	    <%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %>
+	  <% end %>
+	
+	</table>
+	
+	<br />
+	
+	<%= link_to 'Show', session[:user] %>
+<% end %>

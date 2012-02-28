@@ -1,15 +1,14 @@
 class UsersController < ApplicationController
- 
-  before_filter :login_required, :only => ['show', 'change_password', 'hidden', 'destroy']
+  before_filter :login_required, :only => ['change_password', 'hidden', 'destroy']
 
   def index
     @users = User.all
   end
 
-
   def new
     @user = User.new(params[:user])
     @ad = false
+=begin
     if request.post?  
       if @user.save
         if @users <= 1
@@ -17,13 +16,12 @@ class UsersController < ApplicationController
         end
         session[:user] = User.authenticate(@user.login, @user.password)
         flash[:message] = "Registration Successful"
-        redirect_to :action => :index         
+        redirect_to root_url       
       else
         flash[:warning] = "Registration Unsuccessful"
       end
     end
-    
-    
+=end
   end
 
   def create
@@ -33,7 +31,7 @@ class UsersController < ApplicationController
       if @user.save
         session[:user] = User.authenticate(@user.login, @user.password)
         flash[:message] = "Registration Successful"
-        redirect_to :action => :index         
+        redirect_to root_url         
       else
         flash[:warning] = "Registration Unsuccessful"
       end
