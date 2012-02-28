@@ -5,7 +5,7 @@ Tab::Application.routes.draw do
   #  resources :users
   #end
 
-  resources :users, :path_names => {:new => 'register', :show => 'profile'}, 
+  resources :users, :path_names => {:new => 'register', :create => 'register', :show => 'profile'}, 
     :only => [:index, :show, :new, :create, :edit, :update, :destroy] do
       member do
         get 'profile'
@@ -13,7 +13,7 @@ Tab::Application.routes.draw do
       
       collection do
         get 'login'
-        post :login
+        post 'login'
         get :logout
         get 'forgot_password'
         get 'change_password'
