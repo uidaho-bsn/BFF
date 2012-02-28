@@ -6,10 +6,15 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
+
   def new
     @user = User.new(params[:user])
+    @ad = false
     if request.post?  
       if @user.save
+        if @users <= 1
+          user.admin = true
+        end
         session[:user] = User.authenticate(@user.login, @user.password)
         flash[:message] = "Registration Successful"
         redirect_to :action => :index         
@@ -17,10 +22,13 @@ class UsersController < ApplicationController
         flash[:warning] = "Registration Unsuccessful"
       end
     end
+    
+    
   end
 
   def create
     @user = User.new(params[:user])
+    @ad = false
     if request.post?  
       if @user.save
         session[:user] = User.authenticate(@user.login, @user.password)
