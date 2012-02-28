@@ -11,12 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
-# Could not dump table "fi_nos" because of following StandardError
-#   Unknown type 'Note' for column 'noteID'
-
-ActiveRecord::Schema.define(:version => 20120216211413) do
-
+ActiveRecord::Schema.define(:version => 20120227234834) do
 
   create_table "fingerings", :force => true do |t|
     t.integer  "LT1"
@@ -44,10 +39,10 @@ ActiveRecord::Schema.define(:version => 20120216211413) do
   end
 
   create_table "notes", :force => true do |t|
-    t.string   "note",       :limit => nil
-    t.string   "tone",       :limit => nil
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.string   "note",       :limit => 1
+    t.string   "tone",       :limit => 1
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
   create_table "users", :force => true do |t|
