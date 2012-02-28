@@ -1,12 +1,4 @@
 Tab::Application.routes.draw do
-  resources :example_musics
-
-  resources :fi_nos
-
-  resources :fingerings
-
-  resources :notes
-
   get 'home/index'
   
   #scope 'admin', :as => 'admin' do
@@ -27,6 +19,8 @@ Tab::Application.routes.draw do
         get 'change_password'
       end
   end
+
+  resources :example_musics
 
   root :to => 'home#index'
 
