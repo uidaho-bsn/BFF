@@ -77,6 +77,36 @@ body
 	margin-bottom: 10px;
 }
 
+/* LOGIN --------------------------------------------------------*/
+.login
+{
+	position: absolute;
+	top:47px;
+	right: -150px;
+}
+
+#loginform #loginsubmit
+{
+	position: absolute; 
+	top: 0px;
+	right: 10px;
+	width: 30px;
+	height: 25px;
+	border: 0px;
+	background: transparent;
+}
+
+input.text_field
+{
+	color: #7e7e7e;
+	font-size: 10px;
+	width: 180px;
+	height: 28px;
+	padding: 0px 35px 0px 10px;
+	border: 0;
+	background: url(other/text_field.png) no-repeat transparent;	
+}
+
 /* HEADLINE ------------------------------------------------------------*/
 #headline
 {
@@ -112,7 +142,7 @@ body
 	right: 0px;
 }
 
-/* MENU ------------------------------------------------------------*/
+/* MENU & NAV */
 #menu
 {
 	width: 100%;
@@ -127,18 +157,17 @@ body
 #menu-holder
 {
 	width: 100%;
-	height: 79px;
+	height: 50px;
 	background:  url(backgrounds/menu.png) repeat-x;
 }
 
-/* NAVIGATION --------------------------------------------------------*/
 #nav
 {
 	display: block;
 	position: absolute;
 	top: 0px;
 	left: 30px;
-	height: 79px;
+	height: 50px;
 	width: 906px;
 }
 
@@ -150,8 +179,6 @@ body
 	margin-right: 32px;
 }
 
-#nav>li:first-child{}
-
 #nav>li>a
 {
 	display: block;
@@ -159,16 +186,8 @@ body
 	color: #bac0c9;
 	text-decoration: none;
 	margin-top: 20px;
-	text-shadow: 0px -2px rgba(0, 0, 0, .8);
-}
-
-#nav>li>a>span.subheader
-{
-	display: block;
-	font-size: 11px;
-	color: #656b74;
-	font-style: italic;
-	margin-top: 10px;
+	text-shadow: -1px -2px rgba(0, 0, 0, .8);
+	background: none;
 }
 
 #nav>li.current-menu-item
@@ -179,55 +198,6 @@ body
 #nav>li:hover>a
 {
 	color: #fff;
-}
-
-#nav>li ul
-{
-	display: block;
-	margin-top: 33px;
-	background: #1d2023;
-	border-radius: 0px 10px 0px 10px;
-	-moz-border-radius: 0px 0px 10px 10px;
-	-webkit-border-radius: 0px 0px 10px 10px;
-	-webkit-box-shadow: 0px 3px 2px rgba(0,0,0,0.4); 
-	-moz-box-shadow: 0px 3px 2px rgba(0,0,0,0.4); 
-	box-shadow: 0px 3px 2px rgba(0,0,0,0.4); 
-}
-
-#nav>li>ul ul
-{
-	margin-top: 0px;
-	border-radius: 0px 10px 10px 10px;
-	-moz-border-radius: 0px 10px 10px 10px;
-	-webkit-border-radius: 0px 10px 10px 10px;
-}
-
-#nav>li ul li a
-{
-	display: block;
-	padding: 10px 15px;
-	display: block;
-	font-size: 11px;
-	color: #bac0c9;
-	text-decoration: none;
-}
-
-#nav>li ul li a span
-{
-	display: block;
-}
-
-#nav>li ul li a:hover
-{
-	background: #000;
-	color: #fff;
-}
-
-#nav>li ul li:last-child a:hover
-{
-	border-radius: 0px 0px 10px 10px;
-	-moz-border-radius: 0px 0px 10px 10px;
-	-webkit-border-radius: 0px 0px 10px 10px;
 }
 
 /* breadcrumbs --------------------------------------------------------*/
@@ -596,7 +566,7 @@ h6{ font-size: 20px; }
 	width:			10em; /* left offset of submenus need to match (see below) */
 }
 
-.sf-menu ul li { width:			100%; }
+.sf-menu ul li { width: 100%; }
 
 .sf-menu li:hover { visibility: inherit; /* fixes IE7 'sticky bug' */ }
 

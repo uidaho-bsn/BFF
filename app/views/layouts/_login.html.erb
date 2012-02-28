@@ -1,0 +1,21 @@
+<% if session[:user] == nil %>
+	<div class="login">
+		<%= form_tag :action=> "login", :method => "post", :controller => "users", :id => "loginform" %>
+			<div>
+			  	<%= text_field "user", "login", :onfocus => "defaultInput(this)", :onblur => "clearInput(this)", :class => "text_field"%>
+			  	<%= password_field "user", "password", :onfocus => "defaultInput(this)", :onblur => "clearInput(this)", :class => "text_field" %>
+			
+				<%= submit_tag "Submit" %>
+				
+				<br />
+				
+			    <%= link_to 'Register', 'users/register' %> | <%= link_to 'Forgot Password', 'users/forgot_password' %>  
+	    	</div>    
+		<%= %>
+	</div>
+<% else %>
+	<div class="login">
+		Welcome <%= link_to User.find(session[:user]).login, 'users/show' %>. <br />
+		<%= link_to 'Logout', logout_users_path %>
+	</div>
+<% end %>

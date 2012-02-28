@@ -1,14 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Tab</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="TAB" content="Fill me in!" />
+		<%= stylesheet_link_tag "application", :media => "all" %>
+		<%= javascript_include_tag :home %>
+		<%= csrf_meta_tags %>
+	    <!--[if lt IE 9]>
+	  		<script src="//html5shim.googlecode.com/sin/trunk/html5.js"></script>
+		<![endif]-->
+		<%= yield :head %>
+	</head>
 
-<%= yield %>
-
-</body>
+	<body class="home">
+		<div id="header">
+			<div class="wrapper">
+				<a href="index.html"><img id="" src="" alt="" /></a>
+				<%= render "layouts/login" %>
+			</div>
+		</div>
+		<%= render "layouts/menu" %>
+		<div id="main">
+			<%= yield :content %>
+		</div>
+		<%= render "layouts/footer" %>
+		<%= render "layouts/bottom" %>
+	</body>
 </html>
