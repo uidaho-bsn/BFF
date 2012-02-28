@@ -1,26 +1,26 @@
 class CreateFingerings < ActiveRecord::Migration
   def change
     create_table :fingerings do |t|
-      t.int :LT1
-      t.int :LT2
-      t.int :LT3
-      t.int :LT4
-      t.int :LT5
-      t.int :LT6
-      t.int :LT7
-      t.int :W
-      t.int :RT1
-      t.int :RT2
-      t.int :RT3
-      t.int :RT4
-      t.int :LeftI
-      t.int :LeftM
-      t.int :LeftR
-      t.int :LeftL
-      t.int :RightI
-      t.int :RightM
-      t.int :RightR
-      t.int :RightL
+      t.column :LT1, :int
+      t.column :LT2, :int
+      t.column :LT3, :int
+      t.column :LT4, :int
+      t.column :LT5, :int
+      t.column :LT6, :int
+      t.column :LT7, :int
+      t.column :W, :int
+      t.column :RT1, :int
+      t.column :RT2, :int
+      t.column :RT3, :int
+      t.column :RT4, :int
+      t.column :LeftI, :int
+      t.column :LeftM, :int
+      t.column :LeftR, :int
+      t.column :LeftL, :int
+      t.column :RightI, :int
+      t.column :RightM, :int
+      t.column :RightR, :int
+      t.column :RightL, :int
 
       t.timestamps
     end

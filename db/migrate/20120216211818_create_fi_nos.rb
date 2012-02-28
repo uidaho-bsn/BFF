@@ -1,8 +1,8 @@
 class CreateFiNos < ActiveRecord::Migration
   def change
     create_table :fi_nos do |t|
-      t.Note :noteID
-      t.list :fingeringIDList
+      t.column :noteID, :Note
+      t.column :fingeringIDList, :list
 
       t.timestamps
     end
