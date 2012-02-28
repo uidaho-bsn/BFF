@@ -96,6 +96,17 @@ body
 	background: transparent;
 }
 
+#subtext
+{
+	display: block;
+	font-size: 12px;
+	width: 282px;
+	float: left;
+	margin-left: 30px;
+	margin-bottom: 30px;
+	background: none;
+}
+
 input.text_field
 {
 	color: #7e7e7e;
