@@ -23,4 +23,4 @@ function draw_interface() {
   	staff.draw();
 }
 
-window.onload=draw_interface
+window.onload=draw_interface;
