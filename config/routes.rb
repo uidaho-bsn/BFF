@@ -5,7 +5,7 @@ Tab::Application.routes.draw do
   #  resources :users
   #end
 
-  resources :users, :path_names => {:new => 'register', :create => 'register', :show => 'profile'}, 
+  resources :users, :path_names => {:new => 'register', :create => 'register'}, 
     :only => [:index, :show, :new, :create, :edit, :update, :destroy] do
       member do
         get 'profile'
