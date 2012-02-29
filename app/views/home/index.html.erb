@@ -1,6 +1,24 @@
 <% content_for :head do %>
-	<title>TAB</title>
+	<title>TAB::Home</title>
+	<%= javascript_include_tag :home %>
 <% end %>
+
+<% content_for :header do %>
+	<a href="index.html"><img id="" src="" alt="" /></a>
+	<%= render "layouts/login" %>
+<% end %>
+
+<%= content_for :headline do %>
+	<div id="headline">
+		<span class="main">"This is a healine."</span>
+		<span class="sub">"This is subtext."</span>
+	</div>
+<% end %>
+
+<%= content_for :onactions do %><% end %>
+
 <% content_for :content do %>
-	<canvas id="note_view" width="100%" height="500"></canvas>
+	<canvas id="note_view" width="100%" height="500">
+		<img src="images/loading.gif" width="150" height="150" alt=""/>
+	</canvas>
 <% end %>

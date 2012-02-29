@@ -2,6 +2,7 @@
 	<h1>Listing users</h1>
 	
 	<table>
+	<%= if User.find(session[:user]) != nil do %>
 	  <tr>
 		<th><% User.find(session[:user]).login %></th>
 		<th><% User.find(session[:user]).email %></th>
@@ -9,6 +10,7 @@
 	    <th></th>
 	    <th></th>
 	  </tr>
+	<% end %>
 	
 	  <% @users.each do |usr| %>
 	    <%= usr.login %>
