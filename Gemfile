@@ -32,4 +32,4 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-#gem 'therubyracer', require: "v8"
+gem 'therubyracer', require: "v8"
