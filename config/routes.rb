@@ -17,11 +17,13 @@ Tab::Application.routes.draw do
         get :logout
         get 'forgot_password'
         get 'change_password'
+        post 'forgot_password'
       end
   end
 
   resources :example_musics
 
+  #resources :password
   root :to => 'home#index'
 
   # The priority is based upon order of creation:

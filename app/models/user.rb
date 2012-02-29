@@ -3,15 +3,14 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   validates_length_of       :login, :within => 3..64
   validates_length_of       :password, :within => 6..64
-  validates_presence_of     :login, :email, :password, :password_confirmation, :salt
+  validates_presence_of     :login, :email, :email_confirmation, :password, :password_confirmation, :salt
   validates_uniqueness_of   :login, :email
-  validates_confirmation_of :password
+  validates_confirmation_of :password, :email
   validates_format_of       :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid Email"
   
   attr_protected :id, :salt
   
-  attr_accessor :password, :password_confirmation, :admin
-  #admin -> true or false.
+  attr_accessor :password, :password_confirmation
   
   def self.authenticate(login, pass)
     usr = find(:first, :conditions=>["login = ?", login])
@@ -25,20 +24,14 @@ class User < ActiveRecord::Base
     self.salt = User.random_string(10) if !self.salt? #Do we want to change salt everytime the password is changed?
     self.hashed_password = User.encrypt(@password, self.salt)
   end
-  
-  def admin=(ad)
-    @admin = ad
-  end
-  
-  def isAdmin
-    return self.admin
-  end
     
   def send_new_password
-    new_pass = User.random_string(10)
+    new_password = User.random_string(10)
     self.password = self.password_confirmation = new_password
+    
     self.save
-    Notifications.deliver_forgot_password(self.email, self.login, new_page)
+     UserMailer.password_reset(self).deliver
+     #Notifications.deliver_forgot_password(self.email, self.login, new_page)
   end
   
   protected
