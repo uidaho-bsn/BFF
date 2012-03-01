@@ -4,6 +4,9 @@
 			<ul id="nav" class="sf-menu">
 				<li class="current-menu-item"><%= link_to "Home", root_url %></li>
 				<li><%= link_to "Users List", "users/index" %></li>
+				<% if session[:user] != nil %>
+					<li><%= link_to "New Fingering", "fingerings/new" %></li>
+				<% end %>
 			</ul>
 		</div>
 	</div>
