@@ -1,5 +1,21 @@
-<h1>New fingering</h1>
+<% content_for :head do %>
+	<title>TAB::New Fingering</title>
+	<%= javascript_include_tag :fingerings %>
+<% end %>
 
-<%= render 'form' %>
+<% content_for :header do %>
+	<a href="index.html"><img id="" src="" alt="" /></a>
+	<%= render "layouts/login" %>
+<% end %>
 
-<%= link_to 'Back', fingerings_path %>
+<%= content_for :headline do %>
+	<div id="headline">
+		<span class="main">Enter a new fingering:</span>
+	</div>
+<% end %>
+
+<%= content_for :onactions do %><% end %>
+
+<% content_for :content do %>
+	<canvas id="fingering_view" width="200" height="300"></canvas>
+<% end %>
