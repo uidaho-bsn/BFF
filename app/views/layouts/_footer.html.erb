@@ -12,6 +12,11 @@
 				<h6>Links</h6>
 				<ul>
 					<li class="page_item"><a href="https://github.com/Sverk/TAB/issues?sort=created&direction=desc&state=open">Report a Bug</a></li>
+					<% if mobile_device? %>
+						<%= link_to "Full Site", :mobile => 0%>
+					<% else %>
+						<%= link_to "Mobile Site", :mobile => 1%>
+					<% end %>
 				</ul>
 			</li>
 			<li class="col">
