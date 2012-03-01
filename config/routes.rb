@@ -23,6 +23,8 @@ Tab::Application.routes.draw do
 
   resources :example_musics
 
+  resources :fingerings
+
   #resources :password
   root :to => 'home#index'
 
