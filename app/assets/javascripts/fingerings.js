@@ -178,7 +178,7 @@ function Fingering(x, y, width, height) {
   	function draw_thumb_csharp(status, ctx) {
 		if (status[5] == 1) {
 			ctx.fillStyle = "orange"
-			draw_oval(30, 20, 10, 1.0, 0.5, 'fill', ctx)
+			draw_oval(30, 20, 10, 1.0, 0.5, 0, 'fill', ctx)
 		}
 		else if (status[5] == 2) {
 			
@@ -196,7 +196,7 @@ function Fingering(x, y, width, height) {
 			
 		}
   		else if (status[5] == 7) {
-  			draw_oval(30, 20, 10, 1.0, 0.5, 'stroke', ctx)
+  			draw_oval(30, 20, 10, 1.0, 0.5, 0, 'stroke', ctx)
 		}
 		else {
 			alert("A javascript error has occured. Could not draw canvas correctly!");
@@ -223,7 +223,7 @@ function Fingering(x, y, width, height) {
 			
 		}
   		else if (status[0] == 7) {
-  			draw_oval(20, 50, 10, 1.5, 0.5, 'stroke', ctx)
+  			draw_oval(20, 50, 10, 1.5, 0.5, Math.PI / 4, 'stroke', ctx)
 		}
 		else {
 			alert("A javascript error has occured. Could not draw canvas correctly!");
@@ -250,7 +250,7 @@ function Fingering(x, y, width, height) {
 			
 		}
   		else if (status[0] == 7) {
-  			draw_oval(30, 80, 10, 1.0, 0.5, 'stroke', ctx)
+  			draw_oval(30, 80, 10, 1.0, 0.5, 0, 'stroke', ctx)
 		}
 		else {
 			alert("A javascript error has occured. Could not draw canvas correctly!");
@@ -699,26 +699,39 @@ function Fingering(x, y, width, height) {
 		}
   	}
 
-	function draw_oval(x, y, r, scale_x, scale_y, stroke_fill, ctx) {
+	function draw_oval(x, y, r, scale_x, scale_y, rotation, stroke_fill, ctx) {
 		ctx.save();
 			ctx.scale(scale_x, scale_y);
+			ctx.rotate(rotation);
 			ctx.beginPath();
 				ctx.arc(x, y, r, 0, Math.PI * 2, false);
 			ctx.scale(scale_y, scale_x);
-			if(stroke_fill == 'fill')
-			{
+			ctx.rotate(-rotation);
+			if(stroke_fill == 'fill') {
 				ctx.fill();
 			}
-			else if(stroke_fill == 'stroke')
-			{
+			else if(stroke_fill == 'stroke') {
 				ctx.stroke();
 			}
-			else
-			{
+			else {
 				alert("An error has occured in draw oval!");
 			}
 			ctx.closePath();
 		ctx.restore();
+	}
+	
+	function draw_circle(x, y, r, stroke_fill, ctx) {
+		ctx.beginPath();
+			ctx.arc(x, y, r, 0, Math.PI * 2, false);
+			if(stroke_fill == 'fill') {
+				ctx.fill();
+			}
+			else if(stroke_fille == 'stroke') {
+				ctx.stroke();
+			}
+			else {
+				alert("An error has occured in draw circle!");
+			}
 	}
 }
 
