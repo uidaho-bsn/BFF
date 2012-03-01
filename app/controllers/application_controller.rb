@@ -1,9 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
-  before_filter :set_mobile_prefrences
-  before_filter :redirect_to_mobile_if_applicable
-  before_filter :prepend_view_path_if_mobile
+  before_filter :prepair_for_mobile
   
   def login_required
     if session[:user]
@@ -15,8 +13,13 @@ class ApplicationController < ActionController::Base
     return false 
   end
 
-  def current_user
+  def current_user_session
     session[:user]
+  end
+  
+  def current_user
+    return @current_user if defined?(@current_user_session)
+    @current_user_session = UserSession.find
   end
 
   def redirect_to_stored
@@ -30,38 +33,17 @@ class ApplicationController < ActionController::Base
   
   private
   
-  def set_mobile_prefrences
-    if params[:mobile_site]
-      cookies.delete("prefer_full_site")
-    elsif params[:full_site]
-      cookies.permanent[:prefer_full_site] = 1
-      redirect_to_full_site if mobile_request?
+  def mobile_device?
+    if session[:mobile_param]
+      session[:mobile_param] == "1"
+    else
+      request.user_agent =~ /Mobile|webOS/
     end
   end
-  
-  def prepend_view_path_if_mobile
-    if mobile_request?
-      prepend_view_path Rails.root + 'app' + 'mobile_views'
-    end
+  helper_method :mobile_device?
+
+  def prepair_for_mobile
+    session[:mobile_param] = params[:mobile] if params[:mobile]
+    request.format = :mobile if mobile_device?
   end
-  
-  def redirect_to_full_site
-    redirect_to request.protocol + request.host_with_port.gsub(/^m\./, '') + request.request_uri and return
-  end
-  
-  def redirect_to_mobile_if_applicable
-    unless mobile_request? || cookies[:prefer_full_site] || !mobile_browser?
-      redirect_to request.protocol + "m." + request_with_port.gsub(/^www\./, '') + request.request_uri and return
-    end
-  end
-  
-  def mobile_request?
-    request.subdomains.first == 'm'
-  end
-  helper_method :mobile_request?
-  
-  def mobile_browser?
-    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(iPhone|iPod|iPad|Android)/]
-  end
-  helper_method :mobile_browser?
 end
