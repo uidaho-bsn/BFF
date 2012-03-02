@@ -13,4 +13,3 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-//= require superfish-1.4.8/index.js

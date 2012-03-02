@@ -1,744 +1,191 @@
-function Fingering(x, y, width, height) {
-	/* Canvas Variables */
+function Key(x, y, r, rotation, type, ctx) {
+	/* Context */
+	this.ctx = ctx;
+	/* Variables */
 	this.x = x;
 	this.y = y;
-	this.width = width;
-	this.height = height;
-	this.ctx = document.getElementById('fingering_view').getContext('2d');
+	this.r = r;
+	this.rotation = rotation
+	this.status = 7;
+	this.type = type;
 	/* Public Functions */
-    this.draw_chart = draw_chart;
-    /* Status Variables */
-    this.status = new Array();
-    this.status[0] = 7;  this.status[1] = 7;  this.status[2] = 7;  this.status[3] = 7;
-    this.status[4] = 7;  this.status[5] = 7;  this.status[6] = 7;  this.status[7] = 7;
-    this.status[8] = 7;  this.status[9] = 7;  this.status[10] = 7; this.status[11] = 7;
-    this.status[12] = 7; this.status[13] = 7; this.status[14] = 7; this.status[15] = 7;
-    this.status[16] = 7; this.status[17] = 7; this.status[18] = 7; this.status[19] = 7;
-    this.status[20] = 7; this.status[21] = 7; this.status[22] = 7; this.status[23] = 7;
-	this.status[24] = 7; this.status[25] = 7;
-	     
-	function draw_chart() {
-		draw_low_bflat(this.status, this.ctx)
-		draw_low_b(this.status, this.ctx)
-		draw_low_c(this.status, this.ctx)
-		draw_low_d(this.status, this.ctx)
-		draw_whisper(this.status, this.ctx)
-		draw_thumb_csharp(this.status, this.ctx)
-		draw_high_a(this.status, this.ctx)
-		draw_high_c(this.status, this.ctx)
-		draw_high_d(this.status, this.ctx)
-		draw_thumb_bflat(this.status, this.ctx)
-		draw_low_e(this.status, this.ctx)
-		draw_thumb_fsharp(this.status, this.ctx)
-		draw_thumb_aflat(this.status, this.ctx)
-		draw_trill_a_to_b(this.status, this.ctx)
-		draw_trill_g(this.status, this.ctx)
-		draw_trill_fsharp(this.status, this.ctx)
-		draw_trill_eflat(this.status, this.ctx)
-		draw_low_eflat(this.status, this.ctx)
-		draw_low_dflat(this.status, this.ctx)
-		draw_trill_csharp(this.status, this.ctx)
-		draw_trill_bflat(this.status, this.ctx)
-		draw_low_g(this.status, this.ctx)
-		draw_low_f(this.status, this.ctx)
-		draw_little_finger_fsharp(this.status, this.ctx)
-		draw_little_finger_aflat(this.status, this.ctx)
-  	}
-  	
-  	function draw_low_bflat(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-	function draw_low_b(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_low_c(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_low_d(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_whisper(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_thumb_csharp(status, ctx) {
-		if (status[5] == 1) {
-			ctx.fillStyle = "orange"
-			draw_oval(30, 20, 10, 1.0, 0.5, 0, 'fill', ctx)
-		}
-		else if (status[5] == 2) {
-			
-		}
-		else if (status[5] == 3) {
-			
-		}
-		else if (status[5] == 4) {
-			
-		}
-		else if (status[5] == 5) {
-			
-		}
-		else if (status[5] == 6) {
-			
-		}
-  		else if (status[5] == 7) {
-  			draw_oval(30, 20, 10, 1.0, 0.5, 0, 'stroke', ctx)
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_high_a(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-  			draw_oval(20, 50, 10, 1.5, 0.5, Math.PI / 4, 'stroke', ctx)
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_high_c(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-  			draw_oval(30, 80, 10, 1.0, 0.5, 0, 'stroke', ctx)
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_high_d(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_thumb_bflat(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_low_e(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_thumb_fsharp(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}	
-  	}
-  	
-  	function draw_thumb_aflat(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}	
-  	}
-  	
-  	function draw_trill_a_to_b(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}	
-  	}
-  	
-  	function draw_trill_g(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}	
-  	}
-  	
-  	function draw_trill_fsharp(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}	
-  	}
-  	
-  	function draw_trill_eflat(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}	
-  	}
-  	
-  	function draw_low_eflat(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_low_dflat(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-  	
-  	function draw_trill_csharp(status, ctx) {
- 		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		} 		
-  	}
-  	
-  	function draw_trill_bflat(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}  		
-  	}
-  	
-  	function draw_low_g(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}	
-  	}
-  	
-  	function draw_low_f(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}	
-  	}
-  	
-  	function draw_little_finger_fsharp(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}	
-  	}
-  	
-  	function draw_little_finger_aflat(status, ctx) {
-		if (status[0] == 1) {
-
-		}
-		else if (status[0] == 2) {
-			
-		}
-		else if (status[0] == 3) {
-			
-		}
-		else if (status[0] == 4) {
-			
-		}
-		else if (status[0] == 5) {
-			
-		}
-		else if (status[0] == 6) {
-			
-		}
-  		else if (status[0] == 7) {
-		}
-		else {
-			alert("A javascript error has occured. Could not draw canvas correctly!");
-		}
-  	}
-
-	function draw_oval(x, y, r, scale_x, scale_y, rotation, stroke_fill, ctx) {
+	this.draw = draw;
+	
+	function draw() {
+		switch (this.type) {
+			case 'circle':
+				draw_circle(x, y, r, status, this.ctx);
+			break;
+			case 'half-circle':
+				draw_half_circle(x, y, r, rotation, this.status, this.ctx);
+			break;
+			case 'oval-small':
+				draw_oval(x, y, r, 0.75, 0.5, rotation, this.status, this.ctx);
+			break;
+			case 'oval-med':
+				draw_oval(x, y, r, 1.00, 0.5, rotation, this.status, this.ctx);
+			break;
+			case 'oval-large':
+				draw_oval(x, y, r, 1.50, 0.5, rotation, this.status, this.ctx);
+			break;
+			default:
+				alert("Error: Key.draw(). No 'type' was given.");
+			break;
+		};
+	};
+	
+	function status_effect(status, ctx) {
+		switch (status) {
+			case 1:
+				ctx.fillStyle = "orange";
+			break;
+			case 2:
+				ctx.fillStyle = "red";
+			break;
+			case 3:
+				ctx.fillStyle = "green";
+			break;
+			case 4:
+				ctx.fillStyle = "blue";
+			break;
+			case 5:
+				ctx.fillStyle = "yellow";
+			break;
+			case 6:
+				ctx.fillStyle = "purple";
+			break;
+			case 7:
+				ctx.fillStyle = "white";
+			break;
+			default:
+				alert("Error: Key.status_effect().")
+			break;
+		};
+	};
+	
+	function draw_oval(x, y, r, scale_x, scale_y, rotation, status, ctx) {
 		ctx.save();
-			ctx.scale(scale_x, scale_y);
+			status_effect(status, ctx);
+			ctx.translate(x, y);
 			ctx.rotate(rotation);
+			ctx.scale(scale_x, scale_y);
 			ctx.beginPath();
-				ctx.arc(x, y, r, 0, Math.PI * 2, false);
-			ctx.scale(scale_y, scale_x);
-			ctx.rotate(-rotation);
-			if(stroke_fill == 'fill') {
-				ctx.fill();
-			}
-			else if(stroke_fill == 'stroke') {
-				ctx.stroke();
-			}
-			else {
-				alert("An error has occured in draw oval!");
-			}
+				ctx.arc(0, 0, r, 0, Math.PI * 2, false);
+				ctx.scale(scale_y, scale_x);
+				if(status != 7) {
+					ctx.fill();
+				}
+				else {
+					ctx.stroke();
+				}
 			ctx.closePath();
 		ctx.restore();
-	}
+	};
 	
-	function draw_circle(x, y, r, stroke_fill, ctx) {
-		ctx.beginPath();
-			ctx.arc(x, y, r, 0, Math.PI * 2, false);
-			if(stroke_fill == 'fill') {
-				ctx.fill();
-			}
-			else if(stroke_fille == 'stroke') {
-				ctx.stroke();
-			}
-			else {
-				alert("An error has occured in draw circle!");
-			}
-	}
-}
-
-function draw() {
-	var f_chart = new Fingering(0, 0, 500, 100);
+	function draw_circle(x, y, r, status, ctx) {
+		ctx.save();
+			status_effect(status, ctx);
+			ctx.translate(x, y);
+			ctx.beginPath();
+				ctx.arc(0, 0, r, 0, Math.PI * 2, false);
+				if(status != 7) {
+					ctx.fill();
+				}
+				else {
+					ctx.stroke();
+				}
+			ctx.closePath();
+		ctx.restore();
+	};
 	
-  	f_chart.draw_chart();
-}
+	function draw_half_circle(x, y, r, rotation, status, ctx) {
+		ctx.save();
+			status_effect(status, ctx);
+			ctx.translate(x, y);
+			ctx.beginPath();
+				ctx.arc(0, 0, r, 0, Math.PI, false);
+				if(status != 7) {
+					ctx.fill();
+				}
+				else {
+					ctx.fill();
+				}
+				ctx.lineTo()
+			ctx.closePath();
+		ctx.restore();
+	};
+};
 
-window.onload=draw;
+function Fingering_Chart(x, y, width, height) {
+	/* Canvas Variables */
+	this.x      = x;
+	this.y      = y;
+	this.width  = width;
+	this.height = height;
+	this.canvas = document.getElementById('fingering_view');
+	this.ctx    = this.canvas.getContext('2d');
+	/* Event Handlers */	
+	/* Public Functions */
+    this.draw = draw;
+    /* Keys */
+	low_bflat 	 			= new Key(40, 20,  10, -( 115 * Math.PI ) / 180, 'oval-large', this.ctx);
+	low_b 		 			= new Key(30, 30,  10, -( 115 * Math.PI ) / 180, 'oval-large', this.ctx);
+	//low_c 		 			= new Key();  
+	low_d 		 			= new Key(10, 70,  10, Math.PI / 2, 			 'oval-large', this.ctx);
+	whisper 	 			= new Key(70, 70,  10, 0, 						 'oval-small', this.ctx);
+	thumb_csharp 			= new Key(70, 55,  10, 0, 						 'oval-med',   this.ctx);
+	high_a 		 			= new Key(70, 40,  10, 0, 						 'oval-large', this.ctx);
+	high_c 		 			= new Key(70, 25,  10, 0, 						 'oval-med',   this.ctx);
+	high_d 		 			= new Key(70, 10,  10, 0, 						 'oval-small', this.ctx);
+	thumb_bflat  			= new Key(70, 110, 10, 0, 						 'oval-large', this.ctx);
+	low_e 		 			= new Key(70, 140, 20, 0, 						 'circle', 	   this.ctx);
+	thumb_fsharp 			= new Key(70, 170, 10, -( 10 * Math.PI ) / 180,  'oval-large', this.ctx);
+	thumb_aflat  			= new Key(75, 185, 10, -( 10 * Math.PI ) / 180,  'oval-large', this.ctx);
+	trill_a_to_b 			= new Key(60, 175, 10, 0, 						 'oval-small', this.ctx);
+	//trill_g 	 			= new Key();
+	//trill_fsharp 			= new Key();
+	//trill_eflat 			= new Key();
+	//low_eflat 			= new Key();
+	//low_dflat 			= new Key();
+	//trill_csharp 			= new Key();
+	//trill_bflat 			= new Key();
+	//low_g 				= new Key();
+	//low_f 				= new Key();
+	//little_finger_fsharp 	= new Key();
+	//little_finger_aflat 	= new Key();
+
+	function draw() {
+		low_bflat.draw();
+		low_b.draw();
+		low_c.draw();
+		low_d.draw();
+		whisper.draw();
+		thumb_csharp.draw();
+		high_a.draw();
+		high_c.draw();
+		high_d.draw();
+		thumb_bflat.draw();
+		low_e.draw();
+		thumb_fsharp.draw();
+		thumb_aflat.draw();
+		trill_a_to_b.draw();
+		trill_g.draw();
+		trill_fsharp.draw();
+		trill.eflat.draw();
+		low_eflat.draw();
+		low_dflat.draw();
+		trill_chsarp.draw();
+		trill_bflat.draw();
+		low_g.draw();
+		low_f.draw();
+		little_finger_fsharp.draw();
+		little_finger_aflat.draw();
+	};
+};
+
+function init() {
+	var fingering_chart = new Fingering_Chart(0, 0, 500, 100);
+  	setTimeout(fingering_chart.draw(), 1000);
+};
+
+window.onload=init;
