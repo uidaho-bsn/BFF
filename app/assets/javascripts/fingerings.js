@@ -14,7 +14,7 @@ function Key(x, y, r, rotation, type, ctx) {
 	function draw() {
 		switch (this.type) {
 			case 'circle':
-				draw_circle(x, y, r, status, this.ctx);
+				draw_circle(x, y, r, this.status, this.ctx);
 			break;
 			case 'half-circle':
 				draw_half_circle(x, y, r, rotation, this.status, this.ctx);
@@ -116,13 +116,9 @@ function Key(x, y, r, rotation, type, ctx) {
 	};
 };
 
-function Fingering_Chart(x, y, width, height) {
+function Fingering_Chart(canvas) {
 	/* Canvas Variables */
-	this.x      = x;
-	this.y      = y;
-	this.width  = width;
-	this.height = height;
-	this.canvas = document.getElementById('fingering_view');
+	this.canvas = canvas;
 	this.ctx    = this.canvas.getContext('2d');
 	/* Event Handlers */	
 	/* Public Functions */
@@ -141,7 +137,7 @@ function Fingering_Chart(x, y, width, height) {
 	low_e 		 			= new Key(70, 140, 20, 0, 						 'circle', 	   this.ctx);
 	thumb_fsharp 			= new Key(70, 170, 10, -( 10 * Math.PI ) / 180,  'oval-large', this.ctx);
 	thumb_aflat  			= new Key(75, 185, 10, -( 10 * Math.PI ) / 180,  'oval-large', this.ctx);
-	trill_a_to_b 			= new Key(60, 175, 10, 0, 						 'oval-small', this.ctx);
+	trill_a_to_b 			= new Key(50, 180, 10, 0, 						 'oval-small', this.ctx);
 	//trill_g 	 			= new Key();
 	//trill_fsharp 			= new Key();
 	//trill_eflat 			= new Key();
@@ -155,9 +151,10 @@ function Fingering_Chart(x, y, width, height) {
 	//little_finger_aflat 	= new Key();
 
 	function draw() {
+		this.ctx.strokeRect(0, 0, canvas.width, canvas.height);
 		low_bflat.draw();
 		low_b.draw();
-		low_c.draw();
+		//low_c.draw();
 		low_d.draw();
 		whisper.draw();
 		thumb_csharp.draw();
@@ -169,23 +166,24 @@ function Fingering_Chart(x, y, width, height) {
 		thumb_fsharp.draw();
 		thumb_aflat.draw();
 		trill_a_to_b.draw();
-		trill_g.draw();
-		trill_fsharp.draw();
-		trill.eflat.draw();
-		low_eflat.draw();
-		low_dflat.draw();
-		trill_chsarp.draw();
-		trill_bflat.draw();
-		low_g.draw();
-		low_f.draw();
-		little_finger_fsharp.draw();
-		little_finger_aflat.draw();
+		//trill_g.draw();
+		//trill_fsharp.draw();
+		//trill.eflat.draw();
+		//low_eflat.draw();
+		//low_dflat.draw();
+		//trill_chsarp.draw();
+		//trill_bflat.draw();
+		//low_g.draw();
+		//low_f.draw();
+		//little_finger_fsharp.draw();
+		//little_finger_aflat.draw();
 	};
 };
 
 function init() {
-	var fingering_chart = new Fingering_Chart(0, 0, 500, 100);
-  	setTimeout(fingering_chart.draw(), 1000);
+	var canvas = document.getElementById('fingering_view');
+	var fingering_chart = new Fingering_Chart(canvas);
+	setTimeout(fingering_chart.draw(), 1000);
 };
 
 window.onload=init;
