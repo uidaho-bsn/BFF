@@ -1,6 +1,10 @@
-function Key(x, y, r, rotation, type, ctx) {
-	/* Context */
-	this.ctx = ctx;
+/* Globals */
+var fingering_chart;
+var canvas;
+var ctx;
+
+/* Objects */
+function Key(x, y, r, rotation, type) {
 	/* Variables */
 	this.x = x;
 	this.y = y;
@@ -14,27 +18,27 @@ function Key(x, y, r, rotation, type, ctx) {
 	function draw() {
 		switch (this.type) {
 			case 'circle':
-				draw_circle(x, y, r, this.status, this.ctx);
+				draw_circle(x, y, r, this.status);
 			break;
 			case 'half-circle':
-				draw_half_circle(x, y, r, rotation, this.status, this.ctx);
+				draw_half_circle(x, y, r, rotation, this.status);
 			break;
 			case 'oval-small':
-				draw_oval(x, y, r, 0.75, 0.5, rotation, this.status, this.ctx);
+				draw_oval(x, y, r, 0.75, 0.5, rotation, this.status);
 			break;
 			case 'oval-med':
-				draw_oval(x, y, r, 1.00, 0.5, rotation, this.status, this.ctx);
+				draw_oval(x, y, r, 1.00, 0.5, rotation, this.status);
 			break;
 			case 'oval-large':
-				draw_oval(x, y, r, 1.50, 0.5, rotation, this.status, this.ctx);
+				draw_oval(x, y, r, 1.50, 0.5, rotation, this.status);
 			break;
 			default:
 				alert("Error: Key.draw(). No 'type' was given.");
 			break;
 		};
 	};
-	
-	function status_effect(status, ctx) {
+
+	function status_effect(status) {
 		switch (status) {
 			case 1:
 				ctx.fillStyle = "orange";
@@ -58,12 +62,12 @@ function Key(x, y, r, rotation, type, ctx) {
 				ctx.fillStyle = "white";
 			break;
 			default:
-				alert("Error: Key.status_effect().")
+				alert("Error: Key.status_effect(" + status + ").")
 			break;
 		};
 	};
 	
-	function draw_oval(x, y, r, scale_x, scale_y, rotation, status, ctx) {
+	function draw_oval(x, y, r, scale_x, scale_y, rotation, status) {
 		ctx.save();
 			status_effect(status, ctx);
 			ctx.translate(x, y);
@@ -82,7 +86,7 @@ function Key(x, y, r, rotation, type, ctx) {
 		ctx.restore();
 	};
 	
-	function draw_circle(x, y, r, status, ctx) {
+	function draw_circle(x, y, r, status) {
 		ctx.save();
 			status_effect(status, ctx);
 			ctx.translate(x, y);
@@ -98,7 +102,7 @@ function Key(x, y, r, rotation, type, ctx) {
 		ctx.restore();
 	};
 	
-	function draw_half_circle(x, y, r, rotation, status, ctx) {
+	function draw_half_circle(x, y, r, rotation, status) {
 		ctx.save();
 			status_effect(status, ctx);
 			ctx.translate(x, y);
@@ -116,74 +120,110 @@ function Key(x, y, r, rotation, type, ctx) {
 	};
 };
 
-function Fingering_Chart(canvas) {
-	/* Canvas Variables */
-	this.canvas = canvas;
-	this.ctx    = this.canvas.getContext('2d');
-	/* Event Handlers */	
+function Fingering_Chart() {
 	/* Public Functions */
     this.draw = draw;
     /* Keys */
-	low_bflat 	 			= new Key(40, 20,  10, -( 115 * Math.PI ) / 180, 'oval-large', this.ctx);
-	low_b 		 			= new Key(30, 30,  10, -( 115 * Math.PI ) / 180, 'oval-large', this.ctx);
-	//low_c 		 			= new Key();  
-	low_d 		 			= new Key(10, 70,  10, Math.PI / 2, 			 'oval-large', this.ctx);
-	whisper 	 			= new Key(70, 70,  10, 0, 						 'oval-small', this.ctx);
-	thumb_csharp 			= new Key(70, 55,  10, 0, 						 'oval-med',   this.ctx);
-	high_a 		 			= new Key(70, 40,  10, 0, 						 'oval-large', this.ctx);
-	high_c 		 			= new Key(70, 25,  10, 0, 						 'oval-med',   this.ctx);
-	high_d 		 			= new Key(70, 10,  10, 0, 						 'oval-small', this.ctx);
-	thumb_bflat  			= new Key(70, 110, 10, 0, 						 'oval-large', this.ctx);
-	low_e 		 			= new Key(70, 140, 20, 0, 						 'circle', 	   this.ctx);
-	thumb_fsharp 			= new Key(70, 170, 10, -( 10 * Math.PI ) / 180,  'oval-large', this.ctx);
-	thumb_aflat  			= new Key(75, 185, 10, -( 10 * Math.PI ) / 180,  'oval-large', this.ctx);
-	trill_a_to_b 			= new Key(50, 180, 10, 0, 						 'oval-small', this.ctx);
-	//trill_g 	 			= new Key();
-	//trill_fsharp 			= new Key();
-	//trill_eflat 			= new Key();
-	//low_eflat 			= new Key();
-	//low_dflat 			= new Key();
-	//trill_csharp 			= new Key();
-	//trill_bflat 			= new Key();
-	//low_g 				= new Key();
-	//low_f 				= new Key();
-	//little_finger_fsharp 	= new Key();
-	//little_finger_aflat 	= new Key();
+	this.low_bflat 	 			= new Key(40, 20,  10, -( 115 * Math.PI ) / 180, 'oval-large', this.ctx);
+	this.low_b 		 			= new Key(30, 30,  10, -( 115 * Math.PI ) / 180, 'oval-large', this.ctx);
+	//this.low_c 		 		= new Key();  
+	this.low_d 		 			= new Key(10, 70,  10, Math.PI / 2, 			 'oval-large', this.ctx);
+	this.whisper 	 			= new Key(70, 70,  10, 0, 						 'oval-small', this.ctx);
+	this.thumb_csharp 			= new Key(70, 55,  10, 0, 						 'oval-med',   this.ctx);
+	this.high_a 		 		= new Key(70, 40,  10, 0, 						 'oval-large', this.ctx);
+	this.high_c 		 		= new Key(70, 25,  10, 0, 						 'oval-med',   this.ctx);
+	this.high_d 		 		= new Key(70, 10,  10, 0, 						 'oval-small', this.ctx);
+	this.thumb_bflat  			= new Key(70, 110, 10, 0, 						 'oval-large', this.ctx);
+	this.low_e 		 			= new Key(70, 140, 20, 0, 						 'circle', 	   this.ctx);
+	this.thumb_fsharp 			= new Key(70, 170, 10, -( 10 * Math.PI ) / 180,  'oval-large', this.ctx);
+	this.thumb_aflat  			= new Key(75, 185, 10, -( 10 * Math.PI ) / 180,  'oval-large', this.ctx);
+	this.trill_a_to_b 			= new Key(50, 180, 10, 0, 						 'oval-small', this.ctx);
+	//this.trill_g 	 			= new Key();
+	//this.trill_fsharp 		= new Key();
+	//this.trill_eflat 			= new Key();
+	//this.low_eflat 			= new Key();
+	//this.low_dflat 			= new Key();
+	//this.trill_csharp 		= new Key();
+	//this.trill_bflat 			= new Key();
+	//this.low_g 				= new Key();
+	//this.low_f 				= new Key();
+	//this.little_finger_fsharp = new Key();
+	//this.little_finger_aflat 	= new Key();
 
 	function draw() {
-		this.ctx.strokeRect(0, 0, canvas.width, canvas.height);
-		low_bflat.draw();
-		low_b.draw();
-		//low_c.draw();
-		low_d.draw();
-		whisper.draw();
-		thumb_csharp.draw();
-		high_a.draw();
-		high_c.draw();
-		high_d.draw();
-		thumb_bflat.draw();
-		low_e.draw();
-		thumb_fsharp.draw();
-		thumb_aflat.draw();
-		trill_a_to_b.draw();
-		//trill_g.draw();
-		//trill_fsharp.draw();
-		//trill.eflat.draw();
-		//low_eflat.draw();
-		//low_dflat.draw();
-		//trill_chsarp.draw();
-		//trill_bflat.draw();
-		//low_g.draw();
-		//low_f.draw();
-		//little_finger_fsharp.draw();
-		//little_finger_aflat.draw();
+		ctx.strokeRect(0, 0, canvas.width, canvas.height);
+		this.low_bflat.draw();
+		this.low_b.draw();
+		//this.low_c.draw();
+		this.low_d.draw();
+		this.whisper.draw();
+		this.thumb_csharp.draw();
+		this.high_a.draw();
+		this.high_c.draw();
+		this.high_d.draw();
+		this.thumb_bflat.draw();
+		this.low_e.draw();
+		this.thumb_fsharp.draw();
+		this.thumb_aflat.draw();
+		this.trill_a_to_b.draw();
+		//this.trill_g.draw();
+		//this.trill_fsharp.draw();
+		//this.trill.eflat.draw();
+		//this.low_eflat.draw();
+		//this.low_dflat.draw();
+		//this.trill_chsarp.draw();
+		//this.trill_bflat.draw();
+		//this.low_g.draw();
+		//this.low_f.draw();
+		//this.little_finger_fsharp.draw();
+		//this.little_finger_aflat.draw();
 	};
 };
 
-function init() {
-	var canvas = document.getElementById('fingering_view');
-	var fingering_chart = new Fingering_Chart(canvas);
-	setTimeout(fingering_chart.draw(), 1000);
+/* Events */
+function onClick(e) {
+	//find location
+	var loc_num = 'low_bflat';
+	
+	//Update Status
+	switch (loc_num) {
+		case 'low_bflat':
+			if(fingering_chart.low_bflat.status >= 7) {
+				fingering_chart.low_bflat.status = 0;
+			};
+			fingering_chart.low_bflat.status += 1;
+		break;
+	};
+
+	//Draw
+	draw();
 };
 
-window.onload=init;
+/* Draw */
+function clear() {
+	ctx.fillStyle = "#fff";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+};
+
+function draw() {
+	clear();
+	fingering_chart.draw();
+};
+
+/* Init */
+$(document).ready(function() {
+	canvas = document.getElementById('fingering_view');
+	if (canvas.getContext) {
+		ctx = canvas.getContext('2d');	
+		fingering_chart = new Fingering_Chart();
+	
+		// Init Events
+		$("#fingering_view").click(onClick);
+	
+		// Draw
+		draw();
+	}
+	else {
+		alert("Error: Could not get canvas context!")
+	};
+});
