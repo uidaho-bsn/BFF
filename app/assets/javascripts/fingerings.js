@@ -1,7 +1,16 @@
 /* Globals */
-var fingering_chart;
-var canvas;
-var ctx;
+ // Canvas
+  var canvas;
+  var canvas_W;
+  var canvas_H;
+  var ctx;
+ // Objects
+  var fingering_chart;
+ // Scale By
+  var scale_X;
+  var scale_Y;
+ // Status
+  var status;
 
 /* Objects */
 function Key(x, y, r, rotation, type) {
@@ -182,27 +191,88 @@ function Fingering_Chart() {
 
 /* Events */
 function onClick(e) {
-	//find location
-	var loc_num = 'low_bflat';
+	// Variables
+	var location = 'none';
 	
-	//Update Status
-	switch (loc_num) {
+	// Debug
+	status.innerHTML = ("Clicked: Cursor[" + e.pageX + ", " + e.pageY + "]");
+
+	// Find Click Location
+	if(intersects(fingering_chart.low_bflat.x, fingering_chart.low_bflat.y, (e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft)), 
+		(e.pageY - (canvas.offsetTop + canvas.offsetParent.offsetTop)), fingering_chart.low_bflat.r)) {
+		location = 'low_bflat';
+	}
+	else if(intersects(fingering_chart.low_b.x, fingering_chart.low_b.y, (e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft)), 
+		(e.pageY - (canvas.offsetTop + canvas.offsetParent.offsetTop)), fingering_chart.low_b.r)) {
+		location = 'low_b';
+	};
+	
+	// Update Status
+	switch (location) {
 		case 'low_bflat':
 			if(fingering_chart.low_bflat.status >= 7) {
 				fingering_chart.low_bflat.status = 0;
 			};
 			fingering_chart.low_bflat.status += 1;
 		break;
+		case 'low_b':
+			if(fingering_chart.low_b.status >= 7) {
+				fingering_chart.low_b.status = 0;
+			};
+			fingering_chart.low_b.status += 1;
+		break;
+		case 'none':
+		break;
 	};
 
-	//Draw
+	// Draw
 	draw();
 };
+
+function MouseMoved(e) {
+	// Debug
+	status.innerHTML = "Cursor[" + e.pageX + ", " + e.pageY + "], Offset[" + (e.pageX - canvas.offsetLeft) + 
+		", " + (e.pageY - canvas.offsetTop) + "]";
+
+	// Find Mouse
+	if (isCursorOverKey(e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft), 
+		e.pageY - (canvas.offsetTop + canvas.offsetParent.offsetTop))) {
+		document.body.style.cursor = 'pointer';
+	}
+	else {
+		document.body.style.cursor = 'default';
+	};
+};
+
+/* Helpers */
+function intersects(x, y, mx, my, r) {
+	dx = x - mx;
+	dy = y - my;
+	
+	//alert(dx + "*" + dx + "+" + dy + "*" + dy + "<=" + r + "*" + r);
+	if(dx * dx + dy * dy <= r * r) {
+		return true;
+	}
+	
+	return false;
+};
+
+function isCursorOverKey(x, y) {	
+	if(intersects(fingering_chart.low_bflat.x, fingering_chart.low_bflat.y, x, y, fingering_chart.low_bflat.r)) {
+		return true;
+	}
+	else if(intersects(fingering_chart.low_b.x, fingering_chart.low_b.y, x, y, fingering_chart.low_b.r)) {
+		return true;
+	}
+	else {
+		return false;
+	};
+}
 
 /* Draw */
 function clear() {
 	ctx.fillStyle = "#fff";
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillRect(0, 0, canvas_W, canvas_H);
 };
 
 function draw() {
@@ -214,16 +284,26 @@ function draw() {
 $(document).ready(function() {
 	canvas = document.getElementById('fingering_view');
 	if (canvas.getContext) {
-		ctx = canvas.getContext('2d');	
+		ctx = canvas.getContext('2d');
+		status = document.getElementById('status');
+		
 		fingering_chart = new Fingering_Chart();
 	
-		// Init Events
-		$("#fingering_view").click(onClick);
+		canvas_W = canvas.width;
+		canvas_H = canvas.height;
+		
+		scale_X = canvas_W / canvas.offsetWidth;
+		scale_Y = canvas_H / canvas.offsetHeight;
 	
+		// Init Events
+		canvas.onclick = onClick;
+		canvas.onmousemove = MouseMoved;
+ 
 		// Draw
-		draw();
+		return setInterval(draw, 500);
 	}
 	else {
-		alert("Error: Could not get canvas context!")
+		alert("Error: Could not get canvas context!");
 	};
 });
+
