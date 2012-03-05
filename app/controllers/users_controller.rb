@@ -41,10 +41,11 @@ class UsersController < ApplicationController
   def login
     if request.post?
       if session[:user] = User.authenticate(params[:user][:login], params[:user][:password])
-        flash[:notice] = "Logged In"
-        redirect_to root_url
+      flash[:notice] = "Logged In"
+      redirect_to root_url
       else
         flash[:warning] = "Login Failed"
+        redirect_to root_url
       end
     end
   end
@@ -60,7 +61,7 @@ class UsersController < ApplicationController
       usr = User.find_by_email(params[:user][:email])
       if usr and usr.send_new_password
         flash[:message] = "A new password has been sent to your email."
-        redirect_to '/home/index'
+        redirect_to root_url
       else
         flash[:warning] = "Couldn't send new password"
       end

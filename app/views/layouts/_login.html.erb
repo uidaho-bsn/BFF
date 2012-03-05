@@ -8,11 +8,11 @@
 				<%= submit_tag "Submit" %>				
 				<br />
 	    	</div>    
-		<% end %>
 		<div id="subtext">
 			<%= link_to 'Register', 'users/register' %> | <%= link_to 'Forgot Password', 'users/forgot_password' %>
 		</div> 
 	</div>
+<% end %>
 <% else %>
 	<div class="login">
 		Welcome <%= link_to User.find(session[:user]).login, 'users/show' %>. <br />
