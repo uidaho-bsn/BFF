@@ -18,6 +18,6 @@
 		Welcome <%= link_to User.find(session[:user]).login, 'users/show' %> <br />
 		<div id="subtext">
 			<%= link_to 'Logout', logout_users_path %>
-			</div>
+		</div>
 	</div>
 <% end %>

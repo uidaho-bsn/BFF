@@ -1,3 +1,8 @@
+/* 
+ * fingering.js
+ * Max Stillwell
+ * */
+
 /* Globals */
  // Canvas
   var canvas;
@@ -18,7 +23,7 @@ function Key(x, y, r, rotation, type) {
 	this.x = x;
 	this.y = y;
 	this.r = r;
-	this.rotation = rotation
+	this.rotation = rotation;
 	this.status = 7;
 	this.type = type;
 	/* Public Functions */
@@ -42,7 +47,7 @@ function Key(x, y, r, rotation, type) {
 				draw_oval(x, y, r, 1.50, 0.5, rotation, this.status);
 			break;
 			default:
-				alert("Error: Key.draw(). No 'type' was given.");
+				alert("Error: Key.draw(" + type + ").");
 			break;
 		};
 	};
@@ -193,50 +198,176 @@ function Fingering_Chart() {
 function onClick(e) {
 	// Variables
 	var location = 'none';
-	
-	// Debug
-	status.innerHTML = ("Clicked: Cursor[" + e.pageX + ", " + e.pageY + "]");
+	var clickX = e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft);
+	var clickY = e.pageY - (canvas.offsetTop + canvas.offsetParent.offsetTop);
 
 	// Find Click Location
-	if(intersects(fingering_chart.low_bflat.x, fingering_chart.low_bflat.y, (e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft)), 
-		(e.pageY - (canvas.offsetTop + canvas.offsetParent.offsetTop)), fingering_chart.low_bflat.r)) {
+	if(intersects(fingering_chart.low_bflat.x, fingering_chart.low_bflat.y, clickX, clickY, fingering_chart.low_bflat.r)) {
 		location = 'low_bflat';
 	}
-	else if(intersects(fingering_chart.low_b.x, fingering_chart.low_b.y, (e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft)), 
-		(e.pageY - (canvas.offsetTop + canvas.offsetParent.offsetTop)), fingering_chart.low_b.r)) {
+	else if(intersects(fingering_chart.low_b.x, fingering_chart.low_b.y, clickX, clickY, fingering_chart.low_b.r)) {
 		location = 'low_b';
+	}
+	/*else if(intersects(fingering_chart.low_c.x, fingering_chart.low_c.y, clickX, clickY, fingering_chart.low_c.r)) {
+		location = 'low_c';
+	}*/
+	else if(intersects(fingering_chart.low_d.x, fingering_chart.low_d.y, clickX, clickY, fingering_chart.low_d.r)) {
+		location = 'low_d';
+	}
+	else if(intersects(fingering_chart.whisper.x, fingering_chart.whisper.y, clickX, clickY, fingering_chart.whisper.r)) {
+		location = 'whisper';
+	}
+	else if(intersects(fingering_chart.thumb_csharp.x, fingering_chart.thumb_csharp.y, clickX, clickY, fingering_chart.thumb_csharp.r)) {
+		location = 'thumb_csharp';
+	}
+	else if(intersects(fingering_chart.high_a.x, fingering_chart.high_a.y, clickX, clickY, fingering_chart.high_a.r)) {
+		location = 'high_a';
+	}
+	else if(intersects(fingering_chart.high_c.x, fingering_chart.high_c.y, clickX, clickY, fingering_chart.high_c.r)) {
+		location = 'high_c';
+	}
+	else if(intersects(fingering_chart.high_d.x, fingering_chart.high_d.y, clickX, clickY, fingering_chart.high_d.r)) {
+		location = 'high_d';
+	}
+	else if(intersects(fingering_chart.thumb_bflat.x, fingering_chart.thumb_bflat.y, clickX, clickY, fingering_chart.thumb_bflat.r)) {
+		location = 'thumb_bflat';
+	}
+	else if(intersects(fingering_chart.low_e.x, fingering_chart.low_e.y, clickX, clickY, fingering_chart.low_e.r)) {
+		location = 'low_e';
+	}
+	else if(intersects(fingering_chart.thumb_fsharp.x, fingering_chart.thumb_fsharp.y, clickX, clickY, fingering_chart.thumb_fsharp.r)) {
+		location = 'thumb_fsharp';
+	}
+	else if(intersects(fingering_chart.thumb_aflat.x, fingering_chart.thumb_aflat.y, clickX, clickY, fingering_chart.thumb_aflat.r)) {
+		location = 'thumb_aflat';
+	}
+	else if(intersects(fingering_chart.trill_a_to_b.x, fingering_chart.trill_a_to_b.y, clickX, clickY, fingering_chart.trill_a_to_b.r)) {
+		location = 'trill_a_to_b';
 	};
-	
+/*	else if(intersects(fingering_chart.trill_g.x, fingering_chart.trill_g.y, clickX, clickY, fingering_chart.trill_g.r)) {
+		location = 'trill_g';
+	}
+	else if(intersects(fingering_chart.trill_fsharp.x, fingering_chart.trill_fsharp.y, clickX, clickY, fingering_chart.trill_fsharp.r)) {
+		location = 'trill_fsharp';
+	}
+	else if(intersects(fingering_chart.trill_eflat.x, fingering_chart.trill_eflat.y, clickX, clickY, fingering_chart.trill_eflat.r)) {
+		location = 'trill_eflat';
+	}
+	else if(intersects(fingering_chart.low_eflat.x, fingering_chart.low_eflat.y, clickX, clickY, fingering_chart.low_eflat.r)) {
+		location = 'low_eflat';
+	}
+	else if(intersects(fingering_chart.low_dflat.x, fingering_chart.low_dflat.y, clickX, clickY, fingering_chart.low_dflat.r)) {
+		location = 'low_dflat';
+	}
+	else if(intersects(fingering_chart.trill_csharp.x, fingering_chart.trill_csharp.y, clickX, clickY, fingering_chart.trill_csharp.r)) {
+		location = 'trill_csharp';
+	}
+	else if(intersects(fingering_chart.trill_bflat.x, fingering_chart.trill_bflat.y, clickX, clickY, fingering_chart.trill_bflat.r)) {
+		location = 'trill_bflat';
+	}
+	else if(intersects(fingering_chart.low_g.x, fingering_chart.low_g.y, clickX, clickY, fingering_chart.low_g.r)) {
+		location = 'low_g';
+	}
+	else if(intersects(fingering_chart.low_f.x, fingering_chart.low_f.y, clickX, clickY, fingering_chart.low_f.r)) {
+		location = 'low_f';
+	}
+	else if(intersects(fingering_chart.little_finger_fsharp.x, fingering_chart.little_finger_fsharp.y, clickX, clickY, fingering_chart.little_finger_fsharp.r)) {
+		location = 'little_finger_fsharp';
+	}
+	else if(intersects(fingering_chart.little_finger_aflat.x, fingering_chart.little_finger_aflat.y, clickX, clickY, fingering_chart.little_finger_aflat.r)) {
+		location = 'little_finger_aflat';
+	};*/
+
 	// Update Status
 	switch (location) {
 		case 'low_bflat':
-			if(fingering_chart.low_bflat.status >= 7) {
-				fingering_chart.low_bflat.status = 0;
-			};
-			fingering_chart.low_bflat.status += 1;
+			fingering_chart.low_bflat.status = status_update(fingering_chart.low_bflat.status);
 		break;
 		case 'low_b':
-			if(fingering_chart.low_b.status >= 7) {
-				fingering_chart.low_b.status = 0;
-			};
-			fingering_chart.low_b.status += 1;
+			fingering_chart.low_b.status = status_update(fingering_chart.low_b.status);
+		break;
+		case 'low_c':
+			fingering_chart.low_c.status = status_update(fingering_chart.low_c.status);
+		break;
+		case 'low_d':
+			fingering_chart.low_d.status = status_update(fingering_chart.low_d.status);
+		break;
+		case 'whisper':
+			fingering_chart.whisper.status = status_update(fingering_chart.whisper.status);
+		break;
+		case 'thumb_csharp':
+			fingering_chart.thumb_csharp.status = status_update(fingering_chart.thumb_csharp.status);
+		break;
+		case 'high_a':
+			fingering_chart.high_a.status = status_update(fingering_chart.high_a.status);
+		break;
+		case 'high_c':
+			fingering_chart.high_c.status = status_update(fingering_chart.high_c.status);
+		break;
+		case 'high_d':
+			fingering_chart.high_d.status = status_update(fingering_chart.high_d.status);
+		break;
+		case 'thumb_bflat':
+			fingering_chart.thumb_bflat.status = status_update(fingering_chart.thumb_bflat.status);
+		break;
+		case 'low_e':
+			fingering_chart.low_e.status = status_update(fingering_chart.low_e.status);
+		break;
+		case 'thumb_fsharp':
+			fingering_chart.thumb_fsharp.status = status_update(fingering_chart.thumb_fsharp.status);
+		break;
+		case 'thumb_aflat':
+			fingering_chart.thumb_aflat.status = status_update(fingering_chart.thumb_aflat.status);
+		break;
+		case 'trill_a_to_b':
+			fingering_chart.trill_a_to_b.status = status_update(fingering_chart.trill_a_to_b.status);
+		break;
+		case 'trill_g':
+			fingering_chart.trill_g.status = status_update(fingering_chart.trill_g.status);
+		break;
+		case 'trill_fsharp':
+			fingering_chart.trill_fsharp.status = status_update(fingering_chart.trill_fsharp.status);
+		break;
+		case 'trill_eflat':
+			fingering_chart.trill_eflat.status = status_update(fingering_chart.trill_eflat.status);
+		break;
+		case 'low_eflat':
+			fingering_chart.low_eflat.status = status_update(fingering_chart.low_eflat.status);
+		break;
+		case 'low_dflat':
+			fingering_chart.low_dflat.status = status_update(fingering_chart.low_dflat.status);
+		break;
+		case 'trill_csharp':
+			fingering_chart.trill_csharp.status = status_update(fingering_chart.trill_csharp.status);
+		break;
+		case 'trill_bflat':
+			fingering_chart.trill_bflat.status = status_update(fingering_chart.trill_bflat.status);
+		break;
+		case 'low_g':
+			fingering_chart.low_g.status = status_update(fingering_chart.low_g.status);
+		break;
+		case 'low_f':
+			fingering_chart.low_f.status = status_update(fingering_chart.low_f.status);
+		break;
+		case 'little_finger_fsharp':
+			fingering_chart.little_finger_fsharp.status = status_update(fingering_chart.little_finger_fsharp.status);
+		break;
+		case 'little_finger_aflat':
+			fingering_chart.little_finger_aflat.status = status_update(fingering_chart.little_finger_aflat.status);
 		break;
 		case 'none':
+			//
 		break;
 	};
-
-	// Draw
-	draw();
 };
 
 function MouseMoved(e) {
-	// Debug
-	status.innerHTML = "Cursor[" + e.pageX + ", " + e.pageY + "], Offset[" + (e.pageX - canvas.offsetLeft) + 
-		", " + (e.pageY - canvas.offsetTop) + "]";
+	//Variables
+	var mouseX = e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft);
+	var mouseY = e.pageY - (canvas.offsetTop + canvas.offsetParent.offsetTop);
 
 	// Find Mouse
-	if (isCursorOverKey(e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft), 
-		e.pageY - (canvas.offsetTop + canvas.offsetParent.offsetTop))) {
+	if (isCursorOverKey(mouseX, mouseY)) {
 		document.body.style.cursor = 'pointer';
 	}
 	else {
@@ -245,23 +376,53 @@ function MouseMoved(e) {
 };
 
 /* Helpers */
+function status_update(status) {
+	if(status >= 7) {
+		status = 0;
+	};
+	status += 1;
+
+	return status;
+};
+
 function intersects(x, y, mx, my, r) {
-	dx = x - mx;
-	dy = y - my;
+	var dx = x - mx;
+	var dy = y - my;
 	
-	//alert(dx + "*" + dx + "+" + dy + "*" + dy + "<=" + r + "*" + r);
 	if(dx * dx + dy * dy <= r * r) {
 		return true;
-	}
+	};
 	
 	return false;
 };
 
 function isCursorOverKey(x, y) {	
-	if(intersects(fingering_chart.low_bflat.x, fingering_chart.low_bflat.y, x, y, fingering_chart.low_bflat.r)) {
-		return true;
-	}
-	else if(intersects(fingering_chart.low_b.x, fingering_chart.low_b.y, x, y, fingering_chart.low_b.r)) {
+	if(intersects(fingering_chart.low_bflat.x, 	  fingering_chart.low_bflat.y,    x, y, fingering_chart.low_bflat.r) ||
+	   intersects(fingering_chart.low_b.x,    	  fingering_chart.low_b.y,        x, y, fingering_chart.low_b.r) ||
+//	   intersects(fingering_chart.low_c.x,        fingering_chart.low_c.y,        x, y, fingering_chart.low_c.r) ||
+	   intersects(fingering_chart.low_d.x,        fingering_chart.low_d.y,        x, y, fingering_chart.low_d.r) ||
+	   intersects(fingering_chart.whisper.x,      fingering_chart.whisper.y,      x, y, fingering_chart.whisper.r) ||
+	   intersects(fingering_chart.thumb_csharp.x, fingering_chart.thumb_csharp.y, x, y, fingering_chart.thumb_csharp.r) ||
+	   intersects(fingering_chart.high_a.x,       fingering_chart.high_a.y,       x, y, fingering_chart.high_a.r) ||
+	   intersects(fingering_chart.high_c.x,       fingering_chart.high_c.y,       x, y, fingering_chart.high_c.r) ||
+	   intersects(fingering_chart.high_d.x,       fingering_chart.high_d.y,       x, y, fingering_chart.high_d.r) ||
+	   intersects(fingering_chart.thumb_bflat.x,  fingering_chart.thumb_bflat.y,  x, y, fingering_chart.thumb_bflat.r) ||
+	   intersects(fingering_chart.low_e.x,     	  fingering_chart.low_e.y,        x, y, fingering_chart.low_e.r) ||
+	   intersects(fingering_chart.thumb_fsharp.x, fingering_chart.thumb_fsharp.y, x, y, fingering_chart.thumb_fsharp.r) ||
+	   intersects(fingering_chart.thumb_aflat.x,  fingering_chart.thumb_aflat.y,  x, y, fingering_chart.thumb_aflat.r) ||
+	   intersects(fingering_chart.trill_a_to_b.x, fingering_chart.trill_a_to_b.y, x, y, fingering_chart.trill_a_to_b.r)) { // ||
+//	   intersects(fingering_chart.trill_g.x,      fingering_chart.trill_g.y,      x, y, fingering_chart.trill_g.r) ||
+//	   intersects(fingering_chart.trill_fsharp.x, fingering_chart.trill_fsharp.y, x, y, fingering_chart.trill_fsharp.r) ||
+//	   intersects(fingering_chart.trill_eflat.x,  fingering_chart.trill_eflat.y,  x, y, fingering_chart.trill_eflat.r) ||
+//	   intersects(fingering_chart.low_eflat.x,    fingering_chart.low_eflat.y,    x, y, fingering_chart.low_eflat.r) ||
+//	   intersects(fingering_chart.low_dflat.x,    fingering_chart.low_dflat.y,    x, y, fingering_chart.low_dflat.r) ||
+//	   intersects(fingering_chart.trill_csharp.x, fingering_chart.trill_csharp.y, x, y, fingering_chart.trill_csharp.r) ||
+//	   intersects(fingering_chart.trill_bflat.x,  fingering_chart.trill_bflat.y,  x, y, fingering_chart.trill_bflat.r) ||
+//	   intersects(fingering_chart.low_g.x,    	  fingering_chart.low_g.y,        x, y, fingering_chart.low_g.r) ||
+//	   intersects(fingering_chart.low_f.x,        fingering_chart.low_f.y,        x, y, fingering_chart.low_f.r) ||
+//	   intersects(fingering_chart.little_finger_fsharp.x, fingering_chart.little_finger_fsharp.y, x, y, fingering_chart.little_finger_fsharp.r) ||
+//	   intersects(fingering_chart.little_finger_aflat.x,  fingering_chart.little_finger_aflat.y,  x, y, fingering_chart.little_finger_aflat.r) ||
+//     intersects(fingering_chart.low_b.x,				  fingering_chart.low_b.y,			      x, y, fingering_chart.low_b.r)) {
 		return true;
 	}
 	else {
@@ -300,7 +461,7 @@ $(document).ready(function() {
 		canvas.onmousemove = MouseMoved;
  
 		// Draw
-		return setInterval(draw, 500);
+		return setInterval(draw, 100);
 	}
 	else {
 		alert("Error: Could not get canvas context!");
