@@ -27,10 +27,10 @@ class User < ActiveRecord::Base
     
   def send_new_password
     new_password = User.random_string(10)
-    self.password = self.password_confirmation = new_password
-    
-    self.save
-     UserMailer.password_reset(self).deliver
+    self.password = self.password_confirmation = new_password 
+    save!
+    UserMailer.password_reset(self).deliver
+    assert !ActionMailer::Base.deliveries.empty?
      #Notifications.deliver_forgot_password(self.email, self.login, new_page)
   end
   
