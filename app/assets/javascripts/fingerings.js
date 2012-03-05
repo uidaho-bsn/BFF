@@ -1,5 +1,6 @@
 /* 
- * 
+ * fingering.js
+ * Max Stillwell
  * */
 
 /* Globals */
