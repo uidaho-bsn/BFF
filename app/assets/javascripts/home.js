@@ -1,4 +1,4 @@
-function Staff(x, y, width, height) {
+/*function Staff(x, y, width, height) {
 	this.x = x;
 	this.y = y;
 	this.width = width;
@@ -23,4 +23,4 @@ function draw_interface() {
   	staff.draw();
 }
 
-window.onload=draw_interface;
+window.onload=draw_interface;*/

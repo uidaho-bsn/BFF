@@ -23,6 +23,15 @@ body
 	font-size:  100%;
 }
 
+#status
+{
+    margin:10px;
+    padding:20px;
+    background-color:rgb(200,200,200);
+    border:1px inset rgb(150,150,150);
+    font:10px verdana;
+}
+
 .wrapper
 {
 	width: 966px;
@@ -526,7 +535,12 @@ h6{ font-size: 20px; }
 }
 
 /* SOCIAL --------------------------------------------------------*/
-.social .github{ background: url(social_icons/github_32.png); }
+.social .ror{ background: url(icons/rails.png); }
+.social .email{ background: url(icons/social/email_32.png); }
+.social .facebook{ background: url(icons/social/facebook_32.png); }
+.social .github{ background: url(icons/social/github_32.png); }
+.social .google{ background: url(icons/social/google_32.png); }
+.social .twitter{ background: url(icons/social/twitter_32.png); }
 
 .social
 {
