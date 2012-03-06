@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
     nil
   end
   
+  def get_login
+    return "lalala"
+  end
+  
   def password=(pass)
     @password = pass
     self.salt = User.random_string(10) if !self.salt? #Do we want to change salt everytime the password is changed?
@@ -32,6 +36,10 @@ class User < ActiveRecord::Base
     self.save
      UserMailer.password_reset(self).deliver
      #Notifications.deliver_forgot_password(self.email, self.login, new_page)
+  end
+
+  def isAdmin?
+    return self.admin
   end
   
   protected

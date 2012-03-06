@@ -7,7 +7,6 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new(params[:user])
-    @ad = false
 =begin
     if request.post?  
       if @user.save
@@ -26,7 +25,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @ad = false
+    @user.admin = false
     if request.post?  
       if @user.save
         session[:user] = User.authenticate(@user.login, @user.password)
@@ -77,6 +76,15 @@ class UsersController < ApplicationController
       end
     end
   end
+  
+  def set_admin(curr_user)
+    curr_user.admin = true
+  end
+  
+  def rm_admin(curr_user)
+    curr_user.admin = false
+  end
+  
   
   def show
   end

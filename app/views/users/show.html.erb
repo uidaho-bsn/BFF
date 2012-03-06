@@ -1,29 +1,48 @@
 <% content_for :head do %>
-	<title><% User.find(session[:user]).login %>'s Profile</title>
+	<title>TAB::Home</title>
+	<%= javascript_include_tag :home %>
 <% end %>
 
+<% content_for :header do %>
+	<a href="index.html"><img id="" src="" alt="" /></a>
+	<%= render "layouts/login" %>
+<% end %>
+
+
 <% content_for :content do %>
-	<% if session[:user] != nil %>
-		<h1><% User.find(session[:user]) %></h1>
+	<table>
+	<tr>
+		<th align="left">User name:</th>
+		<td align="left"> <%= current_user.login %> </td>
+	</tr>
+	<tr>
+		<th align="left"> Email:</th>
+		<td align="left"> <%= current_user.email %> </td>
+	</tr>
+	</table>
+	<% if isAdmin? %>
 		<table>
-			<tr>
-				<th><% User.find(session[:user]).login %></th>
-				<th><% User.find(session[:user]).email %></th>
-				<th><%= link_to 'Destroy', User.find(session[:user]), confirm: 'Are you sure?', method: :delete %></th>
-				<th></th>
-				<th></th>
-			</tr>
-			<% if User.find(session[:user]).isAdmin %>
-				<% @users.each do |usr| %>
-					<tr>
-						<td><%= usr.login %></td>
-						<td><%= usr.email %></td>
-						<td><%= link_to 'Show', usr %></td>
-						<td><%= link_to 'Edit', edit_user_path(usr) %></td>
-						<td><%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %></td>
-					</tr>
-				<% end %>
-			<% end %>
+		<tr>
+	
+			<th align="left">Admin Status:</th>
+			<td align="left"> <%= current_user.admin %> </td>
+		</tr>
 		</table>
 	<% end %>
+
+	
+	
+	
+	<% if isAdmin? %>
+	<h1>Listing users</h1>
+	  <% @users.each do |usr| %>
+	    <%= usr.login %>
+	    <%= usr.email %>
+	    <%= link_to 'Show', usr %>
+	    <%= link_to 'Edit', edit_user_path(usr) %>
+	    <%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %>
+	  <% end %>
+	<% end %>
+	
+	</table>
 <% end %>
