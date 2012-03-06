@@ -72,11 +72,10 @@ function Key(x, y, r, rotation, type) {
 			case 5:
 				var img = new Image();
 				img.onload = function() {
-					var pattern = ctx.createPattern(img, "repeat");
-					
+					var pattern = ctx.createPattern(img, "repeat");	
 					ctx.fillStyle = pattern;
 				};
-				img.src = "images/pattern/diagonal-line.png";
+				img.src = '<%= image_tag patterns/diagonal_line.png %>';
 			break;
 			case 6:
 				ctx.fillStyle = "purple";
