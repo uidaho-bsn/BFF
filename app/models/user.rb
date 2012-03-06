@@ -19,10 +19,6 @@ class User < ActiveRecord::Base
     nil
   end
   
-  def get_login
-    return "lalala"
-  end
-  
   def password=(pass)
     @password = pass
     self.salt = User.random_string(10) if !self.salt? #Do we want to change salt everytime the password is changed?

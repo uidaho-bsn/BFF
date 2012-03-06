@@ -1,3 +1,13 @@
+<% content_for :head do %>
+	<title>TAB::Home</title>
+	<%= javascript_include_tag :home %>
+<% end %>
+
+<% content_for :header do %>
+	<a href="index.html"><img id="" src="" alt="" /></a>
+	<%= render "layouts/login" %>
+<% end %>
+
 <% content_for :content do %>
 	<table>
 	<% if User.find(session[:user]) != nil %>
@@ -9,29 +19,7 @@
 	    <th></th>
 	  </tr>
 	<% end %>
-	
-	<table>
-	<tr>
-		<th align="left">User name:</th>
-		<td align="left"> <%= current_user.login %> </td>
-	</tr>
-	<tr>
-		<th align="left"> Email:</th>
-		<td align="left"> <%= current_user.email %> </td>
-	</tr>
 	</table>
-	<% if isAdmin? %>
-		<table>
-		<tr>
-	
-			<th align="left">Admin Status:</th>
-			<td align="left"> <%= current_user.admin %> </td>
-		</tr>
-		</table>
-	<% end %>
-
-	
-	
 	
 
 	<h1>Listing users</h1>
@@ -42,21 +30,10 @@
 	    <%= link_to 'Show', usr %>
 	    <%= link_to 'Edit', edit_user_path(usr) %>
 	    <%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %>
-		<%= form_tag :action=> "set_admin", :method => "post", :controller => "users", :params[:usr] do %>
-			<div>
-			<% check_box_tag :set_admin, value = "true", checked = false, options = {} %>
-			<%= submit_tag "Remove Admin" %>
-			</div>
-		<% end %>
+	    <br />
 
-		<%= form_tag :action=> "set_admin", :controller => "users", :params[:usr] do %>
-			<div>
-			<%= submit_tag "Set Admin" %>
-			</div>
-		<% end %>
 	<% end %>
 
-	</table>
 	<br />
 	
 	<%= link_to 'Show', session[:user] %>
