@@ -80,10 +80,12 @@ class UsersController < ApplicationController
   def set_admin(curr_user)
     curr_user.admin = true
   end
+  helper_method :set_admin
   
   def rm_admin(curr_user)
     curr_user.admin = false
   end
+  helper_method :rm_admin
   
   
   def show
