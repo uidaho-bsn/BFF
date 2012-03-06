@@ -14,13 +14,19 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user_session
-    session[:user]
+    User.find(session[:User])
   end
   
   def current_user
-    return @current_user if defined?(@current_user_session)
-    @current_user_session = UserSession.find
+    return User.find(session[:user])
   end
+  helper_method :current_user
+
+  def isAdmin?
+    return current_user.admin
+  end
+  helper_method :isAdmin?
+
 
   def redirect_to_stored
     if return_to = session[:return_to]
