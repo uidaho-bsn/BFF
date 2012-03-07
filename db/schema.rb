@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120227234834) do
+ActiveRecord::Schema.define(:version => 20120301123456) do
 
   create_table "fingerings", :force => true do |t|
     t.integer  "LT1"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20120227234834) do
     t.datetime "created_at"
     t.string   "password_reset_token"
     t.datetime "passwrod_reset_sent_at"
+    t.boolean  "admin"
   end
 
 end

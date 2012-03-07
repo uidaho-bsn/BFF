@@ -1,8 +1,16 @@
+<% content_for :head do %>
+	<title>TAB::Home</title>
+	<%= javascript_include_tag :home %>
+<% end %>
+
+<% content_for :header do %>
+	<a href="index.html"><img id="" src="" alt="" /></a>
+	<%= render "layouts/login" %>
+<% end %>
+
 <% content_for :content do %>
-	<h1>Listing users</h1>
-	
 	<table>
-	<%= if User.find(session[:user]) != nil do %>
+	<% if User.find(session[:user]) != nil %>
 	  <tr>
 		<th><% User.find(session[:user]).login %></th>
 		<th><% User.find(session[:user]).email %></th>
@@ -11,18 +19,23 @@
 	    <th></th>
 	  </tr>
 	<% end %>
+	</table>
 	
-	  <% @users.each do |usr| %>
+
+	<h1>Listing users</h1>
+	<% @users.each do |usr| %>
 	    <%= usr.login %>
 	    <%= usr.email %>
+	    <%= usr.admin %>
 	    <%= link_to 'Show', usr %>
 	    <%= link_to 'Edit', edit_user_path(usr) %>
 	    <%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %>
-	  <% end %>
-	
-	</table>
-	
+	    <br />
+
+	<% end %>
+
 	<br />
 	
 	<%= link_to 'Show', session[:user] %>
+	
 <% end %>

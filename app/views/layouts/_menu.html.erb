@@ -3,9 +3,9 @@
 		<div class="wrapper">
 			<ul id="nav" class="sf-menu">
 				<li class="current-menu-item"><%= link_to "Home", root_url %></li>
-				<li><%= link_to "Users List", "users/index" %></li>
+				<li><%= link_to "Users List", root_url + "users/" %></li>
 				<% if session[:user] != nil %>
-					<li><%= link_to "New Fingering", "fingerings/new" %></li>
+					<li><%= link_to "New Fingering", root_url + "fingerings/new" %></li>
 				<% end %>
 			</ul>
 		</div>

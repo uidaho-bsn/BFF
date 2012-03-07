@@ -33,6 +33,10 @@ class User < ActiveRecord::Base
     assert !ActionMailer::Base.deliveries.empty?
      #Notifications.deliver_forgot_password(self.email, self.login, new_page)
   end
+
+  def isAdmin?
+    return self.admin
+  end
   
   protected
   
