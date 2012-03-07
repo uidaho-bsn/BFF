@@ -30,8 +30,7 @@ class UsersController < ApplicationController
     if request.post?  
       if @user.save
         session[:user] = User.authenticate(@user.login, @user.password)
-        flash[:notice] = "Registration Successful"
-        UserMailer.welcome_email(@user).deliver
+        flash[:message] = "Registration Successful"
         redirect_to root_url         
       else
         flash[:warning] = "Registration Unsuccessful"
@@ -59,10 +58,12 @@ class UsersController < ApplicationController
 
   def forgot_password
     if request.post?
-      usr = User.find_by_email(params[:user][:email])
+      usr = User.find_by_email(params[:email])
       usr.send_new_password if usr
-      redirect_to root_url
-      flash[:notice] = "A new password has been sent to your email."
+      #if ActionMailer::Base.deliveries.empty? 
+      #  flash[:notice] = "ruh roh"
+      #flash[:notice] = "A new password has been sent to your email."
+      redirect_to root_url, :notice => "A new password has been sent to your email."
       else
         flash[:warning] = "Couldn't send new password"
     end
