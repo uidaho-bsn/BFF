@@ -1,6 +1,4 @@
 class FingeringsController < ApplicationController
-  # GET /fingerings
-  # GET /fingerings.json
   def index
     @fingerings = Fingering.all
 
@@ -10,8 +8,6 @@ class FingeringsController < ApplicationController
     end
   end
 
-  # GET /fingerings/1
-  # GET /fingerings/1.json
   def show
     @fingering = Fingering.find(params[:id])
 
@@ -21,8 +17,6 @@ class FingeringsController < ApplicationController
     end
   end
 
-  # GET /fingerings/new
-  # GET /fingerings/new.json
   def new
     @fingering = Fingering.new
 
@@ -32,29 +26,25 @@ class FingeringsController < ApplicationController
     end
   end
 
-  # GET /fingerings/1/edit
   def edit
     @fingering = Fingering.find(params[:id])
   end
 
-  # POST /fingerings
-  # POST /fingerings.json
   def create
-    @fingering = Fingering.new(params[:fingering])
+    @fingering = Fingering.create!(params[:fingering])
+    flash[:notice] = "Fingering submitted for approval."
 
     respond_to do |format|
-      if @fingering.save
-        format.html { redirect_to @fingering, notice: 'Fingering was successfully created.' }
-        format.json { render json: @fingering, status: :created, location: @fingering }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @fingering.errors, status: :unprocessable_entity }
-      end
+      #if @fingering.save
+        format.html { redirect_to fingerings_url }#, notice: 'Fingering was successfully created.' }
+        format.js #{ render json: @fingering, status: :created, location: @fingering }
+      #else
+        #format.html { render action: "new" }
+        #format.js #{ render json: @fingering.errors, status: :unprocessable_entity }
+      #end
     end
   end
 
-  # PUT /fingerings/1
-  # PUT /fingerings/1.json
   def update
     @fingering = Fingering.find(params[:id])
 
@@ -69,8 +59,6 @@ class FingeringsController < ApplicationController
     end
   end
 
-  # DELETE /fingerings/1
-  # DELETE /fingerings/1.json
   def destroy
     @fingering = Fingering.find(params[:id])
     @fingering.destroy

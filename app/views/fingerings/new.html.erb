@@ -1,10 +1,8 @@
 <% content_for :head do %>
 	<title>TAB::New Fingering</title>
-	<%= javascript_include_tag :fingerings %>
 <% end %>
 
 <% content_for :header do %>
-	<a href="index.html"><img id="" src="" alt="" /></a>
 	<%= render "layouts/login" %>
 <% end %>
 
@@ -18,12 +16,19 @@
 
 <% content_for :content do %>
 	<p>This is still a work in progress!</p>
-	<canvas id="fingering_view" width="200" height="300">
-    	<p>Unfortunately, your browser is currently unsupported by our web 
-        	application. We are sorry for the inconvenience. Please use one of the 
-        	supported browsers listed below. </p>
-        <p>Supported browsers: 
-        	<a href="http://www.mozilla.com">Firefox</a> <br />
-        	<a href="www.google.com/chrome">Chrome</a> </p>
-	</canvas>
+	<%= form_tag :action => 'create', :method => "post", :controller => "fingerings", :id => "new_fingering", 
+		:class => "new_fingering" do%>
+		<canvas id="fingering_view" width="200" height="300">
+	    	<p>Unfortunately, your browser is currently unsupported by our web 
+	        	application. We are sorry for the inconvenience. Please use one of the 
+	        	supported browsers listed below. </p>
+	        <p>Supported browsers: 
+	        	<a href="http://www.mozilla.com">Firefox</a> <br />
+	        	<a href="www.google.com/chrome">Chrome</a> </p>
+		</canvas>
+		<%= hidden_field "fingering", "note_tone" %>
+		<%= hidden_field "fingering", "fingering_status" %>
+		
+		<%= submit_tag "Submit" %>
+	<% end %>
 <% end %>

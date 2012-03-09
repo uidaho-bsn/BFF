@@ -1,61 +1,19 @@
-<h1>Listing fingerings</h1>
-
-<table>
-  <tr>
-    <th>Lt1</th>
-    <th>Lt2</th>
-    <th>Lt3</th>
-    <th>Lt4</th>
-    <th>Lt5</th>
-    <th>Lt6</th>
-    <th>Lt7</th>
-    <th>W</th>
-    <th>Rt1</th>
-    <th>Rt2</th>
-    <th>Rt3</th>
-    <th>Rt4</th>
-    <th>Lefti</th>
-    <th>Leftm</th>
-    <th>Leftr</th>
-    <th>Leftl</th>
-    <th>Righti</th>
-    <th>Rightm</th>
-    <th>Rightr</th>
-    <th>Rightl</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @fingerings.each do |fingering| %>
-  <tr>
-    <td><%= fingering.LT1 %></td>
-    <td><%= fingering.LT2 %></td>
-    <td><%= fingering.LT3 %></td>
-    <td><%= fingering.LT4 %></td>
-    <td><%= fingering.LT5 %></td>
-    <td><%= fingering.LT6 %></td>
-    <td><%= fingering.LT7 %></td>
-    <td><%= fingering.W %></td>
-    <td><%= fingering.RT1 %></td>
-    <td><%= fingering.RT2 %></td>
-    <td><%= fingering.RT3 %></td>
-    <td><%= fingering.RT4 %></td>
-    <td><%= fingering.LeftI %></td>
-    <td><%= fingering.LeftM %></td>
-    <td><%= fingering.LeftR %></td>
-    <td><%= fingering.LeftL %></td>
-    <td><%= fingering.RightI %></td>
-    <td><%= fingering.RightM %></td>
-    <td><%= fingering.RightR %></td>
-    <td><%= fingering.RightL %></td>
-    <td><%= link_to 'Show', fingering %></td>
-    <td><%= link_to 'Edit', edit_fingering_path(fingering) %></td>
-    <td><%= link_to 'Destroy', fingering, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+<% content_for :content do %>
+	<h1>Listing fingerings</h1>
+	
+	<% @fingerings.each do |fingering| %>
+	    <%= fingering.note_tone %>
+	    <%= fingering.fingering_status %>
+	    <%= fingering.user_id %>
+	    <%= fingering.created_at %>
+	    <%= fingering.approved %>
+	    <%= link_to 'Show', fingering %>
+	    <%= link_to 'Edit', edit_fingering_path(fingering) %>
+	    <%= link_to 'Destroy', fingering, confirm: 'Are you sure?', method: :delete %>
+	  <br />
+	<% end %>
+	
+	<br />
+	
+	<%= link_to 'New Fingering', new_fingering_path %>
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Fingering', new_fingering_path %>

@@ -503,6 +503,19 @@ function isCursorOverKey(x, y) {
 	};
 }
 
+function keysToString() {
+	return fingering_chart.low_bflat.status + fingering_chart.low_b.status + fingering_chart.low_c.status +
+		fingering_chart.low_d.status + fingering_chart.whisper.status + fingering_chart.thumb_csharp.status +
+		fingering_chart.high_a.status + fingering_chart.high_c.status + fingering_chart.high_d.status +
+		fingering_chart.thumb_bflat.status + fingering_chart.low_e.status + fingering_chart.thumb_fsharp.status +
+		fingering_chart.thumb_aflat.status + fingering_chart.trill_a_to_b.status + fingering_chart.trill_g.status +
+		fingering_chart.hole_1.status + fingering_chart.trill_fsharp.status + fingering_chart.hole_2.status +
+		fingering_chart.trill_eflat.status + fingering_chart.low_eflat.status + fingering_chart.hole_3.status +
+		fingering_chart.low_dflat.status + fingering_chart.trill_csharp.status + fingering_chart.hole_4.status +
+		fingering_chart.hole_5.status + fingering_chart.trill_bflat.status + fingering_chart.low_g.status +
+		fingering_chart.low_f.status + fingering_chart.little_finger_fsharp.status + fingering_chart.little_finger_aflat.status;
+};
+
 /* Draw */
 function clear() {
 	ctx.fillStyle = "#fff";
@@ -540,4 +553,3 @@ $(document).ready(function() {
 		alert("Error: Could not get canvas context!");
 	};
 });
-
