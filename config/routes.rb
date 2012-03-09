@@ -23,7 +23,7 @@ Tab::Application.routes.draw do
 
   resources :example_musics
 
-  resources :fingerings, :only => [:new, :create, :edit, :update, :destroy]
+  resources :fingerings#, :only => [:index, :new, :create, :edit, :update, :destroy]
 
   #resources :password
   root :to => 'home#index'
