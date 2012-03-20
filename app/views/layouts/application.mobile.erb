@@ -21,23 +21,9 @@
                 </h3>
             </div>
             <div data-role="content">
-                <div data-role="collapsible-set" data-theme="a" data-content-theme="">
-                    <div data-role="collapsible" data-collapsed="true">
-                        <h3>
-                            Note
-                        </h3>
-                        <input type="submit" data-icon="search" data-iconpos="right" value="Search" />
-                    </div>
-                    <div data-role="collapsible" data-collapsed="true">
-                        <h3>
-                            Fingering
-                        </h3>
-                    </div>
-                </div>
+            	<%= yield :content %>
             </div>
             <div data-theme="a" data-role="footer">
-                <h1>
-                </h1>
                 <div>
                 	Please click <%= link_to "here", :mobile => 0%> for full site.
                 </div>
