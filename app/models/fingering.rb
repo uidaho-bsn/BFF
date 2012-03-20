@@ -1,14 +1,3 @@
 class Fingering < ActiveRecord::Base
+  #validates_length_of       :fingering_status, :within => 1..29
 end
-
-  #***Back***
-  #Left Thumb
-  #attr_accessor :LT1, :LT2, :LT3, :LT4, :LT5, :LT6, :LT7
-  #Whisper Key
-  #attr_accessor :W
-  #Right Thumb
-  #attr_accessor :RT1, :RT2, :RT3, :RT4
-
-  #***Front***
-  #Left/Right(I = Index, M = Middle, R = Ring, L = Little) Finger
-  #attr_accessor :LeftI, :LeftM, :LeftR, :LeftL, :RightI, :RightM, :RightR, :RightL

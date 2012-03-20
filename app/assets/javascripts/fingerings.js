@@ -1,5 +1,5 @@
 /* 
- * fingering.js
+ * fingerings.js
  * Max Stillwell
  * */
 
@@ -30,6 +30,13 @@ function Key(x, y, r, rotation, type) {
 	this.draw = draw;
 	
 	function draw() {
+		if(this.status == 1) {
+			ctx.fillStyle = "black";	
+		}
+		else {
+			ctx.fillStyle = "white";
+		};
+		
 		switch (this.type) {
 			case 'circle':
 				draw_circle(x, y, r, this.status);
@@ -38,7 +45,10 @@ function Key(x, y, r, rotation, type) {
 				draw_circle(x, y, r, this.status);
 			break;
 			case 'half-circle':
-				draw_half_circle(x, y, r, rotation, this.status);
+				draw_half_circle(x, y, r, rotation, false, this.status);
+			break;
+			case 'half-circle-flat':
+				draw_half_circle(x, y, r, rotation, true, this.status);
 			break;
 			case 'oval-small':
 				draw_oval(x, y, r, 0.75, 0.5, rotation, this.status);
@@ -49,94 +59,296 @@ function Key(x, y, r, rotation, type) {
 			case 'oval-large':
 				draw_oval(x, y, r, 1.50, 0.5, rotation, this.status);
 			break;
+			case 'box-up-left-curve':
+				draw_box_up_left_curve(x, y, r, rotation, this.status);
+			break;
+			case 'box-right-end-curve':
+				draw_right_end_curve(x, y, r, rotation, this.status);
+			break;
 			default:
 				alert("Error: Key.draw(" + type + ").");
-			break;
-		};
-	};
-
-	function status_effect(status) {
-		switch (status) {
-			case 1:
-				ctx.fillStyle = "black";
-			break;
-			case 2:
-				ctx.fillStyle = "red";
-			break;
-			case 3:
-				ctx.fillStyle = "green";
-			break;
-			case 4:
-				ctx.fillStyle = "blue";
-			break;
-			case 5:
-				var img = new Image();
-				img.onload = function() {
-					var pattern = ctx.createPattern(img, "repeat");	
-					ctx.fillStyle = pattern;
-				};
-				img.src = '<%= image_tag patterns/diagonal_line.png %>';
-			break;
-			case 6:
-				ctx.fillStyle = "purple";
-			break;
-			case 7:
-				ctx.fillStyle = "white";
-			break;
-			default:
-				alert("Error: Key.status_effect(" + status + ").")
 			break;
 		};
 	};
 	
 	function draw_oval(x, y, r, scale_x, scale_y, rotation, status) {
 		ctx.save();
-			status_effect(status, ctx);
 			ctx.translate(x, y);
 			ctx.rotate(rotation);
 			ctx.scale(scale_x, scale_y);
 			ctx.beginPath();
-				ctx.arc(0, 0, r, 0, Math.PI * 2, false);
+				ctx.arc(0, 0, r, 0, Math.PI * 2, false);			
 				ctx.scale(scale_y, scale_x);
-				if(status != 7) {
-					ctx.fill();
+				
+				if(status == 1) {
+					ctx.fillStyle = "black";
+					ctx.fill();	
 				}
 				else {
 					ctx.stroke();
-				}
+				};
 			ctx.closePath();
+			
+			switch(status){
+				case 5:
+					ctx.beginPath();
+						ctx.strokeStyle = "black";
+						ctx.scale(scale_x, scale_y);
+						
+						ctx.moveTo(-r * Math.cos(1.75 * Math.PI), -r * Math.sin(1.75 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.75 * Math.PI), -r * Math.sin(0.75 * Math.PI));
+						ctx.moveTo(-r * Math.cos(1.65 * Math.PI), -r * Math.sin(1.65 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.85 * Math.PI), -r * Math.sin(0.85 * Math.PI));
+						ctx.moveTo(-r * Math.cos(1.55 * Math.PI), -r * Math.sin(1.55 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.95 * Math.PI), -r * Math.sin(0.95 * Math.PI));
+						ctx.moveTo(-r * Math.cos(1.85 * Math.PI), -r * Math.sin(1.85 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.65 * Math.PI), -r * Math.sin(0.65 * Math.PI));
+						ctx.moveTo(-r * Math.cos(1.95 * Math.PI), -r * Math.sin(1.95 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.55 * Math.PI), -r * Math.sin(0.55 * Math.PI));
+
+						ctx.scale(scale_y, scale_x);
+						ctx.stroke();
+					ctx.closePath();
+				break;
+				case 6:
+					ctx.beginPath();
+						ctx.strokeStyle = "black";
+						
+						ctx.moveTo(-r * Math.cos(1.25 * Math.PI), -r * Math.sin(1.25 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.25 * Math.PI), -r * Math.sin(0.25 * Math.PI));
+						ctx.moveTo(-r * Math.cos(1.75 * Math.PI), -r * Math.sin(1.75 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.75 * Math.PI), -r * Math.sin(0.75 * Math.PI));
+												
+						ctx.stroke();
+					ctx.closePath();
+				break;	
+			};
+
 		ctx.restore();
 	};
 	
 	function draw_circle(x, y, r, status) {
 		ctx.save();
-			status_effect(status, ctx);
 			ctx.translate(x, y);
 			ctx.beginPath();
 				ctx.arc(0, 0, r, 0, Math.PI * 2, false);
+				
+				if(status >= 1 && status <= 4) {
+					ctx.fillStyle = "black";
+					ctx.fill();	
+				}
+				else {
+					ctx.stroke();
+				};
+			ctx.closePath();
+			
+			switch(status){
+				case 2:
+					ctx.beginPath();
+						ctx.fillStyle = "white";
+						
+						ctx.arc(0, 0, r, 1.25 * Math.PI, 1.75 * Math.PI, false);
+						ctx.lineTo(0,0);
+						ctx.lineTo(-r * Math.cos(0.25 * Math.PI), -r * Math.sin(0.75 * Math.PI));
+						
+						ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+						ctx.strokeStyle = "black";
+						
+						ctx.arc(0, 0, r - 0.5, 1.25 * Math.PI, 1.75 * Math.PI, false);
+						ctx.lineTo(0,0);
+						ctx.lineTo(-r * Math.cos(0.25 * Math.PI), -r * Math.sin(0.75 * Math.PI));
+						
+						ctx.stroke();
+					ctx.closePath();
+				break;
+				case 3:
+					ctx.beginPath();
+						ctx.fillStyle = "white";
+						
+						ctx.arc(0, 0, r, 0, Math.PI, true);
+
+						ctx.fill();	
+					ctx.closePath();
+					
+					ctx.beginPath();
+						ctx.fillStyle = "black";
+						
+						ctx.arc(0, 0, r - 0.5, 0, Math.PI, true);
+
+						ctx.stroke();	
+					ctx.closePath();
+				break;
+				case 4:
+					ctx.beginPath();
+						ctx.fillStyle = "white";
+						
+						ctx.arc(0, 0, r, 0.25 * Math.PI, 0.75 * Math.PI, false);
+						ctx.lineTo(0,0);
+						ctx.lineTo(-r * Math.cos(1.25 * Math.PI), -r * Math.sin(1.75 * Math.PI));
+						
+						ctx.fill();
+					ctx.closePath();
+					
+					ctx.beginPath();
+						ctx.strokeStyle = "black";
+						
+						ctx.arc(0, 0, r - 0.5, 0.25 * Math.PI, 0.75 * Math.PI, false);
+						ctx.lineTo(0,0);
+						ctx.lineTo(-r * Math.cos(1.25 * Math.PI), -r * Math.sin(1.75 * Math.PI));
+						
+						ctx.stroke();
+					ctx.closePath();
+				break;
+				case 5:
+					ctx.beginPath();
+						ctx.strokeStyle = "black";
+						
+						ctx.moveTo(-r * Math.cos(1.75 * Math.PI), -r * Math.sin(1.75 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.75 * Math.PI), -r * Math.sin(0.75 * Math.PI));
+						ctx.moveTo(-r * Math.cos(1.65 * Math.PI), -r * Math.sin(1.65 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.85 * Math.PI), -r * Math.sin(0.85 * Math.PI));
+						ctx.moveTo(-r * Math.cos(1.55 * Math.PI), -r * Math.sin(1.55 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.95 * Math.PI), -r * Math.sin(0.95 * Math.PI));
+						ctx.moveTo(-r * Math.cos(1.85 * Math.PI), -r * Math.sin(1.85 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.65 * Math.PI), -r * Math.sin(0.65 * Math.PI));
+						ctx.moveTo(-r * Math.cos(1.95 * Math.PI), -r * Math.sin(1.95 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.55 * Math.PI), -r * Math.sin(0.55 * Math.PI));
+
+						ctx.stroke();
+					ctx.closePath();
+				break;
+				case 6:
+					ctx.beginPath();
+						ctx.strokeStyle = "black";
+						
+						ctx.moveTo(-r * Math.cos(1.25 * Math.PI), -r * Math.sin(1.25 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.25 * Math.PI), -r * Math.sin(0.25 * Math.PI));
+						ctx.moveTo(-r * Math.cos(1.75 * Math.PI), -r * Math.sin(1.75 * Math.PI));
+						ctx.lineTo(-r * Math.cos(0.75 * Math.PI), -r * Math.sin(0.75 * Math.PI));
+												
+						ctx.stroke();
+					ctx.closePath();
+				break;	
+			};
+
+		ctx.restore();
+	};
+	
+	function draw_half_circle(x, y, r, rotation, flat, status) {
+		ctx.save();
+			ctx.translate(x, y);
+			ctx.rotate(rotation);
+			if(flat) {
+				ctx.scale(1.5, 0.5);
+			};
+			
+			ctx.beginPath();
+				ctx.arc(0, 0, r, 0, Math.PI, false);
+				ctx.moveTo(-r, 0);
+				ctx.lineTo(r, 0);
+				
+				if(flat) {
+					ctx.scale(0.5, 1.5);
+				};
+				
+				if(status >= 1 && status <= 4) {
+					ctx.fillStyle = "black";
+					ctx.fill();	
+				}
+				else {
+					ctx.stroke();
+				};
+			ctx.closePath();
+			
+			switch(status){
+				case 5:
+					if(flat) {
+						ctx.scale(1.8, 0.7);
+					};
+					
+					ctx.beginPath();
+						ctx.strokeStyle = "black";
+						
+						ctx.moveTo(-r * Math.cos(1.75 * Math.PI), -r * Math.sin(1.75 * Math.PI));
+						ctx.lineTo(r - 5, r * Math.sin(Math.PI));
+						ctx.moveTo(-r * Math.cos(1.65 * Math.PI), -r * Math.sin(1.65 * Math.PI));
+						ctx.lineTo(r, r * Math.sin(Math.PI));
+						ctx.moveTo(-r * Math.cos(1.85 * Math.PI), -r * Math.sin(1.85 * Math.PI));
+						ctx.lineTo(r - 10, r * Math.sin(Math.PI));
+						ctx.moveTo(-r * Math.cos(1.55 * Math.PI), -r * Math.sin(1.55 * Math.PI));
+						ctx.lineTo(r, r * Math.sin(0.1 * Math.PI));
+
+						if(flat) {
+							ctx.scale(0.7, 1.8);
+						};
+
+						ctx.stroke();
+					ctx.closePath();
+				break;
+				case 6:
+					if(flat) {
+						ctx.scale(1.5, 0.75);
+					};
+					
+					ctx.beginPath();
+						ctx.strokeStyle = "black";
+						
+						ctx.moveTo(-r * Math.cos(1.25 * Math.PI), -r * Math.sin(1.25 * Math.PI));
+						ctx.lineTo(-r, -r * Math.sin(Math.PI));
+						ctx.moveTo(-r * Math.cos(1.75 * Math.PI), -r * Math.sin(1.75 * Math.PI));
+						ctx.lineTo(r, r * Math.sin(Math.PI));
+						
+						if(flat) {
+							ctx.scale(0.75, 1.5);
+						};
+						
+						ctx.stroke();
+					ctx.closePath();
+				break;	
+			};
+
+		ctx.restore();
+	};
+
+	function draw_box_up_left_curve(x, y, r, rotation, status) {
+		ctx.save();
+			ctx.translate(x, y);
+			ctx.rotate(rotation);
+			ctx.beginPath();
+				ctx.arc(0, 0, r, -( 180 * Math.PI ) / 180, -( 100 * Math.PI ) / 180, false);
+				ctx.lineTo(10, -8);
+				ctx.lineTo(6, 4);
+				ctx.lineTo(-10, 4);
+				ctx.lineTo(-10, 0);
 				if(status != 7) {
 					ctx.fill();
 				}
 				else {
 					ctx.stroke();
-				}
+				};
 			ctx.closePath();
 		ctx.restore();
 	};
 	
-	function draw_half_circle(x, y, r, rotation, status) {
+	function draw_right_end_curve(x, y, r, rotation, status) {
 		ctx.save();
-			status_effect(status, ctx);
 			ctx.translate(x, y);
+			ctx.rotate(rotation);
 			ctx.beginPath();
-				ctx.arc(0, 0, r, 0, Math.PI, false);
+				ctx.moveTo(-10, 5);
+				ctx.lineTo(-7, -7);
+				ctx.lineTo(6, -5);
+				ctx.arc(4.5, 0, r, -( 90 * Math.PI ) / 180, ( 90 * Math.PI ) / 180, false);
+				ctx.lineTo(-10, 5);
 				if(status != 7) {
 					ctx.fill();
 				}
 				else {
-					ctx.fill();
-				}
-				ctx.lineTo()
+					ctx.stroke();
+				};
 			ctx.closePath();
 		ctx.restore();
 	};
@@ -148,8 +360,8 @@ function Fingering_Chart() {
     /* Keys */
 	this.low_bflat 	 			= new Key(40,  20,  10, -( 115 * Math.PI ) / 180, 'oval-large');
 	this.low_b 		 			= new Key(30,  30,  10, -( 115 * Math.PI ) / 180, 'oval-large');
-	this.low_c 		 			= new Key(0,    0,   0, 0,                        'half-circle');  
-	this.low_d 		 			= new Key(10,  70,  10, Math.PI / 2, 			  'oval-large');
+	this.low_c 		 			= new Key(23,  37,  11, -( 300 * Math.PI ) / 180, 'half-circle');  
+	this.low_d 		 			= new Key(20,  70,  10, Math.PI / 2, 			  'oval-large');
 	this.whisper 	 			= new Key(70,  70,  10, 0, 						  'oval-small');
 	this.thumb_csharp 			= new Key(70,  55,  10, 0, 						  'oval-med');
 	this.high_a 		 		= new Key(70,  40,  10, 0, 						  'oval-large');
@@ -166,19 +378,18 @@ function Fingering_Chart() {
 	this.hole_2					= new Key(130, 37,  8,  0, 						  'circle');
 	this.trill_eflat 			= new Key(0,    0,  0,  0,                        'oval-small');
 	this.hole_3					= new Key(130, 60,  8,  0, 						  'circle');
-	this.low_eflat 				= new Key(0,    0,  0,  0,                        'half-circle');
-	this.low_dflat 				= new Key(0,    0,  0,  0,                        'half-circle');
+	this.low_eflat 				= new Key(150, 73,  10, -( 190 * Math.PI ) / 180, 'half-circle');
+	this.low_dflat 				= new Key(150, 75,  10, -( 10 * Math.PI ) / 180,  'half-circle');
 	this.trill_csharp 			= new Key(115, 100, 10, 0,                        'oval-small');
 	this.hole_4					= new Key(130, 110, 8,  0, 						  'circle');
-	this.hole_5					= new Key(130, 150, 8,  0, 						  'circle');
-	this.trill_bflat 			= new Key(143, 163, 10, 0,                        'oval-small');
-	this.low_g 					= new Key(141, 177, 10, 0,                        'oval-large');
-	this.low_f 					= new Key(0,    0,  0,  0,                        'half-circle');
-	this.little_finger_fsharp 	= new Key(0,    0,  0,  0,                        'half-circle');
-	this.little_finger_aflat 	= new Key(0,    0,  0,  0,                        'half-circle');
+	this.hole_5					= new Key(130, 135, 8,  0, 						  'circle');
+	this.trill_bflat 			= new Key(143, 148, 10, 0,                        'oval-small');
+	this.low_g 					= new Key(141, 162, 10, 0,                        'oval-large');
+	this.low_f 					= new Key(130, 180, 10, 0,                        'box-up-left-curve');
+	this.little_finger_fsharp 	= new Key(150, 180,  5, 0,                        'box-right-end-curve');
+	this.little_finger_aflat 	= new Key(140, 187, 15, 0,                        'half-circle-flat');
 
 	function draw() {
-		ctx.strokeRect(0, 0, canvas.width, canvas.height);
 		this.low_bflat.draw();
 		this.low_b.draw();
 		this.low_c.draw();
@@ -411,8 +622,8 @@ function onClick(e) {
 
 function MouseMoved(e) {
 	//Variables
-	var mouseX = e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft);
-	var mouseY = e.pageY - (canvas.offsetTop + canvas.offsetParent.offsetTop);
+	var mouseX = (e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft));
+	var mouseY = (e.pageY - (canvas.offsetTop + canvas.offsetParent.offsetTop));
 
 	// Find Mouse
 	if (isCursorOverKey(mouseX, mouseY)) {
@@ -454,8 +665,8 @@ function status_update(status, type) {
 };
 
 function intersects(x, y, mx, my, r) {
-	var dx = x - mx;
-	var dy = y - my;
+	var dx = (x * scale_X) - mx;
+	var dy = (y * scale_Y) - my;
 	
 	if(dx * dx + dy * dy <= r * r) {
 		return true;
@@ -504,16 +715,16 @@ function isCursorOverKey(x, y) {
 }
 
 function keysToString() {
-	return fingering_chart.low_bflat.status + fingering_chart.low_b.status + fingering_chart.low_c.status +
-		fingering_chart.low_d.status + fingering_chart.whisper.status + fingering_chart.thumb_csharp.status +
-		fingering_chart.high_a.status + fingering_chart.high_c.status + fingering_chart.high_d.status +
-		fingering_chart.thumb_bflat.status + fingering_chart.low_e.status + fingering_chart.thumb_fsharp.status +
-		fingering_chart.thumb_aflat.status + fingering_chart.trill_a_to_b.status + fingering_chart.trill_g.status +
-		fingering_chart.hole_1.status + fingering_chart.trill_fsharp.status + fingering_chart.hole_2.status +
-		fingering_chart.trill_eflat.status + fingering_chart.low_eflat.status + fingering_chart.hole_3.status +
-		fingering_chart.low_dflat.status + fingering_chart.trill_csharp.status + fingering_chart.hole_4.status +
-		fingering_chart.hole_5.status + fingering_chart.trill_bflat.status + fingering_chart.low_g.status +
-		fingering_chart.low_f.status + fingering_chart.little_finger_fsharp.status + fingering_chart.little_finger_aflat.status;
+	return (String(fingering_chart.low_bflat.status) + String(fingering_chart.low_b.status) 			   + String(fingering_chart.low_c.status) +
+		String(fingering_chart.low_d.status) 	     + String(fingering_chart.whisper.status) 			   + String(fingering_chart.thumb_csharp.status) +
+		String(fingering_chart.high_a.status) 	     + String(fingering_chart.high_c.status) 			   + String(fingering_chart.high_d.status) +
+		String(fingering_chart.thumb_bflat.status)   + String(fingering_chart.low_e.status) 			   + String(fingering_chart.thumb_fsharp.status) +
+		String(fingering_chart.thumb_aflat.status)   + String(fingering_chart.trill_a_to_b.status) 		   + String(fingering_chart.trill_g.status) +
+		String(fingering_chart.hole_1.status) 	     + String(fingering_chart.trill_fsharp.status) 		   + String(fingering_chart.hole_2.status) +
+		String(fingering_chart.trill_eflat.status)   + String(fingering_chart.low_eflat.status) 	       + String(fingering_chart.hole_3.status) +
+		String(fingering_chart.low_dflat.status)     + String(fingering_chart.trill_csharp.status) 		   + String(fingering_chart.hole_4.status) +
+		String(fingering_chart.hole_5.status)        + String(fingering_chart.trill_bflat.status) 		   + String(fingering_chart.low_g.status) +
+		String(fingering_chart.low_f.status) 	     + String(fingering_chart.little_finger_fsharp.status) + String(fingering_chart.little_finger_aflat.status));
 };
 
 /* Draw */
@@ -523,8 +734,11 @@ function clear() {
 };
 
 function draw() {
-	clear();
-	fingering_chart.draw();
+	ctx.save();
+		clear();
+		ctx.scale(scale_X, scale_Y);
+		fingering_chart.draw();
+	ctx.restore();
 };
 
 /* Init */
@@ -539,8 +753,8 @@ $(document).ready(function() {
 		canvas_W = canvas.width;
 		canvas_H = canvas.height;
 		
-		scale_X = canvas_W / canvas.offsetWidth;
-		scale_Y = canvas_H / canvas.offsetHeight;
+		scale_X = canvas_W / 200.0;
+		scale_Y = canvas_H / 200.0;
 	
 		// Init Events
 		canvas.onclick = onClick;
@@ -552,4 +766,6 @@ $(document).ready(function() {
 	else {
 		alert("Error: Could not get canvas context!");
 	};
+	
+	$("#new_fingering").submitWithAjax();
 });

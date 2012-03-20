@@ -1,9 +1,11 @@
 class FingeringsController < ApplicationController
+  before_filter :login_required
+  
   def index
     @fingerings = Fingering.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @fingerings }
     end
   end
@@ -12,7 +14,7 @@ class FingeringsController < ApplicationController
     @fingering = Fingering.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.json { render json: @fingering }
     end
   end
@@ -21,13 +23,9 @@ class FingeringsController < ApplicationController
     @fingering = Fingering.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.json { render json: @fingering }
     end
-  end
-
-  def edit
-    @fingering = Fingering.find(params[:id])
   end
 
   def create
@@ -43,6 +41,10 @@ class FingeringsController < ApplicationController
         #format.js #{ render json: @fingering.errors, status: :unprocessable_entity }
       #end
     end
+  end
+
+  def edit
+    @fingering = Fingering.find(params[:id])
   end
 
   def update

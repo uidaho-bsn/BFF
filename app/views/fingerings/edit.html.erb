@@ -1,6 +1,23 @@
-<h1>Editing fingering</h1>
+<% content_for :head do %>
+	<title>BFF::Edit Fingering</title>
+	<%= javascript_include_tag :fingerings %>
+<% end %>
 
-<%= render 'form' %>
+<% content_for :header do %>
+	<a href="index.html"><img id="" src="" alt="" /></a>
+	<%= render "layouts/login" %>
+<% end %>
 
-<%= link_to 'Show', @fingering %> |
-<%= link_to 'Back', fingerings_path %>
+<%= content_for :headline do %>
+	<div id="headline">
+		<span class="main">Edit Fingering ID #<%= @fingering.id %></span>
+	</div>
+<% end %>
+
+<% content_for :content do %>
+	<%= link_to 'Show', @fingering %> |
+	<%= link_to 'Back', fingerings_path %>
+<% end %>
+
+
+

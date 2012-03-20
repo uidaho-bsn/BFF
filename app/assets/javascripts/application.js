@@ -25,7 +25,3 @@ jQuery.fn.submitWithAjax = function() {
   })
   return this;
 };
-
-$(document).ready(function() {
-  $("#new_fingering").submitWithAjax();
-})

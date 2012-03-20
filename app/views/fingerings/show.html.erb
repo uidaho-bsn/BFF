@@ -1,105 +1,21 @@
-<p id="notice"><%= notice %></p>
+<% content_for :head do %>
+	<title>BFF::Fingering</title>
+	<%= javascript_include_tag :fingerings %>
+<% end %>
 
-<p>
-  <b>Lt1:</b>
-  <%= @fingering.LT1 %>
-</p>
+<% content_for :header do %>
+	<a href="index.html"><img id="" src="" alt="" /></a>
+	<%= render "layouts/login" %>
+<% end %>
 
-<p>
-  <b>Lt2:</b>
-  <%= @fingering.LT2 %>
-</p>
+<%= content_for :headline do %>
+	<div id="headline">
+		<span class="main">Fingering ID #<%= @fingering.id %></span>
+	</div>
+<% end %>
 
-<p>
-  <b>Lt3:</b>
-  <%= @fingering.LT3 %>
-</p>
-
-<p>
-  <b>Lt4:</b>
-  <%= @fingering.LT4 %>
-</p>
-
-<p>
-  <b>Lt5:</b>
-  <%= @fingering.LT5 %>
-</p>
-
-<p>
-  <b>Lt6:</b>
-  <%= @fingering.LT6 %>
-</p>
-
-<p>
-  <b>Lt7:</b>
-  <%= @fingering.LT7 %>
-</p>
-
-<p>
-  <b>W:</b>
-  <%= @fingering.W %>
-</p>
-
-<p>
-  <b>Rt1:</b>
-  <%= @fingering.RT1 %>
-</p>
-
-<p>
-  <b>Rt2:</b>
-  <%= @fingering.RT2 %>
-</p>
-
-<p>
-  <b>Rt3:</b>
-  <%= @fingering.RT3 %>
-</p>
-
-<p>
-  <b>Rt4:</b>
-  <%= @fingering.RT4 %>
-</p>
-
-<p>
-  <b>Lefti:</b>
-  <%= @fingering.LeftI %>
-</p>
-
-<p>
-  <b>Leftm:</b>
-  <%= @fingering.LeftM %>
-</p>
-
-<p>
-  <b>Leftr:</b>
-  <%= @fingering.LeftR %>
-</p>
-
-<p>
-  <b>Leftl:</b>
-  <%= @fingering.LeftL %>
-</p>
-
-<p>
-  <b>Righti:</b>
-  <%= @fingering.RightI %>
-</p>
-
-<p>
-  <b>Rightm:</b>
-  <%= @fingering.RightM %>
-</p>
-
-<p>
-  <b>Rightr:</b>
-  <%= @fingering.RightR %>
-</p>
-
-<p>
-  <b>Rightl:</b>
-  <%= @fingering.RightL %>
-</p>
-
-
-<%= link_to 'Edit', edit_fingering_path(@fingering) %> |
-<%= link_to 'Back', fingerings_path %>
+<% content_for :content do %>
+	<p id="notice"><%= notice %></p>
+	<%= link_to 'Edit', edit_fingering_path(@fingering) %> |
+	<%= link_to 'Back', fingerings_path %>
+<% end %>
