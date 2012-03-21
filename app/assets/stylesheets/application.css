@@ -99,6 +99,13 @@ body
 	margin-bottom: 10px;
 }
 
+/* Canvas -------------------------------------------------------*/
+#new_fingering
+{
+	/*-webkit-user-select: none;*/
+	-webkit-tap-highlight-color: transparent;
+}
+
 /* LOGIN --------------------------------------------------------*/
 .login
 {

@@ -596,7 +596,9 @@ $(document).ready(function() {
 	if(canvas = document.getElementById('new_fingering')) { type = 'new'; }
 	else if(canvas = document.getElementById('edit_fingering')) { type = 'edit'; }
 	else if(canvas = document.getElementById('show_fingering')) { type = 'show'; }
-	else { alert("Error: Couldn't find canvas!"); };
+	else { return false; };
+	
+	canvas.addEventListener('selectstart', function(e) { e.preventDefault(); return false; }, false);
 	
 	if (canvas.getContext) {
 		ctx = canvas.getContext('2d');
