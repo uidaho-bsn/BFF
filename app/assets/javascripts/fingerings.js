@@ -345,40 +345,40 @@ function Key(x, y, r, rotation, type, status) {
 	};
 };
 
-function Fingering_Chart() {
+function Fingering_Chart(type, keys_string) {
 	/* Public Functions */
     this.draw = draw;
     /* Keys */
-	this.low_bflat 	 			= new Key(40,  20,  10, -( 115 * Math.PI ) / 180, 'oval-large',          0);
-	this.low_b 		 			= new Key(30,  30,  10, -( 115 * Math.PI ) / 180, 'oval-large',          0);
-	this.low_c 		 			= new Key(23,  37,  11, -( 300 * Math.PI ) / 180, 'half-circle',         0);  
-	this.low_d 		 			= new Key(20,  70,  10, Math.PI / 2, 			  'oval-large',          0);
-	this.whisper 	 			= new Key(70,  70,  10, 0, 						  'oval-small',          0);
-	this.thumb_csharp 			= new Key(70,  55,  10, 0, 						  'oval-med',            0);
-	this.high_a 		 		= new Key(70,  40,  10, 0, 						  'oval-large',          0);
-	this.high_c 		 		= new Key(70,  25,  10, 0, 						  'oval-med',            0);
-	this.high_d 		 		= new Key(70,  10,  10, 0, 						  'oval-small',          0);
-	this.thumb_bflat  			= new Key(70,  110, 10, 0, 						  'oval-large',          0);
-	this.low_e 		 			= new Key(70,  140, 20, 0, 						  'circle-key',          0);
-	this.thumb_fsharp 			= new Key(70,  170, 10, -( 10 * Math.PI ) / 180,  'oval-large',          0);
-	this.thumb_aflat  			= new Key(75,  185, 10, -( 10 * Math.PI ) / 180,  'oval-large',          0);
-	this.trill_a_to_b 			= new Key(50,  180, 10, 0, 						  'oval-small',          0);
-	this.trill_g 	 			= new Key(145, 23,  10, 0, 						  'oval-small',          0);
-	this.hole_1					= new Key(130, 15,  8,  0, 						  'circle',              0);
-	this.trill_fsharp 			= new Key(145, 47,  10, 0,						  'oval-small',          0);
-	this.hole_2					= new Key(130, 37,  8,  0, 						  'circle',              0);
-	this.trill_eflat 			= new Key(0,    0,  0,  0,                        'oval-small',          0);
-	this.hole_3					= new Key(130, 60,  8,  0, 						  'circle',              0);
-	this.low_eflat 				= new Key(150, 73,  10, -( 190 * Math.PI ) / 180, 'half-circle',         0);
-	this.low_dflat 				= new Key(151, 76,  10, -( 10 * Math.PI ) / 180,  'half-circle',         0);
-	this.trill_csharp 			= new Key(115, 100, 10, 0,                        'oval-small',          0);
-	this.hole_4					= new Key(130, 110, 8,  0, 						  'circle',              0);
-	this.hole_5					= new Key(130, 135, 8,  0, 						  'circle',              0);
-	this.trill_bflat 			= new Key(143, 148, 10, 0,                        'oval-small',          0);
-	this.low_g 					= new Key(141, 162, 10, 0,                        'oval-large',          0);
-	this.low_f 					= new Key(130, 180, 10, 0,                        'box-up-left-curve',   0);
-	this.little_finger_fsharp 	= new Key(150, 180,  5, 0,                        'box-right-end-curve', 0);
-	this.little_finger_aflat 	= new Key(140, 187, 15, 0,                        'half-circle-flat',    0);
+	this.low_bflat 	 			= new Key(40,  20,  10, -( 115 * Math.PI ) / 180, 'oval-large',          keys_string[0]);
+	this.low_b 		 			= new Key(30,  30,  10, -( 115 * Math.PI ) / 180, 'oval-large',          keys_string[1]);
+	this.low_c 		 			= new Key(23,  37,  11, -( 300 * Math.PI ) / 180, 'half-circle',         keys_string[2]);  
+	this.low_d 		 			= new Key(20,  70,  10, Math.PI / 2, 			  'oval-large',          keys_string[3]);
+	this.whisper 	 			= new Key(70,  70,  10, 0, 						  'oval-small',          keys_string[4]);
+	this.thumb_csharp 			= new Key(70,  55,  10, 0, 						  'oval-med',            keys_string[5]);
+	this.high_a 		 		= new Key(70,  40,  10, 0, 						  'oval-large',          keys_string[6]);
+	this.high_c 		 		= new Key(70,  25,  10, 0, 						  'oval-med',            keys_string[7]);
+	this.high_d 		 		= new Key(70,  10,  10, 0, 						  'oval-small',          keys_string[8]);
+	this.thumb_bflat  			= new Key(70,  110, 10, 0, 						  'oval-large',          keys_string[9]);
+	this.low_e 		 			= new Key(70,  140, 20, 0, 						  'circle-key',          keys_string[10]);
+	this.thumb_fsharp 			= new Key(70,  170, 10, -( 10 * Math.PI ) / 180,  'oval-large',          keys_string[11]);
+	this.thumb_aflat  			= new Key(75,  185, 10, -( 10 * Math.PI ) / 180,  'oval-large',          keys_string[12]);
+	this.trill_a_to_b 			= new Key(50,  180, 10, 0, 						  'oval-small',          keys_string[13]);
+	this.trill_g 	 			= new Key(145, 23,  10, 0, 						  'oval-small',          keys_string[14]);
+	this.hole_1					= new Key(130, 15,  8,  0, 						  'circle',              keys_string[15]);
+	this.trill_fsharp 			= new Key(145, 47,  10, 0,						  'oval-small',          keys_string[16]);
+	this.hole_2					= new Key(130, 37,  8,  0, 						  'circle',              keys_string[17]);
+	this.trill_eflat 			= new Key(0,    0,  0,  0,                        'oval-small',          keys_string[18]);
+	this.hole_3					= new Key(130, 60,  8,  0, 						  'circle',              keys_string[19]);
+	this.low_eflat 				= new Key(150, 73,  10, -( 190 * Math.PI ) / 180, 'half-circle',         keys_string[20]);
+	this.low_dflat 				= new Key(151, 76,  10, -( 10 * Math.PI ) / 180,  'half-circle',         keys_string[21]);
+	this.trill_csharp 			= new Key(115, 100, 10, 0,                        'oval-small',          keys_string[22]);
+	this.hole_4					= new Key(130, 110, 8,  0, 						  'circle',              keys_string[23]);
+	this.hole_5					= new Key(130, 135, 8,  0, 						  'circle',              keys_string[24]);
+	this.trill_bflat 			= new Key(143, 148, 10, 0,                        'oval-small',          keys_string[25]);
+	this.low_g 					= new Key(141, 162, 10, 0,                        'oval-large',          keys_string[26]);
+	this.low_f 					= new Key(130, 180, 10, 0,                        'box-up-left-curve',   keys_string[27]);
+	this.little_finger_fsharp 	= new Key(150, 180,  5, 0,                        'box-right-end-curve', keys_string[28]);
+	this.little_finger_aflat 	= new Key(140, 187, 15, 0,                        'half-circle-flat',    keys_string[29]);
 
 	function draw() {
 		this.low_bflat.draw();
@@ -591,11 +591,20 @@ function draw() {
 
 /* Init */
 $(document).ready(function() {
-	canvas = document.getElementById('fingering_view');
+	var type = 'none';
+	
+	if(canvas = document.getElementById('new_fingering')) { type = 'new'; }
+	else if(canvas = document.getElementById('edit_fingering')) { type = 'edit'; }
+	else if(canvas = document.getElementById('show_fingering')) { type = 'show'; }
+	else { alert("Error: Couldn't find canvas!"); };
+	
 	if (canvas.getContext) {
 		ctx = canvas.getContext('2d');
 		
-		fingering_chart = new Fingering_Chart();
+		if(type == 'new') { keys_string = '000000000000000000000000000000'; }
+		else if(type == 'edit' || (type == 'show')) { keys_string = '000000000000000000000000000000'; }; //Get string!!!!
+		
+		fingering_chart = new Fingering_Chart(type, keys_string);
 	
 		canvas_W = canvas.width;
 		canvas_H = canvas.height;
@@ -604,8 +613,10 @@ $(document).ready(function() {
 		scale_Y = canvas_H / 200.0; // by 200, don't go any smaller.
 	
 		// Init Events
-		canvas.onclick = onClick;
-		canvas.onmousemove = MouseMoved;
+		if(type == 'edit' || (type == 'new')) {
+			canvas.onclick = onClick;
+			canvas.onmousemove = MouseMoved;
+		};
  
 		// Draw
 		return setInterval(draw, 100);
