@@ -1,6 +1,6 @@
 /* 
  * fingerings.js
- * Max Stillwell
+ * @author Max Stillwell
  * */
 
 /* Globals */
@@ -16,6 +16,85 @@
   var scale_Y;
 
 /* Objects */
+function Note(note, tone) {
+	/* Variables */
+	this.note = note;
+	this.tone = tone;
+	/* Public Functions */
+	this.draw = draw;
+	this.update = update;
+	
+	function draw() {
+		ctx.save();
+			ctx.translate(100, 215);
+			draw_staff();
+			draw_note(this.note);
+		ctx.restore();
+	};
+	
+	function draw_staff() {
+		ctx.beginPath();
+			ctx.moveTo(-100, 10);
+			ctx.lineTo(100, 10);
+			ctx.moveTo(-100, 5);
+			ctx.lineTo(100, 5);
+			ctx.moveTo(-100, 0);
+			ctx.lineTo(100, 0);
+			ctx.moveTo(-100, -5);
+			ctx.lineTo(100, -5);
+			ctx.moveTo(-100, -10);
+			ctx.lineTo(100, -10);
+		ctx.closePath();
+		
+		ctx.lineWidth = 0.5;
+		ctx.stroke();
+	};
+	
+	function draw_note(note) {
+		switch(note) {
+			case 'c':
+				ctx.scale(1.1, 0.9);
+				
+				ctx.beginPath();
+					ctx.arc(0, -2.5, 3, 0, Math.PI * 2, false);
+				ctx.closePath();
+				
+				ctx.scale(0.9, 1.1);
+				ctx.lineWidth = 0.75;
+				ctx.stroke();
+				
+				ctx.font = "12pt Calibri";
+				ctx.fillStyle = "black";
+				ctx.fillText(note + tone, -90, -15);
+			break;
+			case 'a':
+				ctx.scale(1.1, 0.9);
+				
+				ctx.beginPath();
+					ctx.arc(0, 2.5, 3, 0, Math.PI * 2, false);
+				ctx.closePath();
+				
+				ctx.scale(0.9, 1.1);
+				ctx.lineWidth = 0.75;
+				ctx.stroke();
+				
+				ctx.font = "12pt Calibri";
+				ctx.fillStyle = "black";
+				ctx.fillText(note + tone, -90, -15);
+			break;
+		};
+	};
+
+	function update(x, y) {
+		if(y > 215 && y < 220) {
+			note = 'c';
+		}
+		else if(y < 215 && y > 10 + 210) {
+			note = 'a';
+		};
+	};
+};
+
 function Key(x, y, r, rotation, type, status) {
 	/* Variables */
 	this.x = x;
@@ -379,7 +458,9 @@ function Fingering_Chart(type, keys_string) {
 	this.low_f 					= new Key(130, 180, 10, 0,                        'box-up-left-curve',   keys_string[27]);
 	this.little_finger_fsharp 	= new Key(150, 180,  5, 0,                        'box-right-end-curve', keys_string[28]);
 	this.little_finger_aflat 	= new Key(140, 187, 15, 0,                        'half-circle-flat',    keys_string[29]);
-
+	/* Note */
+	this.note = new Note('c', "♮");
+	
 	function draw() {
 		this.low_bflat.draw();
 		this.low_b.draw();
@@ -411,6 +492,7 @@ function Fingering_Chart(type, keys_string) {
 		this.low_f.draw();
 		this.little_finger_fsharp.draw();
 		this.little_finger_aflat.draw();
+		this.note.draw();
 	};
 };
 
@@ -421,98 +503,102 @@ function onClick(e) {
 	var clickY = e.pageY - (canvas.offsetTop  + canvas.offsetParent.offsetTop);
 	var location = cursorOverKey(clickX, clickY);
 	
-	// Update Status
-	switch (location) {
-		case 'low_bflat': 
-			fingering_chart.low_bflat.shift_status(); 
-		break;
-		case 'low_b':
-			fingering_chart.low_b.shift_status();
-		break;
-		case 'low_c':
-			fingering_chart.low_c.shift_status();
-		break;
-		case 'low_d':
-			fingering_chart.low_d.shift_status();
-		break;
-		case 'whisper':
-			fingering_chart.whisper.shift_status();
-		break;
-		case 'thumb_csharp':
-			fingering_chart.thumb_csharp.shift_status();
-		break;
-		case 'high_a':
-			fingering_chart.high_a.shift_status();
-		break;
-		case 'high_c':
-			fingering_chart.high_c.shift_status();
-		break;
-		case 'high_d':
-			fingering_chart.high_d.shift_status();
-		break;
-		case 'thumb_bflat':
-			fingering_chart.thumb_bflat.shift_status();
-		break;
-		case 'low_e':
-			fingering_chart.low_e.shift_status();
-		break;
-		case 'thumb_fsharp':
-			fingering_chart.thumb_fsharp.shift_status();
-		break;
-		case 'thumb_aflat':
-			fingering_chart.thumb_aflat.shift_status();
-		break;
-		case 'trill_a_to_b':
-			fingering_chart.trill_a_to_b.shift_status();
-		break;
-		case 'trill_g':
-			fingering_chart.trill_g.shift_status();
-		break;
-		case 'hole_1':
-			fingering_chart.hole_1.shift_status();
-		break;
-		case 'trill_fsharp':
-			fingering_chart.trill_fsharp.shift_status();
-		break;
-		case 'hole_2':
-			fingering_chart.hole_2.shift_status();
-		break;
-		case 'trill_eflat':
-			fingering_chart.trill_eflat.shift_status();
-		break;
-		case 'hole_3':
-			fingering_chart.hole_3.shift_status();
-		break;
-		case 'low_eflat':
-			fingering_chart.low_eflat.shift_status();
-		break;
-		case 'low_dflat':
-			fingering_chart.low_dflat.shift_status();
-		break;
-		case 'trill_csharp':
-			fingering_chart.trill_csharp.shift_status();
-		break;
-		case 'hole_4':
-			fingering_chart.hole_4.shift_status();
-		break;
-		case 'hole_5':
-			fingering_chart.hole_5.shift_status();
-		break;
-		case 'trill_bflat':
-			fingering_chart.trill_bflat.shift_status();
-		break;
-		case 'low_g':
-			fingering_chart.low_g.shift_status();
-		break;
-		case 'low_f':
-			fingering_chart.low_f.shift_status();
-		break;
-		case 'little_finger_fsharp':
-			fingering_chart.little_finger_fsharp.shift_status();
-		break;
-		case 'little_finger_aflat':
-			fingering_chart.little_finger_aflat.shift_status();
-		break;
+	if(location == "bottom") {
+		fingering_chart.note.update(clickX, clickY);
+	}
+	else {
+		switch (location) {
+			case 'low_bflat': 
+				fingering_chart.low_bflat.shift_status(); 
+			break;
+			case 'low_b':
+				fingering_chart.low_b.shift_status();
+			break;
+			case 'low_c':
+				fingering_chart.low_c.shift_status();
+			break;
+			case 'low_d':
+				fingering_chart.low_d.shift_status();
+			break;
+			case 'whisper':
+				fingering_chart.whisper.shift_status();
+			break;
+			case 'thumb_csharp':
+				fingering_chart.thumb_csharp.shift_status();
+			break;
+			case 'high_a':
+				fingering_chart.high_a.shift_status();
+			break;
+			case 'high_c':
+				fingering_chart.high_c.shift_status();
+			break;
+			case 'high_d':
+				fingering_chart.high_d.shift_status();
+			break;
+			case 'thumb_bflat':
+				fingering_chart.thumb_bflat.shift_status();
+			break;
+			case 'low_e':
+				fingering_chart.low_e.shift_status();
+			break;
+			case 'thumb_fsharp':
+				fingering_chart.thumb_fsharp.shift_status();
+			break;
+			case 'thumb_aflat':
+				fingering_chart.thumb_aflat.shift_status();
+			break;
+			case 'trill_a_to_b':
+				fingering_chart.trill_a_to_b.shift_status();
+			break;
+			case 'trill_g':
+				fingering_chart.trill_g.shift_status();
+			break;
+			case 'hole_1':
+				fingering_chart.hole_1.shift_status();
+			break;
+			case 'trill_fsharp':
+				fingering_chart.trill_fsharp.shift_status();
+			break;
+			case 'hole_2':
+				fingering_chart.hole_2.shift_status();
+			break;
+			case 'trill_eflat':
+				fingering_chart.trill_eflat.shift_status();
+			break;
+			case 'hole_3':
+				fingering_chart.hole_3.shift_status();
+			break;
+			case 'low_eflat':
+				fingering_chart.low_eflat.shift_status();
+			break;
+			case 'low_dflat':
+				fingering_chart.low_dflat.shift_status();
+			break;
+			case 'trill_csharp':
+				fingering_chart.trill_csharp.shift_status();
+			break;
+			case 'hole_4':
+				fingering_chart.hole_4.shift_status();
+			break;
+			case 'hole_5':
+				fingering_chart.hole_5.shift_status();
+			break;
+			case 'trill_bflat':
+				fingering_chart.trill_bflat.shift_status();
+			break;
+			case 'low_g':
+				fingering_chart.low_g.shift_status();
+			break;
+			case 'low_f':
+				fingering_chart.low_f.shift_status();
+			break;
+			case 'little_finger_fsharp':
+				fingering_chart.little_finger_fsharp.shift_status();
+			break;
+			case 'little_finger_aflat':
+				fingering_chart.little_finger_aflat.shift_status();
+			break;
+		};
 	};
 };
 
@@ -557,7 +643,8 @@ function cursorOverKey(x, y) {
 	else if(fingering_chart.low_g.contains(x, y))                { return 'low_g'; }
 	else if(fingering_chart.low_f.contains(x, y))                { return 'low_f'; }
 	else if(fingering_chart.little_finger_fsharp.contains(x, y)) { return 'little_finger_fsharp'; }
-	else if(fingering_chart.little_finger_aflat.contains(x, y))  { return 'little_finger_aflat'; };
+	else if(fingering_chart.little_finger_aflat.contains(x, y))  { return 'little_finger_aflat'; }
+	//else if(y > 500 && y < 600) { return 'bottom'; };
 
 	return 'none';
 }
@@ -603,17 +690,17 @@ $(document).ready(function() {
 	if (canvas.getContext) {
 		ctx = canvas.getContext('2d');
 		
-		if(type == 'new') { keys_string = '000000000000000000000000000000'; }
-		else if(type == 'edit' || (type == 'show')) { keys_string = '000000000000000000000000000000'; }; //Get string!!!!
-		
+		if(typeof fingering_id != 'undefined') { var keys_string = fingering }
+		else { var keys_string = '000000000000000000000000000000'; };
+
 		fingering_chart = new Fingering_Chart(type, keys_string);
-	
+
 		canvas_W = canvas.width;
 		canvas_H = canvas.height;
-		
-		scale_X = canvas_W / 200.0; // Base canvas size is 200
-		scale_Y = canvas_H / 200.0; // by 200, don't go any smaller.
-	
+
+		scale_X = canvas_W / 200;        // Base canvas size is 200
+		scale_Y = (canvas_H - 100)/ 200; // by 200, don't go any smaller. Extra 100 is for note.
+
 		// Init Events
 		if(type == 'edit' || (type == 'new')) {
 			canvas.onclick = onClick;

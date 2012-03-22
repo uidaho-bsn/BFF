@@ -1,6 +1,7 @@
 <% content_for :head do %>
 	<title>BFF::Fingering</title>
 	<%= javascript_include_tag 'jquery', 'fingerings' %>
+	<script>var fingering = @fingering.fingering_status;</script>
 <% end %>
 
 <% content_for :header do %>
