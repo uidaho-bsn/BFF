@@ -773,10 +773,11 @@ function Key(x, y, r, rotation, type, status) {
 	/* End Update Functions */
 };
 
-function Fingering_Chart(type, keys_string) {
+function Fingering_Chart(type, keys_string, note, tone, help) {
 	/* Public Functions */
     this.draw = draw;
     this.contains = contains;
+    this.update = update;
     /* Public Variables */
     // Keys
 	this.low_bflat 	 			= new Key(40,  20,  10, -( 115 * Math.PI ) / 180, 'oval-large',          keys_string[0]);
@@ -810,11 +811,10 @@ function Fingering_Chart(type, keys_string) {
 	this.little_finger_fsharp 	= new Key(150, 180,  5, 0,                        'box-right-end-curve', keys_string[28]);
 	this.little_finger_aflat 	= new Key(140, 187, 15, 0,                        'half-circle-flat',    keys_string[29]);
 	// Note
-	this.note = new Note('e2', "♮");
-	// Debug
-	this.debug = true;
+	this.note = new Note(note, tone);
 	/* Private Variables */
 	var text = false;
+	var debug = false;
 	
 	/* Begin Draw Functions */
 	function draw() {
@@ -852,29 +852,36 @@ function Fingering_Chart(type, keys_string) {
 		// Draw Note & Staff
 		this.note.draw();
 		// Draw Debug Info
-		if(this.debug) { draw_debug(); };
+		if(debug) { draw_debug(); };
 		// Draw Help '?'
-		ctx.shadowColor = "rgb(190, 190, 190)";
-		ctx.shadowOffsetX = 1.5;
-		ctx.shadowOffsetY = 1.5;
-		if(text) {
-			ctx.fillStyle = "rgb(255, 0, 0)";
+		if(help) {
+			ctx.fillStyle = "black";
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 1.5;
+			ctx.shadowOffsetY = 1.5;
+			if(text) {
+				ctx.fillStyle = "rgb(255, 0, 0)";
+			};
+			
+			ctx.font = "5pt Calibri";
+			ctx.fillText("?", 190, 5);
 		};
-		
-		ctx.font = "5pt Calibri";
-		ctx.fillText("?", 190, 5);
 	};
 	
 	function draw_debug() {
 		ctx.beginPath();
 			ctx.font = "6pt Calibri";
 			ctx.fillStyle = "black";
-			ctx.fillText(mouse_X + "," + mouse_Y, 165, 235);
+			ctx.fillText("(" + mouse_X + "," + mouse_Y + ")", 165, 235);
 		ctx.closePath();
 	};
 	/* End Draw Functions */
 	
 	/* Begin Update Functions */
+	function update() {
+		if(text) { debug = !debug; };
+	};
+
 	function contains() {
 		text = false;
 		
@@ -890,10 +897,8 @@ function onClick(e) {
 	var click_Y = e.pageY - (canvas.offsetTop  + canvas.offsetParent.offsetTop);
 	var location = cursorOverClickable(click_X, click_Y);
 	
-	if(location == "bottom") { fingering_chart.note.update(); }
-	else if(location == "help") {
-		
-	}
+	if(location == "bottom")    { fingering_chart.note.update(); }
+	else if(location == "help") { fingering_chart.update(); }
 	else {
 		switch (location) {
 			case 'low_bflat': 
@@ -1033,6 +1038,7 @@ function cursorOverClickable() {
 	else if(fingering_chart.little_finger_aflat.contains())  { return 'little_finger_aflat'; }
 	else if(fingering_chart.note.contains())                 { return 'bottom'; }
 	else if(fingering_chart.contains())						 { return 'help'; };
+
 	return 'none';
 }
 
@@ -1066,10 +1072,14 @@ function draw() {
 /* Init */
 $(document).ready(function() {
 	var type = 'none';
+	var help = true;
 	
-	if(canvas = document.getElementById('new_fingering')) { type = 'new'; }
+	if(canvas = document.getElementById('new_fingering'))       { type = 'new'; }
 	else if(canvas = document.getElementById('edit_fingering')) { type = 'edit'; }
-	else if(canvas = document.getElementById('show_fingering')) { type = 'show'; }
+	else if(canvas = document.getElementById('show_fingering')) { 
+		type = 'show'; 
+		help = false; 
+	}
 	else { return false; };
 	
 	canvas.addEventListener('selectstart', function(e) { e.preventDefault(); return false; }, false);
@@ -1078,9 +1088,25 @@ $(document).ready(function() {
 		ctx = canvas.getContext('2d');
 		
 		if(typeof fingering_id != 'undefined') { var keys_string = fingering }
-		else { var keys_string = '000000000000000000000000000000'; };
+		else                                   { var keys_string = '000000000000000000000000000000'; };
 
-		fingering_chart = new Fingering_Chart(type, keys_string);
+		if(typeof note_tone_id != 'undefined') { var note_tone = note_tone_id }
+		else                                   { var note_tone = 'd3_natural'; };
+		
+		var note = note_tone.substring(0, 2);
+		switch (note_tone.substring(3)) {
+			case "natural":
+				var tone = "♮";
+			break;
+			case "flat":
+				var tone = "♭";
+			break;
+			case "sharp":
+				var tone = "♯";
+			break;
+		};
+
+		fingering_chart = new Fingering_Chart(type, keys_string, note, tone, help);
 
 		canvas_W = canvas.width;
 		canvas_H = canvas.height;
@@ -1092,10 +1118,10 @@ $(document).ready(function() {
 		if(type == 'edit' || (type == 'new')) {
 			canvas.onclick = onClick;
 			canvas.onmousemove = MouseMoved;
-		};
- 
-		// Draw
-		return setInterval(draw, 100);
+			
+			return setInterval(draw, 100);
+		}
+		else { draw(); };
 	}
 	else {
 		alert("Error: Could not get canvas context!");

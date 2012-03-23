@@ -1,7 +1,10 @@
 <% content_for :head do %>
 	<title>BFF::Edit Fingering</title>
 	<%= javascript_include_tag 'jquery', 'fingerings' %>
-	<script>var fingering = @fingering.fingering_status;</script>
+	<script>
+		var fingering_id = @fingering.fingering_status;
+		var note_tone_id = @fingering.note_tone;
+	</script>
 <% end %>
 
 <% content_for :header do %>
@@ -17,7 +20,7 @@
 
 <% content_for :content do %>
 	<p>This is still a work in progress!</p>
-	<canvas id="edit_fingering" width="500" height="500">
+	<canvas id="edit_fingering" width="500" height="600">
     	<p>Unfortunately, your browser is currently unsupported by our web 
         	application. We are sorry for the inconvenience. Please use one of the 
         	supported browsers listed below. </p>
