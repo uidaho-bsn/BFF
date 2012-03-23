@@ -3,7 +3,7 @@
 	<div class="login">
 		<%= form_tag :action=> "login", :method => "post", :controller => "users", :id => "loginform" do %>
 			<div>
-			  	<%= text_field "user", "login", :onfocus => "defaultInput(this)", :onblur => "clearInput(this)", :class => "text_field"%>
+			  	<%= text_field "user", "login", :onfocus => "defaultInput(this)", :onblur => "clearInput(this)", :class => "text_field" %>
 			  	<br />
 			  	<%= password_field "user", "password", :onfocus => "defaultInput(this)", :onblur => "clearInput(this)", :class => "text_field" %>
 				
