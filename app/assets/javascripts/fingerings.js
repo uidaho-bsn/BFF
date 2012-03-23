@@ -1052,7 +1052,8 @@ function keysToString() {
 		String(fingering_chart.trill_eflat.status)   + String(fingering_chart.low_eflat.status) 	       + String(fingering_chart.hole_3.status) +
 		String(fingering_chart.low_dflat.status)     + String(fingering_chart.trill_csharp.status) 		   + String(fingering_chart.hole_4.status) +
 		String(fingering_chart.hole_5.status)        + String(fingering_chart.trill_bflat.status) 		   + String(fingering_chart.low_g.status) +
-		String(fingering_chart.low_f.status) 	     + String(fingering_chart.little_finger_fsharp.status) + String(fingering_chart.little_finger_aflat.status));
+		String(fingering_chart.low_f.status) 	     + String(fingering_chart.little_finger_fsharp.status) + String(fingering_chart.little_finger_aflat.status +
+			'\0'));
 };
 
 /* Draw */
@@ -1087,7 +1088,7 @@ $(document).ready(function() {
 	if (canvas.getContext) {
 		ctx = canvas.getContext('2d');
 		
-		if(typeof fingering_id != 'undefined') { var keys_string = fingering }
+		if(typeof fingering_id != 'undefined') { var keys_string = fingering_id }
 		else                                   { var keys_string = '000000000000000000000000000000'; };
 
 		if(typeof note_tone_id != 'undefined') { var note_tone = note_tone_id }
@@ -1127,5 +1128,5 @@ $(document).ready(function() {
 		alert("Error: Could not get canvas context!");
 	};
 	
-	$("#new_fingering").submitWithAjax();
+	//$("#new_fingering").submitWithAjax();
 });

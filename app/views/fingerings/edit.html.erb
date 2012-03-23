@@ -2,8 +2,8 @@
 	<title>BFF::Edit Fingering</title>
 	<%= javascript_include_tag 'jquery', 'fingerings' %>
 	<script>
-		var fingering_id = @fingering.fingering_status;
-		var note_tone_id = @fingering.note_tone;
+		alert(<%= @fingering.fingering_status %>);
+		var fingering_id = <%= @fingering.fingering_status %>;
 	</script>
 <% end %>
 

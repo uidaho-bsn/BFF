@@ -20,7 +20,7 @@ class FingeringsController < ApplicationController
   end
 
   def new
-    @fingering = Fingering.new
+    @fingering = Fingering.new(params[:fingering])
 
     respond_to do |format|
       format.html
@@ -33,13 +33,13 @@ class FingeringsController < ApplicationController
     flash[:notice] = "Fingering submitted for approval."
 
     respond_to do |format|
-      #if @fingering.save
-        format.html { redirect_to fingerings_url }#, notice: 'Fingering was successfully created.' }
-        format.js #{ render json: @fingering, status: :created, location: @fingering }
-      #else
-        #format.html { render action: "new" }
-        #format.js #{ render json: @fingering.errors, status: :unprocessable_entity }
-      #end
+      if @fingering.save
+        format.html { redirect_to fingerings_url, notice: 'Fingering was successfully created.' }
+        format.json { render json: @fingering, status: :created, location: @fingering }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @fingering.errors, status: :unprocessable_entity }
+      end
     end
   end
 
