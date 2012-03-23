@@ -4,11 +4,12 @@
 		<%= form_tag :action=> "login", :method => "post", :controller => "users", :id => "loginform" do %>
 			<div>
 			  	<%= text_field "user", "login", :onfocus => "defaultInput(this)", :onblur => "clearInput(this)", :class => "text_field"%>
+			  	<br />
 			  	<%= password_field "user", "password", :onfocus => "defaultInput(this)", :onblur => "clearInput(this)", :class => "text_field" %>
-			
+				
 				<%= submit_tag "Submit" %>				
 				<br />
-	    	</div>    
+	    	</div>
 		<div id="subtext">
 			<%= link_to 'Register', root_url + 'users/register' %> | <%= link_to 'Forgot Password', root_url + 'users/forgot_password' %>
 		</div> 
