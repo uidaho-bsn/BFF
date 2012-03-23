@@ -14,105 +14,437 @@
  // Scale By
   var scale_X;
   var scale_Y;
+ // Mouse
+  var mouse_X;
+  var mouse_Y;
 
 /* Objects */
 function Note(note, tone) {
-	/* Variables */
+	/* Public Variables */
 	this.note = note;
 	this.tone = tone;
 	/* Public Functions */
 	this.draw = draw;
 	this.update = update;
+	this.contains = contains;
+	/* Private Variables */
+	var e2 = false; var f2 = false; var g2 = false;
+	var a2 = false; var b2 = false; var c3 = false;
+	var d3 = false; var e3 = false; var f3 = false;
+	var g3 = false; var a3 = false; var b3 = false;
+	var text = false;
 	
+	/* Begin Draw Functions */
 	function draw() {
 		ctx.save();
-			ctx.translate(100, 215);
 			draw_staff();
-			draw_note(this.note);
+			draw_cleff();	
+			draw_e2();
+			draw_f2();
+			draw_g2();
+			draw_a2();
+			draw_b2();
+			draw_c3();
+			draw_d3();
+			draw_e3();
+			draw_f3();
+			draw_g3();
+			draw_a3();
+			draw_b3();
+			draw_text();
 		ctx.restore();
 	};
 	
 	function draw_staff() {
 		ctx.beginPath();
-			ctx.moveTo(-100, 10);
-			ctx.lineTo(100, 10);
-			ctx.moveTo(-100, 5);
-			ctx.lineTo(100, 5);
-			ctx.moveTo(-100, 0);
-			ctx.lineTo(100, 0);
-			ctx.moveTo(-100, -5);
-			ctx.lineTo(100, -5);
-			ctx.moveTo(-100, -10);
-			ctx.lineTo(100, -10);
+			ctx.moveTo(0, 225);
+			ctx.lineTo(200, 225);
+			ctx.moveTo(0, 220);
+			ctx.lineTo(200, 220);
+			ctx.moveTo(0, 215);
+			ctx.lineTo(200, 215);
+			ctx.moveTo(0, 210);
+			ctx.lineTo(200, 210);
+			ctx.moveTo(0, 205);
+			ctx.lineTo(200, 205);
 		ctx.closePath();
 		
 		ctx.lineWidth = 0.5;
 		ctx.stroke();
 	};
 	
-	function draw_note(note) {
-		switch(note) {
-			case 'c':
-				ctx.scale(1.1, 0.9);
-				
-				ctx.beginPath();
-					ctx.arc(0, -2.5, 3, 0, Math.PI * 2, false);
-				ctx.closePath();
-				
-				ctx.scale(0.9, 1.1);
-				ctx.lineWidth = 0.75;
-				ctx.stroke();
-				
-				ctx.font = "12pt Calibri";
-				ctx.fillStyle = "black";
-				ctx.fillText(note + tone, -90, -15);
-			break;
-			case 'a':
-				ctx.scale(1.1, 0.9);
-				
-				ctx.beginPath();
-					ctx.arc(0, 2.5, 3, 0, Math.PI * 2, false);
-				ctx.closePath();
-				
-				ctx.scale(0.9, 1.1);
-				ctx.lineWidth = 0.75;
-				ctx.stroke();
-				
-				ctx.font = "12pt Calibri";
-				ctx.fillStyle = "black";
-				ctx.fillText(note + tone, -90, -15);
-			break;
+	function draw_cleff() {
+		ctx.font = "18pt Calibri";
+		ctx.fillStyle = "black";
+		ctx.fillText("𝄢", 1, 223);
+	};
+
+	function draw_text () {
+		if(note != '') {
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 1.5;
+			ctx.shadowOffsetY = 1.5;
+			if(text) {
+				ctx.fillStyle = "rgb(255, 0, 0)";
+			};
+			
+			ctx.font = "9pt Calibri";
+			ctx.fillText(note[0] + " " + tone, 10, 200);
+			
+			ctx.font = "4pt Calibri";
+			ctx.fillText(note[1], 15, 195);
 		};
 	};
 
-	function update(x, y) {
-		if(y > 215 && y < 220) {
-			note = 'c';
-		}
-		else if(y < 215 && y > 10 + 210) {
-			note = 'a';
+	function draw_e2() {
+		ctx.save();
+			ctx.translate(50, 230);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+			
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+			
+			if(note == "e2") { ctx.fill(); }
+			else if(e2) {
+				ctx.fillStyle = "red";
+				ctx.fill();
+			};
+		ctx.restore();
+		ctx.save();
+			ctx.translate(50, 230);
+			
+			ctx.beginPath();
+				ctx.moveTo(-7, 0);
+				ctx.lineTo(7, 0);
+			ctx.closePath();
+			
+			if(note == "e2") { ctx.stroke(); }
+			else if(e2) {
+				ctx.strokeStyle = "red";
+				ctx.stroke();
+			};
+		ctx.restore();
+	};
+	
+	function draw_f2() {
+		ctx.save();
+			ctx.translate(60, 227);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+			
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+			
+			if(note == "f2") { ctx.fill(); }
+			else if(f2) {	
+				ctx.fillStyle = "red";
+				ctx.fill();
+			};
+		ctx.restore();
+	};
+	
+	function draw_g2() {
+		ctx.save();
+			ctx.translate(70, 225);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+
+			if(note == "g2") { ctx.fill(); }
+			else if(g2) {
+				ctx.fillStyle = "red";
+				ctx.fill();			
+			};
+		ctx.restore();
+	};
+	
+	function draw_a2() {
+		ctx.save();
+			ctx.translate(80, 222);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+
+			if(note == "a2") { ctx.fill(); }
+			else if(a2) {
+				ctx.fillStyle = "red";
+				ctx.fill();		
+			};
+		ctx.restore();
+	};
+
+	function draw_b2() {
+		ctx.save();
+			ctx.translate(90, 220);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+
+			if(note == "b2") { ctx.fill(); }
+			else if(b2) {
+				ctx.fillStyle = "red";
+				ctx.fill();	
+			};
+		ctx.restore();
+	};
+	
+	function draw_c3() {
+		ctx.save();
+			ctx.translate(100, 217);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+
+			if(note == "c3") { ctx.fill(); }
+			else if(c3) {
+				ctx.fillStyle = "red";
+				ctx.fill();
+			};
+		ctx.restore();
+	};
+	
+	function draw_d3() {
+		ctx.save();
+			ctx.translate(110, 215);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+
+			if(note == "d3") { ctx.fill(); }
+			else if(d3) {
+				ctx.fillStyle = "red";
+				ctx.fill();
+			};
+		ctx.restore();
+	};
+	
+	function draw_e3() {
+		ctx.save();
+			ctx.translate(120, 212);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+
+			if(note == "e3") { ctx.fill(); }
+			else if(e3) {
+				ctx.fillStyle = "red";
+				ctx.fill();
+			};
+		ctx.restore();
+	};
+	
+	function draw_f3() {
+		ctx.save();
+			ctx.translate(130, 210);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+
+			if(note == "f3") { ctx.fill(); }
+			else if(f3) {
+				ctx.fillStyle = "red";
+				ctx.fill();
+			};
+		ctx.restore();
+	};
+	
+	function draw_g3() {
+		ctx.save();
+			ctx.translate(140, 207);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+
+			if(note == "g3") { ctx.fill(); }
+			else if(g3) {
+				ctx.fillStyle = "red";
+				ctx.fill();
+			};
+		ctx.restore();
+	};
+	
+	function draw_a3() {
+		ctx.save();
+			ctx.translate(150, 205);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+
+			if(note == "a3") { ctx.fill(); }
+			else if(a3) {
+				ctx.fillStyle = "red";
+				ctx.fill();	
+			};
+		ctx.restore();
+	};
+	
+	function draw_b3() {
+		ctx.save();
+			ctx.translate(160, 202);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+
+			if(note == "b3") { ctx.fill(); }
+			else if(b3) {
+				ctx.fillStyle = "red";
+				ctx.fill();
+			};
+		ctx.restore();
+	};
+	/* End Draw Functions */
+	
+	/* Begin Update Functions */
+	function update() {
+		if(e2)      { note = "e2"; }
+		else if(f2) { note = "f2"; }
+		else if(g2) { note = "g2"; }
+		else if(a2) { note = "a2"; }
+		else if(b2) { note = "b2"; }
+		else if(c3) { note = "c3"; }
+		else if(d3) { note = "d3"; }
+		else if(e3) { note = "e3"; }
+		else if(f3) { note = "f3"; }
+		else if(g3) { note = "g3"; }
+		else if(a3) { note = "a3"; }
+		else if(b3) { note = "b3"; }
+		else if(text) {
+			switch(tone) {
+				case '♯': //Sharp
+					tone = '♭'; //Flat
+				break;
+				case '♭': //Flat
+					tone = '♮'; //Natural
+				break;
+				case '♮': //Natural
+					tone = '♯'; //Sharp
+				break;
+			};
 		};
 	};
+
+	function contains() {
+		e2 = false; f2 = false; g2 = false;
+		a2 = false; b2 = false; c3 = false;
+		d3 = false; e3 = false; f3 = false; 
+		g3 = false; a3 = false; b3 = false;
+		text = false;
+		
+		if(mouse_Y < (232.5 * scale_Y)      && mouse_Y > (227.5 * scale_Y)) { return e2 = true; }
+		else if(mouse_Y < (230 * scale_Y)   && mouse_Y > (225 * scale_Y))   { return f2 = true; }
+		else if(mouse_Y < (227.5 * scale_Y) && mouse_Y > (222.5 * scale_Y)) { return g2 = true; }
+		else if(mouse_Y < (225 * scale_Y)   && mouse_Y > (220 * scale_Y))   { return a2 = true; }
+		else if(mouse_Y < (222.5 * scale_Y) && mouse_Y > (217.5 * scale_Y)) { return b2 = true; }
+		else if(mouse_Y < (220 * scale_Y)   && mouse_Y > (215 * scale_Y))   { return c3 = true; }
+		else if(mouse_Y < (217.5 * scale_Y) && mouse_Y > (212.5 * scale_Y)) { return d3 = true; }
+		else if(mouse_Y < (215 * scale_Y)   && mouse_Y > (210 * scale_Y))   { return e3 = true; }
+		else if(mouse_Y < (212.5 * scale_Y) && mouse_Y > (207.5 * scale_Y)) { return f3 = true; }
+		else if(mouse_Y < (210 * scale_Y)   && mouse_Y > (205 * scale_Y))   { return g3 = true; }
+		else if(mouse_Y < (207.5 * scale_Y) && mouse_Y > (202.5 * scale_Y)) { return a3 = true; }
+		else if(mouse_Y < (205 * scale_Y)   && mouse_Y > (200 * scale_Y))   { return b3 = true; }
+		else if((mouse_X > (20 * scale_X) && mouse_X < (30 * scale_X)) && (mouse_Y > (190 * scale_Y) && mouse_Y < (215 * scale_Y))) { return text = true; };
+	};
+	/* End Update Functions */
 };
 
 function Key(x, y, r, rotation, type, status) {
-	/* Variables */
+	/* Public Variables */
 	this.x = x;
 	this.y = y;
 	this.r = r;
 	this.rotation = rotation;
-	if(status == 0) {
-		this.status = 7;
-	}
-	else {
-		this.status = status;
-	};
+	if(status == 0) { this.status = 7; }
+	else { this.status = status; };
 	this.type = type;
+	/* Private Variables */
+	var highlight = false;
 	/* Public Functions */
 	this.draw = draw;
 	this.contains = contains;
-	this.shift_status = shift_status;
-	
+	this.update = update;
+
+	/* Begin Draw Functions */
 	function draw() {
 		switch (this.type) {
 			case 'circle':
@@ -183,6 +515,7 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.fillStyle = "333333";
 				ctx.fill();
 			}
+			if(highlight) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -219,6 +552,7 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
+			if(highlight) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 
 			if(status >= 2 && status <= 4) {
@@ -285,6 +619,7 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
+			if(highlight) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -324,6 +659,7 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
+			if(highlight) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -363,45 +699,17 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
+			if(highlight) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
-
-	function contains(x, y) {
-		if(this.type == 'oval-small' || this.type == 'oval-med' || this.type == 'oval-large') { //fix me for ellipse math!!!!
-			var dx = (this.x * scale_X) - x;
-			var dy = (this.y * scale_Y) - y;
-
-			var r2 = this.r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
-			
-			if(dx * dx + dy * dy <= r2 * r2) { return true; };
-		}
-		else if (this.type == 'half-circle' || this.type == 'half-circle-flat') { // fix me for semi circle math!!!
-			var dx = (this.x * scale_X) - x;
-			var dy = (this.y * scale_Y) - y;
-
-			var r2 = this.r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
-			
-			if(dx * dx + dy * dy <= r2 * r2) { return true; };
-		}
-		else {
-			var dx = (this.x * scale_X) - x;
-			var dy = (this.y * scale_Y) - y;
-
-			var r2 = this.r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
-			
-			if(dx * dx + dy * dy <= r2 * r2) { return true; };
-		};
-		
-		return false;
-	};
-
-	function shift_status() {
+	/* End Draw Functions */
+	
+	/* Begin Update Functions */
+	function update() {
 		switch (this.type) {
 			case 'circle':
-				if(this.status >= 7) {
-					this.status = 0;
-				};
+				if(this.status >= 7) { this.status = 0; };
 				this.status += 1;
 			break;
 			default:
@@ -421,13 +729,56 @@ function Key(x, y, r, rotation, type, status) {
 				};
 			break;
 		};
+	};	
+
+	function contains() {
+		highlight = false;
+		
+		if(this.type == 'oval-small' || this.type == 'oval-med' || this.type == 'oval-large') { //fix me for ellipse math!!!!
+			var dx = (this.x * scale_X) - mouse_X;
+			var dy = (this.y * scale_Y) - mouse_Y;
+
+			var r2 = this.r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
+			
+			if(dx * dx + dy * dy <= r2 * r2) {
+				highlight = true;
+				return true; 
+			};
+		}
+		else if (this.type == 'half-circle' || this.type == 'half-circle-flat') { // fix me for semi circle math!!!
+			var dx = (this.x * scale_X) - mouse_X;
+			var dy = (this.y * scale_Y) - mouse_Y;
+
+			var r2 = this.r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
+			
+			if(dx * dx + dy * dy <= r2 * r2) {
+				highlight = true;
+				return true; 
+			};
+		}
+		else {
+			var dx = (this.x * scale_X) - mouse_X;
+			var dy = (this.y * scale_Y) - mouse_Y;
+
+			var r2 = this.r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
+			
+			if(dx * dx + dy * dy <= r2 * r2) {
+				highlight = true;
+				return true; 
+			};
+		};
+		
+		return false;
 	};
+	/* End Update Functions */
 };
 
 function Fingering_Chart(type, keys_string) {
 	/* Public Functions */
     this.draw = draw;
-    /* Keys */
+    this.contains = contains;
+    /* Public Variables */
+    // Keys
 	this.low_bflat 	 			= new Key(40,  20,  10, -( 115 * Math.PI ) / 180, 'oval-large',          keys_string[0]);
 	this.low_b 		 			= new Key(30,  30,  10, -( 115 * Math.PI ) / 180, 'oval-large',          keys_string[1]);
 	this.low_c 		 			= new Key(23,  37,  11, -( 300 * Math.PI ) / 180, 'half-circle',         keys_string[2]);  
@@ -458,10 +809,16 @@ function Fingering_Chart(type, keys_string) {
 	this.low_f 					= new Key(130, 180, 10, 0,                        'box-up-left-curve',   keys_string[27]);
 	this.little_finger_fsharp 	= new Key(150, 180,  5, 0,                        'box-right-end-curve', keys_string[28]);
 	this.little_finger_aflat 	= new Key(140, 187, 15, 0,                        'half-circle-flat',    keys_string[29]);
-	/* Note */
-	this.note = new Note('c', "♮");
+	// Note
+	this.note = new Note('e2', "♮");
+	// Debug
+	this.debug = true;
+	/* Private Variables */
+	var text = false;
 	
+	/* Begin Draw Functions */
 	function draw() {
+		// Draw Keys
 		this.low_bflat.draw();
 		this.low_b.draw();
 		this.low_c.draw();
@@ -492,160 +849,190 @@ function Fingering_Chart(type, keys_string) {
 		this.low_f.draw();
 		this.little_finger_fsharp.draw();
 		this.little_finger_aflat.draw();
+		// Draw Note & Staff
 		this.note.draw();
+		// Draw Debug Info
+		if(this.debug) { draw_debug(); };
+		// Draw Help '?'
+		ctx.shadowColor = "rgb(190, 190, 190)";
+		ctx.shadowOffsetX = 1.5;
+		ctx.shadowOffsetY = 1.5;
+		if(text) {
+			ctx.fillStyle = "rgb(255, 0, 0)";
+		};
+		
+		ctx.font = "5pt Calibri";
+		ctx.fillText("?", 190, 5);
 	};
+	
+	function draw_debug() {
+		ctx.beginPath();
+			ctx.font = "6pt Calibri";
+			ctx.fillStyle = "black";
+			ctx.fillText(mouse_X + "," + mouse_Y, 165, 235);
+		ctx.closePath();
+	};
+	/* End Draw Functions */
+	
+	/* Begin Update Functions */
+	function contains() {
+		text = false;
+		
+		if((mouse_X > (180 * scale_X) && mouse_X < (200 * scale_X)) && (mouse_Y > (0 * scale_Y) && mouse_Y < (10 * scale_Y))) { return text = true; };
+	};
+	/* End Update Functions */
 };
 
 /* Events */
 function onClick(e) {
 	// Variables
-	var clickX = e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft);
-	var clickY = e.pageY - (canvas.offsetTop  + canvas.offsetParent.offsetTop);
-	var location = cursorOverKey(clickX, clickY);
+	var click_X = e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft);
+	var click_Y = e.pageY - (canvas.offsetTop  + canvas.offsetParent.offsetTop);
+	var location = cursorOverClickable(click_X, click_Y);
 	
-	if(location == "bottom") {
-		fingering_chart.note.update(clickX, clickY);
+	if(location == "bottom") { fingering_chart.note.update(); }
+	else if(location == "help") {
+		
 	}
 	else {
 		switch (location) {
 			case 'low_bflat': 
-				fingering_chart.low_bflat.shift_status(); 
+				fingering_chart.low_bflat.update(); 
 			break;
 			case 'low_b':
-				fingering_chart.low_b.shift_status();
+				fingering_chart.low_b.update();
 			break;
 			case 'low_c':
-				fingering_chart.low_c.shift_status();
+				fingering_chart.low_c.update();
 			break;
 			case 'low_d':
-				fingering_chart.low_d.shift_status();
+				fingering_chart.low_d.update();
 			break;
 			case 'whisper':
-				fingering_chart.whisper.shift_status();
+				fingering_chart.whisper.update();
 			break;
 			case 'thumb_csharp':
-				fingering_chart.thumb_csharp.shift_status();
+				fingering_chart.thumb_csharp.update();
 			break;
 			case 'high_a':
-				fingering_chart.high_a.shift_status();
+				fingering_chart.high_a.update();
 			break;
 			case 'high_c':
-				fingering_chart.high_c.shift_status();
+				fingering_chart.high_c.update();
 			break;
 			case 'high_d':
-				fingering_chart.high_d.shift_status();
+				fingering_chart.high_d.update();
 			break;
 			case 'thumb_bflat':
-				fingering_chart.thumb_bflat.shift_status();
+				fingering_chart.thumb_bflat.update();
 			break;
 			case 'low_e':
-				fingering_chart.low_e.shift_status();
+				fingering_chart.low_e.update();
 			break;
 			case 'thumb_fsharp':
-				fingering_chart.thumb_fsharp.shift_status();
+				fingering_chart.thumb_fsharp.update();
 			break;
 			case 'thumb_aflat':
-				fingering_chart.thumb_aflat.shift_status();
+				fingering_chart.thumb_aflat.update();
 			break;
 			case 'trill_a_to_b':
-				fingering_chart.trill_a_to_b.shift_status();
+				fingering_chart.trill_a_to_b.update();
 			break;
 			case 'trill_g':
-				fingering_chart.trill_g.shift_status();
+				fingering_chart.trill_g.update();
 			break;
 			case 'hole_1':
-				fingering_chart.hole_1.shift_status();
+				fingering_chart.hole_1.update();
 			break;
 			case 'trill_fsharp':
-				fingering_chart.trill_fsharp.shift_status();
+				fingering_chart.trill_fsharp.update();
 			break;
 			case 'hole_2':
-				fingering_chart.hole_2.shift_status();
+				fingering_chart.hole_2.update();
 			break;
 			case 'trill_eflat':
-				fingering_chart.trill_eflat.shift_status();
+				fingering_chart.trill_eflat.update();
 			break;
 			case 'hole_3':
-				fingering_chart.hole_3.shift_status();
+				fingering_chart.hole_3.update();
 			break;
 			case 'low_eflat':
-				fingering_chart.low_eflat.shift_status();
+				fingering_chart.low_eflat.update();
 			break;
 			case 'low_dflat':
-				fingering_chart.low_dflat.shift_status();
+				fingering_chart.low_dflat.update();
 			break;
 			case 'trill_csharp':
-				fingering_chart.trill_csharp.shift_status();
+				fingering_chart.trill_csharp.update();
 			break;
 			case 'hole_4':
-				fingering_chart.hole_4.shift_status();
+				fingering_chart.hole_4.update();
 			break;
 			case 'hole_5':
-				fingering_chart.hole_5.shift_status();
+				fingering_chart.hole_5.update();
 			break;
 			case 'trill_bflat':
-				fingering_chart.trill_bflat.shift_status();
+				fingering_chart.trill_bflat.update();
 			break;
 			case 'low_g':
-				fingering_chart.low_g.shift_status();
+				fingering_chart.low_g.update();
 			break;
 			case 'low_f':
-				fingering_chart.low_f.shift_status();
+				fingering_chart.low_f.update();
 			break;
 			case 'little_finger_fsharp':
-				fingering_chart.little_finger_fsharp.shift_status();
+				fingering_chart.little_finger_fsharp.update();
 			break;
 			case 'little_finger_aflat':
-				fingering_chart.little_finger_aflat.shift_status();
+				fingering_chart.little_finger_aflat.update();
 			break;
 		};
 	};
 };
 
 function MouseMoved(e) {
-	//Variables
-	var mouseX = (e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft));
-	var mouseY = (e.pageY - (canvas.offsetTop  + canvas.offsetParent.offsetTop));
+	mouse_X = (e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft));
+	mouse_Y = (e.pageY - (canvas.offsetTop  + canvas.offsetParent.offsetTop));
 
-	// Is Mouse Over a Key?
-	if (cursorOverKey(mouseX, mouseY) != 'none') { document.body.style.cursor = 'pointer'; }
-	else { document.body.style.cursor = 'default'; };
+	// Is Mouse Over a Clickable Object?
+	if (cursorOverClickable() != 'none') { document.body.style.cursor = 'pointer'; }
+	else 								 { document.body.style.cursor = 'default'; };
 };
 
 /* Helpers */
-function cursorOverKey(x, y) {
-	if(fingering_chart.low_bflat.contains(x, y))                 { return 'low_bflat'; }
-	else if(fingering_chart.low_b.contains(x, y))                { return 'low_b'; }
-	else if(fingering_chart.low_c.contains(x, y))                { return 'low_c'; }
-	else if(fingering_chart.low_d.contains(x, y))                { return 'low_d'; }
-	else if(fingering_chart.whisper.contains(x, y))              { return 'whisper'; }
-	else if(fingering_chart.thumb_csharp.contains(x, y))         { return 'thumb_csharp'; }
-	else if(fingering_chart.high_a.contains(x, y))               { return 'high_a'; }
-	else if(fingering_chart.high_c.contains(x, y))               { return 'high_c'; }
-	else if(fingering_chart.high_d.contains(x, y))               { return 'high_d'; }
-	else if(fingering_chart.thumb_bflat.contains(x, y))          { return 'thumb_bflat'; }
-	else if(fingering_chart.low_e.contains(x, y))                { return 'low_e'; }
-	else if(fingering_chart.thumb_fsharp.contains(x, y))         { return 'thumb_fsharp'; }
-	else if(fingering_chart.thumb_aflat.contains(x, y))          { return 'thumb_aflat'; }
-	else if(fingering_chart.trill_a_to_b.contains(x, y))         { return 'trill_a_to_b'; }
-	else if(fingering_chart.trill_g.contains(x, y))              { return 'trill_g'; }
-	else if(fingering_chart.hole_1.contains(x, y))               { return 'hole_1'; }
-	else if(fingering_chart.trill_fsharp.contains(x, y))         { return 'trill_fsharp'; }
-	else if(fingering_chart.hole_2.contains(x, y))               { return 'hole_2'; }
-	else if(fingering_chart.trill_eflat.contains(x, y))          { return 'trill_eflat'; }
-	else if(fingering_chart.hole_3.contains(x, y))               { return 'hole_3'; }
-	else if(fingering_chart.low_eflat.contains(x, y))            { return 'low_eflat'; }
-	else if(fingering_chart.low_dflat.contains(x, y))            { return 'low_dflat'; }
-	else if(fingering_chart.trill_csharp.contains(x, y))         { return 'trill_csharp'; }
-	else if(fingering_chart.hole_4.contains(x, y))               { return 'hole_4'; }
-	else if(fingering_chart.hole_5.contains(x, y))               { return 'hole_5'; }
-	else if(fingering_chart.trill_bflat.contains(x, y))          { return 'trill_bflat'; }
-	else if(fingering_chart.low_g.contains(x, y))                { return 'low_g'; }
-	else if(fingering_chart.low_f.contains(x, y))                { return 'low_f'; }
-	else if(fingering_chart.little_finger_fsharp.contains(x, y)) { return 'little_finger_fsharp'; }
-	else if(fingering_chart.little_finger_aflat.contains(x, y))  { return 'little_finger_aflat'; }
-	//else if(y > 500 && y < 600) { return 'bottom'; };
-
+function cursorOverClickable() {
+	if(fingering_chart.low_bflat.contains())                 { return 'low_bflat'; }
+	else if(fingering_chart.low_b.contains())                { return 'low_b'; }
+	else if(fingering_chart.low_c.contains())                { return 'low_c'; }
+	else if(fingering_chart.low_d.contains())                { return 'low_d'; }
+	else if(fingering_chart.whisper.contains())              { return 'whisper'; }
+	else if(fingering_chart.thumb_csharp.contains())         { return 'thumb_csharp'; }
+	else if(fingering_chart.high_a.contains())               { return 'high_a'; }
+	else if(fingering_chart.high_c.contains())               { return 'high_c'; }
+	else if(fingering_chart.high_d.contains())               { return 'high_d'; }
+	else if(fingering_chart.thumb_bflat.contains())          { return 'thumb_bflat'; }
+	else if(fingering_chart.low_e.contains())                { return 'low_e'; }
+	else if(fingering_chart.thumb_fsharp.contains())         { return 'thumb_fsharp'; }
+	else if(fingering_chart.thumb_aflat.contains())          { return 'thumb_aflat'; }
+	else if(fingering_chart.trill_a_to_b.contains())         { return 'trill_a_to_b'; }
+	else if(fingering_chart.trill_g.contains())              { return 'trill_g'; }
+	else if(fingering_chart.hole_1.contains())               { return 'hole_1'; }
+	else if(fingering_chart.trill_fsharp.contains())         { return 'trill_fsharp'; }
+	else if(fingering_chart.hole_2.contains())               { return 'hole_2'; }
+	else if(fingering_chart.trill_eflat.contains())          { return 'trill_eflat'; }
+	else if(fingering_chart.hole_3.contains())               { return 'hole_3'; }
+	else if(fingering_chart.low_eflat.contains())            { return 'low_eflat'; }
+	else if(fingering_chart.low_dflat.contains())            { return 'low_dflat'; }
+	else if(fingering_chart.trill_csharp.contains())         { return 'trill_csharp'; }
+	else if(fingering_chart.hole_4.contains())               { return 'hole_4'; }
+	else if(fingering_chart.hole_5.contains())               { return 'hole_5'; }
+	else if(fingering_chart.trill_bflat.contains())          { return 'trill_bflat'; }
+	else if(fingering_chart.low_g.contains())                { return 'low_g'; }
+	else if(fingering_chart.low_f.contains())                { return 'low_f'; }
+	else if(fingering_chart.little_finger_fsharp.contains()) { return 'little_finger_fsharp'; }
+	else if(fingering_chart.little_finger_aflat.contains())  { return 'little_finger_aflat'; }
+	else if(fingering_chart.note.contains())                 { return 'bottom'; }
+	else if(fingering_chart.contains())						 { return 'help'; };
 	return 'none';
 }
 
