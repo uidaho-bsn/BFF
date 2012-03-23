@@ -21,6 +21,11 @@ end
 gem 'jquery-rails'
 gem 'jquery-mobile-rails'
 
+source 'https://gems.gemfury.com/8n1rdTK8pezvcsyVmmgJ/'
+
+gem 'linecache19', '>= 0.5.13'
+gem 'ruby-debug-base19'
+gem 'ruby-debug19'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
