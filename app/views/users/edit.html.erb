@@ -1,3 +1,26 @@
 <% content_for :content do%>
-Test
+
+	<% form_for :user do |f| %>
+		<p>
+			<% f.label :email, "E-Mail"%>
+			<% f.text_field :email %>
+		</p>
+		<p>
+			<%= f.submit "Update" %>
+		</p>
+	<% end %>
+	
+	<%= form_tag :action => 'set_admin', :method => "post", :controller => "users" %>
+		<div>
+			<table>
+				<tr>
+	          		<td> <%= check_box_tag("admin", set_admin(current_user), current_user.admin) %> </td>
+	          		<td> <%= "Admin" %> </td>
+	        	</tr>
+	    	</table>
+		</div>
+		
+		<%= submit_tag "Set" %>
+	<%= %>
+
 <% end %>

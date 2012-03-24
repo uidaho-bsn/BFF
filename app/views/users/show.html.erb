@@ -10,14 +10,15 @@
 
 
 <% content_for :content do %>
+<% @user = User.find(session[:user])%>
 	<table>
 	<tr>
 		<th align="left">User name:</th>
-		<td align="left"> <%= current_user.login %> </td>
+		<td align="left"> <%= @user.login %> </td>
 	</tr>
 	<tr>
 		<th align="left"> Email:</th>
-		<td align="left"> <%= current_user.email %> </td>
+		<td align="left"> <%= @user.email %> </td>
 	</tr>
 	</table>
 	<% if isAdmin? %>
@@ -25,24 +26,13 @@
 		<tr>
 	
 			<th align="left">Admin Status:</th>
-			<td align="left"> <%= current_user.admin %> </td>
+			<td align="left"> <%= @user.admin %> </td>
 		</tr>
 		</table>
 	<% end %>
 
 
-	<%= form_tag :action => 'set_admin', :method => "post", :controller => "users" %>
-		<div>
-			<table>
-				<tr>
-	          		<td> <%= check_box_tag("admin", set_admin(current_user), current_user.admin) %> </td>
-	          		<td> <%= "Admin" %> </td>
-	        	</tr>
-        	</table>
-		</div>
-		
-		<%= submit_tag "Set" %>
-	<%= %>
+
 	
 	<% if isAdmin? %>
 	<h1>Listing users</h1>

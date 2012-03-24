@@ -88,8 +88,18 @@ class UsersController < ApplicationController
   end
   helper_method :rm_admin
   
+  def set_id(new_id)
+    #session[:id] = new_id.id
+    return new_id
+  end
+  helper_method :set_id
   
   def show
+    @user = session[:id]
+  end
+  
+  def edit
+    #@user = 
   end
   
   def destroy 
