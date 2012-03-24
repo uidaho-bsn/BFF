@@ -21,6 +21,7 @@ Tab::Application.routes.draw do
       end
   end
 
+
   resources :example_musics
 
   resources :fingerings, :only => [:index, :show, :new, :create, :edit, :update, :destroy] do

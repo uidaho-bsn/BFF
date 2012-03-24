@@ -17,7 +17,7 @@
 <% end %>
 <% else %>
 	<div class="login">
-		Welcome <%= link_to User.find(session[:user]).login, root_url + 'users/show' %> <br />
+		Welcome <%= link_to current_user.login, user_path(current_user) %> <br />
 		<div id="subtext">
 			<%= link_to 'Logout', logout_users_path %>
 		</div>

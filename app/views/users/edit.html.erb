@@ -1,26 +1,34 @@
+<% content_for :head do %>
+	<title>TAB::Home</title>
+	<%= javascript_include_tag :home %>
+<% end %>
+
+<% content_for :header do %>
+	<a href='index.html'><img id='' src='' alt='' /></a>
+	<%= render 'layouts/login' %>
+<% end %>
+
+<%= content_for :headline do %>
+	<div id='headline'>
+		<span class="main">Editing: <%= @curr.login%></span>
+	</div>
+<% end %>
+
 <% content_for :content do%>
 
-	<% form_for :user do |f| %>
-		<p>
-			<% f.label :email, "E-Mail"%>
-			<% f.text_field :email %>
-		</p>
-		<p>
-			<%= f.submit "Update" %>
-		</p>
-	<% end %>
-	
-	<%= form_tag :action => 'set_admin', :method => "post", :controller => "users" %>
-		<div>
-			<table>
-				<tr>
-	          		<td> <%= check_box_tag("admin", set_admin(current_user), current_user.admin) %> </td>
-	          		<td> <%= "Admin" %> </td>
-	        	</tr>
-	    	</table>
-		</div>
+
+	<!--<%= link_to "Change Password", root_url + "users/change_password"%>-->
+
+
+	<%= form_tag :action => 'update', :method => 'put', :controller => 'users' do%>
 		
-		<%= submit_tag "Set" %>
-	<%= %>
+		<label for='user_email'>Email</label><br/>
+		<%= text_field 'user', 'email',  :size => 20, :value => @curr.email %><br/>
+		
+		<label for='user_email_confirmation'>Email Confirmation</label><br/>
+		<%= text_field 'user', 'email_confirmation', :size => 20, :value => @curr.email %><br/>
+
+		<%= submit_tag 'Update' %>
+	<% end %>
 
 <% end %>

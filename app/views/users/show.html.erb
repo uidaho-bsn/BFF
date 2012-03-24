@@ -14,11 +14,14 @@
 	<table>
 	<tr>
 		<th align="left">User name:</th>
-		<td align="left"> <%= @user.login %> </td>
+		<td align="left"> <%= @curr.login %> </td>
 	</tr>
 	<tr>
 		<th align="left"> Email:</th>
-		<td align="left"> <%= @user.email %> </td>
+		<td align="left"> <%= @curr.email %> </td>
+	</tr>
+	<tr>
+		<th align="left"> <%= link_to 'Edit', edit_user_path(@curr) %></th>
 	</tr>
 	</table>
 	<% if isAdmin? %>
@@ -26,10 +29,11 @@
 		<tr>
 	
 			<th align="left">Admin Status:</th>
-			<td align="left"> <%= @user.admin %> </td>
+			<td align="left"> <%= @curr.admin %> </td>
 		</tr>
 		</table>
 	<% end %>
+	
 
 
 

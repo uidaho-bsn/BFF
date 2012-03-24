@@ -3,6 +3,11 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    respond_to do |format|
+      format.html
+      format.json { render json: @users }
+    end
+
   end
 
   def new
@@ -25,7 +30,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @user.admin = false
+    
+    if User.find(0) == nil
+      @user.admin = true
+    else
+      @user.admin = false
+    end
+
     if request.post?  
       if @user.save
         session[:user] = User.authenticate(@user.login, @user.password)
@@ -90,19 +101,50 @@ class UsersController < ApplicationController
   end
   helper_method :rm_admin
   
-  def set_id(new_id)
-    #session[:id] = new_id.id
-    return new_id
-  end
-  helper_method :set_id
-  
   def show
-    @user = session[:id]
+    @curr = User.find(params[:id])
   end
   
   def edit
-    #@user = 
+    @curr = User.find(params[:id])
+
   end
+  
+  def update
+
+    @curr = User.find(params[:id])
+    
+    respond_to do |format|
+      if @curr.update_attributes(params[:user])
+        format.html { redirect_to @user, notice: 'Fingering was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+    
+=begin
+    if request.put?  
+      if @curr.save
+        session[:user] = User.authenticate(@curr.login, @curr.password)
+        flash[:message] = "Update Successful"
+        #redirect_to root_url         
+      else
+        flash[:warning] = "Update Unsuccessful"
+      end
+    end
+=end
+  end
+  
+  # def update  
+  #  @product = Product.find(params[:id])  
+  #  if @product.update_attributes(params[:product])  
+  #    flash[:notice] = "Successfully updated product."  
+  #  end  
+  #  respond_with(@product)  
+  #end
+
   
   def destroy 
   end
