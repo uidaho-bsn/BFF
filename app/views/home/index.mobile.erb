@@ -1,3 +1,19 @@
 <% content_for :head do %>
-	<titel>BFF:Home</titel>
+	<title>BFF:Home</title>
+<% end %>
+
+<% content_for :content do %>
+    <div data-role="collapsible-set" data-theme="a" data-content-theme="">
+        <div data-role="collapsible" data-collapsed="true">
+            <h3>
+                Note
+            </h3>
+            <input type="submit" data-icon="search" data-iconpos="right" value="Search" />
+        </div>
+        <div data-role="collapsible" data-collapsed="true">
+            <h3>
+                Fingering
+            </h3>
+        </div>
+    </div>
 <% end %>

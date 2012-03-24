@@ -57,10 +57,12 @@ class UsersController < ApplicationController
 
   def forgot_password
     if request.post?
-      usr = User.find_by_email(params[:email])
+      debugger
+      usr = User.find_by_email(params[:user][:email])
       usr.send_new_password if usr
-      #if ActionMailer::Base.deliveries.empty? 
-      #  flash[:notice] = "ruh roh"
+      if ActionMailer::Base.deliveries.empty? 
+        flash[:notice] = "ruh roh"
+      end
       #flash[:notice] = "A new password has been sent to your email."
       redirect_to root_url, :notice => "A new password has been sent to your email."
       else

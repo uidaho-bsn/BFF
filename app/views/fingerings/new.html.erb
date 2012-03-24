@@ -1,5 +1,6 @@
 <% content_for :head do %>
 	<title>TAB::New Fingering</title>
+	<%= javascript_include_tag 'jquery', 'fingerings' %>
 <% end %>
 
 <% content_for :header do %>
@@ -16,19 +17,18 @@
 
 <% content_for :content do %>
 	<p>This is still a work in progress!</p>
-	<%= form_tag :action => 'create', :method => "post", :controller => "fingerings", :id => "new_fingering", 
-		:class => "new_fingering" do%>
-		<canvas id="fingering_view" width="200" height="300">
-	    	<p>Unfortunately, your browser is currently unsupported by our web 
-	        	application. We are sorry for the inconvenience. Please use one of the 
-	        	supported browsers listed below. </p>
-	        <p>Supported browsers: 
-	        	<a href="http://www.mozilla.com">Firefox</a> <br />
-	        	<a href="www.google.com/chrome">Chrome</a> </p>
-		</canvas>
-		<%= hidden_field "fingering", "note_tone" %>
-		<%= hidden_field "fingering", "fingering_status" %>
+	<canvas id="new_fingering" width="500" height="600">
+    	<p>Unfortunately, your browser is currently unsupported by our web 
+        	application. We are sorry for the inconvenience. Please use one of the 
+        	supported browsers listed below. </p>
+        <p>Supported browsers: 
+        	<a href="http://www.mozilla.com">Firefox</a> <br />
+        	<a href="www.google.com/chrome">Chrome</a> </p>
+	</canvas>
+	<br />
+	<%= form_tag :action => 'create', :method => "post", :controller => "fingerings" do %>
+		<%= text_field "fingering", "fingering_status" %><br />
 		
-		<%= submit_tag "Submit" %>
+		<%= submit_tag "Submit", :onclick => "fingering_fingering_status.value = keysToString();" %>
 	<% end %>
 <% end %>
