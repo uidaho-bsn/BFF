@@ -99,6 +99,17 @@ body
 	margin-bottom: 10px;
 }
 
+/* Inline Buttons -----------------------------------------------*/
+.button_to
+{
+	display: inline;
+}
+
+.button_to div
+{
+	display: inline;
+}
+
 /* Canvas -------------------------------------------------------*/
 #new_fingering
 {
