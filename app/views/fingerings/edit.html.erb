@@ -1,9 +1,9 @@
 <% content_for :head do %>
-	<title>BFF::Edit Fingering</title>
-	<%= javascript_include_tag 'jquery', 'fingerings' %>
+	<title>BFF::Edit Fingering ID #<%= @fingering.id %></title>
+	<%= javascript_include_tag :application, :fingerings %>
 	<script>
-		alert(<%= @fingering.fingering_status %>);
-		var fingering_id = <%= @fingering.fingering_status %>;
+		var fingering_id = "<%= @fingering_status %>";
+		var note_tone_id = "<%= @note_tone %>";
 	</script>
 <% end %>
 
@@ -19,7 +19,6 @@
 <% end %>
 
 <% content_for :content do %>
-	<p>This is still a work in progress!</p>
 	<canvas id="edit_fingering" width="500" height="600">
     	<p>Unfortunately, your browser is currently unsupported by our web 
         	application. We are sorry for the inconvenience. Please use one of the 
@@ -28,9 +27,9 @@
         	<a href="www.mozilla.com">Firefox</a> <br />
         	<a href="www.google.com/chrome">Chrome</a> </p>
 	</canvas>
-
-	<%= link_to 'Show', @fingering %> |
-	<%= link_to 'Back', fingerings_path %>
+	<br />
+	<%= button_to 'Cancel', @fingering, :method => :get %>
+	<%= button_to 'Save', @fingering, :action => :update, :method => :put %>
 <% end %>
 
 

@@ -25,25 +25,19 @@
 			<th>Votes - Professional</th>
 			<th>Submitted by</th>
 			<th>Submitted on</th>
-			<th>Approval Status</th>
-			<th>Show</th>
-			<th>Edit</th>
-			<th>Destroy</th>
+			<th>Approved</th>
 		</tr>
 		<% @fingerings.each do |fingering| %>
 			<tr>
 			    <td><%= fingering.note_tone %></td>
-			    <td><%= fingering.fingering_status %></td>
+			    <td><%= link_to fingering.fingering_status, fingering %></td>
 			    <td><%= fingering.votes_beginner %></td>
 		    	<td><%= fingering.votes_intermediate %></td>
 	    		<td><%= fingering.votes_advanced %></td>
 	    		<td><%= fingering.votes_professional %></td>
-			    <td><%= fingering.user_id %></td>
+			    <td><%= fingering.user_name %></td>
 			    <td><%= fingering.created_at %></td>
 			    <td><%= fingering.approved %></td>
-			    <td><%= link_to 'Show', fingering %></td>
-			    <td><%= link_to 'Edit', edit_fingering_path(fingering) %></td>
-			    <td><%= link_to 'Destroy', fingering, confirm: 'Are you sure?', method: :delete %></td>
 			</tr>
 		<% end %>
 	</table>

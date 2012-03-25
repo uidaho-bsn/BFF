@@ -27,8 +27,11 @@
 	</canvas>
 	<br />
 	<%= form_tag :action => 'create', :method => "post", :controller => "fingerings" do %>
-		<%= text_field "fingering", "fingering_status" %><br />
+		<%= hidden_field "fingering", "fingering_status" %>
+		<%= hidden_field "fingering", "note_tone" %>
 		
-		<%= submit_tag "Submit", :onclick => "fingering_fingering_status.value = keysToString();" %>
+		<%= submit_tag "Submit", :onclick => "fingering_fingering_status.value = fingering_chart.ToString(); 
+			fingering_note_tone.value = fingering_chart.note.ToString();" %>
 	<% end %>
+	<%= button_to 'Cancel', fingerings_path, :method => :get %>
 <% end %>

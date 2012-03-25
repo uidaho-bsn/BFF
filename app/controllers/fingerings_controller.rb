@@ -12,7 +12,9 @@ class FingeringsController < ApplicationController
 
   def show
     @fingering = Fingering.find(params[:id])
-
+    @fingering_status = @fingering.fingering_status
+    @note_tone = @fingering.note_tone
+    
     respond_to do |format|
       format.html
       format.json { render json: @fingering }
@@ -30,6 +32,12 @@ class FingeringsController < ApplicationController
 
   def create
     @fingering = Fingering.create!(params[:fingering])
+    @fingering.votes_beginner = 0
+    @fingering.votes_intermediate = 0
+    @fingering.votes_advanced = 0
+    @fingering.votes_professional = 0
+    @fingering.user_name = current_user.login
+    @fingering.approved = false
     flash[:notice] = "Fingering submitted for approval."
 
     respond_to do |format|
@@ -45,6 +53,8 @@ class FingeringsController < ApplicationController
 
   def edit
     @fingering = Fingering.find(params[:id])
+    @fingering_status = @fingering.fingering_status
+    @note_tone = @fingering.note_tone
   end
 
   def update
