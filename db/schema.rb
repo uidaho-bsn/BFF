@@ -11,38 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120301123456) do
+ActiveRecord::Schema.define(:version => 20120325215110) do
 
   create_table "fingerings", :force => true do |t|
-    t.integer  "LT1"
-    t.integer  "LT2"
-    t.integer  "LT3"
-    t.integer  "LT4"
-    t.integer  "LT5"
-    t.integer  "LT6"
-    t.integer  "LT7"
-    t.integer  "W"
-    t.integer  "RT1"
-    t.integer  "RT2"
-    t.integer  "RT3"
-    t.integer  "RT4"
-    t.integer  "LeftI"
-    t.integer  "LeftM"
-    t.integer  "LeftR"
-    t.integer  "LeftL"
-    t.integer  "RightI"
-    t.integer  "RightM"
-    t.integer  "RightR"
-    t.integer  "RightL"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "notes", :force => true do |t|
-    t.string   "note",       :limit => 1
-    t.string   "tone",       :limit => 1
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.string   "note_tone"
+    t.string   "fingering_status"
+    t.string   "user_name"
+    t.integer  "votes_beginner"
+    t.integer  "votes_intermediate"
+    t.integer  "votes_advanced"
+    t.integer  "votes_professional"
+    t.datetime "created_at"
+    t.boolean  "approved"
   end
 
   create_table "users", :force => true do |t|
@@ -52,7 +32,7 @@ ActiveRecord::Schema.define(:version => 20120301123456) do
     t.string   "salt"
     t.datetime "created_at"
     t.string   "password_reset_token"
-    t.datetime "passwrod_reset_sent_at"
+    t.datetime "password_reset_sent_at"
     t.boolean  "admin"
   end
 
