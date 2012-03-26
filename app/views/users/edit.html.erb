@@ -20,13 +20,16 @@
 	<!--<%= link_to "Change Password", root_url + "users/change_password"%>-->
 
 
-	<%= form_tag :action => 'update', :method => 'put', :controller => 'users' do%>
+	<%= form_tag( {:action => 'update', :controller => 'users'}, {:method => 'put'} ) do%>
 		
 		<label for='user_email'>Email</label><br/>
 		<%= text_field 'user', 'email',  :size => 20, :value => @curr.email %><br/>
 		
 		<label for='user_email_confirmation'>Email Confirmation</label><br/>
 		<%= text_field 'user', 'email_confirmation', :size => 20, :value => @curr.email %><br/>
+		
+		<label for='user_set_admin'>Set Admin</label><br/>
+		<%= check_box 'user', 'admin', :value => @curr.admin%><br/>
 
 		<%= submit_tag 'Update' %>
 	<% end %>

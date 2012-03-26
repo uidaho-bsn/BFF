@@ -113,17 +113,16 @@ class UsersController < ApplicationController
   def update
 
     @curr = User.find(params[:id])
-    
-    respond_to do |format|
-      if @curr.update_attributes(params[:user])
-        format.html { redirect_to @user, notice: 'Fingering was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if request.put?  
+ #     if @curr.save
+        #session[:user] = User.authenticate(@curr.login, @curr.password)
+        #flash[:message] = "Update Successful"
+        redirect_to root_url         
+ #     else
+        #flash[:warning] = "Update Unsuccessful"
+#      end
     end
-    
+  end
 =begin
     if request.put?  
       if @curr.save
@@ -135,8 +134,7 @@ class UsersController < ApplicationController
       end
     end
 =end
-  end
-  
+
   # def update  
   #  @product = Product.find(params[:id])  
   #  if @product.update_attributes(params[:product])  
