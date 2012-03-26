@@ -2,20 +2,13 @@
  * @author Max Stillwell
  * */
 
-/* Globals */
- // Canvas
-  var canvas;
-  var canvas_W;
-  var canvas_H;
-  var ctx;
- // Objects
-  var fingering_chart;
- // Scale By
-  var scale_X;
-  var scale_Y;
- // Mouse
-  var mouse_X;
-  var mouse_Y;
+var canvas;
+var canvas_W;
+var scale_X;
+var canvas_H;
+var scale_Y;
+var ctx;
+var fingering_chart;
 
 /* Draw */
 function clear() {
@@ -27,7 +20,7 @@ function draw() {
 	ctx.save();
 		clear();
 		ctx.scale(scale_X, scale_Y);
-		fingering_chart.draw();
+		fingering_chart.Update();
 	ctx.restore();
 };
 
@@ -49,7 +42,7 @@ $(document).ready(function() {
 	if (canvas.getContext) {
 		ctx = canvas.getContext('2d');
 		
-		if(typeof fingering_id != 'undefined') { var keys_string = fingering_id }
+		if(typeof fingering_id != 'undefined') { var keys_string = fingering_id; }
 		else                                   { var keys_string = '000000000000000000000000000000'; };
 
 		if(typeof note_tone_id != 'undefined') { var note_tone = note_tone_id; }
@@ -68,17 +61,17 @@ $(document).ready(function() {
 			break;
 		};
 
-		fingering_chart = new Fingering_Chart(keys_string, note, tone, help);
+		fingering_chart = new Fingering(keys_string, note, tone, help);
 
 		canvas_W = canvas.width;
 		canvas_H = canvas.height;
 
-		scale_X = canvas_W / 200;        // Base canvas size is 200
-		scale_Y = (canvas_H - 100)/ 200; // by 200, don't go any smaller. Extra 100 is for note.
+		scale_X = canvas_W / 200;         // Base canvas size is 200
+		scale_Y = (canvas_H - 100) / 200; // by 200, don't go any smaller. Extra 100 is for note.
 
 		// Init Events
-		if(type == 'edit' || (type == 'new')) {
-			canvas.onclick = onClick;
+		if((type == 'edit') || (type == 'new')) {
+			canvas.onclick     = onClick;
 			canvas.onmousemove = MouseMoved;
 			
 			return setInterval(draw, 100);

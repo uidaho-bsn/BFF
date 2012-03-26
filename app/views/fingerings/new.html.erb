@@ -31,7 +31,7 @@
 		<%= hidden_field "fingering", "note_tone" %>
 		
 		<%= submit_tag "Submit", :onclick => "fingering_fingering_status.value = fingering_chart.ToString(); 
-			fingering_note_tone.value = fingering_chart.note.ToString();" %>
+			fingering_note_tone.value = fingering_chart.ToString(\"note\");" %>
 	<% end %>
 	<%= button_to 'Cancel', fingerings_path, :method => :get %>
 <% end %>

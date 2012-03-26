@@ -2,52 +2,51 @@
  * @author Max Stillwell
  */
 
-function Key(x, y, r, rotation, type, status) {
-	/* Public Variables */
-	this.x = x;
-	this.y = y;
-	this.r = r;
-	this.rotation = rotation;
-	if(status == 0) { this.status = 7; }
-	else { this.status = status; };
-	this.type = type;
+function Key(name, x, y, r, t, type, status) {
 	/* Private Variables */
-	var highlight = false;
+	var x = x;
+	var y = y;
+	var r = r;
+	var t = t;
+	var name  = name;
+	var type  = type;
+	var hover = false;
+	if(status == 0) { status = 7; }
+	else            { status = status; };
 	/* Public Functions */
-	this.draw = draw;
-	this.contains = contains;
-	this.update = update;
+	this.Update   = Update;
+	this.OnClick  = OnClick;
 	this.ToString = ToString;
 
 	/* Begin Draw Functions */
 	function draw() {
-		switch (this.type) {
+		switch (type) {
 			case 'circle':
-				draw_circle(x, y, r, this.status);
+				draw_circle();
 			break;
 			case 'circle-key':
-				draw_circle(x, y, r, this.status);
+				draw_circle();
 			break;
 			case 'half-circle':
-				draw_half_circle(x, y, r, rotation, false, this.status);
+				draw_half_circle(1.0, 1.0);
 			break;
 			case 'half-circle-flat':
-				draw_half_circle(x, y, r, rotation, true, this.status);
+				draw_half_circle(1.5, 0.5);
 			break;
 			case 'oval-small':
-				draw_oval(x, y, r, 0.75, 0.5, rotation, this.status);
+				draw_oval(0.75, 0.5);
 			break;
 			case 'oval-med':
-				draw_oval(x, y, r, 1.00, 0.5, rotation, this.status);
+				draw_oval(1.00, 0.5);
 			break;
 			case 'oval-large':
-				draw_oval(x, y, r, 1.50, 0.5, rotation, this.status);
+				draw_oval(1.50, 0.5);
 			break;
 			case 'box-up-left-curve':
-				draw_box_up_left_curve(x, y, r, rotation, this.status);
+				draw_box_up_left_curve();
 			break;
 			case 'box-right-end-curve':
-				draw_right_end_curve(x, y, r, rotation, this.status);
+				draw_right_end_curve();
 			break;
 			default:
 				alert("Error: Key.draw(" + type + ").");
@@ -55,15 +54,15 @@ function Key(x, y, r, rotation, type, status) {
 		};
 	};
 	
-	function draw_oval(x, y, r, scale_x, scale_y, rotation, status) {
+	function draw_oval(scale_x, scale_y) {
 		ctx.save();
 			ctx.translate(x, y);
-			ctx.rotate(rotation);
+			ctx.rotate(t);
 			ctx.scale(scale_x, scale_y);
 			
 			ctx.beginPath();
 				ctx.arc(0, 0, r, 0, Math.PI * 2, false);
-				switch(status) {
+				switch(parseInt(status)) {
 					case 5: // Hatch Pattern (Optional Key)
 						ctx.moveTo(-r * Math.cos(1.75 * Math.PI), -r * Math.sin(1.75 * Math.PI));
 						ctx.lineTo(-r * Math.cos(0.75 * Math.PI), -r * Math.sin(0.75 * Math.PI));
@@ -90,18 +89,18 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.fillStyle = "333333";
 				ctx.fill();
 			}
-			if(highlight) { ctx.strokeStyle = "red"; };
+			if(hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
 	
-	function draw_circle(x, y, r, status) {
+	function draw_circle() {
 		ctx.save();
 			ctx.translate(x, y);
 
 			ctx.beginPath();
 				ctx.arc(0, 0, r, 0, Math.PI * 2, false);
-				switch (status) {
+				switch (parseInt(status)) {
 					case 5: // Hatch Pattern (Optional Key)
 						ctx.moveTo(-r * Math.cos(1.75 * Math.PI), -r * Math.sin(1.75 * Math.PI));
 						ctx.lineTo(-r * Math.cos(0.75 * Math.PI), -r * Math.sin(0.75 * Math.PI));
@@ -127,12 +126,12 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(highlight) { ctx.strokeStyle = "red"; };
+			if(hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 
 			if(status >= 2 && status <= 4) {
 				ctx.beginPath();
-					switch(status) {
+					switch(parseInt(status)) {
 						case 2: // x/y Pressed Key
 							ctx.arc(0, 0, r, 1.25 * Math.PI, 1.75 * Math.PI, false);
 							ctx.lineTo(0,0);
@@ -158,17 +157,17 @@ function Key(x, y, r, rotation, type, status) {
 		ctx.restore();
 	};
 	
-	function draw_half_circle(x, y, r, rotation, flat, status) {
+	function draw_half_circle(scale_x, scale_y) {
 		ctx.save();
 			ctx.translate(x, y);
-			ctx.rotate(rotation);
-			if(flat) { ctx.scale(1.5, 0.5); };
+			ctx.rotate(t);
+			ctx.scale(scale_x, scale_y);
 			
 			ctx.beginPath();
 				ctx.arc(0, 0, r, 0, Math.PI, false);
 				ctx.moveTo(-r, 0);
 				ctx.lineTo(r, 0);
-				switch(status) {
+				switch(parseInt(status)) {
 					case 5: // Hatch Pattern (Optional Key)
 						ctx.moveTo(-r * Math.cos(1.75 * Math.PI), -r * Math.sin(1.75 * Math.PI));
 						ctx.lineTo(r - 5, r * Math.sin(Math.PI));
@@ -188,21 +187,20 @@ function Key(x, y, r, rotation, type, status) {
 				};
 			ctx.closePath();
 			
-			if(flat) { ctx.scale(0.5, 1.5); };
-			
+			ctx.scale(scale_y, scale_x);
 			if(status == 1) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(highlight) { ctx.strokeStyle = "red"; };
+			if(hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
 
-	function draw_box_up_left_curve(x, y, r, rotation, status) {
+	function draw_box_up_left_curve() {
 		ctx.save();
 			ctx.translate(x, y);
-			ctx.rotate(rotation);
+			ctx.rotate(t);
 			
 			ctx.beginPath();
 				ctx.arc(0, 0, r, -( 180 * Math.PI ) / 180, -( 100 * Math.PI ) / 180, false);
@@ -210,7 +208,7 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.lineTo(6, 4);
 				ctx.lineTo(-10, 4);
 				ctx.lineTo(-10, 0);
-				switch(status){
+				switch(parseInt(status)){
 					case 5: // Hatch Pattern (Optional Key)
 						ctx.moveTo(10, -8);
 						ctx.lineTo(-10, 4);
@@ -234,15 +232,15 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(highlight) { ctx.strokeStyle = "red"; };
+			if(hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
 	
-	function draw_right_end_curve(x, y, r, rotation, status) {
+	function draw_right_end_curve() {
 		ctx.save();
 			ctx.translate(x, y);
-			ctx.rotate(rotation);
+			ctx.rotate(t);
 			
 			ctx.beginPath();
 				ctx.moveTo(-10, 5);
@@ -250,7 +248,7 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.lineTo(6, -5);
 				ctx.arc(4.5, 0, r, -( 90 * Math.PI ) / 180, ( 90 * Math.PI ) / 180, false);
 				ctx.lineTo(-10, 5);
-				switch(status){
+				switch(parseInt(status)){
 					case 5: // Hatch Pattern (Optional Key)
 						ctx.moveTo(-10, 5);
 						ctx.lineTo(9, -3.5);
@@ -274,82 +272,86 @@ function Key(x, y, r, rotation, type, status) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(highlight) { ctx.strokeStyle = "red"; };
+			if(hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
 	/* End Draw Functions */
 	
 	/* Begin Update Functions */
-	function update() {
-		switch (this.type) {
-			case 'circle':
-				if(this.status >= 7) { this.status = 0; };
-				this.status += 1;
-			break;
-			default:
-				switch (this.status) {
-					case 1:
-						this.status = 5;
-					break;
-					case 5:
-						this.status = 6;
-					break;
-					case 6:
-						this.status = 7;
-					break;
-					case 7:
-						this.status = 1;
-					break;
-				};
-			break;
-		};
+	function Update() {
+		draw();
+		
+		update_mouse();
+		
+
 	};	
 
-	function contains() {
-		highlight = false;
+	function update_mouse() {
+		hover = false;
 		
-		if(this.type == 'oval-small' || this.type == 'oval-med' || this.type == 'oval-large') { //fix me for ellipse math!!!!
-			var dx = (this.x * scale_X) - mouse_X;
-			var dy = (this.y * scale_Y) - mouse_Y;
+		if(type == 'oval-small' || type == 'oval-med' || type == 'oval-large') { //fix me for ellipse math!!!!
+			var dx = (x * scale_X) - mouse_X;
+			var dy = (y * scale_Y) - mouse_Y;
 
-			var r2 = this.r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
+			var r2 = r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
 			
-			if(dx * dx + dy * dy <= r2 * r2) {
-				highlight = true;
-				return true; 
-			};
+			if(dx * dx + dy * dy <= r2 * r2) { hover = true; };
 		}
-		else if (this.type == 'half-circle' || this.type == 'half-circle-flat') { // fix me for semi circle math!!!
-			var dx = (this.x * scale_X) - mouse_X;
-			var dy = (this.y * scale_Y) - mouse_Y;
+		else if (type == 'half-circle' || type == 'half-circle-flat') { // fix me for semi circle math!!!
+			var dx = (x * scale_X) - mouse_X;
+			var dy = (y * scale_Y) - mouse_Y;
 
-			var r2 = this.r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
+			var r2 = r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
 			
-			if(dx * dx + dy * dy <= r2 * r2) {
-				highlight = true;
-				return true; 
-			};
+			if(dx * dx + dy * dy <= r2 * r2) { hover = true; };
 		}
 		else {
-			var dx = (this.x * scale_X) - mouse_X;
-			var dy = (this.y * scale_Y) - mouse_Y;
-
-			var r2 = this.r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
+			var dx = (x * scale_X) - mouse_X;
+			var dy = (y * scale_Y) - mouse_Y;
 			
-			if(dx * dx + dy * dy <= r2 * r2) {
-				highlight = true;
-				return true; 
-			};
+			var r2 = r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
+			
+			if(dx * dx + dy * dy <= r2 * r2) { hover = true; };
 		};
 		
-		return false;
+		if(hover       && pointer == '')   { pointer = name; }
+		else if(!hover && pointer == name) { pointer = ''; };
+	};
+	
+	function OnClick() {
+		if(hover) {
+			switch (type) {
+				case 'circle':
+					if(status >= 7) { status = 0; };
+					status += 1;
+				break;
+				default:
+					switch (parseInt(status)) {
+						case 1:
+							status = 5;
+						break;
+						case 5:
+							status = 6;
+						break;
+						case 6:
+							status = 7;
+						break;
+						case 7:
+							status = 1;
+						break;
+					};
+				break;
+			};
+			
+			return true;
+		};
 	};
 	/* End Update Functions */
 	
 	/* Begin Helpers */
 	function ToString() {
-		return String(this.status);
+		return String(status);
 	};
 	/* End Helpers */
 };
