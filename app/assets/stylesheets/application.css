@@ -122,7 +122,7 @@ body
 {
 	position: absolute;
 	top:37px;
-	right: -150px;
+	right: 0px;
 }
 
 #loginform #loginsubmit
@@ -850,7 +850,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	outline: 0;
 	font-size: 100%;
 	vertical-align: baseline;
-	background: transparent;
+	/*background: transparent;*/
 }
 body {
 	line-height: 1;
@@ -884,4 +884,35 @@ del {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+/* TABLE ------------------------------------------------------------*/
+
+table, td, th {
+	vertical-align:middle;
+}
+
+table {
+	border-collapse:separate;
+	border-spacing:0;
+	border-top:1px solid white;
+	margin-bottom:28px;
+	width:100%;
+	text-align: left;
+}
+
+th{
+	border-top:5px solid #555555;
+	color: #ffffff;
+	padding:10px;
+	text-transform:uppercase;
+	background-color: #49494b;
+}
+
+td{
+	padding:10px;
+}
+
+td, th{
+	border-bottom: 1px solid #1f1f1f;
 }

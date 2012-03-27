@@ -1,40 +1,28 @@
 <% content_for :head do %>
 	<title>BFF::Fingerings</title>
-	<%= javascript_include_tag 'jquery' %>
 <% end %>
 
-<% content_for :header do %>
-	<a href="index.html"><img id="" src="" alt="" /></a>
-	<%= render "layouts/login" %>
-<% end %>
-
-<%= content_for :headline do %>
-	<div id="headline">
-		<span class="main">Fingerings</span>
-	</div>
+<% content_for :page_title do %>
+	Fingerings
 <% end %>
 
 <% content_for :content do %>
-	<table border="1">
+	<table>
 		<tr>
 			<th>Note</th>
 			<th>Key Status</th>
-			<th>Votes - Beginner</th>
-			<th>Votes - Intermeditate</th>
-			<th>Votes - Advanced</th>
-			<th>Votes - Professional</th>
-			<th>Submitted by</th>
-			<th>Submitted on</th>
+			<th>Votes(B|I|A|P)</th>
+			<th>User</th>
+			<th>Date/Time</th>
 			<th>Approved</th>
 		</tr>
+
 		<% @fingerings.each do |fingering| %>
 			<tr>
 			    <td><%= fingering.note_tone %></td>
 			    <td><%= link_to fingering.fingering_status, fingering %></td>
-			    <td><%= fingering.votes_beginner %></td>
-		    	<td><%= fingering.votes_intermediate %></td>
-	    		<td><%= fingering.votes_advanced %></td>
-	    		<td><%= fingering.votes_professional %></td>
+			    <td><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | 
+			    	<%= fingering.votes_advanced %> | <%= fingering.votes_professional %></td>
 			    <td><%= fingering.user_name %></td>
 			    <td><%= fingering.created_at %></td>
 			    <td><%= fingering.approved %></td>

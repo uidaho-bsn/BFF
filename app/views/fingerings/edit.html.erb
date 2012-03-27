@@ -28,15 +28,18 @@
         	<a href="www.google.com/chrome">Chrome</a> </p>
 	</canvas>
 	<br />
-	<%= button_to 'Cancel', @fingering, :method => :get %>
-	<%= form_tag({:action => "update", :controller => "fingerings"}, {:method => :put}) do %>
+	
+	<%= form_tag({:action => "update", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
 		<%= hidden_field "fingering", "fingering_status" %>
 		<%= hidden_field "fingering", "note_tone" %>
+		
+		<% if isAdmin? %>
+			Approve Entry: <%= check_box "fingering", "approved" %>
+		<% end %>
+		<br />
 		
 		<%= submit_tag "Save", :onclick => "fingering_fingering_status.value = fingering_chart.ToString(); 
 			fingering_note_tone.value = fingering_chart.ToString(\"note\");" %>
 	<% end %>
+	<%= button_to 'Cancel', @fingering, :method => :get %>
 <% end %>
-
-
-

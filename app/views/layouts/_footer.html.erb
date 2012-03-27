@@ -1,31 +1,29 @@
-<div id="footer">
-	<div class="wrapper">
-		<ul id="footer-cols">
-			<li class="col">
-				<h6>Pages</h6>
-				<ul>
-					<li class="page_item"><a href="index.html">Home</a></li>
-					<li class="page_item"><a href="">Contact</a></li>
-				</ul>
-			</li>
-			<li class="col">
-				<h6>Links</h6>
-				<ul>
-					<li class="page_item"><a href="https://github.com/Sverk/TAB/issues">Report a Bug</a></li>
-					<% if mobile_device? %>
-						<li class="page_item"><%= link_to "Full Site", :mobile => 0 %></li>
-					<% else %>
-						<li class="page_item"><%= link_to "Mobile Site", :mobile => 1 %></li>
-					<% end %>
-				</ul>
-			</li>
-			<li class="col">
-				<h6>About</h6>
-				<p>Ever wanted to know the best Bassoon fingering to use for a passage of music but don't want to look through pages 
-					upon pages of fingerings? Well then, Bassoon Fingering Finder is for you! Bassoon Fingering Finder is a web 
-					application for looking up Bassoon fingerings for a note or series of notes. Bassoon Fingering Finder is currently 
-					in development by a Senior Design Team from the University of Idaho and sponsored by Susan Hess.</p>
-			</li>
-		</ul>
-	</div>
+<div class="wrapper">
+	<ul id="footer-cols">
+		<li class="col">
+			<h6>Pages</h6>
+			<ul>
+				<li class="page_item"><a href="index.html">Home</a></li>
+				<li class="page_item"><a href="">Contact</a></li>
+			</ul>
+		</li>
+		<li class="col">
+			<h6>Links</h6>
+			<ul>
+				<li class="page_item"><a href="https://github.com/Sverk/TAB/issues">Report a Bug</a></li>
+				<% if mobile_device? %>
+					<li class="page_item"><%= link_to "Full Site", :mobile => 0 %></li>
+				<% else %>
+					<li class="page_item"><%= link_to "Mobile Site", :mobile => 1 %></li>
+				<% end %>
+			</ul>
+		</li>
+		<li class="col">
+			<h6>About</h6>
+			<p>Ever wanted to know the best Bassoon fingering to use for a passage of music but don't want to look through pages 
+				upon pages of fingerings? Well then, Bassoon Fingering Finder is for you! Bassoon Fingering Finder is a web 
+				application for looking up Bassoon fingerings for a note or series of notes. Bassoon Fingering Finder is currently 
+				in development by a Senior Design Team from the University of Idaho and sponsored by Susan Hess.</p>
+		</li>
+	</ul>
 </div>

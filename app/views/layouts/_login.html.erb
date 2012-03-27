@@ -1,7 +1,7 @@
 <% if session[:user] == nil %>
 <p id="notice"><%= notice%></p>
 	<div class="login">
-		<%= form_tag :action=> "login", :method => "post", :controller => "users", :id => "loginform" do %>
+		<%= form_tag :action => "login", :method => "post", :controller => "users", :id => "loginform" do %>
 			<div>
 			  	<%= text_field "user", "login", :onfocus => "defaultInput(this)", :onblur => "clearInput(this)", :class => "text_field" %>
 			  	<br />

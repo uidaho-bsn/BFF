@@ -26,7 +26,7 @@
         	<a href="www.google.com/chrome">Chrome</a> </p>
 	</canvas>
 	<br />
-	<%= form_tag :action => 'create', :method => "post", :controller => "fingerings" do %>
+	<%= form_tag({:action => 'create', :controller => "fingerings"}, {:method => "post", :style => "display:inline;"}) do %>
 		<%= hidden_field "fingering", "fingering_status" %>
 		<%= hidden_field "fingering", "note_tone" %>
 		

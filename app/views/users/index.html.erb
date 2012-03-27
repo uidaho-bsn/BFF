@@ -1,38 +1,32 @@
 <% content_for :head do %>
 	<title>TAB::Home</title>
-	<%= javascript_include_tag :home %>
 <% end %>
 
-<% content_for :header do %>
-	<a href="index.html"><img id="" src="" alt="" /></a>
-	<%= render "layouts/login" %>
+<% content_for :page_title do %>
+	Users
 <% end %>
 
 <% content_for :content do %>
 	<table>
-	<% if User.find(session[:user]) != nil %>
-	  <tr>
-		<th><% User.find(session[:user]).login %></th>
-		<th><% User.find(session[:user]).email %></th>
-	    <th></th>
-	    <th></th>
-	    <th></th>
-	  </tr>
-	<% end %>
+  		<tr>
+			<th>Username</th>
+			<th>Email</th>
+	    	<th>Admin</th>
+	    	<th></th>
+	    	<th></th>
+	    	<!--<th></th>-->
+  		</tr>
+		
+		<% @users.each do |usr| %>
+			<tr>
+			    <td><%= usr.login %></td>
+			    <td><%= usr.email %></td>
+			    <td><%= usr.admin %></td>
+			    <td><%= link_to 'Show', user_path(usr) %></td>
+			    <td><%= link_to 'Edit', edit_user_path(usr) %></td>
+			    <!--<td><%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %></td>-->
+		    </tr>
+		<% end %>
 	</table>
-	
-
-	<h1>Listing users</h1>
-	<% @users.each do |usr| %>
-	    <%= usr.login %>
-	    <%= usr.email %>
-	    <%= usr.admin %>
-	    <%= link_to 'Show', user_path(usr) %>
-	    <%= link_to 'Edit', edit_user_path(usr) %>
-	    <!--<%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %>!-->
-	    <br />
-
-	<% end %>
 	<br />
-	
 <% end %>
