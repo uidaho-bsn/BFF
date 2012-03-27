@@ -6,7 +6,7 @@
 		<%= stylesheet_link_tag 'application', :media => 'all' %>
 		<%= stylesheet_link_tag 'mobile' if mobile_device? %>
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
-		<%= javascript_include_tag 'jquery', 'application' %>
+		<%= javascript_include_tag :application %>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
 		<%= csrf_meta_tags %>
@@ -25,7 +25,7 @@
             </div>
             <div data-theme="a" data-role="footer">
                 <div>
-                	Please click <%= link_to "here", :mobile => 0%> for full site.
+                	Please click <%= link_to "here", {:mobile => 0}, "data-transition" => "none", "data-ajax" => "false" %> for full site.
                 </div>
             </div>
         </div>

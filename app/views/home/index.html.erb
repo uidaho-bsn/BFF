@@ -1,18 +1,13 @@
 <% content_for :head do %>
 	<title>BFF::Home</title>
-	<%= javascript_include_tag :home %>
 <% end %>
 
-<% content_for :header do %>
-	<a href="index.html"><img id="" src="" alt="" /></a>
-	<%= render "layouts/login" %>
+<%= content_for :page_title do %>
+	Warning!!!
 <% end %>
 
-<%= content_for :headline do %>
-	<div id="headline">
-		<span class="main">Warning!!!</span>
-		<span class="sub">Please read before doing anything.</span>	
-	</div>
+<%= content_for :page_subtitle do %>
+	Please read before doing anything.
 <% end %>
 
 <% content_for :content do %>

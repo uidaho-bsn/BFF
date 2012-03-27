@@ -27,16 +27,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :isAdmin?
 
-  def set_admin(curr_user)
-    curr_user.admin = true
-  end
-  helper_method :set_admin
-  
-  def rm_admin(curr_user)
-    curr_user.admin = false
-  end
-  helper_method :rm_admin
-
   def redirect_to_stored
     if return_to = session[:return_to]
       session[:return_to]=nil
@@ -47,6 +37,17 @@ class ApplicationController < ActionController::Base
   end
   
   private
+ 
+#These are in users_controller also?  
+#  def set_admin(curr_user)
+#    curr_user.admin = true
+#  end
+#  helper_method :set_admin
+  
+#  def rm_admin(curr_user)
+#    curr_user.admin = false
+#  end
+#  helper_method :rm_admin  
   
   def mobile_device?
     if session[:mobile_param]

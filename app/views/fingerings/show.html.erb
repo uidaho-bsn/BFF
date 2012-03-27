@@ -1,23 +1,18 @@
 <% content_for :head do %>
-	<title>BFF::Fingering</title>
-	<%= javascript_include_tag 'jquery', 'fingerings' %>
-	<script>var fingering = @fingering.fingering_status;</script>
+	<title>BFF::Fingering ID #<%= @fingering.id %></title>
+	<%= javascript_include_tag :application, :fingerings %>
+	<script>
+		var fingering_id = "<%= @fingering_status %>";
+		var note_tone_id = "<%= @note_tone %>";
+	</script>
 <% end %>
 
-<% content_for :header do %>
-	<a href="index.html"><img id="" src="" alt="" /></a>
-	<%= render "layouts/login" %>
-<% end %>
-
-<%= content_for :headline do %>
-	<div id="headline">
-		<span class="main">Fingering ID #<%= @fingering.id %></span>
-	</div>
+<% content_for :page_title do %>
+	Fingering ID #<%= @fingering.id %>
 <% end %>
 
 <% content_for :content do %>
-	<p>This is still a work in progress!</p>
-	<canvas id="show_fingering" width="500" height="500">
+	<canvas id="show_fingering" width="500" height="600">
     	<p>Unfortunately, your browser is currently unsupported by our web 
         	application. We are sorry for the inconvenience. Please use one of the 
         	supported browsers listed below. </p>
@@ -25,8 +20,8 @@
         	<a href="http://www.mozilla.com">Firefox</a> <br />
         	<a href="www.google.com/chrome">Chrome</a> </p>
 	</canvas>
-
-	<p id="notice"><%= notice %></p>
-	<%= link_to 'Edit', edit_fingering_path(@fingering) %> |
-	<%= link_to 'Back', fingerings_path %>
+	<br />
+	<%= button_to 'Back', fingerings_path, :method => :get %>
+	<%= button_to 'Edit', edit_fingering_path(@fingering), :method => :get %>
+	<%= button_to 'Delete', @fingering, :confirm => 'Are you sure?', :method => :delete %>
 <% end %>

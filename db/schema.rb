@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120216211413) do
+ActiveRecord::Schema.define(:version => 20120325215110) do
 
   create_table "fingerings", :force => true do |t|
     t.string   "note_tone"
     t.string   "fingering_status"
-    t.integer  "user_id"
+    t.string   "user_name"
     t.integer  "votes_beginner"
     t.integer  "votes_intermediate"
     t.integer  "votes_advanced"

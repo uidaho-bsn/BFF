@@ -3,6 +3,11 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    respond_to do |format|
+      format.html
+      format.json { render json: @users }
+    end
+
   end
 
   def new
@@ -25,7 +30,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @user.admin = false
+    
+    if User.find(0) == nil
+      @user.admin = true
+    else
+      @user.admin = false
+    end
+
     if request.post?  
       if @user.save
         session[:user] = User.authenticate(@user.login, @user.password)
@@ -90,9 +101,48 @@ class UsersController < ApplicationController
   end
   helper_method :rm_admin
   
-  
   def show
+    @curr = User.find(params[:id])
   end
+  
+  def edit
+    @curr = User.find(params[:id])
+
+  end
+  
+  def update
+
+    @curr = User.find(params[:id])
+    if request.put?  
+ #     if @curr.save
+        #session[:user] = User.authenticate(@curr.login, @curr.password)
+        #flash[:message] = "Update Successful"
+        redirect_to root_url         
+ #     else
+        #flash[:warning] = "Update Unsuccessful"
+#      end
+    end
+  end
+=begin
+    if request.put?  
+      if @curr.save
+        session[:user] = User.authenticate(@curr.login, @curr.password)
+        flash[:message] = "Update Successful"
+        #redirect_to root_url         
+      else
+        flash[:warning] = "Update Unsuccessful"
+      end
+    end
+=end
+
+  # def update  
+  #  @product = Product.find(params[:id])  
+  #  if @product.update_attributes(params[:product])  
+  #    flash[:notice] = "Successfully updated product."  
+  #  end  
+  #  respond_with(@product)  
+  #end
+
   
   def destroy 
   end

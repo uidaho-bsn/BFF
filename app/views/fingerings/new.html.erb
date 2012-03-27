@@ -1,35 +1,32 @@
 <% content_for :head do %>
 	<title>TAB::New Fingering</title>
-	<%= javascript_include_tag 'jquery', 'fingerings' %>
+	<%= javascript_include_tag :application, :fingerings %>
 <% end %>
 
-<% content_for :header do %>
-	<%= render "layouts/login" %>
+<% content_for :page_title do %>
+	Enter a new fingering:
 <% end %>
 
-<%= content_for :headline do %>
-	<div id="headline">
-		<span class="main">Enter a new fingering:</span>
-	</div>
+<% content_for :page_subtitle do %>
+	This is a work in progess!
 <% end %>
-
-<%= content_for :onactions do %><% end %>
 
 <% content_for :content do %>
-	<p>This is still a work in progress!</p>
-	<%= form_tag :action => 'create', :method => "post", :controller => "fingerings", :id => "new_fingering", 
-		:class => "new_fingering" do%>
-		<canvas id="new_fingering" width="500" height="600">
-	    	<p>Unfortunately, your browser is currently unsupported by our web 
-	        	application. We are sorry for the inconvenience. Please use one of the 
-	        	supported browsers listed below. </p>
-	        <p>Supported browsers: 
-	        	<a href="http://www.mozilla.com">Firefox</a> <br />
-	        	<a href="www.google.com/chrome">Chrome</a> </p>
-		</canvas>
-		<br />
-		<%= hidden_field "fingering", "note_tone" %>
+	<canvas id="new_fingering" width="500" height="600">
+    	<p>Unfortunately, your browser is currently unsupported by our web 
+        	application. We are sorry for the inconvenience. Please use one of the 
+        	supported browsers listed below. </p>
+        <p>Supported browsers: 
+        	<a href="http://www.mozilla.com">Firefox</a> <br />
+        	<a href="www.google.com/chrome">Chrome</a> </p>
+	</canvas>
+	<br />
+	<%= form_tag({:action => 'create', :controller => "fingerings"}, {:method => "post", :style => "display:inline;"}) do %>
 		<%= hidden_field "fingering", "fingering_status" %>
-		<%= submit_tag "Submit" %>
+		<%= hidden_field "fingering", "note_tone" %>
+		
+		<%= submit_tag "Submit", :onclick => "fingering_fingering_status.value = fingering_chart.ToString(); 
+			fingering_note_tone.value = fingering_chart.ToString(\"note\");" %>
 	<% end %>
+	<%= button_to 'Cancel', fingerings_path, :method => :get %>
 <% end %>

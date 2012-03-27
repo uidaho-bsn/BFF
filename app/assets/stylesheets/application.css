@@ -99,6 +99,17 @@ body
 	margin-bottom: 10px;
 }
 
+/* Inline Buttons -----------------------------------------------*/
+.button_to
+{
+	display: inline;
+}
+
+.button_to div
+{
+	display: inline;
+}
+
 /* Canvas -------------------------------------------------------*/
 #new_fingering
 {
@@ -110,8 +121,8 @@ body
 .login
 {
 	position: absolute;
-	top:47px;
-	right: -150px;
+	top:37px;
+	right: 0px;
 }
 
 #loginform #loginsubmit
@@ -265,7 +276,7 @@ input.text_field
 	overflow: hidden;
 	height: 103px;
 	margin-bottom: 30px;
-	background:  url(other/tabs_divider) repeat-x bottom center;
+	background:  url(other/tabs_divider.png) repeat-x bottom center;
 	text-shadow: 1px 1px rgba(255, 255, 255, 1);
 }
 
@@ -666,7 +677,7 @@ ul.sf-menu li li li.sfHover ul
 	margin:0 !important;
 	padding: 0px;	
 	height: 32px;
-	background: url(../img/tabs-divider.png) no-repeat bottom center;
+	background: url(other/tabs_divider.png) no-repeat bottom center;
 }
 
 body.home .tabs { 
@@ -839,7 +850,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	outline: 0;
 	font-size: 100%;
 	vertical-align: baseline;
-	background: transparent;
+	/*background: transparent;*/
 }
 body {
 	line-height: 1;
@@ -873,4 +884,35 @@ del {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+/* TABLE ------------------------------------------------------------*/
+
+table, td, th {
+	vertical-align:middle;
+}
+
+table {
+	border-collapse:separate;
+	border-spacing:0;
+	border-top:1px solid white;
+	margin-bottom:28px;
+	width:100%;
+	text-align: left;
+}
+
+th{
+	border-top:5px solid #555555;
+	color: #ffffff;
+	padding:10px;
+	text-transform:uppercase;
+	background-color: #49494b;
+}
+
+td{
+	padding:10px;
+}
+
+td, th{
+	border-bottom: 1px solid #1f1f1f;
 }

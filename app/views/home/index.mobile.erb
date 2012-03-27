@@ -5,15 +5,19 @@
 <% content_for :content do %>
     <div data-role="collapsible-set" data-theme="a" data-content-theme="">
         <div data-role="collapsible" data-collapsed="true">
-            <h3>
-                Note
-            </h3>
+            <h3>Note</h3>
+        	<canvas id="note_view" width="200" height="100">
+		    	<p>Unfortunately, your browser is currently unsupported by our web 
+		        	application. We are sorry for the inconvenience. Please use one of the 
+		        	supported browsers listed below. </p>
+		        <p>Supported browsers: 
+		        	<a href="http://www.mozilla.com">Firefox</a> <br />
+		        	<a href="www.google.com/chrome">Chrome</a> </p>
+			</canvas>
             <input type="submit" data-icon="search" data-iconpos="right" value="Search" />
         </div>
         <div data-role="collapsible" data-collapsed="true">
-            <h3>
-                Fingering
-            </h3>
+            <h3>Fingering</h3>
         </div>
     </div>
 <% end %>

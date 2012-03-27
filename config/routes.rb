@@ -21,9 +21,12 @@ Tab::Application.routes.draw do
       end
   end
 
+
   resources :example_musics
 
-  resources :fingerings#, :only => [:index, :new, :create, :edit, :update, :destroy]
+  resources :fingerings, :only => [:index, :show, :new, :create, :edit, :update, :destroy] do
+    
+  end
 
   #resources :password
   root :to => 'home#index'

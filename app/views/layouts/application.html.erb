@@ -5,6 +5,15 @@
 		<meta name='TAB' content="Fill me in!" />
 		<%= stylesheet_link_tag 'application', :media => 'all' %>
 		<%= stylesheet_link_tag 'mobile' if mobile_device? %>
+		
+		<%= javascript_include_tag 'jquery' %>
+		
+		<!-- poshytip -->
+		<%= stylesheet_link_tag 'poshytip-1.0/src/tip-twitter/tip-twitter.css' %>
+		<%= stylesheet_link_tag 'poshytip-1.0/src/tip-yellowsimple/tip-yellowsimple.css' %>
+		<%= javascript_include_tag 'poshytip-1.0/src/jquery.poshytip.min.js' %>
+		<!-- ENDS poshytip -->
+		
 		<%= yield :head %>
 	    <!--[if lt IE 9]>
 	  		<script src="//html5shim.googlecode.com/sin/trunk/html5.js"></script>
@@ -12,23 +21,34 @@
 		<%= csrf_meta_tags %>
 	</head>
 
-	<body class="home" <%= yield :onactions %>>
+	<body>
 		<div id="header">
-			<div class="wrapper">
-				<%= yield :header %>
-			</div>
+			<a href="index.html"><img id="" src="" alt="" /></a>
+			<%= render "layouts/login" %>
 		</div>
-		<%= render "layouts/menu" %>
+		<div id="menu">
+			<%= render "layouts/menu" %>
+		</div>
 		<div id="main">
 			<div class="wrapper">
-				<div class="clear"></div>
-					<%= yield :headline %>
-					<div id="content">
+				<div id="content">
+					<div id="page-title">
+						<span class="title"><%= yield :page_title %></span>
+						<span class="subtitle"><%= yield :page_subtitle %></span>
+					</div>
+					<div id="page-content">
 						<%= yield :content %>
 					</div>
+				</div>
 			</div>
 		</div>
-		<%= render "layouts/footer" %>
-		<%= render "layouts/bottom" %>
+		<div id="footer">
+			<%= render "layouts/footer" %>
+		</div>
+		<div id="bottom">
+			<div class="wrapper">
+				<%= render "layouts/bottom" %>
+			</div>
+		</div>
 	</body>
 </html>
