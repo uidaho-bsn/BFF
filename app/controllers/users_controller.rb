@@ -40,6 +40,7 @@ class UsersController < ApplicationController
     if request.post?  
       if @user.save
         session[:user] = User.authenticate(@user.login, @user.password)
+        @user.send_welcome # welcome email
         flash[:message] = "Registration Successful"
         redirect_to root_url         
       else
@@ -72,7 +73,7 @@ class UsersController < ApplicationController
       usr = User.find_by_email(params[:user][:email])
       usr.send_new_password if usr
       if ActionMailer::Base.deliveries.empty? 
-        flash[:notice] = "ruh roh"
+        flash[:notice] = "Email not registered."
       end
       #flash[:notice] = "A new password has been sent to your email."
       redirect_to root_url, :notice => "A new password has been sent to your email."

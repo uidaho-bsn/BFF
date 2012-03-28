@@ -30,12 +30,17 @@ class User < ActiveRecord::Base
     new_password = User.random_string(10)
     self.password = self.password_confirmation = new_password 
     save!
-    debugger 
     UserMailer.password_reset(self).deliver
     #assert !ActionMailer::Base.deliveries.empty?
      #Notifications.deliver_forgot_password(self.email, self.login, new_page)
   end
 
+  def send_welcome
+    self.email_confirmation = self.email
+    save! 
+    UserMailer.welcome_email(self).deliver
+  end
+  
   def isAdmin?
     return self.admin
   end
