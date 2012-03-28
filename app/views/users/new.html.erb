@@ -7,22 +7,22 @@
 <% end %>
 
 <% content_for :content do %>
-	<%= form_tag :action => 'create', :method => "post", :controller => "users" do%>
-		<label for="user_login">Username</label><br/>
-		<%= text_field "user", "login", :size => 20 %><br/>
+	<%= form_tag({:action => 'create', :controller => "users"}, {:method => "post", :id => "form"}) do%>
+		<label for="user_login">Username</label>
+		<%= text_field "user", "login", :class => "form-poshytip", :title => "Username" %><br/>
 		
-		<label for="user_password">Password</label><br/>
-		<%= password_field "user", "password", :size => 20 %><br/>
+		<label for="user_password">Password</label>
+		<%= password_field "user", "password", :class => "form-poshytip", :title => "Password" %><br/>
 		
-		<label for="user_password_confirmation">Password Confirmation</label><br/>
-		<%= password_field "user", "password_confirmation", :size => 20 %><br/>
+		<label for="user_password_confirmation">Password Confirmation</label>
+		<%= password_field "user", "password_confirmation", :class => "form-poshytip", :title => "Password Confirmation" %><br/>
 		
-		<label for="user_email">Email</label><br/>
-		<%= text_field "user", "email",  :size => 20 %><br/>
+		<label for="user_email">Email</label>
+		<%= text_field "user", "email",  :class => "form-poshytip", :title => "Email" %><br/>
 		
-		<label for="user_email_confirmation">Email Confirmation</label><br/>
-		<%= text_field "user", "email_confirmation", :size => 20 %><br/>
+		<label for="user_email_confirmation">Email Confirmation</label>
+		<%= text_field "user", "email_confirmation", :class => "form-poshytip", :title => "Email Confirmation" %><br/>
 		
-		<%= submit_tag "Register" %>
+		<%= submit_tag "Register", :id => "submit" %>
 	<% end %>
 <% end %>
