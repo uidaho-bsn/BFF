@@ -55,7 +55,7 @@ class UsersController < ApplicationController
       redirect_to root_url
       else
         flash[:warning] = "Login Failed"
-        redirect_to root_url
+        redirect_to root_url, :notice => "Login Failed"
       end
     end
   end
