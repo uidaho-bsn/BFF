@@ -6,14 +6,6 @@
 		<%= stylesheet_link_tag 'application', :media => 'all' %>
 		<%= stylesheet_link_tag 'mobile' if mobile_device? %>
 		
-		<%= javascript_include_tag 'jquery' %>
-		
-		<!-- poshytip -->
-		<%= stylesheet_link_tag 'poshytip-1.0/src/tip-twitter/tip-twitter.css' %>
-		<%= stylesheet_link_tag 'poshytip-1.0/src/tip-yellowsimple/tip-yellowsimple.css' %>
-		<%= javascript_include_tag 'poshytip-1.0/src/jquery.poshytip.min.js' %>
-		<!-- ENDS poshytip -->
-		
 		<%= yield :head %>
 	    <!--[if lt IE 9]>
 	  		<script src="//html5shim.googlecode.com/sin/trunk/html5.js"></script>
