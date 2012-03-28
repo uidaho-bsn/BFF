@@ -30,13 +30,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    
+=begin
     if User.find(0) == nil
       @user.admin = true
     else
       @user.admin = false
     end
-
+=end
     if request.post?  
       if @user.save
         session[:user] = User.authenticate(@user.login, @user.password)
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
       redirect_to root_url
       else
         flash[:warning] = "Login Failed"
-        redirect_to root_url
+        redirect_to root_url, :notice => "Login Failed"
       end
     end
   end

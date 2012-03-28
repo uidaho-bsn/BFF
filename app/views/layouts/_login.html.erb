@@ -1,25 +1,25 @@
 <% if session[:user] == nil %>
-<p id="notice"><%= notice%></p>
-	<div class="login">
-		<%= form_tag :action => "login", :method => "post", :controller => "users", :id => "loginform" do %>
-			<div>
-			  	<%= text_field "user", "login", :onfocus => "defaultInput(this)", :onblur => "clearInput(this)", :class => "text_field" %>
-			  	<br />
-			  	<%= password_field "user", "password", :onfocus => "defaultInput(this)", :onblur => "clearInput(this)", :class => "text_field" %>
-				
-				<%= submit_tag "Submit" %>				
-				<br />
-	    	</div>
-		<div id="subtext">
-			<%= link_to 'Register', root_url + 'users/register' %> | <%= link_to 'Forgot Password', root_url + 'users/forgot_password' %>
-		</div> 
-	</div>
-<% end %>
+	<%= form_tag({:action => "login", :controller => "users"}, {:method => "post", :id => "login-form"}) do %>
+		
+		<% if notice != nil %>
+			<font color="red"><%= notice %></font>
+		<% else %>
+			<font color="#bac0c9">Login</font>
+		<% end %>
+		<br />
+		
+	  	<%= text_field "user", "login" %>
+	  	<br />
+	  	<%= password_field "user", "password" %>
+		
+		<%= submit_tag "Submit", :id => "submit" %>		
+		<br />
+	
+		<%= link_to 'Register', root_url + 'users/register' %> | <%= link_to 'Forgot Password', root_url + 'users/forgot_password' %>
+	<% end %>
 <% else %>
-	<div class="login">
+	<div id="login">
 		Welcome <%= link_to current_user.login, user_path(current_user) %> <br />
-		<div id="subtext">
-			<%= link_to 'Logout', logout_users_path %>
-		</div>
+		<%= link_to 'Logout', logout_users_path %>
 	</div>
 <% end %>
