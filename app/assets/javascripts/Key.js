@@ -290,7 +290,7 @@ function Key(name, x, y, r, t, type, status) {
 	function update_mouse() {
 		hover = false;
 		
-		if(type == 'oval-small' || type == 'oval-med' || type == 'oval-large') { //fix me for ellipse math!!!!
+		if(type == 'oval-small' || type == 'oval-med' || type == 'oval-large') {
 			var dx = (x * scale_X) - mouse_X;
 			var dy = (y * scale_Y) - mouse_Y;
 
@@ -298,13 +298,28 @@ function Key(name, x, y, r, t, type, status) {
 			
 			if(dx * dx + dy * dy <= r2 * r2) { hover = true; };
 		}
-		else if (type == 'half-circle' || type == 'half-circle-flat') { // fix me for semi circle math!!!
-			var dx = (x * scale_X) - mouse_X;
-			var dy = (y * scale_Y) - mouse_Y;
-
-			var r2 = r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
+		else if (type == 'half-circle' || type == 'half-circle-flat') {
+			var ax = x - r;
+			var ay = y;
+			var bx = x + r;
+			var by = y;
 			
-			if(dx * dx + dy * dy <= r2 * r2) { hover = true; };
+			var v1x = bx - x;
+			var v1y = by - y;
+			var v2x = mouse_X - x;
+			var v2y = mouse_Y - y;
+			
+			prod = v1x * v2y - v1y * v2x;
+			
+			var orientation = "left";
+			switch(orientation) {
+				case "left":
+					if(prod >= 0 && (Math.sqrt(Math.pow(x - mouse_X, 2) + Math.pow(y - mouse_Y, 2))) <= r) { hover = true; };
+				break;
+				case "right":
+					if(prod >= 0 && (Math.sqrt(Math.pow(x - mouse_X, 2) + Math.pow(y - mouse_Y, 2))) <= r) { hover = true; };
+				break;
+			};
 		}
 		else {
 			var dx = (x * scale_X) - mouse_X;
@@ -317,6 +332,10 @@ function Key(name, x, y, r, t, type, status) {
 		
 		if(hover       && pointer == '')   { pointer = name; }
 		else if(!hover && pointer == name) { pointer = ''; };
+	};
+	
+	function distance(ax, ay, bx, by) {
+		
 	};
 	
 	function OnClick() {
