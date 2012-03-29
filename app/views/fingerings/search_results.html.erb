@@ -1,0 +1,36 @@
+<% content_for :head do %>
+	<title>BFF::Search Fingering</title>
+	<% if notice == nil %>
+		<%= javascript_include_tag :application, :fingerings %>
+		<script>
+			var fingering_id = "<%= @fingering_status %>";
+			var note_tone_id = "<%= @note_tone %>";
+		</script>
+	<% end %>
+	
+<% end %>
+
+
+
+<% content_for :page_title do %>
+	Search Results: 
+<% end %>
+
+<% content_for :page_subtitle do %>
+	<% if notice != nil %>
+	<font color="red"><%= notice %></font>
+	<% end %>
+<% end %>
+
+<% content_for :content do %>
+	<canvas id="show_fingering" width="500" height="600">
+    	<p>Unfortunately, your browser is currently unsupported by our web 
+        	application. We are sorry for the inconvenience. Please use one of the 
+        	supported browsers listed below. </p>
+        <p>Supported browsers: 
+        	<a href="http://www.mozilla.com">Firefox</a> <br />
+        	<a href="www.google.com/chrome">Chrome</a> </p>
+	</canvas>
+	<br />
+	<%= link_to 'Search More Fingerings', search_fingerings_path %>
+<% end %>

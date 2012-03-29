@@ -1,14 +1,14 @@
 <% content_for :head do %>
-	<title>BFF::New Fingering</title>
+	<title>BFF::Search Fingering</title>
 	<%= javascript_include_tag :application, :fingerings %>
 <% end %>
 
 <% content_for :page_title do %>
-	Enter a new fingering:
+	Search for a fingering:
 <% end %>
 
 <% content_for :page_subtitle do %>
-	This is a work in progess!
+	This is a work in progress!
 <% end %>
 
 <% content_for :content do %>
@@ -21,11 +21,11 @@
         	<a href="www.google.com/chrome">Chrome</a> </p>
 	</canvas>
 	<br />
-	<%= form_tag({:action => 'create', :controller => "fingerings"}, {:method => "post", :style => "display:inline;"}) do %>
+	<%= form_tag({:action => 'search_results', :controller => "fingerings"}, {:method => "post", :style => "display:inline;"}) do %>
 		<%= hidden_field "fingering", "fingering_status" %>
 		<%= hidden_field "fingering", "note_tone" %>
 		
-		<%= submit_tag "Submit", :onclick => "fingering_fingering_status.value = fingering_chart.ToString(); 
+		<%= submit_tag "Search", :onclick => "fingering_fingering_status.value = fingering_chart.ToString(); 
 			fingering_note_tone.value = fingering_chart.ToString(\"note\");" %>
 	<% end %>
 	<%= button_to 'Cancel', fingerings_path, :method => :get %>

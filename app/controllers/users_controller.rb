@@ -69,7 +69,6 @@ class UsersController < ApplicationController
 
   def forgot_password
     if request.post?
-      debugger
       usr = User.find_by_email(params[:user][:email])
       usr.send_new_password if usr
       if ActionMailer::Base.deliveries.empty? 
@@ -87,9 +86,11 @@ class UsersController < ApplicationController
     if request.post?
       @user.update_attributes(:password=>params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
       if @user.save
-        flash[:message] = "Password Changed"
+        redirect_to root_url, :notice => "Password Successfully Changed."
       end
+      redirect_to root_url, :notice => "Password NOT Changed."
     end
+    
   end
   
   def set_admin(curr_user)
