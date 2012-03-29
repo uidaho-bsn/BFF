@@ -29,7 +29,7 @@ function Fingering(keys_string, note, tone, help) {
 	var trill_eflat 		  = new Key("trill_eflat",          0,    0,  0,  0,                        'oval-small',          keys_string[18]);
 	var hole_3				  = new Key("hole_3",               130, 60,  8,  0, 						'circle',              keys_string[19]);
 	var low_eflat 			  = new Key("low_eflat",            150, 73,  10, -( 190 * Math.PI ) / 180, 'half-circle',         keys_string[20]);
-	var low_dflat 			  = new Key("low_dflat",            151, 76,  10, -( 10 * Math.PI ) / 180,  'half-circle',         keys_string[21]);
+	var low_dflat 			  = new Key("low_dflat",            151, 76,  10, -( 10 * Math.PI  ) / 180, 'half-circle',         keys_string[21]);
 	var trill_csharp 		  = new Key("trill_csharp",         115, 100, 10, 0,                        'oval-small',          keys_string[22]);
 	var hole_4				  = new Key("hole_4",               130, 110, 8,  0, 						'circle',              keys_string[23]);
 	var hole_5				  = new Key("hole_5",               130, 135, 8,  0, 						'circle',              keys_string[24]);
@@ -120,11 +120,44 @@ function Fingering(keys_string, note, tone, help) {
 
 	function update_mouse() {
 		help_hover = false;
-
+		
 		if((mouse_X > (190 * scale_X) && mouse_X < (200 * scale_X)) && (mouse_Y > (0 * scale_Y) && mouse_Y < (10 * scale_Y))) { help_hover = true; }
 		
 		if(help_hover       && pointer == '')     { pointer = 'help'; }
 		else if(!help_hover && pointer == 'help') { pointer = '' };
+	};
+	
+	function Unhover() {
+		low_bflat.Unhover();
+		low_b.Unhover();
+		low_c.Unhover();
+		low_d.Unhover();
+		whisper.Unhover();
+		thumb_csharp.Unhover();
+		high_a.Unhover();
+		high_c.Unhover();
+		high_d.Unhover();
+		thumb_bflat.Unhover();
+		low_e.Unhover();
+		thumb_fsharp.Unhover();
+		thumb_aflat.Unhover();
+		trill_a_to_b.Unhover();
+		trill_g.Unhover();
+		hole_1.Unhover();
+		trill_fsharp.Unhover();
+		hole_2.Unhover();
+		trill_eflat.Unhover();
+		hole_3.Unhover();
+		low_eflat.Unhover();
+		low_dflat.Unhover();
+		trill_csharp.Unhover();
+		hole_4.Unhover();
+		hole_5.Unhover();
+		trill_bflat.Unhover();
+		low_g.Unhover();
+		low_f.Unhover();
+		little_finger_fsharp.Unhover();
+		little_finger_aflat.Unhover();
 	};
 	/* End Update Functions */
 	

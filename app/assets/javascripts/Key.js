@@ -15,6 +15,7 @@ function Key(name, x, y, r, t, type, status) {
 	else            { status = status; };
 	/* Public Functions */
 	this.Update   = Update;
+	this.Unhover  = Unhover;
 	this.OnClick  = OnClick;
 	this.ToString = ToString;
 
@@ -283,8 +284,6 @@ function Key(name, x, y, r, t, type, status) {
 		draw();
 		
 		update_mouse();
-		
-
 	};	
 
 	function update_mouse() {
@@ -299,26 +298,24 @@ function Key(name, x, y, r, t, type, status) {
 			if(dx * dx + dy * dy <= r2 * r2) { hover = true; };
 		}
 		else if (type == 'half-circle' || type == 'half-circle-flat') {
-			var ax = x - r;
-			var ay = y;
-			var bx = x + r;
-			var by = y;
+			var sr =   r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.75;
+			var ax = -sr * Math.cos(t);
+			var ay = -sr * Math.sin(t);
+			var bx =  sr * Math.cos(t);
+			var by =  sr * Math.sin(t);
 			
-			var v1x = bx - x;
-			var v1y = by - y;
-			var v2x = mouse_X - x;
-			var v2y = mouse_Y - y;
+			var v1x = bx - (x * scale_X);
+			var v1y = by - (y * scale_Y);
+			var v2x = mouse_X - (x * scale_X);
+			var v2y = mouse_Y - (y * scale_Y);
 			
 			prod = v1x * v2y - v1y * v2x;
 			
-			var orientation = "left";
-			switch(orientation) {
-				case "left":
-					if(prod >= 0 && (Math.sqrt(Math.pow(x - mouse_X, 2) + Math.pow(y - mouse_Y, 2))) <= r) { hover = true; };
-				break;
-				case "right":
-					if(prod >= 0 && (Math.sqrt(Math.pow(x - mouse_X, 2) + Math.pow(y - mouse_Y, 2))) <= r) { hover = true; };
-				break;
+			if(!(t <= 0 && t > -Math.PI) && (t != -( 300 * Math.PI ) / 180)) {
+				if(prod >= 0 && (Math.sqrt(Math.pow((x * scale_X) - mouse_X, 2) + Math.pow((y * scale_Y) - mouse_Y, 2))) <= sr) { hover = true; };
+			}
+			else {
+				if(prod <= 0 && (Math.sqrt(Math.pow((x * scale_X) - mouse_X, 2) + Math.pow((y * scale_Y) - mouse_Y, 2))) <= sr) { hover = true; };
 			};
 		}
 		else {
@@ -333,11 +330,13 @@ function Key(name, x, y, r, t, type, status) {
 		if(hover       && pointer == '')   { pointer = name; }
 		else if(!hover && pointer == name) { pointer = ''; };
 	};
-	
-	function distance(ax, ay, bx, by) {
-		
+
+	function Unhover() {
+		hover = false;
 	};
-	
+	/* End Update Functions */
+		
+	/* Begin Event Functions */
 	function OnClick() {
 		if(hover) {
 			switch (type) {
@@ -366,7 +365,7 @@ function Key(name, x, y, r, t, type, status) {
 			return true;
 		};
 	};
-	/* End Update Functions */
+	/* End Event Functions */
 	
 	/* Begin Helpers */
 	function ToString() {
