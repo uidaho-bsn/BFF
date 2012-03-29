@@ -9,6 +9,8 @@ class CreateUsers < ActiveRecord::Migration
       t.column :password_reset_token, :string
       t.column :password_reset_sent_at, :datetime
       t.column :admin, :boolean
+      t.column :skill, :string
+      t.column :time_zone, :string
     end
   end
 

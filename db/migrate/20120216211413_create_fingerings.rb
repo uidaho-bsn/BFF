@@ -3,13 +3,15 @@ class CreateFingerings < ActiveRecord::Migration
     create_table :fingerings do |t|
       t.column :note_tone, :string
       t.column :fingering_status, :string
-      t.column :user_id, :int
+      t.column :user_name, :string
       t.column :votes_beginner, :int
       t.column :votes_intermediate, :int
       t.column :votes_advanced, :int
       t.column :votes_professional, :int
       t.column :created_at, :datetime
       t.column :approved, :bool
+      t.column :standard, :bool
+      t.column :source, :string
     end
   end
   
