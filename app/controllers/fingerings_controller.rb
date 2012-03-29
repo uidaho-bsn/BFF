@@ -9,7 +9,33 @@ class FingeringsController < ApplicationController
       format.json { render json: @fingerings }
     end
   end
-
+  
+  def search
+    @fingering = Fingering.new(params[:fingering])
+    #@fingering = Fingering.find(params[:id])
+    #@fingering_status = @fingering.fingering_status
+    @note_tone = @fingering.note_tone
+    respond_to do |format|
+      format.html
+      format.json { render json: @fingering }
+    end
+  end
+  
+  def search_results
+    fingering = Fingering.find_by_note_tone(params[:fingering][:note_tone])
+    if fingering
+      @fingering = fingering
+      @note_tone = @fingering.note_tone
+      @fingering_status = @fingering.fingering_status
+      respond_to do |format|
+        format.html
+        format.json { render json: @fingering } 
+      end
+    else
+      flash[:notice] = "No fingerings match that note."
+     end
+  end
+  
   def show
     @fingering = Fingering.find(params[:id])
     @fingering_status = @fingering.fingering_status
@@ -80,4 +106,6 @@ class FingeringsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+
 end

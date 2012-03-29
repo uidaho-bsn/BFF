@@ -17,6 +17,7 @@ Tab::Application.routes.draw do
         get :logout
         get 'forgot_password'
         get 'change_password'
+        post 'change_password'
         post 'forgot_password'
       end
   end
@@ -24,7 +25,11 @@ Tab::Application.routes.draw do
 
   resources :example_musics
 
-  resources :fingerings, :only => [:index, :show, :new, :create, :edit, :update, :destroy] do
+  resources :fingerings, :only => [:index, :new, :show, :create, :edit, :update, :destroy] do
+    collection do
+      get 'search'
+      post 'search_results'
+    end
     
   end
 

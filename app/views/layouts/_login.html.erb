@@ -23,5 +23,6 @@
 	<div id="login">
 		Welcome <%= link_to current_user.login, user_path(current_user) %> <br />
 		<%= link_to 'Logout', logout_users_path %>
+		<%= link_to 'Change Password', change_password_users_path %>
 	</div>
 <% end %>
