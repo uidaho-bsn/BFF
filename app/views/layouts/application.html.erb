@@ -5,7 +5,6 @@
 		<meta name='TAB' content="Fill me in!" />
 		<%= stylesheet_link_tag 'application', :media => 'all' %>
 		<%= stylesheet_link_tag 'mobile' if mobile_device? %>
-		
 		<%= yield :head %>
 	    <!--[if lt IE 9]>
 	  		<script src="//html5shim.googlecode.com/sin/trunk/html5.js"></script>
@@ -15,7 +14,7 @@
 
 	<body>
 		<div id="header">
-			<a href="index.html"><img id="" src="" alt="" /></a>
+			<!--<%= image_tag "", :alt => "Bassoon Fingering Finder"%>-->
 			<%= render "layouts/login" %>
 		</div>
 		<div id="menu">
