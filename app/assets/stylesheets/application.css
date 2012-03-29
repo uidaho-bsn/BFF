@@ -325,6 +325,12 @@ h6{ font-size: 20px; }
 	margin-bottom: 5px;
 }
 
+#form label.error
+{
+	color: red;
+	font-size: 10px;
+}
+
 #login
 {
 	position: absolute;

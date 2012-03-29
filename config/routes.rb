@@ -19,9 +19,10 @@ Tab::Application.routes.draw do
         get 'change_password'
         post 'change_password'
         post 'forgot_password'
+        get :check_email
+        get :check_login
       end
   end
-
 
   resources :example_musics
 

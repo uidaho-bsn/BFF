@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :only => ['change_password', 'hidden', 'destroy']
+  before_filter :login_required, :only => ['change_password', 'destroy', 'index', 'logout', 'change_password', 'show', 'edit']
 
   def index
     @users = User.all
@@ -7,25 +7,10 @@ class UsersController < ApplicationController
       format.html
       format.json { render json: @users }
     end
-
   end
 
   def new
     @user = User.new(params[:user])
-=begin
-    if request.post?  
-      if @user.save
-        if @users <= 1
-          user.admin = true
-        end
-        session[:user] = User.authenticate(@user.login, @user.password)
-        flash[:message] = "Registration Successful"
-        redirect_to root_url       
-      else
-        flash[:warning] = "Registration Unsuccessful"
-      end
-    end
-=end
   end
 
   def create
@@ -45,6 +30,7 @@ class UsersController < ApplicationController
         redirect_to root_url         
       else
         flash[:warning] = "Registration Unsuccessful"
+        redirect_to root_url + 'users/register'
       end
     end
   end
@@ -109,7 +95,6 @@ class UsersController < ApplicationController
   
   def edit
     @curr = User.find(params[:id])
-
   end
   
   def update
@@ -145,10 +130,22 @@ class UsersController < ApplicationController
   #  respond_with(@product)  
   #end
 
-  
-  def destroy 
+  def check_email
+    @user = User.find_by_email(params[:user][:email])
+    
+    respond_to do |format|
+      format.json { render :json => !@user }
+    end
   end
   
-  def hidden
+  def check_login
+    @user = User.find_by_login(params[:user][:login])
+    
+    respond_to do |format|
+      format.json { render :json => !@user }
+    end
+  end
+  
+  def destroy 
   end
 end
