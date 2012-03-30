@@ -16,7 +16,7 @@
 		  		:onfocus => "if(user_password.value == \"password\"){ user_password.value = ''; }", 
 		  		:onblur  => "if(user_password.value == '') { user_password.value = \"password\"; }" %>
 			
-			<%= submit_tag "Submit", :id => "submit" %>		
+			<%= submit_tag "Login", :id => "submit" %>		
 			<br />
 			<%= link_to 'Register', root_url + 'users/register' %> | <%= link_to 'Forgot Password', root_url + 'users/forgot_password' %>
 		<% end %>
