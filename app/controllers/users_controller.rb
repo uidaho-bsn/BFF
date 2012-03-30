@@ -15,15 +15,16 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-=begin
-    if User.find(0) == nil
-      @user.admin = true
-    else
-      @user.admin = false
-    end
-=end
-    if request.post?  
+
+      if request.post?  
       if @user.save
+
+        if @user.id == 1
+          @user.admin = true
+        else
+          @user.admin = false
+        end
+         
         session[:user] = User.authenticate(@user.login, @user.password)
         @user.send_welcome # welcome email
         flash[:message] = "Registration Successful"
