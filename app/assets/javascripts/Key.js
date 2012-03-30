@@ -2,20 +2,11 @@
  * @author Max Stillwell
  */
 
-function Key(name, x, y, r, t, type, status) {
+function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 	/* Private Variables */
-	var x = x;
-	var y = y;
-	var r = r;
-	var t = t;
-	var name  = name;
-	var type  = type;
 	var hover = false;
-	if(status == 0) { status = 7; }
-	else            { status = status; };
 	/* Public Functions */
 	this.Update   = Update;
-	this.Unhover  = Unhover;
 	this.OnClick  = OnClick;
 	this.ToString = ToString;
 
@@ -211,20 +202,14 @@ function Key(name, x, y, r, t, type, status) {
 				ctx.lineTo(-10, 0);
 				switch(parseInt(status)){
 					case 5: // Hatch Pattern (Optional Key)
-						ctx.moveTo(10, -8);
-						ctx.lineTo(-10, 4);
-						ctx.moveTo(6, -9);
-						ctx.lineTo(-10, 0);
-						ctx.moveTo(1, -9);
-						ctx.lineTo(-9, -4);
-						ctx.moveTo(8.5, -3.5);
-						ctx.lineTo(-5, 4);
+						ctx.moveTo(10, -8);    ctx.lineTo(-10, 4);
+						ctx.moveTo(6, -9);     ctx.lineTo(-10, 0);
+						ctx.moveTo(1, -9);     ctx.lineTo(-9, -4);
+						ctx.moveTo(8.5, -3.5); ctx.lineTo(-5, 4);
 					break;
 					case 6: // X (Flicked Key)
-						ctx.moveTo(10, -8);
-						ctx.lineTo(-10, 4);
-						ctx.moveTo(6, 4);
-						ctx.lineTo(-7, -8);
+						ctx.moveTo(10, -8); ctx.lineTo(-10, 4);
+						ctx.moveTo(6, 4);   ctx.lineTo(-7, -8);
 					break;
 				};
 			ctx.closePath();
@@ -251,20 +236,14 @@ function Key(name, x, y, r, t, type, status) {
 				ctx.lineTo(-10, 5);
 				switch(parseInt(status)){
 					case 5: // Hatch Pattern (Optional Key)
-						ctx.moveTo(-10, 5);
-						ctx.lineTo(9, -3.5);
-						ctx.moveTo(-3, 5);
-						ctx.lineTo(9, 0);
-						ctx.moveTo(-9, 0.5);
-						ctx.lineTo(6, -5);
-						ctx.moveTo(-8, -3);
-						ctx.lineTo(0, -5.5);
+						ctx.moveTo(-10, 5);  ctx.lineTo(9, -3.5);
+						ctx.moveTo(-3, 5);   ctx.lineTo(9, 0);
+						ctx.moveTo(-9, 0.5); ctx.lineTo(6, -5);
+						ctx.moveTo(-8, -3);  ctx.lineTo(0, -5.5);
 					break;
 					case 6: // X (Flicked Key)
-						ctx.moveTo(-7, -7);
-						ctx.lineTo(9, 3.5);
-						ctx.moveTo(-10, 5);
-						ctx.lineTo(9, -3.5);
+						ctx.moveTo(-7, -7); ctx.lineTo(9, 3.5);
+						ctx.moveTo(-10, 5); ctx.lineTo(9, -3.5);
 					break;
 				};
 			ctx.closePath();
@@ -290,8 +269,8 @@ function Key(name, x, y, r, t, type, status) {
 		hover = false;
 		
 		if(type == 'oval-small' || type == 'oval-med' || type == 'oval-large') {
-			var dx = (x * scale_X) - mouse_X;
-			var dy = (y * scale_Y) - mouse_Y;
+			var dx = ((x + offset_x) * scale_X) - mouse_X;
+			var dy = ((y + offset_y) * scale_Y) - mouse_Y;
 
 			var r2 = r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
 			
@@ -304,8 +283,8 @@ function Key(name, x, y, r, t, type, status) {
 			var bx =  sr * Math.cos(t);
 			var by =  sr * Math.sin(t);
 			
-			var v1x = bx - (x * scale_X);
-			var v1y = by - (y * scale_Y);
+			var v1x = bx - ((x + offset_x) * scale_X);
+			var v1y = by - ((y + offset_y) * scale_Y);
 			var v2x = mouse_X - (x * scale_X);
 			var v2y = mouse_Y - (y * scale_Y);
 			
@@ -319,9 +298,9 @@ function Key(name, x, y, r, t, type, status) {
 			};
 		}
 		else {
-			var dx = (x * scale_X) - mouse_X;
-			var dy = (y * scale_Y) - mouse_Y;
-			
+			var dx = ((x + offset_x) * scale_X) - mouse_X;
+			var dy = ((y + offset_y) * scale_Y) - mouse_Y;
+
 			var r2 = r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
 			
 			if(dx * dx + dy * dy <= r2 * r2) { hover = true; };
@@ -329,10 +308,6 @@ function Key(name, x, y, r, t, type, status) {
 		
 		if(hover       && pointer == '')   { pointer = name; }
 		else if(!hover && pointer == name) { pointer = ''; };
-	};
-
-	function Unhover() {
-		hover = false;
 	};
 	/* End Update Functions */
 		

@@ -2,20 +2,18 @@
  * @author Max Stillwell
  */
 
-function Note(note, tone) {
-	/* Public Functions */
-	this.Update   = Update;
-	this.OnClick  = OnClick; 
-	this.ToString = ToString;
+function Note(note, tone, offset_x, offset_y) {
 	/* Private Variables */
-	var note = note;
-	var tone = tone;
 	var e2 = false; var f2 = false; var g2 = false;
 	var a2 = false; var b2 = false; var c3 = false;
 	var d3 = false; var e3 = false; var f3 = false;
 	var g3 = false; var a3 = false; var b3 = false;
 	var tone_hover = false;
 	var note_hover = false;
+	/* Public Functions */
+	this.Update   = Update;
+	this.OnClick  = OnClick; 
+	this.ToString = ToString;
 	
 	/* Begin Draw Functions */
 	function draw() {
@@ -24,33 +22,20 @@ function Note(note, tone) {
 		draw_text();
 		
 		ctx.fillStyle = "black";
-		draw_e2();
-		draw_f2();
-		draw_g2();
-		draw_a2();
-		draw_b2();
-		draw_c3();
-		draw_d3();
-		draw_e3();
-		draw_f3();
-		draw_g3();
-		draw_a3();
-		draw_b3();
+		draw_e2(); draw_f2(); draw_g2();
+		draw_a2(); draw_b2(); draw_c3();
+		draw_d3(); draw_e3(); draw_f3();
+		draw_g3(); draw_a3(); draw_b3();
 	};
 	
 	function draw_staff() {
 		ctx.save();
 			ctx.beginPath();
-				ctx.moveTo(0, 225);
-				ctx.lineTo(200, 225);
-				ctx.moveTo(0, 220);
-				ctx.lineTo(200, 220);
-				ctx.moveTo(0, 215);
-				ctx.lineTo(200, 215);
-				ctx.moveTo(0, 210);
-				ctx.lineTo(200, 210);
-				ctx.moveTo(0, 205);
-				ctx.lineTo(200, 205);
+				ctx.moveTo(0, 225); ctx.lineTo(200, 225);
+				ctx.moveTo(0, 220); ctx.lineTo(200, 220);
+				ctx.moveTo(0, 215); ctx.lineTo(200, 215);
+				ctx.moveTo(0, 210); ctx.lineTo(200, 210);
+				ctx.moveTo(0, 205); ctx.lineTo(200, 205);
 			ctx.closePath();
 			
 			ctx.lineWidth = 0.5;
@@ -60,8 +45,9 @@ function Note(note, tone) {
 	
 	function draw_cleff() {
 		ctx.save();
-			ctx.font = "18pt Calibri";
+			ctx.font      = "18pt Calibri";
 			ctx.fillStyle = "black";
+
 			ctx.fillText("𝄢", 1, 223); //𝄢 - B:
 		ctx.restore();
 	};
@@ -376,19 +362,19 @@ function Note(note, tone) {
 	function update_mouse() {
 		e2 = f2 = g2 = a2 = b2 = c3 = d3 = e3 = f3 = g3 = a3 = b3 = tone_hover = note_hover = false;
 		
-		if(mouse_Y < (232.5 * scale_Y)      && mouse_Y > (227.5 * scale_Y)) { e2 = true; }
-		else if(mouse_Y < (230 * scale_Y)   && mouse_Y > (225 * scale_Y))   { f2 = true; }
-		else if(mouse_Y < (227.5 * scale_Y) && mouse_Y > (222.5 * scale_Y)) { g2 = true; }
-		else if(mouse_Y < (225 * scale_Y)   && mouse_Y > (220 * scale_Y))   { a2 = true; }
-		else if(mouse_Y < (222.5 * scale_Y) && mouse_Y > (217.5 * scale_Y)) { b2 = true; }
-		else if(mouse_Y < (220 * scale_Y)   && mouse_Y > (215 * scale_Y))   { c3 = true; }
-		else if(mouse_Y < (217.5 * scale_Y) && mouse_Y > (212.5 * scale_Y)) { d3 = true; }
-		else if(mouse_Y < (215 * scale_Y)   && mouse_Y > (210 * scale_Y))   { e3 = true; }
-		else if(mouse_Y < (212.5 * scale_Y) && mouse_Y > (207.5 * scale_Y)) { f3 = true; }
-		else if(mouse_Y < (210 * scale_Y)   && mouse_Y > (205 * scale_Y))   { g3 = true; }
-		else if(mouse_Y < (207.5 * scale_Y) && mouse_Y > (202.5 * scale_Y)) { a3 = true; }
-		else if(mouse_Y < (205 * scale_Y)   && mouse_Y > (200 * scale_Y))   { b3 = true; }
-		else if((mouse_X > (20 * scale_X) && mouse_X < (30 * scale_X)) && (mouse_Y > (190 * scale_Y) && mouse_Y < (215 * scale_Y))) { note_hover = tone_hover = true; };
+		if(mouse_Y < ((232.5      + offset_x) * scale_Y) && mouse_Y > ((227.5 + offset_y) * scale_Y)) { e2 = true; }
+		else if(mouse_Y < ((230   + offset_x) * scale_Y) && mouse_Y > ((225   + offset_y) * scale_Y)) { f2 = true; }
+		else if(mouse_Y < ((227.5 + offset_x) * scale_Y) && mouse_Y > ((222.5 + offset_y) * scale_Y)) { g2 = true; }
+		else if(mouse_Y < ((225   + offset_x) * scale_Y) && mouse_Y > ((220   + offset_y) * scale_Y)) { a2 = true; }
+		else if(mouse_Y < ((222.5 + offset_x) * scale_Y) && mouse_Y > ((217.5 + offset_y) * scale_Y)) { b2 = true; }
+		else if(mouse_Y < ((220   + offset_x) * scale_Y) && mouse_Y > ((215   + offset_y) * scale_Y)) { c3 = true; }
+		else if(mouse_Y < ((217.5 + offset_x) * scale_Y) && mouse_Y > ((212.5 + offset_y) * scale_Y)) { d3 = true; }
+		else if(mouse_Y < ((215   + offset_x) * scale_Y) && mouse_Y > ((210   + offset_y) * scale_Y)) { e3 = true; }
+		else if(mouse_Y < ((212.5 + offset_x) * scale_Y) && mouse_Y > ((207.5 + offset_y) * scale_Y)) { f3 = true; }
+		else if(mouse_Y < ((210   + offset_x) * scale_Y) && mouse_Y > ((205   + offset_y) * scale_Y)) { g3 = true; }
+		else if(mouse_Y < ((207.5 + offset_x) * scale_Y) && mouse_Y > ((202.5 + offset_y) * scale_Y)) { a3 = true; }
+		else if(mouse_Y < ((205   + offset_x) * scale_Y) && mouse_Y > ((200   + offset_y) * scale_Y)) { b3 = true; }
+		else if((mouse_X > ((20   + offset_x) * scale_X) && mouse_X < ((30    + offset_y) * scale_X)) && (mouse_Y > (190 * scale_Y) && mouse_Y < (215 * scale_Y))) { note_hover = tone_hover = true; };
 
 		var temp = (note_hover || tone_hover || e2 || f2 || g2 || a2 || b2 || c3 || d3 || e3 || f3 || g3 || a3 || b3)?true:false;
 		if(temp       && pointer == '')     { pointer = 'note'; }
