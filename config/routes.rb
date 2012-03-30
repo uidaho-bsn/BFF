@@ -31,7 +31,12 @@ Tab::Application.routes.draw do
       get 'search'
       post 'search_results'
     end
-    
+  end
+
+  resources :home do
+    collection do
+      get 'contact'
+    end
   end
 
   #resources :password
