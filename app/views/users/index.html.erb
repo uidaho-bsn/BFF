@@ -12,6 +12,7 @@
 			<th>Username</th>
 			<th>Email</th>
 	    	<th>Admin</th>
+	    	<th>ID</th>
 	    	<th></th>
 	    	<th></th>
 	    	<!--<th></th>-->
@@ -22,6 +23,7 @@
 			    <td><%= usr.login %></td>
 			    <td><%= usr.email %></td>
 			    <td><%= usr.admin %></td>
+			    <td><%= usr.id%></td>
 			    <td><%= link_to 'Show', user_path(usr) %></td>
 			    <td><%= link_to 'Edit', edit_user_path(usr) %></td>
 			    <!--<td><%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %></td>-->
