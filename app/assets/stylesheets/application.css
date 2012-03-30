@@ -115,6 +115,7 @@ body
 {
 	/*-webkit-user-select: none;*/
 	-webkit-tap-highlight-color: transparent;
+	display: inline;
 }
 
 
@@ -982,4 +983,42 @@ td, th{
 	background: -webkit-gradient(linear, left top, left bottom, from(#131313), to(#515558)); 
 	background: -moz-linear-gradient(top,  #131313,  #515558);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#131313', endColorstr='#515558', GradientType=0);
+}
+
+/* LISTS ------------------------------------------------------------*/
+
+
+.lists-check ul,
+.lists-arrow ul,
+.lists-plus ul,
+.lists-star ul,
+.lists-heart ul{
+	margin-bottom: 30px;
+	margin-left: 20px;
+}
+
+
+.lists-check ul li{ 
+	list-style-image: url(../img/bullets/check.png);
+	line-height: 1.5em;
+}
+	
+.lists-arrow ul{ 
+	list-style-image: url(../img/bullets/arrow.png); 
+	line-height: 1.5em;
+}
+
+.lists-plus ul{ 
+	list-style-image: url(../img/bullets/plus.png); 
+	line-height: 1.5em;
+}
+
+.lists-star ul{ 
+	list-style-image: url(../img/bullets/star.png); 
+	line-height: 1.5em;
+}
+
+.lists-heart ul{ 
+	list-style-image: url(../img/bullets/heart.png); 
+	line-height: 1.5em;
 }
