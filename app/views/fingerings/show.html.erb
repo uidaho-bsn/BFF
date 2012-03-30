@@ -1,6 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::Fingering ID #<%= @fingering.id %></title>
-	<%= javascript_include_tag :application, :fingerings %>
+	<%= javascript_include_tag :Fingerings %>
 	<script>
 		var fingering_id = "<%= @fingering_status %>";
 		var note_tone_id = "<%= @note_tone %>";

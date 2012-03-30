@@ -1,6 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::New Fingering</title>
-	<%= javascript_include_tag :application, :fingerings %>
+	<%= javascript_include_tag :Fingerings %>
 <% end %>
 
 <% content_for :page_title do %>
@@ -20,13 +20,13 @@
         	<a href="http://www.mozilla.com">Firefox</a> <br />
         	<a href="www.google.com/chrome">Chrome</a> </p>
 	</canvas>
+
 	<br />
 	<%= form_tag({:action => 'create', :controller => "fingerings"}, {:method => "post", :style => "display:inline;"}) do %>
 		<%= hidden_field "fingering", "fingering_status" %>
 		<%= hidden_field "fingering", "note_tone" %>
 		
-		<%= submit_tag "Submit", :onclick => "fingering_fingering_status.value = fingering_chart.ToString(); 
-			fingering_note_tone.value = fingering_chart.ToString(\"note\");" %>
+		<%= submit_tag "Submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
 	<% end %>
 	<%= button_to 'Cancel', fingerings_path, :method => :get %>
 <% end %>

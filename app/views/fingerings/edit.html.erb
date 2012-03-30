@@ -1,6 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::Edit Fingering ID #<%= @fingering.id %></title>
-	<%= javascript_include_tag :application, :fingerings %>
+	<%= javascript_include_tag :Fingerings %>
 	<script>
 		var fingering_id = "<%= @fingering_status %>";
 		var note_tone_id = "<%= @note_tone %>";
@@ -31,8 +31,7 @@
 		<% end %>
 		<br />
 		
-		<%= submit_tag "Save", :onclick => "fingering_fingering_status.value = fingering_chart.ToString(); 
-			fingering_note_tone.value = fingering_chart.ToString(\"note\");" %>
+		<%= submit_tag "Save", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
 	<% end %>
 	<%= button_to 'Cancel', @fingering, :method => :get %>
 <% end %>
