@@ -10,7 +10,7 @@ class CreateFingerings < ActiveRecord::Migration
       t.column :votes_professional, :int
       t.column :created_at, :datetime
       t.column :approved, :bool
-      t.column :standard, :bool
+      t.column :type, :string #Standard, Alternate, Pianissimo, Trill, Shake
       t.column :source, :string
     end
   end
