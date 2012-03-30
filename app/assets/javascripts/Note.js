@@ -362,19 +362,32 @@ function Note(note, tone, offset_x, offset_y) {
 	function update_mouse() {
 		e2 = f2 = g2 = a2 = b2 = c3 = d3 = e3 = f3 = g3 = a3 = b3 = tone_hover = note_hover = false;
 		
-		if(mouse_Y < ((232.5      + offset_x) * scale_Y) && mouse_Y > ((227.5 + offset_y) * scale_Y)) { e2 = true; }
-		else if(mouse_Y < ((230   + offset_x) * scale_Y) && mouse_Y > ((225   + offset_y) * scale_Y)) { f2 = true; }
-		else if(mouse_Y < ((227.5 + offset_x) * scale_Y) && mouse_Y > ((222.5 + offset_y) * scale_Y)) { g2 = true; }
-		else if(mouse_Y < ((225   + offset_x) * scale_Y) && mouse_Y > ((220   + offset_y) * scale_Y)) { a2 = true; }
-		else if(mouse_Y < ((222.5 + offset_x) * scale_Y) && mouse_Y > ((217.5 + offset_y) * scale_Y)) { b2 = true; }
-		else if(mouse_Y < ((220   + offset_x) * scale_Y) && mouse_Y > ((215   + offset_y) * scale_Y)) { c3 = true; }
-		else if(mouse_Y < ((217.5 + offset_x) * scale_Y) && mouse_Y > ((212.5 + offset_y) * scale_Y)) { d3 = true; }
-		else if(mouse_Y < ((215   + offset_x) * scale_Y) && mouse_Y > ((210   + offset_y) * scale_Y)) { e3 = true; }
-		else if(mouse_Y < ((212.5 + offset_x) * scale_Y) && mouse_Y > ((207.5 + offset_y) * scale_Y)) { f3 = true; }
-		else if(mouse_Y < ((210   + offset_x) * scale_Y) && mouse_Y > ((205   + offset_y) * scale_Y)) { g3 = true; }
-		else if(mouse_Y < ((207.5 + offset_x) * scale_Y) && mouse_Y > ((202.5 + offset_y) * scale_Y)) { a3 = true; }
-		else if(mouse_Y < ((205   + offset_x) * scale_Y) && mouse_Y > ((200   + offset_y) * scale_Y)) { b3 = true; }
-		else if((mouse_X > ((20   + offset_x) * scale_X) && mouse_X < ((30    + offset_y) * scale_X)) && (mouse_Y > (190 * scale_Y) && mouse_Y < (215 * scale_Y))) { note_hover = tone_hover = true; };
+		if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			(mouse_Y < ((232.5 + offset_y) * scale_Y) && mouse_Y > ((227.5 + offset_y) * scale_Y))) { e2 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((230   + offset_y) * scale_Y) && mouse_Y > ((225   + offset_y) * scale_Y)) { f2 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((227.5 + offset_y) * scale_Y) && mouse_Y > ((222.5 + offset_y) * scale_Y)) { g2 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((225   + offset_y) * scale_Y) && mouse_Y > ((220   + offset_y) * scale_Y)) { a2 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((222.5 + offset_y) * scale_Y) && mouse_Y > ((217.5 + offset_y) * scale_Y)) { b2 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((220   + offset_y) * scale_Y) && mouse_Y > ((215   + offset_y) * scale_Y)) { c3 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((217.5 + offset_y) * scale_Y) && mouse_Y > ((212.5 + offset_y) * scale_Y)) { d3 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((215   + offset_y) * scale_Y) && mouse_Y > ((210   + offset_y) * scale_Y)) { e3 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((212.5 + offset_y) * scale_Y) && mouse_Y > ((207.5 + offset_y) * scale_Y)) { f3 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((210   + offset_y) * scale_Y) && mouse_Y > ((205   + offset_y) * scale_Y)) { g3 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((207.5 + offset_y) * scale_Y) && mouse_Y > ((202.5 + offset_y) * scale_Y)) { a3 = true; }
+		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
+			mouse_Y < ((205   + offset_y) * scale_Y) && mouse_Y > ((200   + offset_y) * scale_Y)) { b3 = true; }
+		else if((mouse_X > ((20   + offset_x) * scale_X) && mouse_X < ((30    + offset_x) * scale_X)) && 
+			(mouse_Y > ((190 + offset_y) * scale_Y) && mouse_Y < ((215 + offset_y) * scale_Y))) { note_hover = tone_hover = true; };
 
 		var temp = (note_hover || tone_hover || e2 || f2 || g2 || a2 || b2 || c3 || d3 || e3 || f3 || g3 || a3 || b3)?true:false;
 		if(temp       && pointer == '')     { pointer = 'note'; }

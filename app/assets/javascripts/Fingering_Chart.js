@@ -2,14 +2,12 @@
  * @author Max Stillwell
  */
 
-function Fingering_Chart(drawAreaW, drawAreaH, x, y, keys_string, note, tone, help, first) {
+function Fingering_Chart(offset_x, offset_y, keys_string, note, tone, help, first) {
 	/* Private Variables */
 	var x = x;
 	var y = y;
-	var drawArea_W = drawAreaW;
-	var drawArea_H = drawAreaH;
-	var fingering  = new Fingering(keys_string, x, y);
-	var note       = new Note(note, tone, x, y);
+	var fingering  = new Fingering(keys_string, offset_x, offset_y);
+	var note       = new Note(note, tone, offset_x, offset_y);
 	/* Public Functions */
 	this.Update = Update;
 	this.OnClick = OnClick;
@@ -17,7 +15,7 @@ function Fingering_Chart(drawAreaW, drawAreaH, x, y, keys_string, note, tone, he
 	
 	/* Begin Update Functions */
 	function Update () {
-		ctx.translate(x, y);
+		ctx.translate(offset_x, offset_y);
 		
 		update_mouse();
 	};

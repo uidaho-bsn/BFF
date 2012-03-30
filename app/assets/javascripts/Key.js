@@ -285,16 +285,16 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 			
 			var v1x = bx - ((x + offset_x) * scale_X);
 			var v1y = by - ((y + offset_y) * scale_Y);
-			var v2x = mouse_X - (x * scale_X);
-			var v2y = mouse_Y - (y * scale_Y);
+			var v2x = mouse_X - ((x + offset_x) * scale_X);
+			var v2y = mouse_Y - ((y + offset_y) * scale_Y);
 			
 			prod = v1x * v2y - v1y * v2x;
 			
 			if(!(t <= 0 && t > -Math.PI) && (t != -( 300 * Math.PI ) / 180)) {
-				if(prod >= 0 && (Math.sqrt(Math.pow((x * scale_X) - mouse_X, 2) + Math.pow((y * scale_Y) - mouse_Y, 2))) <= sr) { hover = true; };
+				if(prod >= 0 && (Math.sqrt(Math.pow(((x + offset_x) * scale_X) - mouse_X, 2) + Math.pow(((y + offset_y) * scale_Y) - mouse_Y, 2))) <= sr) { hover = true; };
 			}
 			else {
-				if(prod <= 0 && (Math.sqrt(Math.pow((x * scale_X) - mouse_X, 2) + Math.pow((y * scale_Y) - mouse_Y, 2))) <= sr) { hover = true; };
+				if(prod <= 0 && (Math.sqrt(Math.pow(((x + offset_x) * scale_X) - mouse_X, 2) + Math.pow(((y + offset_y) * scale_Y) - mouse_Y, 2))) <= sr) { hover = true; };
 			};
 		}
 		else {
