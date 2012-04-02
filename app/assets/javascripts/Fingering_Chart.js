@@ -7,7 +7,7 @@ function Fingering_Chart(offset_x, offset_y, keys_string, note, tone, help, firs
 	var x = x;
 	var y = y;
 	var fingering  = new Fingering(keys_string, offset_x, offset_y);
-	var note       = new Note(note, tone, offset_x, offset_y);
+	var note       = new Note(note, tone, offset_x, offset_y, 200);
 	/* Public Functions */
 	this.Update = Update;
 	this.OnClick = OnClick;
@@ -21,8 +21,11 @@ function Fingering_Chart(offset_x, offset_y, keys_string, note, tone, help, firs
 	};
 	
 	function update_mouse() {
-		fingering.Update();
+		//ctx.translate(0, 30);
 		note.Update();
+		
+		//ctx.translate(0, 25);
+		//fingering.Update();
 	};
 	/* End Update Functions */
 	

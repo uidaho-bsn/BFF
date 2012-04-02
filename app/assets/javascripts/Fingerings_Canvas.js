@@ -88,7 +88,7 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 			ctx.shadowOffsetY = 1.5;
 			
 			ctx.font = "12pt Calibri";
-			ctx.fillText("?", canvas.width - 15, 15);
+			ctx.fillText("?", canvas.width - 75, 15);
 			
 			if(help_show) {
 				
@@ -173,7 +173,7 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 				break;
 			};
 			
-			ctx.canvas.width  *= number_of_fingerings;
+			ctx.canvas.width *= number_of_fingerings;
 		}
 		else {
 			if(number_of_fingerings >= 1) { fingering_chart1.OnClick(); };

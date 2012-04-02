@@ -2,7 +2,7 @@
  * @author Max Stillwell
  */
 
-function Note(note, tone, offset_x, offset_y) {
+function Note(note, tone, offset_x, offset_y, length) {
 	/* Private Variables */
 	var e2 = false; var f2 = false; var g2 = false;
 	var a2 = false; var b2 = false; var c3 = false;
@@ -10,6 +10,7 @@ function Note(note, tone, offset_x, offset_y) {
 	var g3 = false; var a3 = false; var b3 = false;
 	var tone_hover = false;
 	var note_hover = false;
+	var l1 = -10; var l2 = -5; var l3 = 0; var l4 = 5; var l5 = 10; var l6 = 15;
 	/* Public Functions */
 	this.Update   = Update;
 	this.OnClick  = OnClick; 
@@ -31,11 +32,11 @@ function Note(note, tone, offset_x, offset_y) {
 	function draw_staff() {
 		ctx.save();
 			ctx.beginPath();
-				ctx.moveTo(0, 225); ctx.lineTo(200, 225);
-				ctx.moveTo(0, 220); ctx.lineTo(200, 220);
-				ctx.moveTo(0, 215); ctx.lineTo(200, 215);
-				ctx.moveTo(0, 210); ctx.lineTo(200, 210);
-				ctx.moveTo(0, 205); ctx.lineTo(200, 205);
+				ctx.moveTo(0, l1); ctx.lineTo(length, l1);
+				ctx.moveTo(0, l2); ctx.lineTo(length, l2);
+				ctx.moveTo(0, l3); ctx.lineTo(length, l3);
+				ctx.moveTo(0, l4); ctx.lineTo(length, l4);
+				ctx.moveTo(0, l5); ctx.lineTo(length, l5);
 			ctx.closePath();
 			
 			ctx.lineWidth = 0.5;
@@ -48,7 +49,7 @@ function Note(note, tone, offset_x, offset_y) {
 			ctx.font      = "18pt Calibri";
 			ctx.fillStyle = "black";
 
-			ctx.fillText("𝄢", 1, 223); //𝄢 - B:
+			ctx.fillText("𝄢", 1, 17.5); //𝄢 - B:
 		ctx.restore();
 	};
 
@@ -75,7 +76,7 @@ function Note(note, tone, offset_x, offset_y) {
 
 	function draw_e2() {
 		ctx.save();
-			ctx.translate(50, 230);
+			ctx.translate(50, l6);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -94,7 +95,7 @@ function Note(note, tone, offset_x, offset_y) {
 			};
 		ctx.restore();
 		ctx.save();
-			ctx.translate(50, 230);
+			ctx.translate(50, l6);
 			
 			ctx.beginPath();
 				ctx.moveTo(-7, 0);
@@ -111,7 +112,7 @@ function Note(note, tone, offset_x, offset_y) {
 	
 	function draw_f2() {
 		ctx.save();
-			ctx.translate(60, 227);
+			ctx.translate(60, l6 - 2.5);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -133,7 +134,7 @@ function Note(note, tone, offset_x, offset_y) {
 	
 	function draw_g2() {
 		ctx.save();
-			ctx.translate(70, 225);
+			ctx.translate(70, l5);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 
@@ -155,7 +156,7 @@ function Note(note, tone, offset_x, offset_y) {
 	
 	function draw_a2() {
 		ctx.save();
-			ctx.translate(80, 222);
+			ctx.translate(80, l5 - 2.5);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -177,7 +178,7 @@ function Note(note, tone, offset_x, offset_y) {
 
 	function draw_b2() {
 		ctx.save();
-			ctx.translate(90, 220);
+			ctx.translate(90, l4);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -199,7 +200,7 @@ function Note(note, tone, offset_x, offset_y) {
 	
 	function draw_c3() {
 		ctx.save();
-			ctx.translate(100, 217);
+			ctx.translate(100, l4 - 2.5);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -221,7 +222,7 @@ function Note(note, tone, offset_x, offset_y) {
 	
 	function draw_d3() {
 		ctx.save();
-			ctx.translate(110, 215);
+			ctx.translate(110, l3);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -243,7 +244,7 @@ function Note(note, tone, offset_x, offset_y) {
 	
 	function draw_e3() {
 		ctx.save();
-			ctx.translate(120, 212);
+			ctx.translate(120, l3 - 2.5);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -265,7 +266,7 @@ function Note(note, tone, offset_x, offset_y) {
 	
 	function draw_f3() {
 		ctx.save();
-			ctx.translate(130, 210);
+			ctx.translate(130, l2);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -287,7 +288,7 @@ function Note(note, tone, offset_x, offset_y) {
 	
 	function draw_g3() {
 		ctx.save();
-			ctx.translate(140, 207);
+			ctx.translate(140, l2 - 2.5);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -309,7 +310,7 @@ function Note(note, tone, offset_x, offset_y) {
 	
 	function draw_a3() {
 		ctx.save();
-			ctx.translate(150, 205);
+			ctx.translate(150, l1);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -331,7 +332,7 @@ function Note(note, tone, offset_x, offset_y) {
 	
 	function draw_b3() {
 		ctx.save();
-			ctx.translate(160, 202);
+			ctx.translate(160, l1 - 2.5);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
@@ -362,32 +363,35 @@ function Note(note, tone, offset_x, offset_y) {
 	function update_mouse() {
 		e2 = f2 = g2 = a2 = b2 = c3 = d3 = e3 = f3 = g3 = a3 = b3 = tone_hover = note_hover = false;
 		
-		if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			(mouse_Y < ((232.5 + offset_y) * scale_Y) && mouse_Y > ((227.5 + offset_y) * scale_Y))) { e2 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((230   + offset_y) * scale_Y) && mouse_Y > ((225   + offset_y) * scale_Y)) { f2 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((227.5 + offset_y) * scale_Y) && mouse_Y > ((222.5 + offset_y) * scale_Y)) { g2 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((225   + offset_y) * scale_Y) && mouse_Y > ((220   + offset_y) * scale_Y)) { a2 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((222.5 + offset_y) * scale_Y) && mouse_Y > ((217.5 + offset_y) * scale_Y)) { b2 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((220   + offset_y) * scale_Y) && mouse_Y > ((215   + offset_y) * scale_Y)) { c3 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((217.5 + offset_y) * scale_Y) && mouse_Y > ((212.5 + offset_y) * scale_Y)) { d3 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((215   + offset_y) * scale_Y) && mouse_Y > ((210   + offset_y) * scale_Y)) { e3 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((212.5 + offset_y) * scale_Y) && mouse_Y > ((207.5 + offset_y) * scale_Y)) { f3 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((210   + offset_y) * scale_Y) && mouse_Y > ((205   + offset_y) * scale_Y)) { g3 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((207.5 + offset_y) * scale_Y) && mouse_Y > ((202.5 + offset_y) * scale_Y)) { a3 = true; }
-		else if((mouse_X > ((0 + offset_x) * scale_X) && mouse_X < ((200 + offset_x) * scale_X)) && 
-			mouse_Y < ((205   + offset_y) * scale_Y) && mouse_Y > ((200   + offset_y) * scale_Y)) { b3 = true; }
-		else if((mouse_X > ((20   + offset_x) * scale_X) && mouse_X < ((30    + offset_x) * scale_X)) && 
-			(mouse_Y > ((190 + offset_y) * scale_Y) && mouse_Y < ((215 + offset_y) * scale_Y))) { note_hover = tone_hover = true; };
+		if((mouse_X > ((0 + offset_x) * scale_X)) && (mouse_X < ((length + offset_x) * scale_X))) {
+			if(     mouse_Y < ((l6 - 2.5 + offset_y) * scale_Y) && 
+			        mouse_Y > ((l6 + 2.5 + offset_y) * scale_Y)) { e2 = true; }
+			else if(mouse_Y < ((l6       + offset_y) * scale_Y) && 
+					mouse_Y > ((l5       + offset_y) * scale_Y)) { f2 = true; }					
+			else if(mouse_Y < ((l6 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y > ((l5 + 2.5 + offset_y) * scale_Y)) { g2 = true; }					
+			else if(mouse_Y < ((l5       + offset_y) * scale_Y) && 
+					mouse_Y > ((l4       + offset_y) * scale_Y)) { a2 = true; }					
+			else if(mouse_Y < ((l5 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y > ((l4 + 2.5 + offset_y) * scale_Y)) { b2 = true; }					
+			else if(mouse_Y < ((l4       + offset_y) * scale_Y) && 
+					mouse_Y > ((l3       + offset_y) * scale_Y)) { c3 = true; }
+			else if(mouse_Y < ((l4 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y > ((l3 + 2.5 + offset_y) * scale_Y)) { d3 = true; }					
+			else if(mouse_Y < ((l3       + offset_y) * scale_Y) && 
+					mouse_Y > ((l2       + offset_y) * scale_Y)) { e3 = true; }
+			else if(mouse_Y < ((l3 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y > ((l2 + 2.5 + offset_y) * scale_Y)) { f3 = true; }
+			else if(mouse_Y < ((l2       + offset_y) * scale_Y) && 
+					mouse_Y > ((l1       + offset_y) * scale_Y)) { g3 = true; }
+			else if(mouse_Y < ((l2 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y > ((l1 + 2.5 + offset_y) * scale_Y)) { a3 = true; }
+			else if(mouse_Y < ((l1 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y > ((l1 + 2.5 + offset_y) * scale_Y)) { b3 = true; };
+		}
+		/*else if(true) {
+			
+		};*/
 
 		var temp = (note_hover || tone_hover || e2 || f2 || g2 || a2 || b2 || c3 || d3 || e3 || f3 || g3 || a3 || b3)?true:false;
 		if(temp       && pointer == '')     { pointer = 'note'; }
