@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    @user = session[:user]
     respond_to do |format|
       format.html
       format.json { render json: @users }
@@ -92,23 +93,26 @@ class UsersController < ApplicationController
   
   def show
     @curr = User.find(params[:id])
+    @user = session[:user]
   end
   
   def edit
     @curr = User.find(params[:id])
+    @user = session[:user]
   end
   
   def update
 
     @curr = User.find(params[:id])
-    if request.put?  
- #     if @curr.save
-        #session[:user] = User.authenticate(@curr.login, @curr.password)
-        #flash[:message] = "Update Successful"
-        redirect_to root_url         
- #     else
-        #flash[:warning] = "Update Unsuccessful"
-#      end
+ 
+    respond_to do |format|
+      if @curr.update_attributes(params[:user])
+        session[:user] = User.authenticate(@user.login, @user.password)
+        flash[:message] = "Update Successful"
+      else
+        format.html { render action: "edit" }
+        flash[:message] = "Update Unsuccessful"
+      end
     end
   end
 =begin
@@ -147,6 +151,7 @@ class UsersController < ApplicationController
     end
   end
   
-  def destroy 
+  def destroy
+    
   end
 end

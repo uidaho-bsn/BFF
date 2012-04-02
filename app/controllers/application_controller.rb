@@ -38,17 +38,6 @@ class ApplicationController < ActionController::Base
   
   private
  
-#These are in users_controller also?  
-#  def set_admin(curr_user)
-#    curr_user.admin = true
-#  end
-#  helper_method :set_admin
-  
-#  def rm_admin(curr_user)
-#    curr_user.admin = false
-#  end
-#  helper_method :rm_admin  
-  
   def mobile_device?
     if session[:mobile_param]
       session[:mobile_param] == "1"
