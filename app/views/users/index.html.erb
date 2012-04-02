@@ -3,32 +3,43 @@
 <% end %>
 
 <% content_for :page_title do %>
-	Users
+	<% if isAdmin?%>
+		Users
+	<% else %>
+		Invalid
+	<% end %>
 <% end %>
 
 <% content_for :content do %>
-	<table>
-  		<tr>
-			<th>Username</th>
-			<th>Email</th>
-	    	<th>Admin</th>
-	    	<th>ID</th>
-	    	<th></th>
-	    	<th></th>
-	    	<!--<th></th>-->
-  		</tr>
-		
-		<% @users.each do |usr| %>
-			<tr>
-			    <td><%= usr.login %></td>
-			    <td><%= usr.email %></td>
-			    <td><%= usr.admin %></td>
-			    <td><%= usr.id%></td>
-			    <td><%= link_to 'Show', user_path(usr) %></td>
-			    <td><%= link_to 'Edit', edit_user_path(usr) %></td>
-			    <!--<td><%= link_to 'Destroy', usr, confirm: 'Are you sure?', method: :delete %></td>-->
-		    </tr>
-		<% end %>
-	</table>
-	<br />
+
+	<% if not isAdmin? %>
+		There is nothing here for you.  If you belive you are viewing this page in error please contact the support team.<br />
+		Please go to your profile at this link: <%= link_to "Profile", user_path(current_user) %>.
+	<% else %>
+		<table>
+	  		<tr>
+				<th>Username</th>
+				<th>Email</th>
+		    	<th>Admin</th>
+		    	<th>ID</th>
+		    	<th></th>
+		    	<th></th>
+		    	<!--<th></th>-->
+	  		</tr>
+			
+			<% @users.each do |usr| %>
+				<tr>
+				    <td><%= usr.login %></td>
+				    <td><%= usr.email %></td>
+				    <td><%= usr.admin %></td>
+				    <td><%= usr.id%></td>
+				    <td><%= link_to 'Profile', user_path(usr) %></td>
+				    <td><%= link_to 'Edit', edit_user_path(usr) %></td>
+			    </tr>
+			<% end %>
+		</table>
+		<br />
+	<% end %>
+
+
 <% end %>
