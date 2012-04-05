@@ -8,7 +8,9 @@
 			<% if session[:user] != nil %>
 				<li><%= link_to "Fingerings", root_url + "fingerings" %></li>
 			<% end %>
-			
+			<% if session[:user] != nil %>
+				<li><%= link_to "New Fingering", root_url + "fingerings/new" %></li>
+			<% end %>
 			<% if session[:user] != nil %>
 				<li><%= link_to "Search Fingerings", root_url + "fingerings/search" %></li>
 			<% end %>
