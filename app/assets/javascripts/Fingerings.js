@@ -40,7 +40,7 @@ $(document).ready(function() {
 		else                                   { var keys_string = '1:777777777777777777777777777777'; };
 
 		if(typeof note_tone_id != 'undefined') { var note_tone = note_tone_id; }
-		else                                   { var note_tone = '1:d3_natural'; };
+		else                                   { var note_tone = '1:f3_natural'; };
 		
 		fingerings_canvas = new Fingerings_Canvas(keys_string, note_tone, type, help);
 	}

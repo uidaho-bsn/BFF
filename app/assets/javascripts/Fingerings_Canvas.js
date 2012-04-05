@@ -4,13 +4,10 @@
 
 function Fingerings_Canvas(keys_string, note_tone, type, help) {
 	/* Private Variables */
-	var fingering_chart1;
-	var fingering_chart2;
-	var fingering_chart3;
-	var fingering_chart4;
+	var fingering_chart1; var fingering_chart2; var fingering_chart3;
 	var number_of_fingerings;
 	var help_hover = false; var help_show = false; var help_enable = help;
-	var add_hover  = false;
+	var add_hover  = false; var remove_hover = false;
 	var debug_show = false;
 	/* Public Functions */
 	this.Update   = Update;
@@ -33,17 +30,15 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 	if(number_of_fingerings >= 1) { fingering_chart1 = new Fingering_Chart(0, 0,   k_strings[0], n_strings[0], t_strings[0], help, true);  };
 	if(number_of_fingerings >= 2) { fingering_chart2 = new Fingering_Chart(200, 0, k_strings[1], n_strings[1], t_strings[1], help, false); };
 	if(number_of_fingerings >= 3) { fingering_chart3 = new Fingering_Chart(400, 0, k_strings[2], n_strings[2], t_strings[2], help, false); };
-	if(number_of_fingerings >= 4) { fingering_chart4 = new Fingering_Chart(600, 0, k_strings[3], n_strings[3], t_strings[3], help, false); };
 	
 	ctx.canvas.width  *= number_of_fingerings;
 
 	if((type == 'edit') || (type == 'new')) {
 		canvas.onclick     = OnClick;
 		canvas.onmousemove = MouseMoved;
-		
-		return setInterval(Update, 100);
-	}
-	else { Update(); };
+	};
+	
+	return setInterval(Update, 100);
 	/* End Constructor */
 	
 	/* Begin Draw Functions */
@@ -52,7 +47,8 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 		
 		if(debug_show)  { draw_debug(); };
 		if(help_enable) { draw_help();  };
-		if(number_of_fingerings < 4) { draw_add(); };
+		if(number_of_fingerings < 3 && type != "show") { draw_add(); };
+		if(number_of_fingerings > 1 && type != "show") { draw_remove(); };
 	};
 	
 	function clear() {
@@ -71,8 +67,24 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 			ctx.shadowOffsetX = 1.5;
 			ctx.shadowOffsetY = 1.5;
 			
-			ctx.font = "16pt Calibri";
-			ctx.fillText("+", canvas.width - 15, (canvas.height / 2) - 50);
+			ctx.font = "12pt Calibri";
+			ctx.fillText("Add Note", 25, canvas.height - 25);
+		ctx.restore();
+	};
+	
+	function draw_remove() {
+		ctx.save();
+			ctx.fillStyle = "black";
+			if(remove_hover) {
+				ctx.fillStyle = "rgb(255, 0, 0)";
+			};
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 1.5;
+			ctx.shadowOffsetY = 1.5;
+			
+			ctx.font = "12pt Calibri";
+			ctx.fillText("Remove Note", 25, canvas.height - 5);
 		ctx.restore();
 	};
 	
@@ -88,7 +100,7 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 			ctx.shadowOffsetY = 1.5;
 			
 			ctx.font = "12pt Calibri";
-			ctx.fillText("?", canvas.width - 75, 15);
+			ctx.fillText("Help", 25, canvas.height - 45);
 			
 			if(help_show) {
 				
@@ -113,20 +125,23 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 	};
 	
 	function update_mouse() {
-		help_hover = add_hover = false;
+		help_hover = add_hover = remove_hover = false;
 		
-		if((mouse_X > (canvas.width - 17) && mouse_X < (canvas.width)) && 
-			(mouse_Y > 0 && mouse_Y < 17)) { help_hover = true; }
+		if((mouse_X > 20 && mouse_X < 50) && (mouse_Y < (canvas.height - 35) && mouse_Y > (canvas.height - 55))) { help_hover = true; };
 
-		if((mouse_X > (canvas.width - 17) && mouse_X < (canvas.width)) && 
-			(mouse_Y > ((canvas.height / 2) - 50) + 2 && mouse_Y < (canvas.height / 2) - 50) - 2) { add_hover = true; }
-
+		if((mouse_X > 20 && mouse_X < 75) && (mouse_Y < (canvas.height - 15) && mouse_Y > (canvas.height - 35))) { add_hover = true; };
+		
+		if((mouse_X > 20 && mouse_X < 85) && (mouse_Y < (canvas.height - 5) && mouse_Y > (canvas.height - 15)))  { remove_hover = true; };
+		
 		if(help_hover       && pointer == '')     { pointer = 'help'; }
 		else if(!help_hover && pointer == 'help') { pointer = '' };
 		
 		if(add_hover       && pointer == '')    { pointer = 'add'; }
 		else if(!add_hover && pointer == 'add') { pointer = '' };
 		
+		if(remove_hover       && pointer == '')    { pointer = 'remove'; }
+		else if(!remove_hover && pointer == 'remove') { pointer = '' };
+
 		ctx.save();
 			ctx.scale(scale_X, scale_Y);
 			ctx.save();
@@ -137,9 +152,6 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 			ctx.restore();
 			ctx.save();
 				if(number_of_fingerings >= 3) { fingering_chart3.Update(); };
-			ctx.restore();
-			ctx.save();
-				if(number_of_fingerings >= 4) { fingering_chart4.Update(); };
 			ctx.restore();
 		ctx.restore();
 	};
@@ -158,7 +170,7 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 			number_of_fingerings++;
 			
 			var k_default = "777777777777777777777777777777";
-			var n_default = "d3";
+			var n_default = "f3";
 			var t_default = "♮";
 			
 			switch(number_of_fingerings) {
@@ -168,18 +180,19 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 				case 3:
 					fingering_chart3 = new Fingering_Chart(400, 0, k_default, n_default, t_default, help, false);
 				break;
-				case 4:
-					fingering_chart4 = new Fingering_Chart(600, 0, k_default, n_default, t_default, help, false);
-				break;
 			};
-			
-			ctx.canvas.width *= number_of_fingerings;
+
+			ctx.canvas.width = 200 + (200 * scale_X * number_of_fingerings);
+		}
+		else if(remove_hover) {
+			number_of_fingerings--;
+
+			ctx.canvas.width = (number_of_fingerings == 1)?200 * scale_X:200 + (200 * scale_X * number_of_fingerings);
 		}
 		else {
 			if(number_of_fingerings >= 1) { fingering_chart1.OnClick(); };
 			if(number_of_fingerings >= 2) { fingering_chart2.OnClick(); };
 			if(number_of_fingerings >= 3) { fingering_chart3.OnClick(); };
-			if(number_of_fingerings >= 4) { fingering_chart4.OnClick(); };
 		};
 	};
 	
@@ -199,7 +212,6 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 		if(number_of_fingerings >= 1) { retArray[0] = keys_string.substring(2, 32);   };
 		if(number_of_fingerings >= 2) { retArray[1] = keys_string.substring(33, 63);  };
 		if(number_of_fingerings >= 3) { retArray[2] = keys_string.substring(64, 94);  };
-		if(number_of_fingerings >= 4) { retArray[3] = keys_string.substring(95, 125); };
 		
 		return retArray;
 	};
@@ -214,7 +226,6 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 		if(number_of_fingerings >= 1) { retArray[0] = temp[0].substring(0,2); };
 		if(number_of_fingerings >= 2) { retArray[1] = temp[1].substring(0,2); };
 		if(number_of_fingerings >= 3) { retArray[2] = temp[2].substring(0,2); };
-		if(number_of_fingerings >= 4) { retArray[3] = temp[3].substring(0,2); };
 		
 		return retArray;
 	};
@@ -229,7 +240,6 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 		if(number_of_fingerings >= 1) { retArray[0] = temp[0].substring(3); };
 		if(number_of_fingerings >= 2) { retArray[1] = temp[1].substring(3); };
 		if(number_of_fingerings >= 3) { retArray[2] = temp[2].substring(3); };
-		if(number_of_fingerings >= 4) { retArray[3] = temp[3].substring(3); };
 	
 		for(i in retArray) {
 			switch (retArray[i]) {
@@ -254,7 +264,6 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 				var ret = String(number_of_fingerings) + ':' + fingering_chart1.ToString("keys");
 				if(number_of_fingerings >= 2) { ret += ','   + fingering_chart2.ToString("keys") };
 				if(number_of_fingerings >= 3) { ret += ','   + fingering_chart3.ToString("keys") };
-				if(number_of_fingerings == 4) { ret += ','   + fingering_chart4.ToString("keys") };
 
 				return ret;
 			break;
@@ -262,7 +271,6 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 				var ret = String(number_of_fingerings) + ':' + fingering_chart1.ToString("note_tones");
 				if(number_of_fingerings >= 2) { ret += ','   + fingering_chart2.ToString("note_tones") };
 				if(number_of_fingerings >= 3) { ret += ','   + fingering_chart3.ToString("note_tones") };
-				if(number_of_fingerings == 4) { ret += ','   + fingering_chart4.ToString("note_tones") };
 				
 				return ret;
 			break;

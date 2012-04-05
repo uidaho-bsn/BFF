@@ -4,7 +4,7 @@
 
 function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 	/* Private Variables */
-	var hover = false;
+	var key_hover = false;
 	/* Public Functions */
 	this.Update   = Update;
 	this.OnClick  = OnClick;
@@ -12,6 +12,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 
 	/* Begin Draw Functions */
 	function draw() {
+		ctx.strokeStyle = "black";
 		switch (type) {
 			case 'circle':
 				draw_circle();
@@ -81,7 +82,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 				ctx.fillStyle = "333333";
 				ctx.fill();
 			}
-			if(hover) { ctx.strokeStyle = "red"; };
+			if(key_hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -118,7 +119,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(hover) { ctx.strokeStyle = "red"; };
+			if(key_hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 
 			if(status >= 2 && status <= 4) {
@@ -184,7 +185,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(hover) { ctx.strokeStyle = "red"; };
+			if(key_hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -218,7 +219,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(hover) { ctx.strokeStyle = "red"; };
+			if(key_hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -252,7 +253,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(hover) { ctx.strokeStyle = "red"; };
+			if(key_hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -266,7 +267,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 	};	
 
 	function update_mouse() {
-		hover = false;
+		key_hover = false;
 		
 		if(type == "oval-small" || type == "oval-med" || type == "oval-large") {
 			var rx = r * Math.cos(0)           * scale_X;
@@ -287,7 +288,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 			var X =  (mouse_X - ((x + offset_x) * scale_X)) * Math.cos(t) + (mouse_Y - ((y + offset_y) * scale_Y)) * Math.sin(t);
 			var Y = -(mouse_X - ((x + offset_x) * scale_X)) * Math.sin(t) + (mouse_Y - ((y + offset_y) * scale_Y)) * Math.cos(t);
 			
-			if((((X * X) / (rx * rx)) + ((Y * Y) / (ry * ry))) <= 1) { hover = true; };
+			if((((X * X) / (rx * rx)) + ((Y * Y) / (ry * ry))) <= 1) { key_hover = true; };
 		}
 		else if (type == "half-circle" || type == "half-circle-flat") {
 			var sr =   r * Math.sqrt((scale_X * scale_X) + (scale_Y * scale_Y)) * 0.7;
@@ -304,10 +305,10 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 			prod = v1x * v2y - v1y * v2x;
 			
 			if(!(t <= 0 && t > -Math.PI) && (t != -( 300 * Math.PI ) / 180)) {
-				if(prod >= 0 && (Math.sqrt(Math.pow(((x + offset_x) * scale_X) - mouse_X, 2) + Math.pow(((y + offset_y) * scale_Y) - mouse_Y, 2))) <= sr) { hover = true; };
+				if(prod >= 0 && (Math.sqrt(Math.pow(((x + offset_x) * scale_X) - mouse_X, 2) + Math.pow(((y + offset_y) * scale_Y) - mouse_Y, 2))) <= sr) { key_hover = true; };
 			}
 			else {
-				if(prod <= 0 && (Math.sqrt(Math.pow(((x + offset_x) * scale_X) - mouse_X, 2) + Math.pow(((y + offset_y) * scale_Y) - mouse_Y, 2))) <= sr) { hover = true; };
+				if(prod <= 0 && (Math.sqrt(Math.pow(((x + offset_x) * scale_X) - mouse_X, 2) + Math.pow(((y + offset_y) * scale_Y) - mouse_Y, 2))) <= sr) { key_hover = true; };
 			};
 		}
 		/*else if (type == "half-circle-flat") {
@@ -324,7 +325,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 			var CD = ((mouse_X <= cx && mouse_Y <= cy) && (mouse_X <= dx && mouse_Y >= dy))?true:false;
 			var DA = ((mouse_X <= dx && mouse_Y >= dy) && (mouse_X >= ax && mouse_Y >= ay))?true:false;
 			
-			if(AB && BC && CD && DA) { hover = true; };
+			if(AB && BC && CD && DA) { key_hover = true; };
 		}*/
 		/*else if (type == "box-right-end-curve") {
 			
@@ -335,17 +336,17 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 
 			var r2 = r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
 			
-			if(dx * dx + dy * dy <= r2 * r2) { hover = true; };
+			if(dx * dx + dy * dy <= r2 * r2) { key_hover = true; };
 		};
 		
-		if(hover       && pointer == '')   { pointer = name; }
-		else if(!hover && pointer == name) { pointer = ''; };
+		if(key_hover       && pointer == '')   { pointer = name; }
+		else if(!key_hover && pointer == name) { pointer = ''; };
 	};
 	/* End Update Functions */
 		
 	/* Begin Event Functions */
 	function OnClick() {
-		if(hover) {
+		if(key_hover) {
 			switch (type) {
 				case 'circle':
 					if(status >= 7) { status = 0; };
