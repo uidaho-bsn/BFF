@@ -12,8 +12,6 @@ class FingeringsController < ApplicationController
   
   def search
     @fingering = Fingering.new(params[:fingering])
-    #@fingering = Fingering.find(params[:id])
-    #@fingering_status = @fingering.fingering_status
     @note_tone = @fingering.note_tone
     respond_to do |format|
       format.html
@@ -22,20 +20,43 @@ class FingeringsController < ApplicationController
   end
   
   def search_results
-    fingering = Fingering.find_by_note_tone(params[:fingering][:note_tone])
-    if fingering
-      @fingering = fingering
-      @note_tone = @fingering.note_tone
-      @fingering_status = @fingering.fingering_status
-      respond_to do |format|
-        format.html
-        format.json { render json: @fingering } 
+    
+      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone])
+      debugger
+      if @Results != []
+        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1)
+      else
+        flash[:notice] = "No fingerings match that note."
       end
-    else
-      flash[:notice] = "No fingerings match that note."
-     end
+
+    # @Page_results = @Results.paginate(:page => params[:page], :per_page => 1)
+    
+  #  if fingering
+  #    @fingering = fingering
+ #     @fingering_status = @fingering.fingering_status
+ #     @note_tone = @fingering.note_tone
+      
+      
+      
+      #respond_to do |format|
+      #  format.html
+      #  format.json { render json: @fingering } 
+      #end
+   # else
+     # flash[:notice] = "No fingerings match that note."
+   #  end
+
+       #@note_tone = @fingering.note_tone
+     
+       
+       #session[:query] = @Results.map(&:id)
+     
+       #@next_fingering = session[:query]
+       #@prev_fingering = session[:query]
+    
   end
-  
+ 
+ 
   def show
     @fingering = Fingering.find(params[:id])
     @fingering_status = @fingering.fingering_status
