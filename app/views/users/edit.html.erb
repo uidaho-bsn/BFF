@@ -3,16 +3,21 @@
 <% end %>
 
 <%= content_for :page_title do %>
-	<% if isAdmin? or @curr == @user %>
 		Editing: <%= @curr.login%>
-	<% else %>
-		Invalid
-	<% end %>
 <% end %>
 
 <% content_for :content do%>
 
-	<% if isAdmin? or @curr == @user %>
+
+	<% form_for @curr do |f| -%>
+		<p><label for="email">Email</label><br/>
+		<%= f.text_field :email %></p>
+		<p><label for="email_confirmation">Email Confirmation</label><br/>
+		<%= f.text_field :email_confirmation %></p>
+
+		<p><%= submit_tag 'Update' %></p>
+	<% end -%>
+<!-->
 		<%= form_tag( {:action => 'update', :controller => 'users'}, {:method => 'put', :style => "display:inline;"} ) do%>
 			
 			<label for='user_email'>Email</label><br/>
@@ -31,9 +36,5 @@
 	
 			<%= submit_tag 'Save' %>
 		<% end %>
-	<% else %>
-	Please do not attempt to edit other users.  You can edit yourself by going to this link:
-	<%= link_to 'Edit', edit_user_path(@user) %>
-	<% end %>
-
+<!-->
 <% end %>

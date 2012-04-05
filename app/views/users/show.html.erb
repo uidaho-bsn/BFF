@@ -3,15 +3,11 @@
 <% end %>
 
 <%= content_for :page_title do %>
-	<% if isAdmin? or @curr == @user %>
 		<%= @curr.login%>
-	<% else %>
-		Invalid
-	<% end %>
+
 <% end %>
 
 <% content_for :content do %>
-	<% if isAdmin? or @curr == @user %>
 		<table>
 			<tr>
 				<th align="left">User name:</th>
@@ -19,7 +15,7 @@
 			</tr>
 			<tr>
 				<th align="left"> Email:</th>
-				<td align="left"> <%= @curr.email %> </td>
+				<td align="left"> "<%= @curr.email %>" </td>
 			</tr>
 		<% if isAdmin? %>
 			<tr>
@@ -32,8 +28,4 @@
 				<th align="left"> <%= link_to 'Edit', edit_user_path(@curr) %></th>
 			</tr>
 		</table>	
-	<% else %>
-		All profiles are private.  Please use facebook if you want to view random peoples profiles.  To view your profile please click this link:
-		<%= link_to "Profile", user_path(@user)%>
-	<% end %>
 <% end %>

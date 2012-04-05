@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
 
-      if request.post?  
+    if request.post?
       if @user.save
 
         if @user.id == 1
@@ -25,7 +25,13 @@ class UsersController < ApplicationController
         else
           @user.admin = false
         end
-         
+
+        if @user.email == nil
+          @user.email = "broken@strange.com"
+        end
+        
+        @user.save
+        
         session[:user] = User.authenticate(@user.login, @user.password)
         @user.send_welcome # welcome email
         flash[:message] = "Registration Successful"
@@ -94,26 +100,30 @@ class UsersController < ApplicationController
   def show
     @curr = User.find(params[:id])
     @user = session[:user]
+    if @curr != @user and !@curr.admin
+      redirect_to user_path(@user)
+    end
   end
   
   def edit
     @curr = User.find(params[:id])
     @user = session[:user]
+    if @curr != @user and !@curr.admin
+      redirect_to user_path(@user)
+    end
   end
   
   def update
 
     @curr = User.find(params[:id])
  
-    respond_to do |format|
-      if @curr.update_attributes(params[:user])
-        session[:user] = User.authenticate(@user.login, @user.password)
-        flash[:message] = "Update Successful"
-      else
-        format.html { render action: "edit" }
-        flash[:message] = "Update Unsuccessful"
-      end
-    end
+    if @curr.update_attributes(params[:user])
+      @curr.save
+      flash[:notice] = "Successfully updated user."
+    else
+      flash[:notice] = "Unable to update user."
+    end  
+    redirect_to user_path(@curr)
   end
 =begin
     if request.put?  
@@ -123,6 +133,16 @@ class UsersController < ApplicationController
         #redirect_to root_url         
       else
         flash[:warning] = "Update Unsuccessful"
+      end
+    end
+    
+    respond_to do |format|
+      if @curr.update_attributes(params[:user])
+        session[:user] = User.authenticate(@user.login, @user.password)
+        flash[:message] = "Update Successful"
+      else
+        #format.html { render action: "edit" }
+        flash[:message] = "Update Unsuccessful"
       end
     end
 =end
