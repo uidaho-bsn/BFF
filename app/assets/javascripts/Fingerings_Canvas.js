@@ -2,11 +2,12 @@
  * @author Max Stillwell
  */
 
-function Fingerings_Canvas(keys_string, note_tone, type, help) {
+function Fingerings_Canvas(keys_string, note_tone, type) {
 	/* Private Variables */
 	var fingering_chart1; var fingering_chart2; var fingering_chart3;
+	var note_chart = new Array(3);
 	var number_of_fingerings;
-	var help_hover = false; var help_show = false; var help_enable = help;
+	var help_hover = false; var help_show = false;
 	var add_hover  = false; var remove_hover = false;
 	var debug_show = false;
 	/* Public Functions */
@@ -16,28 +17,45 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 	
 	/* Begin Constructor */
 	number_of_fingerings = keys_string[0];
-	var k_strings = new Array(number_of_fingerings);
-	var n_strings = new Array(number_of_fingerings);
-	var t_strings = new Array(number_of_fingerings);
 	
-	k_strings = parseKeysString(keys_string);
-	n_strings = parseNotesString(note_tone);
-	t_strings = parseTonesString(note_tone);
-
-	scale_X = canvas.width / 200;          // Base canvas size is 200
-	scale_Y = (canvas.height - 100) / 200; // by 200, don't go any smaller. Extra 100 is for note.
-
-	if(number_of_fingerings >= 1) { fingering_chart1 = new Fingering_Chart(0, 0,   k_strings[0], n_strings[0], t_strings[0], help, true);  };
-	if(number_of_fingerings >= 2) { fingering_chart2 = new Fingering_Chart(200, 0, k_strings[1], n_strings[1], t_strings[1], help, false); };
-	if(number_of_fingerings >= 3) { fingering_chart3 = new Fingering_Chart(400, 0, k_strings[2], n_strings[2], t_strings[2], help, false); };
+	if(type == "show" || type == "edit" || type == "new") {
+		var k_strings = new Array(number_of_fingerings);
+		var n_strings = new Array(number_of_fingerings);
+		var t_strings = new Array(number_of_fingerings);
+		
+		k_strings = parseKeysString(keys_string);
+		n_strings = parseNotesString(note_tone);
+		t_strings = parseTonesString(note_tone);
 	
-	ctx.canvas.width  *= number_of_fingerings;
-
-	if((type == 'edit') || (type == 'new')) {
-		canvas.onclick     = OnClick;
-		canvas.onmousemove = MouseMoved;
+		scale_X = canvas.width / 200;          // Base canvas size is 200
+		scale_Y = (canvas.height - 100) / 200; // by 200, don't go any smaller. Extra 100 is for note.
+	
+		if(number_of_fingerings >= 1) { fingering_chart1 = new Fingering_Chart(0, 0,   k_strings[0], n_strings[0], t_strings[0], true, type);  };
+		if(number_of_fingerings >= 2) { fingering_chart2 = new Fingering_Chart(200, 0, k_strings[1], n_strings[1], t_strings[1], false, type); };
+		if(number_of_fingerings >= 3) { fingering_chart3 = new Fingering_Chart(400, 0, k_strings[2], n_strings[2], t_strings[2], false, type); };
+	}
+	else if (type == "note_search") {
+		scale_X = canvas.width  / 200;
+		scale_Y = canvas.height / 75;
+		
+		if(number_of_fingerings >= 1) { note_chart[0] = new Note_Chart(0, 0); };
+		if(number_of_fingerings >= 2) { note_chart[1] = new Note_Chart(200, 0); };
+		if(number_of_fingerings >= 3) { note_chart[2] = new Note_Chart(400, 0); };
+	}
+	else if (type == "fingering_search") {
+		alert("Warning: Not Implemented!");
+		return false;
+	}
+	else {
+		alert("Error: Something went wrong with the canvas!")
+		return false;
 	};
 	
+	ctx.canvas.width = (number_of_fingerings > 1)?200 + (200 * scale_X * number_of_fingerings):200 * scale_X;
+	
+	canvas.onclick     = OnClick;
+	canvas.onmousemove = MouseMoved;
+		
 	return setInterval(Update, 100);
 	/* End Constructor */
 	
@@ -46,7 +64,9 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 		clear();
 		
 		if(debug_show)  { draw_debug(); };
-		if(help_enable) { draw_help();  };
+		
+		draw_help();
+		
 		if(number_of_fingerings < 3 && type != "show") { draw_add(); };
 		if(number_of_fingerings > 1 && type != "show") { draw_remove(); };
 	};
@@ -142,18 +162,34 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 		if(remove_hover       && pointer == '')    { pointer = 'remove'; }
 		else if(!remove_hover && pointer == 'remove') { pointer = '' };
 
-		ctx.save();
-			ctx.scale(scale_X, scale_Y);
+		if(type == "show" || type == "new" || type == "edit") {
 			ctx.save();
-				if(number_of_fingerings >= 1) { fingering_chart1.Update(); };
+				ctx.scale(scale_X, scale_Y);
+				ctx.save();
+					if(number_of_fingerings >= 1) { fingering_chart1.Update(); };
+				ctx.restore();
+				ctx.save();
+					if(number_of_fingerings >= 2) { fingering_chart2.Update(); };
+				ctx.restore();
+				ctx.save();
+					if(number_of_fingerings >= 3) { fingering_chart3.Update(); };
+				ctx.restore();
 			ctx.restore();
+		}
+		else if(type == "note_search") {
 			ctx.save();
-				if(number_of_fingerings >= 2) { fingering_chart2.Update(); };
+				ctx.scale(scale_X, scale_Y);
+				
+				for(var i = 0; i < 3; i++) {
+					ctx.save();
+						if(number_of_fingerings >= i + 1) { note_chart[i].Update();	};
+					ctx.restore();
+				}
 			ctx.restore();
-			ctx.save();
-				if(number_of_fingerings >= 3) { fingering_chart3.Update(); };
-			ctx.restore();
-		ctx.restore();
+		}
+		else if(type == "fingering_search") {
+			
+		};
 	};
 	/* End Update Functions */
 	
@@ -173,14 +209,27 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 			var n_default = "f3";
 			var t_default = "♮";
 			
-			switch(number_of_fingerings) {
-				case 2:
-					fingering_chart2 = new Fingering_Chart(200, 0, k_default, n_default, t_default, help, false);
-				break;
-				case 3:
-					fingering_chart3 = new Fingering_Chart(400, 0, k_default, n_default, t_default, help, false);
-				break;
-			};
+			if(type == "edit" || type == "new") {
+				switch(number_of_fingerings) {
+					case 2:
+						fingering_chart2 = new Fingering_Chart(200, 0, k_default, n_default, t_default, false, "show");
+					break;
+					case 3:
+						fingering_chart3 = new Fingering_Chart(400, 0, k_default, n_default, t_default, false, "show");
+					break;
+				};
+			}
+			else if(type == "note_search") {
+				switch(number_of_fingerings) {
+					case 2:
+						note_chart[1] = new Note_Chart(200, 0);
+					break;
+					case 3:
+						note_chart[2] = new Note_Chart(400, 0);
+					break;
+				};
+			}
+			
 
 			ctx.canvas.width = 200 + (200 * scale_X * number_of_fingerings);
 		}
@@ -189,11 +238,16 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 
 			ctx.canvas.width = (number_of_fingerings == 1)?200 * scale_X:200 + (200 * scale_X * number_of_fingerings);
 		}
-		else {
+		else if(type == "new" || type == "edit") {
 			if(number_of_fingerings >= 1) { fingering_chart1.OnClick(); };
 			if(number_of_fingerings >= 2) { fingering_chart2.OnClick(); };
 			if(number_of_fingerings >= 3) { fingering_chart3.OnClick(); };
-		};
+		}
+		else if(type == "note_search") {
+			if(number_of_fingerings >= 1) { note_chart[0].OnClick(); };
+			if(number_of_fingerings >= 2) { note_chart[1].OnClick(); };
+			if(number_of_fingerings >= 3) { note_chart[2].OnClick(); };
+		}
 	};
 	
 	function MouseMoved(e) {
@@ -259,24 +313,31 @@ function Fingerings_Canvas(keys_string, note_tone, type, help) {
 	};
 	
 	function ToString(type) {
-		switch(type) {
-			case "keys":
-				var ret = String(number_of_fingerings) + ':' + fingering_chart1.ToString("keys");
-				if(number_of_fingerings >= 2) { ret += ','   + fingering_chart2.ToString("keys") };
-				if(number_of_fingerings >= 3) { ret += ','   + fingering_chart3.ToString("keys") };
-
-				return ret;
-			break;
-			case "note_tones":
-				var ret = String(number_of_fingerings) + ':' + fingering_chart1.ToString("note_tones");
-				if(number_of_fingerings >= 2) { ret += ','   + fingering_chart2.ToString("note_tones") };
-				if(number_of_fingerings >= 3) { ret += ','   + fingering_chart3.ToString("note_tones") };
-				
-				return ret;
-			break;
-			default:
-				return ToString("keys");
-			break;
+		if(type == "show" || type == "edit") {
+			switch(type) {
+				case "keys":
+					var ret = String(number_of_fingerings) + ':' + fingering_chart1.ToString("keys");
+					if(number_of_fingerings >= 2) { ret +=   ',' + fingering_chart2.ToString("keys") };
+					if(number_of_fingerings >= 3) { ret +=   ',' + fingering_chart3.ToString("keys") };
+	
+					return ret;
+				break;
+				case "note_tones":
+					var ret = String(number_of_fingerings) + ':' + fingering_chart1.ToString("note_tones");
+					if(number_of_fingerings >= 2) { ret +=   ',' + fingering_chart2.ToString("note_tones") };
+					if(number_of_fingerings >= 3) { ret +=   ',' + fingering_chart3.ToString("note_tones") };
+					
+					return ret;
+				break;
+				default:
+					return ToString("keys");
+				break;
+			};
+		}
+		else if(type == "note_search") {
+			var ret = String(number_of_fingerings) + ':' + note_chart[0].ToString();
+			if(number_of_fingerings >= 2) { ret +=   ',' + note_chart[1].ToString() };
+			if(number_of_fingerings >= 3) { ret +=   ',' + note_chart[2].ToString() };
 		};
 	};	
 	/* End Helpers */

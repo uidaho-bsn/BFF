@@ -2,7 +2,7 @@
  * @author Max Stillwell
  */
 
-function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
+function Key(name, x, y, r, t, type, status, offset_x, offset_y, canvas_type) {
 	/* Private Variables */
 	var key_hover = false;
 	/* Public Functions */
@@ -263,7 +263,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 	function Update() {
 		draw();
 		
-		update_mouse();
+		if(canvas_type != "show") { update_mouse(); };
 	};	
 
 	function update_mouse() {
