@@ -2,9 +2,9 @@
  * @author Max Stillwell
  */
 
-function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
+function Key(name, x, y, r, t, type, status, offset_x, offset_y, canvas_type) {
 	/* Private Variables */
-	var hover = false;
+	var key_hover = false;
 	/* Public Functions */
 	this.Update   = Update;
 	this.OnClick  = OnClick;
@@ -12,6 +12,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 
 	/* Begin Draw Functions */
 	function draw() {
+		ctx.strokeStyle = "black";
 		switch (type) {
 			case 'circle':
 				draw_circle();
@@ -81,7 +82,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 				ctx.fillStyle = "333333";
 				ctx.fill();
 			}
-			if(hover) { ctx.strokeStyle = "red"; };
+			if(key_hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -118,7 +119,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(hover) { ctx.strokeStyle = "red"; };
+			if(key_hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 
 			if(status >= 2 && status <= 4) {
@@ -184,7 +185,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(hover) { ctx.strokeStyle = "red"; };
+			if(key_hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -218,7 +219,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(hover) { ctx.strokeStyle = "red"; };
+			if(key_hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -229,11 +230,11 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 			ctx.rotate(t);
 			
 			ctx.beginPath();
-				ctx.moveTo(-10, 5);
+				ctx.moveTo(-10, 4.5);
 				ctx.lineTo(-7, -7);
 				ctx.lineTo(6, -5);
 				ctx.arc(4.5, 0, r, -( 90 * Math.PI ) / 180, ( 90 * Math.PI ) / 180, false);
-				ctx.lineTo(-10, 5);
+				ctx.lineTo(-10, 4.5);
 				switch(parseInt(status)){
 					case 5: // Hatch Pattern (Optional Key)
 						ctx.moveTo(-10, 5);  ctx.lineTo(9, -3.5);
@@ -252,7 +253,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 				ctx.fillStyle = "333333";
 				ctx.fill();	
 			}
-			if(hover) { ctx.strokeStyle = "red"; };
+			if(key_hover) { ctx.strokeStyle = "red"; };
 			ctx.stroke();
 		ctx.restore();
 	};
@@ -262,22 +263,35 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 	function Update() {
 		draw();
 		
-		update_mouse();
+		if(canvas_type != "show") { update_mouse(); };
 	};	
 
 	function update_mouse() {
-		hover = false;
+		key_hover = false;
 		
-		if(type == 'oval-small' || type == 'oval-med' || type == 'oval-large') {
-			var dx = ((x + offset_x) * scale_X) - mouse_X;
-			var dy = ((y + offset_y) * scale_Y) - mouse_Y;
-
-			var r2 = r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
+		if(type == "oval-small" || type == "oval-med" || type == "oval-large") {
+			var rx = r * Math.cos(0)           * scale_X;
+			var ry = r * Math.sin(Math.PI / 2) * scale_Y;
 			
-			if(dx * dx + dy * dy <= r2 * r2) { hover = true; };
+			switch(type) {
+				case "oval-small":
+					rx *= 0.75; ry *= 0.50;
+				break;
+				case "oval-med":
+					rx *= 1.0; ry *= 0.5;
+				break;
+				case "oval-large":
+					rx *= 1.5; ry *= 0.5;
+				break;
+			};
+			
+			var X =  (mouse_X - ((x + offset_x) * scale_X)) * Math.cos(t) + (mouse_Y - ((y + offset_y) * scale_Y)) * Math.sin(t);
+			var Y = -(mouse_X - ((x + offset_x) * scale_X)) * Math.sin(t) + (mouse_Y - ((y + offset_y) * scale_Y)) * Math.cos(t);
+			
+			if((((X * X) / (rx * rx)) + ((Y * Y) / (ry * ry))) <= 1) { key_hover = true; };
 		}
-		else if (type == 'half-circle' || type == 'half-circle-flat') {
-			var sr =   r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.75;
+		else if (type == "half-circle" || type == "half-circle-flat") {
+			var sr =   r * Math.sqrt((scale_X * scale_X) + (scale_Y * scale_Y)) * 0.7;
 			var ax = -sr * Math.cos(t);
 			var ay = -sr * Math.sin(t);
 			var bx =  sr * Math.cos(t);
@@ -291,29 +305,48 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y) {
 			prod = v1x * v2y - v1y * v2x;
 			
 			if(!(t <= 0 && t > -Math.PI) && (t != -( 300 * Math.PI ) / 180)) {
-				if(prod >= 0 && (Math.sqrt(Math.pow(((x + offset_x) * scale_X) - mouse_X, 2) + Math.pow(((y + offset_y) * scale_Y) - mouse_Y, 2))) <= sr) { hover = true; };
+				if(prod >= 0 && (Math.sqrt(Math.pow(((x + offset_x) * scale_X) - mouse_X, 2) + Math.pow(((y + offset_y) * scale_Y) - mouse_Y, 2))) <= sr) { key_hover = true; };
 			}
 			else {
-				if(prod <= 0 && (Math.sqrt(Math.pow(((x + offset_x) * scale_X) - mouse_X, 2) + Math.pow(((y + offset_y) * scale_Y) - mouse_Y, 2))) <= sr) { hover = true; };
+				if(prod <= 0 && (Math.sqrt(Math.pow(((x + offset_x) * scale_X) - mouse_X, 2) + Math.pow(((y + offset_y) * scale_Y) - mouse_Y, 2))) <= sr) { key_hover = true; };
 			};
 		}
+		/*else if (type == "half-circle-flat") {
+			
+		}*/
+		/*else if (type == "box-up-left-curve") {
+			var ax = (-10 + offset_x) * scale_X; var ay =  (4 + offset_y) * scale_Y;
+			var bx =  (-9 + offset_x) * scale_X; var by = (-9 + offset_y) * scale_Y;
+			var cx =  (10 + offset_x) * scale_X; var cy = (-8 + offset_y) * scale_Y;
+			var dx =   (6 + offset_x) * scale_X; var dy =  (4 + offset_y) * scale_Y;
+			
+			var AB = ((mouse_X >= ax && mouse_Y >= ay) && (mouse_X >= bx && mouse_Y <= by))?true:false;
+			var BC = ((mouse_X >= bx && mouse_Y <= by) && (mouse_X <= cx && mouse_Y <= cy))?true:false;
+			var CD = ((mouse_X <= cx && mouse_Y <= cy) && (mouse_X <= dx && mouse_Y >= dy))?true:false;
+			var DA = ((mouse_X <= dx && mouse_Y >= dy) && (mouse_X >= ax && mouse_Y >= ay))?true:false;
+			
+			if(AB && BC && CD && DA) { key_hover = true; };
+		}*/
+		/*else if (type == "box-right-end-curve") {
+			
+		}*/
 		else {
 			var dx = ((x + offset_x) * scale_X) - mouse_X;
 			var dy = ((y + offset_y) * scale_Y) - mouse_Y;
 
 			var r2 = r * Math.sqrt(Math.pow(scale_X, 2) + Math.pow(scale_Y, 2)) * 0.7;
 			
-			if(dx * dx + dy * dy <= r2 * r2) { hover = true; };
+			if(dx * dx + dy * dy <= r2 * r2) { key_hover = true; };
 		};
 		
-		if(hover       && pointer == '')   { pointer = name; }
-		else if(!hover && pointer == name) { pointer = ''; };
+		if(key_hover       && pointer == '')   { pointer = name; }
+		else if(!key_hover && pointer == name) { pointer = ''; };
 	};
 	/* End Update Functions */
 		
 	/* Begin Event Functions */
 	function OnClick() {
-		if(hover) {
+		if(key_hover) {
 			switch (type) {
 				case 'circle':
 					if(status >= 7) { status = 0; };

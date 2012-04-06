@@ -2,42 +2,42 @@
  * @author Max Stillwell
  */
 
-function Fingering(keys_string, offset_x, offset_y) {
+function Fingering(keys_string, offset_x, offset_y, type) {
 	/* Public Functions */
     this.Update   = Update;
     this.OnClick  = OnClick;
     this.ToString = ToString;
     /* Private Variables */
-	var low_bflat 	 		  = new Key("low_bflat",            40,  20,  10, -( 115 * Math.PI ) / 180, 'oval-large',          keys_string[0],  offset_x, offset_y);
-	var low_b 		 		  = new Key("low_b",                30,  30,  10, -( 115 * Math.PI ) / 180, 'oval-large',          keys_string[1],  offset_x, offset_y);
-	var low_c 		 		  = new Key("low_c",                23,  37,  11, -( 300 * Math.PI ) / 180, 'half-circle',         keys_string[2],  offset_x, offset_y);  
-	var low_d 		 		  = new Key("low_d",                20,  70,  10, Math.PI / 2, 			    'oval-large',          keys_string[3],  offset_x, offset_y);
-	var whisper 	 		  = new Key("whisper",              70,  70,  10, 0, 						'oval-small',          keys_string[4],  offset_x, offset_y);
-	var thumb_csharp 		  = new Key("thumb_csharp",         70,  55,  10, 0, 						'oval-med',            keys_string[5],  offset_x, offset_y);
-	var high_a 		 	  	  = new Key("high_a",               70,  40,  10, 0, 						'oval-large',          keys_string[6],  offset_x, offset_y);
-	var high_c 		 	  	  = new Key("high_c",               70,  25,  10, 0, 						'oval-med',            keys_string[7],  offset_x, offset_y);
-	var high_d 		 	  	  = new Key("high_d",               70,  10,  10, 0, 						'oval-small',          keys_string[8],  offset_x, offset_y);
-	var thumb_bflat  		  = new Key("thumb_bflat",          70,  110, 10, 0, 						'oval-large',          keys_string[9],  offset_x, offset_y);
-	var low_e 		 		  = new Key("low_e",                70,  140, 20, 0, 						'circle-key',          keys_string[10], offset_x, offset_y);
-	var thumb_fsharp 		  = new Key("thumb_fsharp",         70,  170, 10, -( 10 * Math.PI ) / 180,  'oval-large',          keys_string[11], offset_x, offset_y);
-	var thumb_aflat  		  = new Key("thumb_aflat",          75,  185, 10, -( 10 * Math.PI ) / 180,  'oval-large',          keys_string[12], offset_x, offset_y);
-	var trill_a_to_b 		  = new Key("trill_a_to_b",         50,  180, 10, 0, 						'oval-small',          keys_string[13], offset_x, offset_y);
-	var trill_g 	 		  = new Key("trill_g",              145, 23,  10, 0, 						'oval-small',          keys_string[14], offset_x, offset_y);
-	var hole_1				  = new Key("hole_1",               130, 15,  8,  0, 						'circle',              keys_string[15], offset_x, offset_y);
-	var trill_fsharp 		  = new Key("trill_fsharp",         145, 47,  10, 0,						'oval-small',          keys_string[16], offset_x, offset_y);
-	var hole_2				  = new Key("hole_2",               130, 37,  8,  0, 						'circle',              keys_string[17], offset_x, offset_y);
-	var trill_eflat 		  = new Key("trill_eflat",          0,    0,  0,  0,                        'oval-small',          keys_string[18], offset_x, offset_y);
-	var hole_3				  = new Key("hole_3",               130, 60,  8,  0, 						'circle',              keys_string[19], offset_x, offset_y);
-	var low_eflat 			  = new Key("low_eflat",            150, 73,  10, -( 190 * Math.PI ) / 180, 'half-circle',         keys_string[20], offset_x, offset_y);
-	var low_dflat 			  = new Key("low_dflat",            151, 76,  10, -( 10 * Math.PI  ) / 180, 'half-circle',         keys_string[21], offset_x, offset_y);
-	var trill_csharp 		  = new Key("trill_csharp",         115, 100, 10, 0,                        'oval-small',          keys_string[22], offset_x, offset_y);
-	var hole_4				  = new Key("hole_4",               130, 110, 8,  0, 						'circle',              keys_string[23], offset_x, offset_y);
-	var hole_5				  = new Key("hole_5",               130, 135, 8,  0, 						'circle',              keys_string[24], offset_x, offset_y);
-	var trill_bflat 		  = new Key("trill_bflat",          143, 148, 10, 0,                        'oval-small',          keys_string[25], offset_x, offset_y);
-	var low_g 				  = new Key("low_g",                141, 162, 10, 0,                        'oval-large',          keys_string[26], offset_x, offset_y);
-	var low_f 				  = new Key("low_f",                130, 180, 10, 0,                        'box-up-left-curve',   keys_string[27], offset_x, offset_y);
-	var little_finger_fsharp  = new Key("little_finger_fsharp", 150, 180,  5, 0,                        'box-right-end-curve', keys_string[28], offset_x, offset_y);
-	var little_finger_aflat   = new Key("little_finger_aflat",  140, 187, 15, 0,                        'half-circle-flat',    keys_string[29], offset_x, offset_y);
+	var low_bflat 	 		  = new Key("low_bflat",            40,  20,  10, -( 115 * Math.PI ) / 180, 'oval-large',          keys_string[0],  offset_x, offset_y, type);
+	var low_b 		 		  = new Key("low_b",                30,  30,  10, -( 115 * Math.PI ) / 180, 'oval-large',          keys_string[1],  offset_x, offset_y, type);
+	var low_c 		 		  = new Key("low_c",                23,  37,  11, -( 300 * Math.PI ) / 180, 'half-circle',         keys_string[2],  offset_x, offset_y, type);  
+	var low_d 		 		  = new Key("low_d",                20,  70,  10, Math.PI / 2, 			    'oval-large',          keys_string[3],  offset_x, offset_y, type);
+	var whisper 	 		  = new Key("whisper",              70,  70,  10, 0, 						'oval-small',          keys_string[4],  offset_x, offset_y, type);
+	var thumb_csharp 		  = new Key("thumb_csharp",         70,  55,  10, 0, 						'oval-med',            keys_string[5],  offset_x, offset_y, type);
+	var high_a 		 	  	  = new Key("high_a",               70,  40,  10, 0, 						'oval-large',          keys_string[6],  offset_x, offset_y, type);
+	var high_c 		 	  	  = new Key("high_c",               70,  25,  10, 0, 						'oval-med',            keys_string[7],  offset_x, offset_y, type);
+	var high_d 		 	  	  = new Key("high_d",               70,  10,  10, 0, 						'oval-small',          keys_string[8],  offset_x, offset_y, type);
+	var thumb_bflat  		  = new Key("thumb_bflat",          70,  110, 10, 0, 						'oval-large',          keys_string[9],  offset_x, offset_y, type);
+	var low_e 		 		  = new Key("low_e",                70,  140, 20, 0, 						'circle-key',          keys_string[10], offset_x, offset_y, type);
+	var thumb_fsharp 		  = new Key("thumb_fsharp",         70,  170, 10, -( 10 * Math.PI ) / 180,  'oval-large',          keys_string[11], offset_x, offset_y, type);
+	var thumb_aflat  		  = new Key("thumb_aflat",          75,  185, 10, -( 10 * Math.PI ) / 180,  'oval-large',          keys_string[12], offset_x, offset_y, type);
+	var trill_a_to_b 		  = new Key("trill_a_to_b",         50,  180, 10, 0, 						'oval-small',          keys_string[13], offset_x, offset_y, type);
+	var trill_g 	 		  = new Key("trill_g",              145, 23,  10, 0, 						'oval-small',          keys_string[14], offset_x, offset_y, type);
+	var hole_1				  = new Key("hole_1",               130, 15,  8,  0, 						'circle',              keys_string[15], offset_x, offset_y, type);
+	var trill_fsharp 		  = new Key("trill_fsharp",         145, 47,  10, 0,						'oval-small',          keys_string[16], offset_x, offset_y, type);
+	var hole_2				  = new Key("hole_2",               130, 37,  8,  0, 						'circle',              keys_string[17], offset_x, offset_y, type);
+	var trill_eflat 		  = new Key("trill_eflat",          0,    0,  0,  0,                        'oval-small',          keys_string[18], offset_x, offset_y, type);
+	var hole_3				  = new Key("hole_3",               130, 60,  8,  0, 						'circle',              keys_string[19], offset_x, offset_y, type);
+	var low_eflat 			  = new Key("low_eflat",            150, 73,  10, -( 190 * Math.PI ) / 180, 'half-circle',         keys_string[20], offset_x, offset_y, type);
+	var low_dflat 			  = new Key("low_dflat",            151, 76,  10, -( 10 * Math.PI  ) / 180, 'half-circle',         keys_string[21], offset_x, offset_y, type);
+	var trill_csharp 		  = new Key("trill_csharp",         115, 100, 10, 0,                        'oval-small',          keys_string[22], offset_x, offset_y, type);
+	var hole_4				  = new Key("hole_4",               130, 110, 8,  0, 						'circle',              keys_string[23], offset_x, offset_y, type);
+	var hole_5				  = new Key("hole_5",               130, 135, 8,  0, 						'circle',              keys_string[24], offset_x, offset_y, type);
+	var trill_bflat 		  = new Key("trill_bflat",          143, 148, 10, 0,                        'oval-small',          keys_string[25], offset_x, offset_y, type);
+	var low_g 				  = new Key("low_g",                141, 162, 10, 0,                        'oval-large',          keys_string[26], offset_x, offset_y, type);
+	var low_f 				  = new Key("low_f",                130, 180, 10, 0,                        'box-up-left-curve',   keys_string[27], offset_x, offset_y, type);
+	var little_finger_fsharp  = new Key("little_finger_fsharp", 150, 180,  5, 0,                        'box-right-end-curve', keys_string[28], offset_x, offset_y, type);
+	var little_finger_aflat   = new Key("little_finger_aflat",  140, 187, 15, 0,                        'half-circle-flat',    keys_string[29], offset_x, offset_y, type);
 
 	/* Begin Update Functions */
 	function Update() {

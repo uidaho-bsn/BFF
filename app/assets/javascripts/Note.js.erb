@@ -1,0 +1,473 @@
+/**
+ * @author Max Stillwell
+ */
+
+function Note(note, tone, offset_x, offset_y, length, type) {
+	/* Private Variables */
+	var notes = new Array(15);
+	var last_note;
+	var l1 = -10; var l2 = -5; var l3 = 0; var l4 = 5; var l5 = 10; var l6 = 15;
+	var F_Clef = new Image(); var C_Clef = new Image(); var G_Clef = new Image();
+	var F_Clef_Red = new Image(); var C_Clef_Red = new Image(); var G_Clef_Red = new Image();
+	var f_clef = true; var c_clef = false; var g_clef = false;
+	var tone_hover = false; 
+	var clef_hover = false;
+	/* Public Functions */
+	this.Update   = Update;
+	this.OnClick  = OnClick; 
+	this.ToString = ToString;
+	
+	/* Begin Constructor */
+	for(i in notes) {
+		notes[i] = false;
+	};
+
+	if(noteToPos() == -1) {
+		f_clef = false;
+		c_clef = true;
+		
+		if(noteToPos() == -1) {
+			c_clef = false;
+			g_clef = true;
+		}
+	}
+
+	G_Clef.src = "<%= asset_path('music/g-clef.png') %>";
+	C_Clef.src = "<%= asset_path('music/c-clef.png') %>";	
+	F_Clef.src = "<%= asset_path('music/f-clef.png') %>";
+	G_Clef_Red.src = "<%= asset_path('music/g-clef-red.png') %>";
+	C_Clef_Red.src = "<%= asset_path('music/c-clef-red.png') %>";	
+	F_Clef_Red.src = "<%= asset_path('music/f-clef-red.png') %>";
+	/* End Constructor */
+	
+	/* Begin Draw Functions */
+	function draw() {
+		draw_staff();
+		
+		if(g_clef) {
+			if(clef_hover) { ctx.drawImage(G_Clef_Red, 5, -15, 10, 31); }
+			else { ctx.drawImage(G_Clef, 5, -15, 10, 31); };
+		}
+		else if(c_clef) {
+			if(clef_hover) { ctx.drawImage(C_Clef_Red, 5, -10, 13, 20); }
+			else { ctx.drawImage(C_Clef, 5, -10, 13, 20); }; 
+		}
+		else if(f_clef) {
+			if(clef_hover) { ctx.drawImage(F_Clef_Red, 5, -10, 16, 15.95); }
+			else { ctx.drawImage(F_Clef, 5, -10, 16, 15.95); };
+		};
+		
+		draw_text();
+		
+		if(!tone_hover) { draw_curr_note(); };
+		draw_hover_note();
+	};
+	
+	function draw_staff() {
+		ctx.save();
+			ctx.beginPath();
+				ctx.moveTo(0, l1); ctx.lineTo(length, l1);
+				ctx.moveTo(0, l2); ctx.lineTo(length, l2);
+				ctx.moveTo(0, l3); ctx.lineTo(length, l3);
+				ctx.moveTo(0, l4); ctx.lineTo(length, l4);
+				ctx.moveTo(0, l5); ctx.lineTo(length, l5);
+				
+				if(f_clef) {
+					ctx.moveTo(0, l6); ctx.lineTo(25, l6);
+					ctx.moveTo(0, l6 + 5); ctx.lineTo(25, l6 + 5);
+				};
+			ctx.closePath();
+			
+			ctx.lineWidth = 0.5;
+			ctx.stroke();
+		ctx.restore();
+	};
+
+	function draw_text () {
+		ctx.save();
+			if(note != '') {
+				ctx.shadowColor = "rgb(190, 190, 190)";
+				ctx.shadowOffsetX = 1.5;
+				ctx.shadowOffsetY = 1.5;
+				
+				ctx.fillStyle="black";
+				
+				ctx.font = "7pt Calibri";
+				if(tone == '♮') { 
+					ctx.fillText(note[0], 25, -12.5);
+					ctx.font = "4pt Calibri";
+					ctx.fillText(note[1], 30, -16);
+				}
+				else { 
+					ctx.fillText(tone + note[0], 25, -12.5);
+					ctx.font = "4pt Calibri";
+					ctx.fillText(note[1], 36, -16);
+				};
+			};
+		ctx.restore();
+	};
+
+	function draw_curr_note () {
+		var pos_x = (noteToPos() > 11)?75 - (10 * (noteToPos() - 11)):75 + (10 * noteToPos());
+		var pos_y = (noteToPos() > 11)?l6 + (2.5 * (noteToPos() - 11)):l6 - (2.5 * noteToPos());
+		
+		ctx.fillStyle   = "black";
+		ctx.strokeStyle = "black";
+		
+		ctx.save();
+			ctx.translate(pos_x, pos_y);
+			ctx.rotate(-(10 * Math.PI) / 180);
+			ctx.scale(1.25, 0.9);
+			
+			ctx.shadowColor = "rgb(190, 190, 190)";
+			ctx.shadowOffsetX = 2;
+			ctx.shadowOffsetY = 2;
+			
+			ctx.beginPath();
+				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+			ctx.closePath();
+			
+			ctx.fill();
+		ctx.restore();
+		
+		if(tone != '♮') {
+			ctx.font = "8pt Calibri";
+			ctx.fillText(tone, pos_x - 10, pos_y + 3);
+		};
+		
+		if(noteToPos() == 0 || noteToPos > 11) {
+			ctx.save();
+				ctx.translate(pos_x, l6);
+				
+				ctx.beginPath();
+					ctx.moveTo(-7, 0);
+					ctx.lineTo(7, 0);
+				ctx.closePath();
+				
+				ctx.stroke();
+			ctx.restore();
+		};
+		
+		if(noteToPos() > 11 || noteToPos() == 0) {
+			ctx.save();
+				ctx.translate(pos_x, l6);
+				
+				ctx.beginPath();
+					ctx.moveTo(-7, 0);
+					ctx.lineTo(7, 0);
+				ctx.closePath();
+				
+				ctx.stroke();
+			ctx.restore();
+		};
+		
+		if(noteToPos() > 12) {
+			ctx.save();
+				ctx.translate(pos_x, l6 + 5.0);
+				
+				ctx.beginPath();
+					ctx.moveTo(-7, 0);
+					ctx.lineTo(7, 0);
+				ctx.closePath();
+				
+				ctx.stroke();
+			ctx.restore();
+		};
+	};
+
+	function draw_hover_note() {
+		var i;
+		ctx.fillStyle   = "red";
+		ctx.strokeStyle = "red";
+		
+		for(i = 0; i < 15; i++) {
+			var pos_x = (i > 11)?75 - (10 * (i - 11)):75 + (10 * i);
+			var pos_y = (i > 11)?l6 + (2.5 * (i - 11)):l6 - (2.5 * i);
+			
+			if(notes[i]) {
+				ctx.save();
+					ctx.translate(pos_x, pos_y);
+					ctx.rotate(-(10 * Math.PI) / 180);
+					ctx.scale(1.25, 0.9);
+					
+					ctx.shadowColor = "rgb(190, 190, 190)";
+					ctx.shadowOffsetX = 2;
+					ctx.shadowOffsetY = 2;
+					
+					ctx.beginPath();
+						ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
+					ctx.closePath();
+					
+					ctx.fill();
+				ctx.restore();
+				
+				if(tone_hover) {
+					ctx.font = "8pt Calibri";
+					
+					switch(tone) {
+						case '♮':
+							ctx.fillText('♯', pos_x - 10, pos_y + 3);
+						break;
+						case '♭':
+							ctx.fillText('♮', pos_x - 10, pos_y + 3);
+						break;
+						case '♯':
+							ctx.fillText('♭', pos_x - 10, pos_y + 3);
+						break;
+					};
+				};
+				
+				if(i > 11 || i == 0) {
+					ctx.save();
+						ctx.translate(pos_x, l6);
+						
+						ctx.beginPath();
+							ctx.moveTo(-7, 0);
+							ctx.lineTo(7, 0);
+						ctx.closePath();
+						
+						ctx.stroke();
+					ctx.restore();
+				};
+				
+ 				if(i > 12) {
+					ctx.save();
+						ctx.translate(pos_x, l6 + 5.0);
+						
+						ctx.beginPath();
+							ctx.moveTo(-7, 0);
+							ctx.lineTo(7, 0);
+						ctx.closePath();
+						
+						ctx.stroke();
+					ctx.restore();
+				};
+			};
+		};
+	};
+	/* End Draw Functions */
+	
+	/* Begin Update Functions */
+	function Update() {
+		draw();
+		
+		if(type != "show") { update_mouse(); };
+	};
+
+	function update_mouse() {
+		var i;
+		
+		tone_hover = clef_hover = false;
+		for(i = 0; i < 15; i++) {
+			notes[i] = false;
+		};
+
+		if((mouse_X > ((20 + offset_x) * scale_X)) && (mouse_X < ((length + offset_x) * scale_X))) {
+			if(     mouse_Y > ((l6 - 2.5 + offset_y) * scale_Y) && 
+			        mouse_Y < ((l6 + 2.5 + offset_y) * scale_Y)) { notes[0] = true; }
+			else if(mouse_Y < ((l6       + offset_y) * scale_Y) && 
+					mouse_Y > ((l5       + offset_y) * scale_Y)) { notes[1] = true; }
+			else if(mouse_Y > ((l5 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y < ((l5 + 2.5 + offset_y) * scale_Y)) { notes[2] = true; }
+			else if(mouse_Y < ((l5       + offset_y) * scale_Y) && 
+					mouse_Y > ((l4       + offset_y) * scale_Y)) { notes[3] = true; }
+			else if(mouse_Y > ((l4 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y < ((l4 + 2.5 + offset_y) * scale_Y)) { notes[4] = true; }
+			else if(mouse_Y < ((l4       + offset_y) * scale_Y) && 
+					mouse_Y > ((l3       + offset_y) * scale_Y)) { notes[5] = true; }
+			else if(mouse_Y > ((l3 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y < ((l3 + 2.5 + offset_y) * scale_Y)) { notes[6] = true; }
+			else if(mouse_Y < ((l3       + offset_y) * scale_Y) && 
+					mouse_Y > ((l2       + offset_y) * scale_Y)) { notes[7] = true; }
+			else if(mouse_Y > ((l2 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y < ((l2 + 2.5 + offset_y) * scale_Y)) { notes[8] = true; }
+			else if(mouse_Y < ((l2       + offset_y) * scale_Y) && 
+					mouse_Y > ((l1       + offset_y) * scale_Y)) { notes[9] = true; }
+			else if(mouse_Y > ((l1 - 2.5 + offset_y) * scale_Y) && 
+					mouse_Y < ((l1 + 2.5 + offset_y) * scale_Y)) { notes[10] = true; }
+			else if(mouse_Y < ((l1       + offset_y) * scale_Y) && 
+					mouse_Y > ((l1 - 5.0 + offset_y) * scale_Y)) { notes[11] = true; }
+			else if(mouse_Y < ((l6 + 5.0 + offset_y) * scale_Y) && 
+					mouse_Y > ((l6       + offset_y) * scale_Y) && f_clef) { notes[12] = true; }
+			else if(mouse_Y < ((l6 + 7.5 + offset_y) * scale_Y) && 
+					mouse_Y > ((l6 + 2.5 + offset_y) * scale_Y) && f_clef) { notes[13] = true; }
+			else if(mouse_Y < ((l6 + 10  + offset_y) * scale_Y) && 
+					mouse_Y > ((l6 + 5.0  + offset_y) * scale_Y) && f_clef) { notes[14] = true; };
+		}
+		else if((mouse_X > ((0 + offset_x) * scale_X)) && (mouse_X < ((25 + offset_x) * scale_X)) && 
+			(mouse_Y > ((-15 + offset_y) * scale_Y)) && (mouse_Y < ((10 + offset_y) * scale_Y))) { clef_hover = true; };
+
+		for(i = 0; i < 15; i++) {
+			if(notes[i] && i == noteToPos()) { tone_hover = true; };
+		};
+		
+		var temp = (tone_hover || clef_hover)?true:false
+		for(i = 0; i < 15; i++) {
+			temp = (temp || notes[i])?true:false;
+		};
+
+		if(temp       && pointer == '')     { pointer = 'note'; }
+		else if(!temp && pointer == 'note') { pointer = '' };
+	};
+	/* End Update Functions */
+	
+	/* Begin Event Functions */
+	function OnClick() {
+		note = posToNote();
+		
+		if(tone_hover) {
+			switch(tone) {
+				case '♯': //Sharp
+					tone = '♭'; //Flat
+				break;
+				case '♭': //Flat
+					tone = '♮'; //Natural
+				break;
+				case '♮': //Natural
+					tone = '♯'; //Sharp
+				break;
+			};
+		}
+		else if(clef_hover) {
+			if(f_clef) {
+				f_clef = false;
+				c_clef = true;
+				
+				if(noteToPos() == -1) { note = "d3"; };
+			}
+			else if(c_clef) {
+				c_clef = false;
+				g_clef = true;
+				
+				if(noteToPos() == -1) { note = "c4"; };
+			}
+			else if(g_clef) {
+				g_clef = false;
+				f_clef = true;
+				
+				if(noteToPos() == -1) { note = "b3"; };
+			};
+		};
+	};
+	/* End Event Functions */
+	
+	/* Begin Helpers */
+	function posToNote() {
+		var ret = note;
+		
+		if(f_clef) {
+			if(notes[0])       { ret = "e2"; }
+			else if(notes[1])  { ret = "f2"; }
+			else if(notes[2])  { ret = "g2"; }
+			else if(notes[3])  { ret = "a2"; }
+			else if(notes[4])  { ret = "b2"; }
+			else if(notes[5])  { ret = "c3"; }
+			else if(notes[6])  { ret = "d3"; }
+			else if(notes[7])  { ret = "e3"; }
+			else if(notes[8])  { ret = "f3"; }
+			else if(notes[9])  { ret = "g3"; }
+			else if(notes[10]) { ret = "a3"; }
+			else if(notes[11]) { ret = "b3"; }
+			else if(notes[12]) { ret = "d2"; }
+			else if(notes[13]) { ret = "c1"; }
+			else if(notes[14]) { ret = "b1"; };
+		}
+		else if(c_clef) {
+			if(notes[0])       { ret = "d3"; }
+			else if(notes[1])  { ret = "e3"; }
+			else if(notes[2])  { ret = "f3"; }
+			else if(notes[3])  { ret = "g3"; }
+			else if(notes[4])  { ret = "a3"; }
+			else if(notes[5])  { ret = "b3"; }
+			else if(notes[6])  { ret = "c4"; }
+			else if(notes[7])  { ret = "d4"; }
+			else if(notes[8])  { ret = "e4"; }
+			else if(notes[9])  { ret = "f4"; }
+			else if(notes[10]) { ret = "g4"; }
+			else if(notes[11]) { ret = "a4"; };
+		}
+		else {
+			if(notes[0])       { ret = "c4"; }
+			else if(notes[1])  { ret = "d4"; }
+			else if(notes[2])  { ret = "e4"; }
+			else if(notes[3])  { ret = "f4"; }
+			else if(notes[4])  { ret = "g4"; }
+			else if(notes[5])  { ret = "a4"; }
+			else if(notes[6])  { ret = "b4"; }
+			else if(notes[7])  { ret = "c5"; }
+			else if(notes[8])  { ret = "d5"; }
+			else if(notes[9])  { ret = "e5"; }
+			else if(notes[10]) { ret = "f5"; }
+			else if(notes[11]) { ret = "g5"; };
+		};
+		
+		return ret;
+	};
+	
+	function noteToPos() {
+		var ret = -1;
+		
+		if(f_clef) {
+			if(note == "e2")      { ret = 0; }
+			else if(note == "f2") { ret = 1; }
+			else if(note == "g2") { ret = 2; }
+			else if(note == "a2") { ret = 3; }
+			else if(note == "b2") { ret = 4; }
+			else if(note == "c3") { ret = 5; }
+			else if(note == "d3") { ret = 6; }
+			else if(note == "e3") { ret = 7; }
+			else if(note == "f3") { ret = 8; }
+			else if(note == "g3") { ret = 9; }
+			else if(note == "a3") { ret = 10; }
+			else if(note == "b3") { ret = 11; }
+			else if(note == "d2") { ret = 12; }
+			else if(note == "c1") { ret = 13; }
+			else if(note == "b1") { ret = 14; }
+		}
+		else if(c_clef) {
+			if(note == "d3")      { ret = 0; }
+			else if(note == "e3") { ret = 1; }
+			else if(note == "f3") { ret = 2; }
+			else if(note == "g3") { ret = 3; }
+			else if(note == "a3") { ret = 4; }
+			else if(note == "b3") { ret = 5; }
+			else if(note == "c4") { ret = 6; }
+			else if(note == "d4") { ret = 7; }
+			else if(note == "e4") { ret = 8; }
+			else if(note == "f4") { ret = 9; }
+			else if(note == "g4") { ret = 10; }
+			else if(note == "a4") { ret = 11; };
+		}
+		else {
+			if(note == "c4")      { ret = 0; }
+			else if(note == "d4") { ret = 1; }
+			else if(note == "e4") { ret = 2; }
+			else if(note == "f4") { ret = 3; }
+			else if(note == "g4") { ret = 4; }
+			else if(note == "a4") { ret = 5; }
+			else if(note == "b4") { ret = 6; }
+			else if(note == "c5") { ret = 7; }
+			else if(note == "d5") { ret = 8; }
+			else if(note == "e5") { ret = 9; }
+			else if(note == "f5") { ret = 10; }
+			else if(note == "g5") { ret = 11; };
+		};
+		
+		return ret;
+	}
+	
+	function ToString() {
+		var t = "natural"
+		switch(tone) {
+			case "♭":
+				var t = "flat";
+			break;
+			case "♯":
+				var t = "sharp";
+			break;
+		};
+
+		return (posToNote() + "_" + String(t))
+	};
+	/* End Helpers */
+};
