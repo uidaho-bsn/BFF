@@ -116,17 +116,18 @@ class UsersController < ApplicationController
   def update
 
     @curr = User.find(params[:id])
- 
+    @user = User.find(params[:id])
+
     if @curr.update_attributes(params[:user])
-      @curr.save
-      flash[:notice] = "Successfully updated user."
+      flash[:success] = "Profile updated."
+      redirect_to root_url
     else
-      flash[:notice] = "Unable to update user."
-    end  
-    redirect_to user_path(@curr)
+      redirect_to @curr
+    end
+
   end
 =begin
-    if request.put?  
+    if request.put?
       if @curr.save
         session[:user] = User.authenticate(@curr.login, @curr.password)
         flash[:message] = "Update Successful"

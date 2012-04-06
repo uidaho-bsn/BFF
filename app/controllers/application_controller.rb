@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   before_filter :prepair_for_mobile
+  before_filter :set_user_time_zone
   
   def login_required
     if session[:user]
@@ -46,6 +47,11 @@ class ApplicationController < ActionController::Base
     end
   end
   helper_method :mobile_device?
+
+  def set_user_time_zone
+    Time.zone = current_user.time_zone if session[:user] != nil
+  end
+  helper_method :set_user_time_zone
 
   def prepair_for_mobile
     session[:mobile_param] = params[:mobile] if params[:mobile]

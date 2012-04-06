@@ -8,33 +8,13 @@
 
 <% content_for :content do%>
 
-
-	<% form_for @curr do |f| -%>
-		<p><label for="email">Email</label><br/>
-		<%= f.text_field :email %></p>
-		<p><label for="email_confirmation">Email Confirmation</label><br/>
-		<%= f.text_field :email_confirmation %></p>
-
-		<p><%= submit_tag 'Update' %></p>
-	<% end -%>
-<!-->
 		<%= form_tag( {:action => 'update', :controller => 'users'}, {:method => 'put', :style => "display:inline;"} ) do%>
 			
 			<label for='user_email'>Email</label><br/>
 			<%= text_field 'user', 'email',  :size => 20 %><br/>
 			
-			<label for='user_email_confirmation'>Email Confirmation</label><br/>
-			<%= text_field 'user', 'email_confirmation', :size => 20 %><br/>
-			
-			<% if isAdmin? %>
-				Admin: <%= check_box "admin", "set_admin", :checked => @curr.admin %>
-				<br />
-			<% end %>
-			
-			Delete: <%= check_box "destroy", "destroy" %>
-			<br />
-	
 			<%= submit_tag 'Save' %>
 		<% end %>
-<!-->
+
+
 <% end %>
