@@ -28,31 +28,6 @@ class FingeringsController < ApplicationController
       else
         flash[:notice] = "No fingerings match that note."
       end
-
-    # @Page_results = @Results.paginate(:page => params[:page], :per_page => 1)
-    
-  #  if fingering
-  #    @fingering = fingering
- #     @fingering_status = @fingering.fingering_status
- #     @note_tone = @fingering.note_tone
-      
-      
-      
-      #respond_to do |format|
-      #  format.html
-      #  format.json { render json: @fingering } 
-      #end
-   # else
-     # flash[:notice] = "No fingerings match that note."
-   #  end
-
-       #@note_tone = @fingering.note_tone
-     
-       
-       #session[:query] = @Results.map(&:id)
-     
-       #@next_fingering = session[:query]
-       #@prev_fingering = session[:query]
     
   end
  
