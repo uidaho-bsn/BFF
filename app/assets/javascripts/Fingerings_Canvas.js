@@ -312,9 +312,9 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 		return retArray;
 	};
 	
-	function ToString(type) {
-		if(type == "show" || type == "edit") {
-			switch(type) {
+	function ToString(ret_type) {
+		if(type == "show" || type == "edit" || type == "new") {
+			switch(ret_type) {
 				case "keys":
 					var ret = String(number_of_fingerings) + ':' + fingering_chart1.ToString("keys");
 					if(number_of_fingerings >= 2) { ret +=   ',' + fingering_chart2.ToString("keys") };
