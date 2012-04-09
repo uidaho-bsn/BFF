@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.0'
 
-gem 'thin'
+gem 'thin', require: 'eventmachine'
 
 gem 'tlsmail'
 
@@ -33,6 +33,7 @@ end
 
 
 gem 'will_paginate', :platforms => :ruby
+gem 'eventmachine'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
