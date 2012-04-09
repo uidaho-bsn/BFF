@@ -44,16 +44,14 @@
 			</tr>
 			<tr>
 				<td><label for="user_skill">Skill Level</label></td>
-				<td><%= select :user, :skill, [['Beginner', 'Beginner'], ['Intermediate', 'Intermediate'], ['Advanced', 'Advanced']]%></td>
+				<td><%= select :user, :skill, [['Beginner', 'beginner'], ['Intermediate', 'intermediate'], ['Advanced', 'advanced'], ['Professional', 'professional']]%></td>
 				<td align="center"></td>
 			</tr>
 			<tr>
 				<td><label for="user_time_zone">Time Zone</label></td>
 				<td><%= time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones %></td>
 				<td align="center"></td>
-			</tr>
-			
-			
+			</tr>	
 			
 			<tr><th></th><th></th><th></th></tr>
 		</table>

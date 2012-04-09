@@ -11,6 +11,10 @@
 	Fingering ID #<%= @fingering.id %>
 <% end %>
 
+<% content_for :page_subtitle do %>
+	Entered on: <%= @fingering.created_at %> by <%= @fingering.user_name %>
+<% end %>
+
 <% content_for :content do %>
 	<canvas id="show_fingering" width="500" height="600">
     	<p>Unfortunately, your browser is currently unsupported by our web 
@@ -23,24 +27,32 @@
 	<br />
 	
 	<%# if current_user.isAdmin? && !@fingering.approved %>
-		<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
+		<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 			<% if @fingering.approved %>
-				<%= submit_tag "Unapprove" %>
+				<%= submit_tag "Unapprove", :id => "submit" %>
 			<% else %>
-				<%= submit_tag "Approve" %>
+				<%= submit_tag "Approve", :id => "submit" %>
 			<% end %>
 		<% end %>
 	<%# end %>
 
-	<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
-		<%= submit_tag "Like" %>
+	<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Like", :id => "submit" %>
 	<% end %>
 
-	<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
-		<%= submit_tag "Dislike" %>
+	<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Dislike", :id => "submit" %>
 	<% end %>
 
-	<%= button_to 'Back', fingerings_path, :method => :get %>
-	<%= button_to 'Edit', edit_fingering_path(@fingering), :method => :get %>
-	<%= button_to 'Delete', @fingering, :confirm => 'Are you sure?', :method => :delete %>
+	<%= form_tag({:action => "index", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Back", :id => "submit" %>
+	<% end %>
+
+	<%= form_tag({:action => "edit", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Edit", :id => "submit" %>
+	<% end %>
+	
+	<%= form_tag({:action => "destroy", :controller => "fingerings"}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Delete", :id => "submit", :confirm => "Are you sure?" %>
+	<% end %>
 <% end %>
