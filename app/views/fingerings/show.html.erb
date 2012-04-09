@@ -21,6 +21,25 @@
         	<a href="www.google.com/chrome">Chrome</a> </p>
 	</canvas>
 	<br />
+	
+	<%# if current_user.isAdmin? && !@fingering.approved %>
+		<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
+			<% if @fingering.approved %>
+				<%= submit_tag "Unapprove" %>
+			<% else %>
+				<%= submit_tag "Approve" %>
+			<% end %>
+		<% end %>
+	<%# end %>
+
+	<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
+		<%= submit_tag "Like" %>
+	<% end %>
+
+	<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
+		<%= submit_tag "Dislike" %>
+	<% end %>
+
 	<%= button_to 'Back', fingerings_path, :method => :get %>
 	<%= button_to 'Edit', edit_fingering_path(@fingering), :method => :get %>
 	<%= button_to 'Delete', @fingering, :confirm => 'Are you sure?', :method => :delete %>

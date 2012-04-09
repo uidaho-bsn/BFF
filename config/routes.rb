@@ -27,6 +27,12 @@ Tab::Application.routes.draw do
   resources :example_musics
 
   resources :fingerings, :only => [:index, :new, :show, :create, :edit, :update, :destroy] do
+    member do
+      put :approve
+      put :like
+      put :dislike
+    end
+    
     collection do
       get 'search'
       post 'search_results'
