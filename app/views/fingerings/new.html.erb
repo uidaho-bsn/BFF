@@ -22,11 +22,14 @@
 	</canvas>
 
 	<br />
-	<%= form_tag({:action => 'create', :controller => "fingerings"}, {:method => "post", :style => "display:inline;"}) do %>
+	<%= form_tag({:action => 'create', :controller => "fingerings"}, {:method => "post", :id => "form", :style => "display:inline;"}) do %>
 		<%= hidden_field "fingering", "fingering_status" %>
 		<%= hidden_field "fingering", "note_tone" %>
 
-		<%= submit_tag "Submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
+		<%= submit_tag "Submit", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
 	<% end %>
-	<%= button_to 'Cancel', fingerings_path, :method => :get %>
+	
+	<%= form_tag({:action => "index", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Cancel", :id => "submit" %>
+	<% end %>
 <% end %>
