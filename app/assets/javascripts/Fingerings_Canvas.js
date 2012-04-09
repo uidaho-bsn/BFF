@@ -338,6 +338,8 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 			var ret = String(number_of_fingerings) + ':' + note_chart[0].ToString();
 			if(number_of_fingerings >= 2) { ret +=   ',' + note_chart[1].ToString() };
 			if(number_of_fingerings >= 3) { ret +=   ',' + note_chart[2].ToString() };
+			
+			return ret;
 		};
 	};	
 	/* End Helpers */
