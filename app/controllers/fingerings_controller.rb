@@ -20,18 +20,15 @@ class FingeringsController < ApplicationController
   end
   
   def search_results
-    
       @Results = Fingering.where(:note_tone => params[:fingering][:note_tone])
       debugger
       if @Results != []
         @fingerings = @Results.paginate(:page => params[:page], :per_page => 1)
       else
-        flash[:notice] = "No fingerings match that note."
+        flash[:notice] = "No fingerings match that note(s)."
       end
     
   end
- 
- 
   def show
     @fingering        = Fingering.find(params[:id])
     @fingering_status = @fingering.fingering_status
