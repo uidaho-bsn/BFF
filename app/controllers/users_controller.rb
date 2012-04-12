@@ -1,12 +1,15 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :only => ['change_password', 'destroy', 'index', 'logout', 'change_password', 'show', 'edit']
+  before_filter :require_login, :only => [:change_password, :destroy, :index, :logout, :show, :edit, :update]
+  before_filter :require_admin, :only => :index
 
   def index
     @users = User.all
-    @user = session[:user]
+
     respond_to do |format|
       format.html
-      format.json { render json: @users }
+      if current_user.isAdmin
+         format.json { render json: @users }
+      end
     end
   end
 
@@ -19,26 +22,18 @@ class UsersController < ApplicationController
 
     if request.post?
       if @user.save
-
         if @user.id == 1
           @user.admin = true
         else
           @user.admin = false
         end
-
-        if @user.email == nil
-          @user.email = "broken@strange.com"
-        end
-        
-        @user.save
         
         session[:user] = User.authenticate(@user.login, @user.password)
         @user.send_welcome # welcome email
-        flash[:message] = "Registration Successful"
-        redirect_to root_url         
+        
+        redirect_to root_url, :notice => "Registration Successful"
       else
-        flash[:warning] = "Registration Unsuccessful"
-        redirect_to root_url + 'users/register'
+        redirect_to root_url + 'users/register', :notice => "Registration Unsuccessful"
       end
     end
   end
@@ -46,10 +41,8 @@ class UsersController < ApplicationController
   def login
     if request.post?
       if session[:user] = User.authenticate(params[:user][:login], params[:user][:password])
-      flash[:notice] = "Logged In"
-      redirect_to root_url
+        redirect_to root_url, :notice => "Logged In"
       else
-        flash[:warning] = "Login Failed"
         redirect_to root_url, :notice => "Login Failed"
       end
     end
@@ -57,8 +50,7 @@ class UsersController < ApplicationController
 
   def logout
     session[:user] = nil
-    flash[:message] = "Logged Out"
-    redirect_to root_url
+    redirect_to root_url, :notice => "Logged Out"
   end
 
   def forgot_password
@@ -68,93 +60,64 @@ class UsersController < ApplicationController
       if ActionMailer::Base.deliveries.empty? 
         flash[:notice] = "Email not registered."
       end
-      #flash[:notice] = "A new password has been sent to your email."
-      redirect_to root_url, :notice => "A new password has been sent to your email."
+        redirect_to root_url, :notice => "A new password has been sent to your email."
       else
         flash[:warning] = "Couldn't send new password"
     end
   end
 
   def change_password
-    @user = session[:user]
     if request.post?
-      @user.update_attributes(:password=>params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
+      current_user.update_attributes(:password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
+      
       if @user.save
         redirect_to root_url, :notice => "Password Successfully Changed."
-      end
-      redirect_to root_url, :notice => "Password NOT Changed."
+      else 
+        redirect_to root_url, :notice => "Password Change was Unsuccessful."
+      end 
     end
-    
   end
-  
-  def set_admin(curr_user)
-    curr_user.admin = true
-  end
-  helper_method :set_admin
-  
-  def rm_admin(curr_user)
-    curr_user.admin = false
-  end
-  helper_method :rm_admin
-  
+
   def show
-    @curr = User.find(params[:id])
-    @user = session[:user]
-    if @curr != @user and !@curr.admin
-      redirect_to user_path(@user)
+    @user = User.find(params[:id])
+    
+    respond_to do |format|
+      if @user != current_user and !current_user.admin
+        format.html { redirect_to user_path(current_user) }
+      else
+        format.html { }
+        if current_user.isAdmin
+          format.json { render json: @user }
+        end
+      end
     end
   end
   
   def edit
-    @curr = User.find(params[:id])
-    @user = session[:user]
-    if @curr != @user and !@curr.admin
-      redirect_to user_path(@user)
+    @user = User.find(params[:id])
+    
+    respond_to do |format|
+      if @user != current_user and !current_user.admin
+        format.html { redirect_to user_path(@current_user) }
+      else
+        format.html { }
+        if current_user.isAdmin
+          format.json { redner json: @user }
+        end
+      end
     end
   end
   
   def update
-
-    @curr = User.find(params[:id])
     @user = User.find(params[:id])
 
-    if @curr.update_attributes(params[:user])
-      flash[:success] = "Profile updated."
-      redirect_to root_url
+    if @user.update_attribute(:email, params[:user][:email]) and @user.update_attribute(:skill, params[:user][:skill]) and 
+      @user.update_attribute(:time_zone, params[:user][:time_zone])
+        redirect_to @user, :notice => "Profile Updated."
     else
-      redirect_to @curr
+      redirect_to edit_user_path(@user), :notice => "Updated Failed"
     end
-
   end
-=begin
-    if request.put?
-      if @curr.save
-        session[:user] = User.authenticate(@curr.login, @curr.password)
-        flash[:message] = "Update Successful"
-        #redirect_to root_url         
-      else
-        flash[:warning] = "Update Unsuccessful"
-      end
-    end
-    
-    respond_to do |format|
-      if @curr.update_attributes(params[:user])
-        session[:user] = User.authenticate(@user.login, @user.password)
-        flash[:message] = "Update Successful"
-      else
-        #format.html { render action: "edit" }
-        flash[:message] = "Update Unsuccessful"
-      end
-    end
-=end
-
-  # def update  
-  #  @product = Product.find(params[:id])  
-  #  if @product.update_attributes(params[:product])  
-  #    flash[:notice] = "Successfully updated product."  
-  #  end  
-  #  respond_with(@product)  
-  #end
 
   def check_email
     @user = User.find_by_email(params[:user][:email])
@@ -172,7 +135,34 @@ class UsersController < ApplicationController
     end
   end
   
-  def destroy
+  def make_admin
+    @user = User.find(params[:id])
     
+    @user.admin = !@user.admin
+    
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to edit_user_path(@user), notice: "User admin status was changed." }
+      else
+        format.html { redirect_to edit_user_path(@user), notice: "User admin status was not changed." }
+      end
+    end
+  end
+  
+  def destroy
+    @user = User.find(params[:id])
+    
+    respond_to do |format|
+      if @user == current_user 
+        @user.logout
+        @user.destroy
+        
+        format.html { redirect_to fingerings_url }
+      else
+        @user.destroy
+        
+        format.html { redirect_to fingerings_url }
+      end
+    end
   end
 end

@@ -8,7 +8,7 @@ Tab::Application.routes.draw do
   resources :users, :path_names => {:new => 'register', :create => 'register'}, 
     :only => [:index, :show, :new, :create, :edit, :update, :destroy] do
       member do
-        get 'profile'
+        put :make_admin
       end
       
       collection do

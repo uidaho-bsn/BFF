@@ -9,11 +9,11 @@
 
 <% content_for :content do %>
 	<% if notice != nil %>
-		<p><font color="red"><%= notice %>Test</font></p>
+		<p><font color="red"><%= notice %></font></p>
 	<% end %>
 	<br />
 	
-	<%= form_tag({:action => 'create', :controller => "users"}, {:method => "post", :id => "form"}) do%>
+	<%= form_tag({:action => 'create', :controller => "users"}, {:method => "post", :id => "form"}) do %>
 		<table>
 			<tr><th></th><th></th><th></th></tr>
 			
@@ -22,31 +22,37 @@
 				<td><%= text_field "user", "login", :title => "Username" %></td>
 				<td align="center">Username must be 3 to 64 characters.</td>
 			</tr>
+			
 			<tr>
 				<td><label for="user_password">Password</label></td>
 				<td><%= password_field "user", "password", :title => "Password" %></td>
 				<td align="center">Password must be 6 to 64 characters.</td>
 			</tr>
+			
 			<tr>
 				<td><label for="user_password_confirmation">Password Confirmation</label></td>
 				<td><%= password_field "user", "password_confirmation", :title => "Password Confirmation" %></td>
 				<td align="center"></td>
 			</tr>
+			
 			<tr>
 				<td><label for="user_email">Email</label></td>
 				<td><%= text_field "user", "email",  :title => "Email" %></td>
 				<td align="center">Email must be a valid email addres, i.e. example@example.com</td>
 			</tr>
+			
 			<tr>
 				<td><label for="user_email_confirmation">Email Confirmation</label>
 				<td><%= text_field "user", "email_confirmation", :title => "Email Confirmation" %></td>
 				<td align="center"></td>
 			</tr>
+			
 			<tr>
 				<td><label for="user_skill">Skill Level</label></td>
 				<td><%= select :user, :skill, [['Beginner', 'beginner'], ['Intermediate', 'intermediate'], ['Advanced', 'advanced'], ['Professional', 'professional']]%></td>
 				<td align="center"></td>
 			</tr>
+			
 			<tr>
 				<td><label for="user_time_zone">Time Zone</label></td>
 				<td><%= time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones %></td>

@@ -2,18 +2,23 @@
 	<div class="wrapper">
 		<ul id="nav" class="sf-menu">
 			<li class="current-menu-item"><%= link_to "Home", root_url %></li>
-			<% if session[:user] != nil %>
+			
+			<% if current_session != nil and current_user.admin %>
 				<li><%= link_to "Users", root_url + "users/" %></li>
 			<% end %>
-			<% if session[:user] != nil %>
+			
+			<% if current_session != nil %>
 				<li><%= link_to "Fingerings", root_url + "fingerings" %></li>
 			<% end %>
-			<% if session[:user] != nil %>
+			
+			<% if current_session != nil %>
 				<li><%= link_to "New Fingering", root_url + "fingerings/new" %></li>
 			<% end %>
-			<% if session[:user] != nil %>
+			
+			<% if current_session != nil %>
 				<li><%= link_to "Search Fingerings", root_url + "fingerings/search" %></li>
 			<% end %>
+			
 			<li class=""><%= link_to "Contact", root_url + 'home/contact' %></li>
 		</ul>
 	</div>
