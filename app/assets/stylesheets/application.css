@@ -347,7 +347,8 @@ h6{ font-size: 20px; }
 }
 
 #form input,
-#form textarea
+#form textarea,
+#form select
 {
 	padding: 10px 15px;
 	background: #fff;
@@ -391,12 +392,13 @@ h6{ font-size: 20px; }
 	color: #fff;
 }
 
-#form input
+#form input,
+#form select
 {
 	width: 282px;
 }
 
-#form textarea
+#form textarea,
 {
 	width: 380px;
 }
@@ -1021,6 +1023,54 @@ td, th{
 .lists-heart ul{ 
 	list-style-image: url(../img/bullets/heart.png); 
 	line-height: 1.5em;
+}
+
+/* TOGGLE & ACCORDION ------------------------------------------------------------*/
+
+.ui-accordion .ui-accordion-header,
+.toggle-trigger {
+  cursor: pointer;
+  margin-top: 1px;
+  position: relative;
+  padding-bottom: 5px;
+  background: #f1f1f1;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+.ui-accordion .ui-accordion-header:hover,
+.toggle-trigger:hover {
+	background: #eceaea;
+}
+
+#content .ui-accordion .ui-accordion-header>a,
+#content .toggle-trigger>a{
+	text-decoration: none;
+	color: #363636;
+	font-size: 14px;
+	padding-left: 20px;
+}
+
+.ui-accordion .ui-accordion-content,
+.toggle-container {
+  border-top: 0 none;
+  margin-bottom: 2px;
+  padding: 20px 20px;
+  position: relative;
+  top: 1px;
+}
+
+/* BLOCKS ------------------------------------------------------------*/
+
+.boxed{
+	background: white;
+	padding: 5px;
+	border: 1px solid #cccccc;
+}
+
+.border{
+	border: 2px solid white;
 }
 
 /* PRETTY PAGINATION ------------------------------------------------------------*/
