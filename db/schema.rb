@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120216211413) do
+ActiveRecord::Schema.define(:version => 20120410220707) do
 
   create_table "fingerings", :force => true do |t|
     t.string   "note_tone"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20120216211413) do
     t.integer  "votes_professional"
     t.datetime "created_at"
     t.boolean  "approved"
-    t.string   "type"
+    t.string   "keytype"
     t.string   "source"
   end
 
