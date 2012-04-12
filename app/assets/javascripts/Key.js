@@ -24,7 +24,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y, canvas_type) {
 				draw_half_circle(1.0, 1.0);
 			break;
 			case 'half-circle-flat':
-				draw_half_circle(1.5, 0.5);
+				draw_half_circle(1.25, 0.75);
 			break;
 			case 'oval-small':
 				draw_oval(0.75, 0.5);
