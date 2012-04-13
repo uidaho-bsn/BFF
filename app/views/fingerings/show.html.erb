@@ -16,131 +16,120 @@
 <% end %>
 
 <% content_for :content do %>
-	<details>
-		<summary>Fingering Chart</summary>
-		<canvas id="show_fingering" width="500" height="600">
-	    	<p>Unfortunately, your browser is currently unsupported by our web 
-	        	application. We are sorry for the inconvenience. Please use one of the 
-	        	supported browsers listed below. </p>
-	        <p>Supported browsers: 
-	        	<a href="http://www.mozilla.com">Firefox</a> <br />
-	        	<a href="www.google.com/chrome">Chrome</a> </p>
-		</canvas>
-	</details>
+	<canvas id="show_fingering" width="500" height="600">
+    	<p>Unfortunately, your browser is currently unsupported by our web 
+        	application. We are sorry for the inconvenience. Please use one of the 
+        	supported browsers listed below. </p>
+        <p>Supported browsers: 
+        	<a href="http://www.mozilla.com">Firefox</a> <br />
+        	<a href="www.google.com/chrome">Chrome</a> </p>
+	</canvas>
 	
 	<br />
 	
-	<details>
-		<summary>Fingering Information</summary>
-		<div class="toggle-container" style="display:block;">
-			<div class="block">
-				<table>
-					<tr>
-						<th>
-							<% if @fingering.approved %>
-								Fingering has been approved.
-							<% else %>
-								Fingering has not been approved.
-							<% end %>
-						</th>
-						
-						<th></th>
-					</tr>
+	<div class="toggle-container" style="display:block;">
+		<div class="block">
+			<table>
+				<tr>
+					<th>
+						<% if @fingering.approved %>
+							Fingering has been approved.
+						<% else %>
+							Fingering has not been approved.
+						<% end %>
+					</th>
 					
-					<% if current_user.isAdmin %>
-						<tr>
-							<td>Keys String</td>
-							<td align="center"><%= @fingering_status %></td>
-						</tr>
-						
-						<tr>
-							<td>Notes String</td>
-							<td align="center"><%= @note_tone %></td>
-						</tr>
-					<% end %>
-					
+					<th></th>
+				</tr>
+				
+				<% if current_user.isAdmin %>
 					<tr>
-						<td>Entered on</td>
-						<td align="center"><%= @fingering.created_at %></td>
+						<td>Keys String</td>
+						<td align="center"><%= @fingering_status %></td>
 					</tr>
 					
 					<tr>
-						<td>Entered by</td>
-						<td align="center"><%= @fingering.user_name %></td>
+						<td>Notes String</td>
+						<td align="center"><%= @note_tone %></td>
 					</tr>
-					
-					<tr>
-						<td>Fingering Type</td>
-						<td align="center"><%= @fingering.keytype.titleize %></td>
-					</tr>
-					
-					<tr>
-						<td>Votes - Beginner</td>
-						<td align="center"><%= @fingering.votes_beginner %></td>
-					</tr>
-					
-					<tr>
-						<td>Votes - Intermediate</td>
-						<td align="center"><%= @fingering.votes_intermediate %></td>
-					</tr>
-					
-					<tr>
-						<td>Votes - Advanced</td>
-						<td align="center"><%= @fingering.votes_advanced %></td>
-					</tr>
-					
-					<tr>
-						<td>Votes - Professional</td>
-						<td align="center"><%= @fingering.votes_professional %></td>
-					</tr>
-					
-					<tr>
-						<td>Fingering Source</td>
-						<td align="center"><%= @fingering.source %></td>
-					</tr>
-					
-					<tr><th></th><th></th></tr>
-				</table>
-			</div>
-		</div>
-	</details>
-	
-	<br />
-	
-	<details>
-		<summary>Options</summary>
-		<% if current_user.isAdmin %>
-			<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
-				<% if @fingering.approved %>
-					<%= submit_tag "Unapprove", :id => "submit" %>
-				<% else %>
-					<%= submit_tag "Approve", :id => "submit" %>
 				<% end %>
+				
+				<tr>
+					<td>Entered on</td>
+					<td align="center"><%= @fingering.created_at %></td>
+				</tr>
+				
+				<tr>
+					<td>Entered by</td>
+					<td align="center"><%= @fingering.user_name %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Type</td>
+					<td align="center"><%= @fingering.keytype.titleize %></td>
+				</tr>
+				
+				<tr>
+					<td>Votes - Beginner</td>
+					<td align="center"><%= @fingering.votes_beginner %></td>
+				</tr>
+				
+				<tr>
+					<td>Votes - Intermediate</td>
+					<td align="center"><%= @fingering.votes_intermediate %></td>
+				</tr>
+				
+				<tr>
+					<td>Votes - Advanced</td>
+					<td align="center"><%= @fingering.votes_advanced %></td>
+				</tr>
+				
+				<tr>
+					<td>Votes - Professional</td>
+					<td align="center"><%= @fingering.votes_professional %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Source</td>
+					<td align="center"><%= @fingering.source %></td>
+				</tr>
+				
+				<tr><th></th><th></th></tr>
+			</table>
+		</div>
+	</div>
+	
+	<% if current_user.isAdmin %>
+		<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+			<% if @fingering.approved %>
+				<%= submit_tag "Unapprove", :id => "submit" %>
+			<% else %>
+				<%= submit_tag "Approve", :id => "submit" %>
 			<% end %>
 		<% end %>
+	<% end %>
+
+	<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Like", :id => "submit" %>
+	<% end %>
+
+	<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Dislike", :id => "submit" %>
+	<% end %>
+
+	<%= form_tag({:action => "index", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Back", :id => "submit" %>
+	<% end %>
+
+	<% if current_user.isAdmin %>
+		<%= form_tag({:action => "edit", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+			<%= submit_tag "Edit", :id => "submit" %>
+		<% end %>
+	<% end %>
 	
-		<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
-			<%= submit_tag "Like", :id => "submit" %>
+	<% if current_user.isAdmin %>
+		<%= form_tag({:action => "destroy", :controller => "fingerings"}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
+			<%= submit_tag "Delete", :id => "submit", :confirm => "Are you sure?" %>
 		<% end %>
-	
-		<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
-			<%= submit_tag "Dislike", :id => "submit" %>
-		<% end %>
-	
-		<%= form_tag({:action => "index", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
-			<%= submit_tag "Back", :id => "submit" %>
-		<% end %>
-	
-		<% if current_user.isAdmin %>
-			<%= form_tag({:action => "edit", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
-				<%= submit_tag "Edit", :id => "submit" %>
-			<% end %>
-		<% end %>
-		
-		<% if current_user.isAdmin %>
-			<%= form_tag({:action => "destroy", :controller => "fingerings"}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
-				<%= submit_tag "Delete", :id => "submit", :confirm => "Are you sure?" %>
-			<% end %>
-		<% end %>
-	</details>
+	<% end %>
 <% end %>
