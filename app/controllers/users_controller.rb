@@ -57,24 +57,12 @@ class UsersController < ApplicationController
     if request.post?
       usr = User.find_by_email(params[:user][:email])
       usr.send_new_password if usr
-      if ActionMailer::Base.deliveries.empty? 
-        flash[:notice] = "Email not registered."
-      end
-        redirect_to root_url, :notice => "A new password has been sent to your email."
-      else
-        flash[:warning] = "Couldn't send new password"
-    end
-  end
-
-  def change_password
-    if request.post?
-      current_user.update_attributes(:password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
       
-      if @user.save
-        redirect_to root_url, :notice => "Password Successfully Changed."
-      else 
-        redirect_to root_url, :notice => "Password Change was Unsuccessful."
-      end 
+      if ActionMailer::Base.deliveries.empty? 
+        flash[:notice] = "Email is not registered."
+      else
+        redirect_to root_url, :notice => "A new password has been sent to your email."
+      end
     end
   end
 
@@ -124,6 +112,14 @@ class UsersController < ApplicationController
     
     respond_to do |format|
       format.json { render :json => !@user }
+    end
+  end
+  
+  def not_check_email
+    @user = User.find_by_email(params[:user][:email])
+    
+    respond_to do |format|
+      format.json { render :json => @user }
     end
   end
   

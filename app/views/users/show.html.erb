@@ -1,5 +1,5 @@
 <% content_for :head do %>
-	<title>BFF::Home</title>
+	<title>BFF::User - <%= @user.login %></title>
 <% end %>
 
 <%= content_for :page_title do %>
@@ -12,24 +12,24 @@
 		
 		<tr>
 			<td>Username</td>
-			<td align="center"> <%= @user.login %> </td>
+			<td align="center"><%= @user.login %></td>
 		</tr>
 		
 		<tr>
 			<td>Email</td>
-			<td align="center"> "<%= @user.email %>" </td>
+			<td align="center"><%= @user.email %></td>
 		</tr>
 		
 		<% if current_user.isAdmin %>
 			<tr>
 				<td>Admin Status</td>
-				<td align="center"> <%= @user.admin %> </td>
+				<td align="center"><%= @user.admin %></td>
 			</tr>
 		<% end %>
 		
 		<tr>
 			<td>Skill Level</td>
-			<td align="center"> "<%= @user.skill %>" </td>
+			<td align="center"> <%= @user.skill.titleize %> </td>
 		</tr>
 		
 		<tr><th></th><th></th></tr>

@@ -1,6 +1,6 @@
 <% content_for :head do %>
-	<%= javascript_include_tag :Validation %>
 	<title>BFF::Register</title>
+	<%= javascript_include_tag :Validation_User %>
 <% end %>
 
 <% content_for :page_title do %>
@@ -13,7 +13,7 @@
 	<% end %>
 	<br />
 	
-	<%= form_tag({:action => 'create', :controller => "users"}, {:method => "post", :id => "form"}) do %>
+	<%= form_tag({:action => 'create', :controller => "users"}, {:method => :post, :id => "form", :style => "display:inline;"}) do %>
 		<table>
 			<tr><th></th><th></th><th></th></tr>
 			
@@ -63,5 +63,9 @@
 		</table>
 
 		<%= submit_tag "Register", :id => "submit" %>
+	<% end %>
+	
+	<%= form_tag({:action => 'index', :controller => "home"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Cancel", :id => "submit" %>
 	<% end %>
 <% end %>

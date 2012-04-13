@@ -3,7 +3,7 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   validates_length_of       :login, :within => 3..64
   validates_length_of       :password, :within => 6..64
-  validates_presence_of     :login, :email, :email_confirmation, :password, :password_confirmation, :salt, :skill#, :time_zone
+  validates_presence_of     :login, :email, :email_confirmation, :password, :password_confirmation, :salt, :skill
   validates_uniqueness_of   :login, :email
   validates_confirmation_of :password, :email
   validates_format_of       :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid Email"
