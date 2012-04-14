@@ -21,7 +21,11 @@
 			    <td><%= link_to fingering.pretty_notes, fingering %></td>
 			    <td><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | 
 			    	<%= fingering.votes_advanced %> | <%= fingering.votes_professional %></td>
-			    <td><%= fingering.user_name %></td>
+		    	<% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
+		    		<td><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></td>
+		    	<% else %>
+	    			<td><%= fingering.user_name %></td>
+		    	<% end %>
 			    <td><%= fingering.created_at %></td>
 			    <td><%= fingering.approved %></td>
 			</tr>
