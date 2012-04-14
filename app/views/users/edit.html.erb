@@ -59,7 +59,7 @@
 	<% end %>
 	
 	<% if current_user.isAdmin %>
-		<%= form_tag({:action => "make_admin", :controller => "users"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+		<%= form_tag({:action => "make_admin", :controller => "users"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 			<% if @user.isAdmin %>
 				<%= submit_tag "Remove Admin", :id => "submit", :confirm => "Are you sure you want to remove this user's admin status?" %>
 			<% else %>

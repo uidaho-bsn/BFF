@@ -138,14 +138,12 @@ class UsersController < ApplicationController
   def make_admin
     @user = User.find(params[:id])
     
-    @user.admin = !@user.admin
+    make_admin = !@user.admin
     
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to edit_user_path(@user), notice: "User admin status was changed." }
-      else
-        format.html { redirect_to edit_user_path(@user), notice: "User admin status was not changed." }
-      end
+    if @user.update_attribute(:admin, make_admin)
+      redirect_to edit_user_path(@user), notice: "User admin status was changed."
+    else
+      redirect_to edit_user_path(@user), notice: "User admin status was not changed."
     end
   end
   
