@@ -15,6 +15,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  # Linux JavaScript Runtime
   gem 'therubyracer', require: "v8", :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
