@@ -127,7 +127,11 @@ class UsersController < ApplicationController
     @user = User.find_by_login(params[:user][:login])
     
     respond_to do |format|
-      format.json { render :json => !@user }
+      if params[:user][:login] == "Username"
+        format.json { render :json => false }
+      else
+        format.json { render :json => !@user }
+      end
     end
   end
   
