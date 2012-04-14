@@ -1,6 +1,7 @@
 <% content_for :head do %>
 	<title>BFF::Edit User - <%= @user.login %></title>
 	<%= javascript_include_tag :Validation_Edit %>
+
 <% end %>
 
 <%= content_for :page_title do %>
@@ -53,7 +54,7 @@
 	<% end %>
 	
 	<% if current_user.isAdmin and current_user != @user %>
-		<%= form_tag({:action => "make_admin", :controller => "users"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+		<%= form_tag({:action => "make_admin", :controller => "users"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 			<% if @user.isAdmin %>
 				<%= submit_tag "Remove Admin", :id => "submit", :confirm => "Are you sure you want to remove this user's admin status?" %>
 			<% else %>
