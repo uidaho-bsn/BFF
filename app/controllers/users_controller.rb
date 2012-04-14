@@ -98,6 +98,10 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(params[:id])
+    
+    if current_user == @user
+      @user.password = params[:user][:password]
+    end
 
     if @user.update_attribute(:email, params[:user][:email]) and @user.update_attribute(:skill, params[:user][:skill]) and 
       @user.update_attribute(:time_zone, params[:user][:time_zone])
@@ -157,11 +161,11 @@ class UsersController < ApplicationController
         @user.logout
         @user.destroy
         
-        format.html { redirect_to fingerings_url }
+        format.html { redirect_to root_url }
       else
         @user.destroy
         
-        format.html { redirect_to fingerings_url }
+        format.html { redirect_to root_url }
       end
     end
   end
