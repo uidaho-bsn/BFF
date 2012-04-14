@@ -1,25 +1,49 @@
 <div id="menu-holder">
 	<div class="wrapper">
 		<ul id="nav" class="sf-menu">
-			<li class="current-menu-item"><%= link_to "Home", root_url %></li>
+			<% if params[:controller] == "home" and params[:action] == "index" %>
+				<li class="current-menu-item"><%= link_to "Home", root_url %></li>
+			<% else %>
+				<li><%= link_to "Home", root_url %></li>
+			<% end %>
 			
 			<% if current_session != nil and current_user.admin %>
-				<li><%= link_to "Users", root_url + "users/" %></li>
+				<% if params[:controller] == "users" %>
+					<li class="current-menu-item"><%= link_to "Users", root_url + "users/" %></li>
+				<% else %>
+					<li><%= link_to "Users", root_url + "users/" %></li>
+				<% end %>
 			<% end %>
 			
 			<% if current_session != nil %>
-				<li><%= link_to "Fingerings", root_url + "fingerings" %></li>
+				<% if params[:controller] == "fingerings" and params[:action] == "index" %>
+					<li class="current-menu-item"><%= link_to "Fingerings", root_url + "fingerings" %></li>
+				<% else %>
+					<li><%= link_to "Fingerings", root_url + "fingerings" %></li>
+				<% end %>
 			<% end %>
 			
 			<% if current_session != nil %>
-				<li><%= link_to "New Fingering", root_url + "fingerings/new" %></li>
+				<% if params[:controller] == "fingerings" and params[:action] == "new" %>
+					<li class="current-menu-item"><%= link_to "New Fingering", root_url + "fingerings/new" %></li>
+				<% else %>
+					<li><%= link_to "New Fingering", root_url + "fingerings/new" %></li>
+				<% end %>
 			<% end %>
 			
 			<% if current_session != nil %>
-				<li><%= link_to "Search Fingerings", root_url + "fingerings/search" %></li>
+				<% if params[:controller] == "fingerings" and params[:action] == "search" %>
+					<li class="current-menu-item"><%= link_to "Search Fingerings", root_url + "fingerings/search" %></li>
+				<% else %>
+					<li><%= link_to "Search Fingerings", root_url + "fingerings/search" %></li>
+				<% end %>
 			<% end %>
 			
-			<li class=""><%= link_to "Contact", root_url + 'home/contact' %></li>
+			<% if params[:controller] == "home" and params[:action] == "contact" %>
+				<li class="current-menu-item"><%= link_to "Contact", root_url + 'home/contact' %></li>
+			<% else %>
+				<li><%= link_to "Contact", root_url + 'home/contact' %></li>
+			<% end %>
 		</ul>
 	</div>
 </div>
