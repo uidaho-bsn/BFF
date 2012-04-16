@@ -109,19 +109,33 @@
 		<% end %>
 	<% end %>
 
-	<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
-		<%= submit_tag "Like", :id => "submit" %>
-	<% end %>
-
-	<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
-		<%= submit_tag "Dislike", :id => "submit" %>
+	<% if cookies[:votes] != nil %>
+		<% if !cookies[:votes].include?(@fingering.id.to_s()) %>
+			<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+				<%= submit_tag "Like", :id => "submit" %>
+			<% end %>
+		<% end %>
+	
+		<% if !cookies[:votes].include?(@fingering.id.to_s()) %>
+			<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+				<%= submit_tag "Dislike", :id => "submit" %>
+			<% end %>
+		<% end %>
+	<% else %>
+		<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+			<%= submit_tag "Like", :id => "submit" %>
+		<% end %>
+	
+		<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+			<%= submit_tag "Dislike", :id => "submit" %>
+		<% end %>	
 	<% end %>
 
 	<%= form_tag({:action => "index", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
 		<%= submit_tag "Back", :id => "submit" %>
 	<% end %>
 
-	<% if current_user.isAdmin %>
+	<% if current_user.isAdmin or current_user.login == @fingering.user_name %>
 		<%= form_tag({:action => "edit", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
 			<%= submit_tag "Edit", :id => "submit" %>
 		<% end %>

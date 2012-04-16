@@ -145,6 +145,15 @@ class FingeringsController < ApplicationController
     end
     
     if @fingering.save
+      if cookies[:votes] != nil
+        @votes = Array.new()
+        @votes = cookies[:votes]
+        @votes << @fingering.id.to_s()
+        cookies[:votes] = @votes
+      else 
+        cookies[:votes] = @fingering.id.to_s()
+      end
+      
       redirect_to @fingering, :notice => "Fingering was liked."
     else 
       redirect_to @fingering, :notice => "Fingering was not liked."
@@ -165,6 +174,15 @@ class FingeringsController < ApplicationController
     end
     
     if @fingering.save
+      if cookies[:votes] != nil
+        @votes = Array.new()
+        @votes = cookies[:votes]
+        @votes << @fingering.id.to_s()
+        cookies[:votes] = @votes
+      else 
+        cookies[:votes] = @fingering.id.to_s()
+      end
+      
       redirect_to @fingering, :notice => "Fingering was disliked."
     else 
       redirect_to @fingering, :notice => "Fingering was not disliked."
