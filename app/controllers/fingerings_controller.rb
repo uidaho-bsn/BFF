@@ -11,6 +11,7 @@ class FingeringsController < ApplicationController
   end
   
   def search
+    @user = session[:user]
     @fingering = Fingering.new(params[:fingering])
     @note_tone = @fingering.note_tone
     respond_to do |format|
