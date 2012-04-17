@@ -41,7 +41,6 @@ group :development do
   gem 'ruby-debug19', :platforms => :ruby
 end
 
-<<<<<<< HEAD
 
 gem 'will_paginate', :platforms => :ruby
 gem 'eventmachine'
@@ -53,10 +52,8 @@ gem 'eventmachine'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-=======
+
 # Thin Webserver - To install:
 #  gem install eventmachine --pre
 #  gem install thin
 # Must be last gem.
-gem 'thin'
->>>>>>> f70d8e7699db2f6bf38c5aba64d3bd0b74356fc6
