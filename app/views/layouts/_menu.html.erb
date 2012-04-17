@@ -17,17 +17,17 @@
 			
 			<% if current_session != nil %>
 				<% if params[:controller] == "fingerings" and params[:action] == "index" %>
-					<li class="current-menu-item"><%= link_to "Fingerings", root_url + "fingerings" %></li>
+					<li class="current-menu-item"><%= link_to "All Fingerings", root_url + "fingerings" %></li>
 				<% else %>
-					<li><%= link_to "Fingerings", root_url + "fingerings" %></li>
+					<li><%= link_to "All Fingerings", root_url + "fingerings" %></li>
 				<% end %>
 			<% end %>
 			
 			<% if current_session != nil %>
 				<% if params[:controller] == "fingerings" and params[:action] == "new" %>
-					<li class="current-menu-item"><%= link_to "New Fingering", root_url + "fingerings/new" %></li>
+					<li class="current-menu-item"><%= link_to "Suggest Fingering", root_url + "fingerings/new" %></li>
 				<% else %>
-					<li><%= link_to "New Fingering", root_url + "fingerings/new" %></li>
+					<li><%= link_to "Suggest Fingering", root_url + "fingerings/new" %></li>
 				<% end %>
 			<% end %>
 			
