@@ -29,9 +29,18 @@ class UsersController < ApplicationController
         end
         
         session[:user] = User.authenticate(@user.login, @user.password)
-        @user.send_welcome # welcome email
+        begin
+          @user.send_welcome # welcome email
+        rescue => exception
+          exception = "Invalid email"
+        end
+       
+         if exception
+          redirect_to root_url, :notice => "The email you entered doesn't seem to be a real email. You can change your email in the User Profile."
+        else
+          redirect_to root_url, :notice => "Registration Successful"
+        end
         
-        redirect_to root_url, :notice => "Registration Successful"
       else
         redirect_to root_url + 'users/register', :notice => "Registration Unsuccessful"
       end
@@ -59,7 +68,7 @@ class UsersController < ApplicationController
       usr.send_new_password if usr
       
       if ActionMailer::Base.deliveries.empty? 
-        flash[:notice] = "Email is not registered."
+        flash[:notice] = "Email was not found. Are you sure you entered your correct email?"
       else
         redirect_to root_url, :notice => "A new password has been sent to your email."
       end
