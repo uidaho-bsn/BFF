@@ -1,6 +1,8 @@
 <% content_for :head do %>
 	<title>BFF::Edit Fingering ID #<%= @fingering.id %></title>
 	<%= javascript_include_tag :Fingerings %>
+	<%= javascript_include_tag :Validation_Fingering %>
+	<%= javascript_include_tag :Tabs %>
 	<script>
 		var fingering_id = "<%= @fingering_status %>";
 		var note_tone_id = "<%= @note_tone %>";
@@ -16,39 +18,57 @@
 <% end %>
 
 <% content_for :content do %>
-	<canvas id="edit_fingering" width="500" height="600">
-    	<p>Unfortunately, your browser is currently unsupported by our web 
-        	application. We are sorry for the inconvenience. Please use one of the 
-        	supported browsers listed below. </p>
-        <p>Supported browsers: 
-        	<a href="www.mozilla.com">Firefox</a> <br />
-        	<a href="www.google.com/chrome">Chrome</a> </p>
-	</canvas>
+	<div id="tabs">
+		<ul class="tabs">
+			<li><a href="#tabs-1" class="current"><span>Show Fingering</span></a></li>
+			<li><a href="#tabs-2" class="current"><span>Show Help</span></a></li>
+		</ul>
+		
+		<div id="tabs-1" class="panes">
+			<canvas id="edit_fingering" width="500" height="600">
+		    	<p>Unfortunately, your browser is currently unsupported by our web 
+		        	application. We are sorry for the inconvenience. Please use one of the 
+		        	supported browsers listed below. </p>
+		        <p>Supported browsers: 
+		        	<a href="www.mozilla.com">Firefox</a> <br />
+		        	<a href="www.google.com/chrome">Chrome</a> </p>
+			</canvas>
+		
+			
+			<br /><br />
+			<%= form_tag({:action => 'update', :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+				<%= hidden_field "fingering", "fingering_status" %>
+				<%= hidden_field "fingering", "note_tone" %>
+				
+				<table>
+					<tr><th></th><th></th></tr>
+					
+					<tr>
+						<td><label for="fingering_type">Fingering Type</label></td>
+						<td align="center"><%= select 'fingering', 'keytype', [['Standard', 'standard'], ['Alternative', 'alternative']]%></td>
+					</tr>
+					
+					<tr>
+						<td><label for="fingering_source">Fingering Source</label></td>
+						<td align="center"><%= text_field 'fingering', 'source' %></td>
+					</tr>
+					
+					<tr>
+						<td><label for="fingering_comments">Fingering Comment</label></td>
+						<td align="center"><%= text_area 'fingering', 'comments', :size => "33x5" %></td>
+					</tr>
+				</table>
+				
+				<%= submit_tag "Save", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
+			<% end %>
+			
+			<%= form_tag({:action => "show", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+				<%= submit_tag "Cancel", :id => "submit" %>
+			<% end %>			
+		</div>
 
-	
-	<br /><br />
-	<%= form_tag({:action => 'update', :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
-		<%= hidden_field "fingering", "fingering_status" %>
-		<%= hidden_field "fingering", "note_tone" %>
-		
-		<table>
-			<tr><th></th><th></th></tr>
-			
-			<tr>
-				<td><label for="fingering_type">Fingering Type</label></td>
-				<td align="center"><%= select 'fingering', 'keytype', [['Standard', 'standard'], ['Alternative', 'alternative']]%></td>
-			</tr>
-			
-			<tr>
-				<td><label for="fingering_source">Fingering Source</label></td>
-				<td align="center"><%= text_field 'fingering', 'source' %></td>
-			</tr>
-		</table>
-		
-		<%= submit_tag "Save", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
-	<% end %>
-	
-	<%= form_tag({:action => "show", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
-		<%= submit_tag "Cancel", :id => "submit" %>
-	<% end %>
+		<div id="tabs-2"  class="panes">
+			<%= render "help" %>
+		</div>
+	</div>
 <% end %>

@@ -695,14 +695,14 @@ ul.tabs a {
 	padding: 0px 0px 0px 10px;	
 	position:relative;
 	top:0px;
-	background:  url(../img/tabs.png) no-repeat;
+	background:  url(navigation/tabs.png) no-repeat;
 }
 
 ul.tabs a span{ 
 	display:block;
 	height: 100%;
 	padding-right: 10px;
-	background:  url(../img/tabs.png) no-repeat right -40px;
+	background:  url(navigation/tabs.png) no-repeat right -40px;
 }
 
 #content ul.tabs a{
@@ -878,6 +878,7 @@ table {
 
 table, td, th {
 	vertical-align:middle;
+	
 }
 
 table {
@@ -886,10 +887,9 @@ table {
 	border-top:1px solid white;
 	margin-bottom:28px;
 	width:100%;
-	text-align: left;
 }
 
-th{
+th {
 	border-top:5px solid #555555;
 	color: #ffffff;
 	padding:10px;
@@ -897,11 +897,21 @@ th{
 	background-color: #49494b;
 }
 
-td{
+td {
 	padding:10px;
+	white-space: pre;           /* CSS 2.0 */
+	white-space: pre-wrap;      /* CSS 2.1 */
+	white-space: pre-line;      /* CSS 3.0 */
+	white-space: -pre-wrap;     /* Opera 4-6 */
+	white-space: -o-pre-wrap;   /* Opera 7 */
+	white-space: -moz-pre-wrap; /* Mozilla */
+	white-space: -hp-pre-wrap;  /* HP Printers */
+	white-space: -moz-pre-wrap !important;   /* Mozilla*/
+	word-wrap: break-word;      /* IE 5+ */
+	word-break: break-all;
 }
 
-td, th{
+td, th {
 	border-bottom: 1px solid #1f1f1f;
 }
 

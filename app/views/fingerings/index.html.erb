@@ -19,15 +19,14 @@
 		<% @fingerings.each do |fingering| %>
 			<tr>
 			    <td><%= link_to fingering.pretty_notes, fingering %></td>
-			    <td><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | 
-			    	<%= fingering.votes_advanced %> | <%= fingering.votes_professional %></td>
+			    <td align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></td>
 		    	<% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
-		    		<td><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></td>
+		    		<td align="center"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></td>
 		    	<% else %>
-	    			<td><%= fingering.user_name %></td>
+	    			<td align="center"><%= fingering.user_name %></td>
 		    	<% end %>
-			    <td><%= fingering.created_at %></td>
-			    <td><%= fingering.approved %></td>
+			    <td align="center"><%= fingering.created_at %></td>
+			    <td align="center"><%= fingering.approved %></td>
 			</tr>
 		<% end %>
 		

@@ -118,10 +118,10 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 					var temp = posToNote();
 					
 					if(tone == '♮' && posToNote() != note) {		
-						ctx.fillText(" → ", 33, -14);
+						/*ctx.fillText(" → ", 33, -14);
 						ctx.fillText(temp[0], 45, -12.5);
 						ctx.font = "4pt Calibri";
-						ctx.fillText(temp[1], 49, -16);
+						ctx.fillText(temp[1], 49, -16);*/
 					}
 					else {
 						var tempT = ' ';
@@ -141,16 +141,16 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 						};
 						
 						if(tempT == ' ') {
-							ctx.fillText(" → ", 37, -14);
+							/*ctx.fillText(" → ", 37, -14);
 							ctx.fillText(temp[0], 52, -12.5);
 							ctx.font = "4pt Calibri";
-							ctx.fillText(temp[1], 56, -16);
+							ctx.fillText(temp[1], 56, -16);*/
 						}
 						else {
-							ctx.fillText(" → ", 37, -14);
+							/*ctx.fillText(" → ", 37, -14);
 							ctx.fillText(tempT + temp[0], 46, -12.5);
 							ctx.font = "4pt Calibri";
-							ctx.fillText(temp[1], 56, -16);
+							ctx.fillText(temp[1], 56, -16);*/
 						};
 						
 						
@@ -163,6 +163,8 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 	function draw_curr_note () {
 		var pos_x = (noteToPos() > 11)?75 - (10 * (noteToPos() - 11)):75 + (10 * noteToPos());
 		var pos_y = (noteToPos() > 11)?l6 + (2.5 * (noteToPos() - 11)):l6 - (2.5 * noteToPos());
+		
+		if(c_clef) { pos_y -= 5.0; };
 		
 		ctx.fillStyle   = "black";
 		ctx.strokeStyle = "black";
@@ -237,6 +239,8 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 			var pos_x = (i > 11)?75 - (10 * (i - 11)):75 + (10 * i);
 			var pos_y = (i > 11)?l6 + (2.5 * (i - 11)):l6 - (2.5 * i);
 			
+			if(c_clef) { pos_y -= 5.0; };
+			
 			if(notes[i]) {
 				ctx.save();
 					ctx.translate(pos_x, pos_y);
@@ -258,13 +262,13 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 					ctx.font = "8pt Calibri";
 					
 					switch(tone) {
-						case '♮':
+						case '♯':
 							ctx.fillText('♯', pos_x - 10, pos_y + 3);
 						break;
-						case '♭':
+						case '♮':
 							ctx.fillText('♮', pos_x - 10, pos_y + 3);
 						break;
-						case '♯':
+						case '♭':
 							ctx.fillText('♭', pos_x - 10, pos_y + 3);
 						break;
 					};
