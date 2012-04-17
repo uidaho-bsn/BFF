@@ -1,12 +1,15 @@
 class FingeringsController < ApplicationController
-  before_filter :login_required
+  before_filter :require_login
+  before_filter :require_admin, :only => [:edit, :destroy]
   
   def index
     @fingerings = Fingering.all
 
     respond_to do |format|
-      format.html
-      format.json { render json: @fingerings }
+      format.html { }
+      if current_user.isAdmin
+        format.json { render json: @fingerings }
+      end
     end
   end
   
@@ -14,9 +17,12 @@ class FingeringsController < ApplicationController
     @user = session[:user]
     @fingering = Fingering.new(params[:fingering])
     @note_tone = @fingering.note_tone
+    
     respond_to do |format|
-      format.html
-      format.json { render json: @fingering }
+      format.html { }
+      if current_user.isAdmin
+        format.json { render json: @fingering }
+      end
     end
   end
   
@@ -36,18 +42,15 @@ class FingeringsController < ApplicationController
     @note_tone        = @fingering.note_tone
     
     respond_to do |format|
-      format.html
-      format.json { render json: @fingering }
+      format.html { }
+      if current_user.isAdmin
+        format.json { render json: @fingering }
+      end
     end
   end
 
   def new
     @fingering = Fingering.new(params[:fingering])
-
-    respond_to do |format|
-      format.html
-      format.json { render json: @fingering }
-    end
   end
 
   def create
@@ -58,17 +61,11 @@ class FingeringsController < ApplicationController
     @fingering.votes_professional = 0
     @fingering.user_name = current_user.login
     @fingering.approved  = false
-    
-    flash[:notice] = "Fingering submitted for approval."
 
-    respond_to do |format|
-      if @fingering.save
-        format.html { redirect_to fingerings_url, notice: 'Fingering was successfully created.' }
-        format.json { render json: @fingering, status: :created, location: @fingering }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @fingering.errors, status: :unprocessable_entity }
-      end
+    if @fingering.save
+      redirect_to fingerings_url, :notice => 'Fingering was successfully created.'
+    else
+      render action: "new"
     end
   end
 
@@ -81,14 +78,10 @@ class FingeringsController < ApplicationController
   def update
     @fingering = Fingering.find(params[:id])
 
-    respond_to do |format|
-      if @fingering.update_attributes(params[:fingering])
-        format.html { redirect_to @fingering, notice: 'Fingering was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @fingering.errors, status: :unprocessable_entity }
-      end
+    if @fingering.update_attributes(params[:fingering])
+      redirect_to @fingering, :notice => 'Fingering was successfully updated.'
+    else
+      render action: "edit"
     end
   end
 
@@ -96,10 +89,7 @@ class FingeringsController < ApplicationController
     @fingering = Fingering.find(params[:id])
     @fingering.destroy
 
-    respond_to do |format|
-      format.html { redirect_to fingerings_url }
-      format.json { head :no_content }
-    end
+    redirect_to fingerings_url
   end
   
   def approve
@@ -107,14 +97,10 @@ class FingeringsController < ApplicationController
     
     @fingering.approved = !@fingering.approved
     
-    respond_to do |format|
-      if @fingering.update_attributes(params[:fingering])
-        format.html { redirect_to @fingering, notice: "Fingering was approved." }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to @fingering, notice: "Fingering approval failed." }
-        format.json { head :no_content }
-      end
+    if @fingering.update_attributes(params[:fingering])
+      redirect_to @fingering, :notice => "Fingering was approved."
+    else
+      redirect_to @fingering, :notice => "Fingering approval failed."
     end
   end
   
@@ -131,14 +117,19 @@ class FingeringsController < ApplicationController
       @fingering.votes_beginner += 1
     end
     
-    respond_to do |format|
-      if @fingering.save
-        format.html { redirect_to @fingering, notice: "Fingering was liked." }
-        format.json { head :no_content }
+    if @fingering.save
+      if cookies[:votes] != nil
+        @votes = Array.new()
+        @votes = cookies[:votes]
+        @votes << @fingering.id.to_s()
+        cookies[:votes] = @votes
       else 
-        format.html { redirect_to @fingering, notice: "Fingering was not liked." }
-        format.json { head :no_content }
+        cookies[:votes] = @fingering.id.to_s()
       end
+      
+      redirect_to @fingering, :notice => "Fingering was liked."
+    else 
+      redirect_to @fingering, :notice => "Fingering was not liked."
     end
   end
   
@@ -155,14 +146,19 @@ class FingeringsController < ApplicationController
       @fingering.votes_beginner -= 1
     end
     
-    respond_to do |format|
-      if @fingering.save
-        format.html { redirect_to @fingering, notice: "Fingering was disliked." }
-        format.json { head :no_content }
+    if @fingering.save
+      if cookies[:votes] != nil
+        @votes = Array.new()
+        @votes = cookies[:votes]
+        @votes << @fingering.id.to_s()
+        cookies[:votes] = @votes
       else 
-        format.html { redirect_to @fingering, notice: "Fingering was not disliked." }
-        format.json { head :no_content }
+        cookies[:votes] = @fingering.id.to_s()
       end
+      
+      redirect_to @fingering, :notice => "Fingering was disliked."
+    else 
+      redirect_to @fingering, :notice => "Fingering was not disliked."
     end
   end
 end

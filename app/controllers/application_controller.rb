@@ -1,32 +1,18 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
-  before_filter :prepair_for_mobile
+  before_filter :prepare_for_mobile
   before_filter :set_user_time_zone
-  
-  def login_required
-    if session[:user]
-      return true
-    end
-    flash[:warning]='Please login to continue'
-    session[:return_to]=request.request_uri
-    redirect_to :controller => "user", :action => "login"
-    return false 
-  end
 
-  def current_user_session
-    User.find(session[:User])
-  end
-  
   def current_user
     return User.find(session[:user])
   end
   helper_method :current_user
 
-  def isAdmin?
-    return current_user.admin
+  def current_session
+    return session[:user]
   end
-  helper_method :isAdmin?
+  helper_method :current_session
 
   def redirect_to_stored
     if return_to = session[:return_to]
@@ -53,8 +39,20 @@ class ApplicationController < ActionController::Base
   end
   helper_method :set_user_time_zone
 
-  def prepair_for_mobile
+  def prepare_for_mobile
     session[:mobile_param] = params[:mobile] if params[:mobile]
     request.format = :mobile if mobile_device?
+  end
+  
+  def require_login
+    unless session[:user] != nil
+      redirect_to root_url, :notice => "Login Required!"
+    end
+  end
+  
+  def require_admin
+    unless current_user.admin
+      redirect_to root_url, :notice => "Admin Required"
+    end
   end
 end

@@ -21,11 +21,25 @@
         	<a href="www.google.com/chrome">Chrome</a> </p>
 	</canvas>
 
-	<br />
+	<br /><br />
 	<%= form_tag({:action => 'create', :controller => "fingerings"}, {:method => "post", :id => "form", :style => "display:inline;"}) do %>
 		<%= hidden_field "fingering", "fingering_status" %>
 		<%= hidden_field "fingering", "note_tone" %>
-
+		
+		<table>
+			<tr><th></th><th></th></tr>
+			
+			<tr>
+				<td><label for="fingering_type">Fingering Type</label></td>
+				<td align="center"><%= select 'fingering', 'keytype', [['Standard', 'standard'], ['Alternative', 'alternative']] %></td>
+			</tr>
+			
+			<tr>
+				<td><label for="fingering_source">Fingering Source</label></td>
+				<td align="center"><%= text_field 'fingering', 'source' %></td>
+			</tr>
+		</table>
+		
 		<%= submit_tag "Submit", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
 	<% end %>
 	

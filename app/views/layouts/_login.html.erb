@@ -1,4 +1,4 @@
-<% if params[:action] != "new" %>
+<% if params[:controller] != "users" or params[:action] != "new" %>
 	<% if session[:user] == nil %>
 		<%= form_tag({:action => "login", :controller => "users"}, {:method => "post", :id => "login-form"}) do %>
 			
@@ -23,7 +23,7 @@
 	<% else %>
 		<div id="login">
 			Welcome <%= link_to current_user.login, user_path(current_user) %> <br />
-			<%= link_to 'Logout', logout_users_path %> | <%= link_to 'Change Password', change_password_users_path %>
+			<%= link_to 'Logout', logout_users_path %>
 		</div>
 	<% end %>
 <% end %>

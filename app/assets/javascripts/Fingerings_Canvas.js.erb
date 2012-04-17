@@ -7,6 +7,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	var fingering_chart1; var fingering_chart2; var fingering_chart3;
 	var note_chart = new Array(3);
 	var number_of_fingerings;
+	var HelpImg = new Image();
 	var help_hover = false; var help_show = false;
 	var add_hover  = false; var remove_hover = false;
 	var debug_show = false;
@@ -51,6 +52,8 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 		return false;
 	};
 	
+	HelpImg.src = "<%= asset_path('other/legend.png') %>";
+	
 	ctx.canvas.width = (number_of_fingerings > 1)?200 + (200 * scale_X * number_of_fingerings):200 * scale_X;
 	
 	canvas.onclick     = OnClick;
@@ -63,12 +66,12 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	function draw() {
 		clear();
 		
-		if(debug_show)  { draw_debug(); };
-		
-		draw_help();
+		//if(debug_show)  { draw_debug(); };
 		
 		if(number_of_fingerings < 3 && type != "show") { draw_add(); };
 		if(number_of_fingerings > 1 && type != "show") { draw_remove(); };
+		
+		draw_help();
 	};
 	
 	function clear() {
@@ -123,7 +126,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 			ctx.fillText("Help", 25, canvas.height - 45);
 			
 			if(help_show) {
-				
+				ctx.drawImage(HelpImg, 0, 100, canvas.width, canvas.height - 100);
 			};
 		ctx.restore();
 	};
@@ -141,7 +144,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	function Update() {
 		draw();
 		
-		update_mouse();
+		if(!help_show) { update_mouse(); };
 	};
 	
 	function update_mouse() {
@@ -212,10 +215,10 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 			if(type == "edit" || type == "new") {
 				switch(number_of_fingerings) {
 					case 2:
-						fingering_chart2 = new Fingering_Chart(200, 0, k_default, n_default, t_default, false, "show");
+						fingering_chart2 = new Fingering_Chart(200, 0, k_default, n_default, t_default, false, "new");
 					break;
 					case 3:
-						fingering_chart3 = new Fingering_Chart(400, 0, k_default, n_default, t_default, false, "show");
+						fingering_chart3 = new Fingering_Chart(400, 0, k_default, n_default, t_default, false, "new");
 					break;
 				};
 			}
@@ -228,8 +231,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 						note_chart[2] = new Note_Chart(400, 0);
 					break;
 				};
-			}
-			
+			}	
 
 			ctx.canvas.width = 200 + (200 * scale_X * number_of_fingerings);
 		}

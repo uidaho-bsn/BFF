@@ -14,7 +14,7 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 	var clef_hover = false;
 	/* Public Functions */
 	this.Update   = Update;
-	this.OnClick  = OnClick; 
+	this.OnClick  = OnClick;
 	this.ToString = ToString;
 	
 	/* Begin Constructor */
@@ -49,8 +49,8 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 			else { ctx.drawImage(G_Clef, 5, -15, 10, 31); };
 		}
 		else if(c_clef) {
-			if(clef_hover) { ctx.drawImage(C_Clef_Red, 5, -10, 13, 20); }
-			else { ctx.drawImage(C_Clef, 5, -10, 13, 20); }; 
+			if(clef_hover) { ctx.drawImage(C_Clef_Red, 5, -15, 13, 20); }
+			else { ctx.drawImage(C_Clef, 5, -15, 13, 20); }; 
 		}
 		else if(f_clef) {
 			if(clef_hover) { ctx.drawImage(F_Clef_Red, 5, -10, 16, 15.95); }
@@ -64,6 +64,8 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 	};
 	
 	function draw_staff() {
+		var i;
+		
 		ctx.save();
 			ctx.beginPath();
 				ctx.moveTo(0, l1); ctx.lineTo(length, l1);
@@ -102,6 +104,57 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 					ctx.fillText(tone + note[0], 25, -12.5);
 					ctx.font = "4pt Calibri";
 					ctx.fillText(note[1], 36, -16);
+				};
+			};
+		ctx.restore();
+		
+		ctx.save();
+			ctx.strokeStyle = "red";
+			ctx.fillStyle = "red";
+			ctx.font = "7pt Calibri";
+			
+			for(i = 0; i < 15; i++) { 
+				if(notes[i]) {
+					var temp = posToNote();
+					
+					if(tone == '♮' && posToNote() != note) {		
+						ctx.fillText(" → ", 33, -14);
+						ctx.fillText(temp[0], 45, -12.5);
+						ctx.font = "4pt Calibri";
+						ctx.fillText(temp[1], 49, -16);
+					}
+					else {
+						var tempT = ' ';
+						
+						if(posToNote() == note) {
+							switch(tone) {
+								case '♮':
+									tempT = '♯';
+								break;
+								case '♯':
+									tempT = '♭';
+								break;
+								case '♭':
+									tempT = ' ';
+								break;	
+							};
+						};
+						
+						if(tempT == ' ') {
+							ctx.fillText(" → ", 37, -14);
+							ctx.fillText(temp[0], 52, -12.5);
+							ctx.font = "4pt Calibri";
+							ctx.fillText(temp[1], 56, -16);
+						}
+						else {
+							ctx.fillText(" → ", 37, -14);
+							ctx.fillText(tempT + temp[0], 46, -12.5);
+							ctx.font = "4pt Calibri";
+							ctx.fillText(temp[1], 56, -16);
+						};
+						
+						
+					};
 				};
 			};
 		ctx.restore();

@@ -1,30 +1,22 @@
 Tab::Application.routes.draw do
   get 'home/index'
-  
-  #scope 'admin', :as => 'admin' do
-  #  resources :users
-  #end
 
   resources :users, :path_names => {:new => 'register', :create => 'register'}, 
     :only => [:index, :show, :new, :create, :edit, :update, :destroy] do
       member do
-        get 'profile'
+        put :make_admin
       end
       
       collection do
-        get 'login'
-        post 'login'
-        get :logout
-        get 'forgot_password'
-        get 'change_password'
-        post 'change_password'
-        post 'forgot_password'
-        get :check_email
-        get :check_login
+        post :login
+        get  :logout
+        get  :forgot_password
+        post :forgot_password
+        get  :check_email
+        get  :not_check_email
+        get  :check_login
       end
   end
-
-  resources :example_musics
 
   resources :fingerings, :only => [:index, :new, :show, :create, :edit, :update, :destroy] do
     member do
@@ -34,9 +26,9 @@ Tab::Application.routes.draw do
     end
     
     collection do
-      get 'search'
+      get  'search'
       post 'search_results'
-      get 'search_results'
+      get  'search_results'
     end
   end
 
@@ -46,7 +38,6 @@ Tab::Application.routes.draw do
     end
   end
 
-  #resources :password
   root :to => 'home#index'
 
   # The priority is based upon order of creation:

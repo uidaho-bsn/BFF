@@ -9,8 +9,7 @@
 <% content_for :content do %>
 	<table>
 		<tr>
-			<th>Note</th>
-			<th>Key Status</th>
+			<th>Note(s)</th>
 			<th>Votes(B|I|A|P)</th>
 			<th>User</th>
 			<th>Date/Time</th>
@@ -19,20 +18,27 @@
 
 		<% @fingerings.each do |fingering| %>
 			<tr>
-			    <td><%= fingering.note_tone %></td>
-			    <td><%= link_to fingering.fingering_status, fingering %></td>
+			    <td><%= link_to fingering.pretty_notes, fingering %></td>
 			    <td><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | 
 			    	<%= fingering.votes_advanced %> | <%= fingering.votes_professional %></td>
-			    <td><%= fingering.user_name %></td>
+		    	<% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
+		    		<td><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></td>
+		    	<% else %>
+	    			<td><%= fingering.user_name %></td>
+		    	<% end %>
 			    <td><%= fingering.created_at %></td>
 			    <td><%= fingering.approved %></td>
 			</tr>
 		<% end %>
+		
+		<tr><th></th><th></th><th></th><th></th><th></th></tr>
 	</table>
 	
-	<br />
+	<%= form_tag({:action => "new", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "New", :id => "submit" %>
+	<% end %>
 	
-	<%= link_to 'New Fingering', new_fingering_path %>
-	
-	<%= link_to 'Search Fingerings', search_fingerings_path %>
+	<%= form_tag({:action => "search", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Search", :id => "submit" %>
+	<% end %>
 <% end %>

@@ -1,20 +1,71 @@
 <% content_for :head do %>
-	<title>BFF::Home</title>
+	<title>BFF::Edit User - <%= @user.login %></title>
+	<%= javascript_include_tag :Validation_Edit %>
+
 <% end %>
 
 <%= content_for :page_title do %>
-		Editing: <%= @curr.login%>
+	Editing: <%= @user.login %>
 <% end %>
 
 <% content_for :content do%>
+	<%= form_tag( {:action => 'update', :controller => 'users'}, {:method => 'put', :id => "form", :style => "display:inline;"} ) do%>
+		<table>
+			<tr><th></th><th></th><th></th></tr>
+			
 
-		<%= form_tag( {:action => 'update', :controller => 'users'}, {:method => 'put', :style => "display:inline;"} ) do%>
 			
-			<label for='user_email'>Email</label><br/>
-			<%= text_field 'user', 'email',  :size => 20 %><br/>
+			<tr>
+				<td><label for="user_email">Email</label></td>
+				<td><%= text_field "user", "email",  :title => "Email" %></td>
+				<td align="center">Email must be a valid email addres, i.e. example@example.com</td>
+			</tr>
 			
-			<%= submit_tag 'Save' %>
+			<tr>
+				<td><label for="user_skill">Skill Level</label></td>
+				<td><%= select :user, :skill, [['Beginner', 'beginner'], ['Intermediate', 'intermediate'], ['Advanced', 'advanced'], ['Professional', 'professional']]%></td>
+				<td align="center"></td>
+			</tr>
+			
+			<tr>
+				<td><label for="user_time_zone">Time Zone</label></td>
+				<td><%= time_zone_select :user, :time_zone, ActiveSupport::TimeZone.us_zones %></td>
+				<td align="center"></td>
+			</tr>	
+			<% if current_user == @user %>
+				<tr><th colspan="3">You must either verify your password or type in a new password in order to modify these settings.</th></tr>
+				
+				<tr>
+					<td><label for="user_password">Password</label></td>
+					<td><%= password_field "user", "password", :title => "Password" %></td>
+					<td align="center">Password must be 6 to 64 characters.</td>
+				</tr>
+			<% end %>
+
+			
+			<tr><th></th><th></th><th></th></tr>
+		</table>
+		
+		<%= submit_tag "Save", :id => "submit" %>
+	<% end %>
+	
+	<%= form_tag({:action => "show", :controller => "users"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+		<%= submit_tag "Cancel", :id => "submit" %>
+	<% end %>
+	
+	<% if current_user.isAdmin and current_user != @user %>
+		<%= form_tag({:action => "make_admin", :controller => "users"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+			<% if @user.isAdmin %>
+				<%= submit_tag "Remove Admin", :id => "submit", :confirm => "Are you sure you want to remove this user's admin status?" %>
+			<% else %>
+				<%= submit_tag "Set Admin", :id => "submit", :confirm => "Are you sure you want to make this user an admin?" %>
+			<% end %>
 		<% end %>
+	<% end %>
+	<% if current_user.isAdmin or current_user == @user%>
+		<%= form_tag({:action => "destroy", :controller => "users"}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
+			<%= submit_tag "Delete User", :id => "submit", :confirm => "This action is permanent and cannot be undone.  Are you sure you want to remove this user?" %>
 
-
+		<% end %>
+	<% end %>
 <% end %>
