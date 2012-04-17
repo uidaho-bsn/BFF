@@ -30,7 +30,7 @@ gem 'jquery-rails'
 gem 'jquery-mobile-rails'
 
 # Paginatination
-gem 'will_paginate', '~> 3.0'
+#gem 'will_paginate', '~> 3.0'
 
 source 'https://gems.gemfury.com/8n1rdTK8pezvcsyVmmgJ/'
 
