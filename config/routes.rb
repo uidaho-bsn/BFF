@@ -35,6 +35,7 @@ Tab::Application.routes.draw do
   resources :home do
     collection do
       get 'contact'
+      get 'admin'
     end
   end
 

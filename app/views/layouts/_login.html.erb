@@ -24,6 +24,9 @@
 		<div id="login">
 			Welcome <%= link_to current_user.login, user_path(current_user) %> <br />
 			<%= link_to 'Logout', logout_users_path %>
+			<% if current_user.isAdmin %>
+				| <%= link_to 'Admin Tools', root_url + 'home/admin' %>
+			<% end %>
 		</div>
 	<% end %>
 <% end %>

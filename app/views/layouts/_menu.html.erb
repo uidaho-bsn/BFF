@@ -7,14 +7,6 @@
 				<li><%= link_to "Home", root_url %></li>
 			<% end %>
 			
-			<% if current_session != nil and current_user.admin %>
-				<% if params[:controller] == "users" %>
-					<li class="current-menu-item"><%= link_to "Users", root_url + "users/" %></li>
-				<% else %>
-					<li><%= link_to "Users", root_url + "users/" %></li>
-				<% end %>
-			<% end %>
-			
 			<% if current_session != nil %>
 				<% if params[:controller] == "fingerings" and params[:action] == "index" %>
 					<li class="current-menu-item"><%= link_to "All Fingerings", root_url + "fingerings" %></li>

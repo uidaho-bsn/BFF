@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :prepare_for_mobile
   before_filter :set_user_time_zone
+  before_filter :require_admin, :only => :admin
 
   def current_user
     return User.find(session[:user])

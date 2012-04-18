@@ -1,0 +1,27 @@
+<% content_for :head do %>
+	<title>BFF::Admin Tools</title>
+	<%= javascript_include_tag :Tabs %>
+<% end %>
+
+<%= content_for :page_title do %>
+	Admin Tools
+<% end %>
+
+<% content_for :content do %>
+	<div id="tabs">
+		<ul class="tabs">
+			<li><a href="#tabs-1" class="current"><span>Users Tools</span></a></li>
+			<li><a href="#tabs-2" class="current"><span>Fingerings Tools</span></a></li>
+		</ul>
+		
+		<div id="tabs-1" class="panes">
+			<ul>
+				<li><%= link_to 'Users Listing', root_url + "users/" %></li>
+			</ul>
+		</div>
+		
+		<div id="tabs-2"  class="panes">
+			<p>No Tools Currently</p>
+		</div>
+	</div>
+<% end %>
