@@ -3,7 +3,7 @@ class FingeringsController < ApplicationController
   before_filter :require_admin, :only => [:edit, :destroy]
   
   def index
-    @fingerings = Fingering.all
+    @fingerings = Fingering.all.sort_by(&:created_at)
 
     respond_to do |format|
       format.html { }
