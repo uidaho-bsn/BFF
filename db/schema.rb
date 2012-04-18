@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120417171223) do
+ActiveRecord::Schema.define(:version => 20120417235129) do
 
   create_table "fingerings", :force => true do |t|
     t.string   "note_tone"
@@ -26,6 +26,10 @@ ActiveRecord::Schema.define(:version => 20120417171223) do
     t.string   "keytype"
     t.string   "source"
     t.string   "comments"
+    t.integer  "dvotes_beginner"
+    t.integer  "dvotes_intermediate"
+    t.integer  "dvotes_advanced"
+    t.integer  "dvotes_professional"
   end
 
   create_table "forem_forums", :force => true do |t|

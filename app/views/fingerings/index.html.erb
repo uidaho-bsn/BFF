@@ -10,7 +10,8 @@
 	<table>
 		<tr>
 			<th>Note(s)</th>
-			<th>Votes(B|I|A|P)</th>
+			<th>Upvotes(B|I|A|P)</th>
+			<th>Downvotes(B|I|A|P)</th>
 			<th>User</th>
 			<th>Date/Time</th>
 			<th>Approved</th>
@@ -20,6 +21,7 @@
 			<tr>
 			    <td><%= link_to fingering.pretty_notes, fingering %></td>
 			    <td align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></td>
+				<td align="center"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></td>
 		    	<% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
 		    		<td align="center"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></td>
 		    	<% else %>
@@ -30,7 +32,7 @@
 			</tr>
 		<% end %>
 		
-		<tr><th></th><th></th><th></th><th></th><th></th></tr>
+		<tr><th></th><th></th><th></th><th></th><th></th><th></th></tr>
 	</table>
 	
 	<%= form_tag({:action => "new", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>

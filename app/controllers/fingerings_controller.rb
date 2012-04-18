@@ -59,6 +59,10 @@ class FingeringsController < ApplicationController
     @fingering.votes_intermediate = 0
     @fingering.votes_advanced     = 0
     @fingering.votes_professional = 0
+    @fingering.dvotes_beginner     = 0
+    @fingering.dvotes_intermediate = 0
+    @fingering.dvotes_advanced     = 0
+    @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
     @fingering.approved  = false
 
@@ -137,13 +141,13 @@ class FingeringsController < ApplicationController
     @fingering = Fingering.find(params[:id])
     
     if current_user.skill == "professional" 
-      @fingering.votes_professional -= 1
+      @fingering.dvotes_professional += 1
     elsif current_user.skill == "advanced"
-      @fingering.votes_advanced -= 1
+      @fingering.dvotes_advanced += 1
     elsif current_user.skill == "intermediate"
-      @fingering.votes_intermediate -= 1
+      @fingering.dvotes_intermediate += 1
     else
-      @fingering.votes_beginner -= 1
+      @fingering.dvotes_beginner += 1
     end
     
     if @fingering.save

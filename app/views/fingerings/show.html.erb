@@ -37,7 +37,7 @@
 				
 			<table>
 				<tr>
-					<th>
+					<th align="left">
 						<% if @fingering.approved %>
 							Fingering has been approved.
 						<% else %>
@@ -76,23 +76,13 @@
 				</tr>
 				
 				<tr>
-					<td>Votes - Beginner</td>
-					<td align="center"><%= @fingering.votes_beginner %></td>
+					<td>Upvotes (Beginner|Intermediate|Advanced|Professional)</td>
+					<td align="center"><%= @fingering.votes_beginner %>|<%= @fingering.votes_intermediate %>|<%= @fingering.votes_advanced %>|<%= @fingering.votes_professional %></td>
 				</tr>
 				
 				<tr>
-					<td>Votes - Intermediate</td>
-					<td align="center"><%= @fingering.votes_intermediate %></td>
-				</tr>
-				
-				<tr>
-					<td>Votes - Advanced</td>
-					<td align="center"><%= @fingering.votes_advanced %></td>
-				</tr>
-				
-				<tr>
-					<td>Votes - Professional</td>
-					<td align="center"><%= @fingering.votes_professional %></td>
+					<td>Downvotes (Beginner|Intermediate|Advanced|Professional)</td>
+					<td align="center"><%= @fingering.dvotes_beginner %>|<%= @fingering.dvotes_intermediate %>|<%= @fingering.dvotes_advanced %>|<%= @fingering.dvotes_professional %></td>
 				</tr>
 				
 				<tr>
