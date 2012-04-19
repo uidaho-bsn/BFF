@@ -79,7 +79,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y, canvas_type) {
 			
 			ctx.scale(scale_y, scale_x);
 			if(status == 1) {
-				ctx.fillStyle = "333333";
+				ctx.fillStyle = "#333333";
 				ctx.fill();
 			}
 			if(key_hover) { ctx.strokeStyle = "red"; };
@@ -116,7 +116,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y, canvas_type) {
 			ctx.closePath();
 			
 			if(status >= 1 && status <= 4) {
-				ctx.fillStyle = "333333";
+				ctx.fillStyle = "#333333";
 				ctx.fill();	
 			}
 			if(key_hover) { ctx.strokeStyle = "red"; };
@@ -182,7 +182,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y, canvas_type) {
 			
 			ctx.scale(scale_y, scale_x);
 			if(status == 1) {
-				ctx.fillStyle = "333333";
+				ctx.fillStyle = "#333333";
 				ctx.fill();	
 			}
 			if(key_hover) { ctx.strokeStyle = "red"; };
@@ -216,7 +216,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y, canvas_type) {
 			ctx.closePath();
 			
 			if(status == 1) {
-				ctx.fillStyle = "333333";
+				ctx.fillStyle = "#333333";
 				ctx.fill();	
 			}
 			if(key_hover) { ctx.strokeStyle = "red"; };
@@ -250,7 +250,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y, canvas_type) {
 			ctx.closePath();
 			
 			if(status == 1) {
-				ctx.fillStyle = "333333";
+				ctx.fillStyle = "#333333";
 				ctx.fill();	
 			}
 			if(key_hover) { ctx.strokeStyle = "red"; };
