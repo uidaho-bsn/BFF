@@ -3,5 +3,19 @@
 <% end %>
 
 <% content_for :content do %>
-
+	<table>
+  		<tr>
+			<th>Username</th>
+			<th>Email</th>
+  		</tr>
+		
+		<% @users.each do |usr| %>
+			<tr>
+			    <td align="center"><%= link_to usr.login, user_path(usr) %></td>
+			    <td align="center"><%= usr.email %></td>
+		    </tr>
+		<% end %>
+		
+		<tr><th></th><th></th></tr>
+	</table>
 <% end %>

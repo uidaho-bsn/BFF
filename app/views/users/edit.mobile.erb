@@ -3,17 +3,11 @@
 	<%= javascript_include_tag :Validation_Edit %>
 <% end %>
 
-<%= content_for :page_title do %>
-	Editing: <%= @user.login %>
-<% end %>
-
 <% content_for :content do%>
-	<%= form_tag( {:action => 'update', :controller => 'users'}, {:method => 'put', :id => "form", :style => "display:inline;"} ) do%>
+	<%= form_tag( {:action => 'update', :controller => 'users'}, {:method => 'put', :style => "display:inline;"} ) do%>
 		<table>
 			<tr><th></th><th></th><th></th></tr>
-			
-
-			
+	
 			<tr>
 				<td><label for="user_email">Email</label></td>
 				<td><%= text_field "user", "email",  :title => "Email" %></td>
@@ -48,12 +42,12 @@
 		<%= submit_tag "Save", :id => "submit" %>
 	<% end %>
 	
-	<%= form_tag({:action => "show", :controller => "users"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+	<%= form_tag({:action => "show", :controller => "users"}, {:method => :get, :style => "display:inline;"}) do %>
 		<%= submit_tag "Cancel", :id => "submit" %>
 	<% end %>
 	
 	<% if current_user.isAdmin and current_user != @user %>
-		<%= form_tag({:action => "make_admin", :controller => "users"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+		<%= form_tag({:action => "make_admin", :controller => "users"}, {:method => :put, :style => "display:inline;"}) do %>
 			<% if @user.isAdmin %>
 				<%= submit_tag "Remove Admin", :id => "submit", :confirm => "Are you sure you want to remove this user's admin status?" %>
 			<% else %>
@@ -62,7 +56,7 @@
 		<% end %>
 	<% end %>
 	<% if current_user.isAdmin or current_user == @user%>
-		<%= form_tag({:action => "destroy", :controller => "users"}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
+		<%= form_tag({:action => "destroy", :controller => "users"}, {:method => :delete, :style => "display:inline;"}) do %>
 			<%= submit_tag "Delete User", :id => "submit", :confirm => "This action is permanent and cannot be undone.  Are you sure you want to remove this user?" %>
 
 		<% end %>

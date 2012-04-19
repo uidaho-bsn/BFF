@@ -1,0 +1,53 @@
+<% content_for :head do %>
+	<title>BFF::New Fingering</title>
+	<%= javascript_include_tag :Fingerings %>
+	<%= javascript_include_tag :Validation_Fingering %>
+<% end %>
+
+<% content_for :content do %>
+	<div data-role="collapsible-set" data-theme="" data-content-theme="">
+		<div data-role="collapsible" data-collapsed="false">
+			<h3>Key Fingering</h3>
+			<canvas id="new_fingering" width="500" height="600">
+		    	<p>Unfortunately, your browser is currently unsupported by our web 
+		        	application. We are sorry for the inconvenience. Please use one of the 
+		        	supported browsers listed below. </p>
+		        <p>Supported browsers: 
+		        	<a href="http://www.mozilla.com">Firefox</a> <br />
+		        	<a href="www.google.com/chrome">Chrome</a> </p>
+			</canvas>
+		</div>
+		<div data-role="collapsible" data-collapsed="true">
+			<h3>Key Information</h3>
+			<%= form_tag({:action => 'create', :controller => "fingerings"}, {:method => "post", :style => "display:inline;"}) do %>
+				<%= hidden_field "fingering", "fingering_status" %>
+				<%= hidden_field "fingering", "note_tone" %>
+				
+				<table>
+					<tr><th></th><th></th></tr>
+					
+					<tr>
+						<td><label for="fingering_type">Fingering Type</label></td>
+						<td align="center"><%= select 'fingering', 'keytype', [['Standard', 'standard'], ['Alternative', 'alternative']] %></td>
+					</tr>
+					
+					<tr>
+						<td><label for="fingering_source">Fingering Source</label></td>
+						<td align="center"><%= text_field 'fingering', 'source' %></td>
+					</tr>
+					
+					<tr>
+						<td><label for="fingering_comments">Fingering Comment</label></td>
+						<td align="center"><%= text_area 'fingering', 'comments', :size => "33x5" %></td>
+					</tr>
+				</table>
+				
+				<%= submit_tag "Submit", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
+			<% end %>
+			
+			<%= form_tag({:action => "index", :controller => "fingerings"}, {:method => :get, :style => "display:inline;"}) do %>
+				<%= submit_tag "Cancel", :id => "submit" %>
+			<% end %>			
+		</div>
+	</div>
+<% end %>

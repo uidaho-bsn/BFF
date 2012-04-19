@@ -1,0 +1,141 @@
+<% content_for :head do %>
+	<title>BFF::Fingering ID #<%= @fingering.id %></title>
+	<%= javascript_include_tag :Fingerings %>
+	<script>
+		var fingering_id = "<%= @fingering_status %>";
+		var note_tone_id = "<%= @note_tone %>";
+	</script>
+<% end %>
+
+<% content_for :content do %>
+	<div data-role="collapsible-set" data-theme="" data-content-theme="">
+		<div data-role="collapsible" data-collapsed="false">
+			<h3>Key Fingering</h3>
+			<canvas id="show_fingering" width="500" height="600">
+		    	<p>Unfortunately, your browser is currently unsupported by our web 
+		        	application. We are sorry for the inconvenience. Please use one of the 
+		        	supported browsers listed below. </p>
+		        <p>Supported browsers: 
+		        	<a href="http://www.mozilla.com">Firefox</a> <br />
+		        	<a href="www.google.com/chrome">Chrome</a> </p>
+			</canvas>
+		</div>
+	
+		<div data-role="collapsible" data-collapsed="true">
+			<h3>Key Information</h3>
+			<table>
+				<tr>
+					<th align="left">
+						<% if @fingering.approved %>
+							Fingering has been approved.
+						<% else %>
+							Fingering has not been approved.
+						<% end %>
+					</th>
+					
+					<th></th>
+				</tr>
+				
+				<% if current_user.isAdmin %>
+					<tr>
+						<td>Keys String</td>
+						<td align="center"><%= @fingering_status %></td>
+					</tr>
+					
+					<tr>
+						<td>Notes String</td>
+						<td align="center"><%= @note_tone %></td>
+					</tr>
+				<% end %>
+				
+				<tr>
+					<td>Entered on</td>
+					<td align="center"><%= @fingering.created_at %></td>
+				</tr>
+				
+				<tr>
+					<td>Entered by</td>
+					<td align="center"><%= @fingering.user_name %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Type</td>
+					<td align="center"><%= @fingering.keytype.titleize %></td>
+				</tr>
+				
+				<tr>
+					<td>Upvotes (Beginner|Intermediate|Advanced|Professional)</td>
+					<td align="center"><%= @fingering.votes_beginner %>|<%= @fingering.votes_intermediate %>|<%= @fingering.votes_advanced %>|<%= @fingering.votes_professional %></td>
+				</tr>
+				
+				<tr>
+					<td>Downvotes (Beginner|Intermediate|Advanced|Professional)</td>
+					<td align="center"><%= @fingering.dvotes_beginner %>|<%= @fingering.dvotes_intermediate %>|<%= @fingering.dvotes_advanced %>|<%= @fingering.dvotes_professional %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Source</td>
+					<td align="center"><%= @fingering.source %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Comment</td>
+					<td align="center"><%= @fingering.comments %></td>
+				</tr>
+				
+				<tr><th></th><th></th></tr>
+			</table>
+		</div>
+		
+		<div data-role="collapsible" data-collapsed="true">
+			<h3>Options</h3>
+			<% if current_user.isAdmin %>
+				<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
+					<% if @fingering.approved %>
+						<%= submit_tag "Unapprove", :id => "submit" %>
+					<% else %>
+						<%= submit_tag "Approve", :id => "submit" %>
+					<% end %>
+				<% end %>
+			<% end %>
+		
+			<% if cookies[:votes] != nil %>
+				<% if !cookies[:votes].include?(@fingering.id.to_s()) %>
+					<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
+						<%= submit_tag "Like", :id => "submit" %>
+					<% end %>
+				<% end %>
+			
+				<% if !cookies[:votes].include?(@fingering.id.to_s()) %>
+					<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
+						<%= submit_tag "Dislike", :id => "submit" %>
+					<% end %>
+				<% end %>
+			<% else %>
+				<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
+					<%= submit_tag "Like", :id => "submit" %>
+				<% end %>
+			
+				<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
+					<%= submit_tag "Dislike", :id => "submit" %>
+				<% end %>	
+			<% end %>
+		
+			<%= form_tag({:action => "index", :controller => "fingerings"}, {:method => :get, :style => "display:inline;"}) do %>
+				<%= submit_tag "Back", :id => "submit" %>
+			<% end %>
+		
+			<% if current_user.isAdmin or current_user.login == @fingering.user_name %>
+				<%= form_tag({:action => "edit", :controller => "fingerings"}, {:method => :get, :style => "display:inline;"}) do %>
+					<%= submit_tag "Edit", :id => "submit" %>
+				<% end %>
+			<% end %>
+			
+			<% if current_user.isAdmin %>
+				<%= form_tag({:action => "destroy", :controller => "fingerings"}, {:method => :delete, :style => "display:inline;"}) do %>
+					<%= submit_tag "Delete", :id => "submit", :confirm => "Are you sure?" %>
+				<% end %>
+			<% end %>
+		</div>
+	</div>
+<% end %>

@@ -1,0 +1,26 @@
+<% content_for :head do %>
+	<title>BFF::Search Fingering</title>
+	<%= javascript_include_tag :Fingerings %>
+<% end %>
+
+<% content_for :content do %>
+	<canvas id="search_by_note" width="500" height="200">
+		<p>Unfortunately, your browser is currently unsupported by our web 
+	    	application. We are sorry for the inconvenience. Please use one of the 
+	    	supported browsers listed below. </p>
+	    <p>Supported browsers: 
+	    	<a href="http://www.mozilla.com">Firefox</a> <br />
+	    	<a href="www.google.com/chrome">Chrome</a> </p>
+	</canvas>
+	<br />
+	
+	<%= form_tag({:action => 'search_results', :controller => "fingerings"}, {:method => "post", :style => "display:inline;"}) do %>
+		<%= hidden_field "fingering", "note_tone" %>
+		
+		<%= submit_tag "Submit", :id => "submit", :onclick => "fingering_note_tone.value = fingerings_canvas.ToString();" %>
+	<% end %>
+	
+	<%= form_tag({:action => 'index', :controller => "fingerings"}, {:method => :get, :style => "display:inline;"}) do %>
+		<%= submit_tag "Cancel", :id => "submit" %>
+	<% end %>
+<% end %>

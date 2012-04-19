@@ -1,7 +1,7 @@
 <% content_for :head do %>
 	<title>BFF::Search Fingering</title>
 		<% if notice == nil %>
-		<%= javascript_include_tag :application, :fingerings %>
+		<%= javascript_include_tag :Fingerings %>
 			<script>
 				var fingering_id = "<%= @fingerings.first.fingering_status %>";
 				var note_tone_id = "<%= @fingerings.first.note_tone %>";

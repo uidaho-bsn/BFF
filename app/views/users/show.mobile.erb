@@ -3,5 +3,43 @@
 <% end %>
 
 <% content_for :content do %>
-
+	<table>
+		<tr><th></th><th></th></tr>
+		
+		<tr>
+			<td>Username</td>
+			<td align="center"><%= @user.login %></td>
+		</tr>
+		
+		<tr>
+			<td>Email</td>
+			<td align="center"><%= @user.email %></td>
+		</tr>
+		
+		<% if current_user.isAdmin %>
+			<tr>
+				<td>Admin Status</td>
+				<td align="center"><%= @user.admin %></td>
+			</tr>
+		<% end %>
+		
+		<tr>
+			<td>Skill Level</td>
+			<td align="center"> <%= @user.skill.titleize %> </td>
+		</tr>
+		
+		<tr><th></th><th></th></tr>
+	</table>
+	
+	<% if current_user.isAdmin %>
+		<%= form_tag({:action => "index", :controller => "users"}, {:method => :get, :style => "display:inline;"}) do %>
+			<%= submit_tag "Back", :id => "submit" %>
+		<% end %>
+	<% end %>
+	
+	<% if current_user.isAdmin or current_user == @user %>
+		<%= form_tag({:action => "edit", :controller => "users"}, {:method => :get, :style => "display:inline;"}) do %>
+			<%= submit_tag "Edit", :id => "submit" %>
+		<% end %>
+	<% end %>
 <% end %>

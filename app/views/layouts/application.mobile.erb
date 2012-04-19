@@ -2,11 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1" />
-		<%= stylesheet_link_tag 'application', :media => 'all' %>
+        <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1" />		
 		<%= stylesheet_link_tag 'mobile' if mobile_device? %>
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
-		<%= javascript_include_tag :application %>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
 		<%= csrf_meta_tags %>
@@ -16,17 +14,26 @@
     <body>
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
-                <h3>
-                    Bassoon Fingering Finder
-                </h3>
+				<h3>Bassoon Fingering Finder</h3>
+			    <div data-role="navbar" data-iconpos="top">
+			        <ul>
+			            <li><%= link_to "Home", root_url + 'home' %>
+			            <li><%= link_to "Fingerings", root_url + 'fingerings' %></li>
+			        </ul>
+			        <%= render 'layouts/login' %>
+			    </div>
+			    
             </div>
             <div data-role="content">
             	<%= yield :content %>
             </div>
             <div data-theme="a" data-role="footer">
-                <div>
-                	Please click <%= link_to "here", {:mobile => 0}, "data-transition" => "none", "data-ajax" => "false" %> for full site.
-                	Currently most features are disable on this page.
+            	<h6></h6>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><%= link_to "Contact", root_url + 'home/contact' %></li>
+                        <li><%= link_to "Full Site", {:mobile => 0}, "data-transition" => "none", "data-ajax" => "false" %></li>
+                    </ul>
                 </div>
             </div>
         </div>

@@ -1,0 +1,60 @@
+<% content_for :head do %>
+	<title>BFF::Register</title>
+	<%= javascript_include_tag :Validation_User %>
+<% end %>
+
+<% content_for :content do %>
+	<% if notice != nil %>
+		<p><font color="red"><%= notice %></font></p>
+	<% end %>
+	<br />
+	
+	<%= form_tag({:action => 'create', :controller => "users"}, {:method => :post, :style => "display:inline;"}) do %>
+		<table>
+			<tr><th></th><th></th></tr>
+			
+			<tr>
+				<td><label for="user_login">Username</label></td>
+				<td><%= text_field "user", "login", :title => "Username" %></td>
+			</tr>
+			
+			<tr>
+				<td><label for="user_password">Password</label></td>
+				<td><%= password_field "user", "password", :title => "Password" %></td>
+			</tr>
+			
+			<tr>
+				<td><label for="user_password_confirmation">Password Confirmation</label></td>
+				<td><%= password_field "user", "password_confirmation", :title => "Password Confirmation" %></td>
+			</tr>
+			
+			<tr>
+				<td><label for="user_email">Email</label></td>
+				<td><%= text_field "user", "email",  :title => "Email" %></td>
+			</tr>
+			
+			<tr>
+				<td><label for="user_email_confirmation">Email Confirmation</label>
+				<td><%= text_field "user", "email_confirmation", :title => "Email Confirmation" %></td>
+			</tr>
+			
+			<tr>
+				<td><label for="user_skill">Skill Level</label></td>
+				<td><%= select :user, :skill, [['Beginner', 'beginner'], ['Intermediate', 'intermediate'], ['Advanced', 'advanced'], ['Professional', 'professional']]%></td>
+			</tr>
+			
+			<tr>
+				<td><label for="user_time_zone">Time Zone</label></td>
+				<td><%= time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones %></td>
+			</tr>	
+			
+			<tr><th></th><th></th></tr>
+		</table>
+
+		<%= submit_tag "Register", :id => "submit" %>
+	<% end %>
+	
+	<%= form_tag({:action => 'index', :controller => "home"}, {:method => :get, :style => "display:inline;"}) do %>
+		<%= submit_tag "Cancel", :id => "submit" %>
+	<% end %>
+<% end %>

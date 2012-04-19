@@ -1,6 +1,6 @@
 <% if params[:controller] != "users" or params[:action] != "new" %>
 	<% if session[:user] == nil %>
-		<%= form_tag({:action => "login", :controller => "users"}, {:method => "post", :id => "login-form"}) do %>			
+		<%= form_tag({:action => "login", :controller => "users"}, {:method => "post", :id => "login-form", :style => "display: inline;"}) do %>			
 			<% if notice != nil %>
 				<font color="red"><%= notice %></font>
 			<% else %>
@@ -15,17 +15,21 @@
 		  		:onfocus => "if(user_password.value == \"password\"){ user_password.value = ''; }", 
 		  		:onblur  => "if(user_password.value == '') { user_password.value = \"password\"; }" %>
 			
-			<%= submit_tag "Login", :id => "submit" %>		
-			<br />
-			<%= link_to 'Register', root_url + 'users/register' %> | <%= link_to 'Forgot Password', root_url + 'users/forgot_password' %>
+			<ul>
+				<li><%= submit_tag "Login", :id => "submit" %></li>
+			</ul>	
 		<% end %>
+		<ul>
+			<li><%= link_to 'Register', root_url + 'users/register' %></li>
+			<li><%= link_to 'Forgot Password', root_url + 'users/forgot_password' %></li>
+		</ul>
 	<% else %>
-		<div id="login">
-			Welcome <%= link_to current_user.login, user_path(current_user) %> <br />
-			<%= link_to 'Logout', logout_users_path %>
-			<% if current_user.isAdmin %>
-				| <%= link_to 'Admin Tools', root_url + 'home/admin' %>
-			<% end %>
-		</div>
+	<ul>
+		<li><%= link_to "Welcome " + current_user.login, user_path(current_user) %></li>
+		<li><%= link_to 'Logout', logout_users_path %></li>
+		<% if current_user.isAdmin %>
+			<li><%= link_to 'Admin Tools', root_url + 'home/admin' %></li>
+		<% end %>
+	</ul>
 	<% end %>
 <% end %>
