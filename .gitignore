@@ -19,7 +19,12 @@ tmp
 /doc/Design/*.log
 /doc/Design/*.out
 /doc/Design/*.toc
+/doc/Report/*.aux
+/doc/Report/*.log
+/doc/Report/*.out
+/doc/Report/*.toc
 
+*.lock
 *.project
 *.class
 *.pyc
