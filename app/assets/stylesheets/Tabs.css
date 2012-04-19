@@ -1,0 +1,97 @@
+.tabs 
+{ 
+	list-style:none; 
+	margin:0 !important;
+	padding: 0px;	
+	height: 32px;
+	background: url(other/tabs_divider.png) no-repeat bottom center;
+}
+
+body.home .tabs { padding: 0px 30px; }
+
+ul.tabs li 
+{ 
+	display: block;
+	float:left;	 
+	text-indent:0;
+	padding:0;
+	margin: 0px 5px 0px 0px !important;
+	list-style-image: none !important; 
+}
+
+ul.tabs a 
+{ 
+	display:block;
+	font-size:12px;
+	height: 30px;  
+	line-height:30px;
+	text-align:center;	
+	text-decoration:none;
+	padding: 0px 0px 0px 10px;	
+	position:relative;
+	top:0px;
+	background:  url(navigation/tabs.png) no-repeat;
+}
+
+ul.tabs a span
+{ 
+	display:block;
+	height: 100%;
+	padding-right: 10px;
+	background:  url(navigation/tabs.png) no-repeat right -40px;
+}
+
+#content ul.tabs a { color: #747474; }
+
+ul.tabs a:active { outline:none; }
+
+#content ul.tabs a:hover { background-position: 0px -80px; }
+
+#content ul.tabs a:hover span,
+#content ul.tabs a.current span
+{ 
+	background-position: right -120px;
+}
+
+ul.tabs a.current,
+#content ul.tabs a.current:hover,
+ul.tabs li.current a 
+{	
+	cursor:default !important; 
+	color:#2a2d30 !important;
+	display: block;
+	background-position: 0px -80px;
+}
+
+.panes { margin-top: 30px; }
+
+body.home .panes{ margin-top: 0px; }
+
+.panes .plain-text
+{
+	padding: 30px 30px;
+	line-height: 1.5em;
+}
+
+.panes .plain-text h1,
+.panes .plain-text h2,
+.panes .plain-text h3,
+.panes .plain-text h4,
+.panes .plain-text h5,
+.panes .plain-text h6 
+{
+	margin-bottom: 20px;
+}
+
+.panes .plain-text a { text-decoration: none; }
+
+.panes .pane 
+{
+	display:none;	
+}
+
+.panes>div 
+{
+    display: none;
+    min-height: 200px;
+}

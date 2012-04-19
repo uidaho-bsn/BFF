@@ -1,0 +1,9 @@
+#new_fingering,
+#edit_fingering,
+#show_fingering,
+#search_by_note
+{
+	/*-webkit-user-select: none;*/
+	-webkit-tap-highlight-color: transparent;
+	display: inline;
+}

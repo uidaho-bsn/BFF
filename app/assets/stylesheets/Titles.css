@@ -1,0 +1,30 @@
+#page-title
+{
+	overflow: hidden;
+	height: 103px;
+	margin-bottom: 30px;
+	background:  url(other/tabs_divider.png) repeat-x bottom center;
+	text-shadow: 1px 1px rgba(255, 255, 255, 1);
+}
+
+#page-title .title
+{
+	display: block;
+	float: left;
+	font-family: 'Ubuntu', arial, serif;
+	font-size: 40px;
+	line-height: 103px;
+	margin-left: 30px;
+}
+
+#page-title .subtitle
+{
+	display: block;
+	float: left;
+	margin-left: 30px;
+	font-size: 14px;
+	margin-top: 4px;
+	line-height: 103px;
+	color: #929191;
+	font-style: italic;	
+}
