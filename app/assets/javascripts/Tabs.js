@@ -1,7 +1,6 @@
 /**
  * @author Max Stillwell
  */
-//= require jquery
 //= require_jquery-ui
 
 $(document).ready( function() {

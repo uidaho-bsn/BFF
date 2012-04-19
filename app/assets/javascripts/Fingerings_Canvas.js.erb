@@ -28,16 +28,16 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 		n_strings = parseNotesString(note_tone);
 		t_strings = parseTonesString(note_tone);
 	
-		scale_X = canvas.width / 200;          // Base canvas size is 200
-		scale_Y = (canvas.height - 100) / 200; // by 200, don't go any smaller. Extra 100 is for note.
+		scale_X = m_canvas.width / 200;          // Base canvas size is 200
+		scale_Y = (m_canvas.height - 100) / 200; // by 200, don't go any smaller. Extra 100 is for note.
 	
 		if(number_of_fingerings >= 1) { fingering_chart1 = new Fingering_Chart(0, 0,   k_strings[0], n_strings[0], t_strings[0], true, type);  };
 		if(number_of_fingerings >= 2) { fingering_chart2 = new Fingering_Chart(200, 0, k_strings[1], n_strings[1], t_strings[1], false, type); };
 		if(number_of_fingerings >= 3) { fingering_chart3 = new Fingering_Chart(400, 0, k_strings[2], n_strings[2], t_strings[2], false, type); };
 	}
 	else if (type == "note_search") {
-		scale_X = canvas.width  / 200;
-		scale_Y = canvas.height / 75;
+		scale_X = m_canvas.width  / 200;
+		scale_Y = m_canvas.height / 75;
 		
 		if(number_of_fingerings >= 1) { note_chart[0] = new Note_Chart(0, 0); };
 		if(number_of_fingerings >= 2) { note_chart[1] = new Note_Chart(200, 0); };
@@ -54,12 +54,15 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	
 	HelpImg.src = "<%= asset_path('other/legend.png') %>";
 	
-	ctx.canvas.width = (number_of_fingerings > 1)?200 + (200 * scale_X * number_of_fingerings):200 * scale_X;
+	m_ctx.canvas.width = (number_of_fingerings > 1)?200 + (200 * scale_X * number_of_fingerings):200 * scale_X;
 	
-	canvas.onclick     = OnClick;
-	canvas.onmousemove = MouseMoved;
-		
-	return setInterval(Update, 100);
+	m_canvas.onclick      = OnClick;
+	m_canvas.onmousemove  = MouseMoved;
+	//m_canvas.ontouchstart = MouseMoved;
+	//m_canvas.ontouchend   = OnClick;
+	//canvas.ontouch = OnTouch;
+	
+	return setInterval(Update, 150);
 	/* End Constructor */
 	
 	/* Begin Draw Functions */
@@ -74,9 +77,10 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 		draw_help();
 	};
 	
-	function clear() {
-		ctx.fillStyle = "#fff";
+	function clear() {	
+		ctx.fillStyle = "#fff";		
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		//ctx.clearRect(0, 0, canvas.width, canvas.height);
 	};
 	
 	function draw_add() {
@@ -140,9 +144,18 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	
 	/* Begin Update Functions */
 	function Update() {
+		canvas = document.createElement('canvas');
+		canvas.width = m_canvas.width;
+		canvas.height = m_canvas.height;
+		
+		ctx = m_canvas.getContext('2d');
+		
 		draw();
 		
 		if(!help_show) { update_mouse(); };
+		
+		m_ctx.drawImage(canvas, 0, 0);
+		//requestAnimationFrame(Update);
 	};
 	
 	function update_mouse() {
@@ -196,9 +209,6 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	
 	/* Begin Events */
 	function OnClick(e) {
-		mouse_X = e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft);
-		mouse_Y = e.pageY - (canvas.offsetTop  + canvas.offsetParent.offsetTop);
-		
 		if(help_hover) { 
 			debug_show = !debug_show;
 			help_show  = !help_show;
@@ -254,11 +264,18 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	};
 	
 	function MouseMoved(e) {
-		mouse_X = e.pageX - (canvas.offsetLeft + canvas.offsetParent.offsetLeft);
-		mouse_Y = e.pageY - (canvas.offsetTop  + canvas.offsetParent.offsetTop);
+		mouse_X = e.pageX - (m_canvas.offsetLeft + m_canvas.offsetParent.offsetLeft);
+		mouse_Y = e.pageY - (m_canvas.offsetTop  + m_canvas.offsetParent.offsetTop);
 		
 		if(pointer) { document.body.style.cursor = 'pointer'; }
 		else        { document.body.style.cursor = 'default'; };
+	};
+	
+	function OnTouch(e) {
+		OnClick(e);
+		
+		mouse_X = mouse_Y = 0;
+		e.page_x = e.page_y = 0;
 	};
 	/* End Events */
 	

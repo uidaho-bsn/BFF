@@ -11,9 +11,11 @@
 //= require Fingerings_Canvas
 
 var canvas;
+var m_canvas;
 var scale_X;
 var scale_Y;
 var ctx;
+var m_ctx;
 var fingerings_canvas;
 var pointer = '';
 var mouse_X;
@@ -23,23 +25,23 @@ var mouse_Y;
 $(document).ready(function() {
 	var type = 'none';
 	
-	if(     canvas = document.getElementById('new_fingering' )) { type = 'new';  }
-	else if(canvas = document.getElementById('edit_fingering')) { type = 'edit'; }
-	else if(canvas = document.getElementById('show_fingering')) { 
+	if(     m_canvas = document.getElementById('new_fingering' )) { type = 'new';  }
+	else if(m_canvas = document.getElementById('edit_fingering')) { type = 'edit'; }
+	else if(m_canvas = document.getElementById('show_fingering')) { 
 		type = 'show';
 	}
-	else if(canvas = document.getElementById('search_by_note')) {
+	else if(m_canvas = document.getElementById('search_by_note')) {
 		type = 'note_search';
 	}
-	else if(canvas = document.getElementById('search_by_fingering')) {
+	else if(m_canvas = document.getElementById('search_by_fingering')) {
 		type = 'fingering_search';
 	}
 	else { return false; };
 	
-	canvas.addEventListener('selectstart', function(e) { e.preventDefault(); return false; }, false);
+	m_canvas.addEventListener('selectstart', function(e) { e.preventDefault(); return false; }, false);
 	
-	if (canvas.getContext) {
-		ctx = canvas.getContext('2d');
+	if (m_canvas.getContext) {
+		m_ctx = m_canvas.getContext('2d');
 		
 		if(typeof fingering_id != 'undefined') { var keys_string = fingering_id; }
 		else                                   { var keys_string = '1:777777777777777777777777777777'; };

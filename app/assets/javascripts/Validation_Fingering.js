@@ -1,8 +1,6 @@
 /**
  * @author Max Stillwell
  */
-//= require jquery
-//= require jquery_ujs
 //= require jquery-validation-1.9.0/jquery.validate.min
 
 $(document).ready(function () {
