@@ -18,6 +18,8 @@
 <% content_for :page_subtitle do %>
 	<% if notice != nil %>
 	<font color="red"><%= notice %></font>
+	<% else %>
+		Fingering ID #<%= @fingerings.first.id %>
 	<% end %>
 <% end %>
 
