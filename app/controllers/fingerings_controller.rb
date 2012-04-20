@@ -27,10 +27,10 @@ class FingeringsController < ApplicationController
   end
   
   def search_results
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone])
+      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('score DESC') 
       debugger
       if @Results != []
-        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1)
+        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1)#, :order => 'score DESC')
       else
         flash[:notice] = "No fingerings match that note(s)."
       end
@@ -65,6 +65,7 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
     @fingering.approved  = false
+    @fingering.score = 0
 
     if @fingering.save
       redirect_to fingerings_url, :notice => 'Fingering was successfully created.'
@@ -130,7 +131,9 @@ class FingeringsController < ApplicationController
       else 
         cookies[:votes] = @fingering.id.to_s()
       end
-      
+      debugger
+      @fingering.score = self.rating # re-rate the fingering every time it is liked or disliked
+      @fingering.save
       redirect_to @fingering, :notice => "Fingering was liked."
     else 
       redirect_to @fingering, :notice => "Fingering was not liked."
@@ -159,10 +162,26 @@ class FingeringsController < ApplicationController
       else 
         cookies[:votes] = @fingering.id.to_s()
       end
-      
+      @fingering.score = self.rating # re-rate the fingering every time it is liked or disliked
+      @fingering.save
       redirect_to @fingering, :notice => "Fingering was disliked."
     else 
       redirect_to @fingering, :notice => "Fingering was not disliked."
     end
   end
+  
+  def rating
+    likes = @fingering.votes_professional + @fingering.votes_advanced + @fingering.votes_intermediate + @fingering.votes_beginner
+    dislikes = @fingering.dvotes_professional + @fingering.dvotes_advanced + @fingering.dvotes_intermediate + @fingering.dvotes_beginner
+    total = likes + dislikes
+    if total == 0
+      return 0
+    end
+    z = 1.96 # z-score for 95% CI
+    phat = 1.0*likes/total
+    return ( phat + (z*z) / (2*total) - z * Math.sqrt( (phat * (1-phat) + z*z/(4*total) ) / total) )/ ((1+(z*z))/total )
+    
+  end
+  
+  
 end
