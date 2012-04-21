@@ -42,6 +42,9 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 	
 	/* Begin Draw Functions */
 	function draw() {
+		ctx.fillStyle   = "black";
+		ctx.strokeStyle = "black";
+		
 		draw_staff();
 		
 		if(g_clef) {
@@ -74,8 +77,9 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 				ctx.moveTo(0, l4); ctx.lineTo(length, l4);
 				ctx.moveTo(0, l5); ctx.lineTo(length, l5);
 				
+				// This was to fix my offseting the clef wrongly.
 				if(f_clef) {
-					ctx.moveTo(0, l6); ctx.lineTo(25, l6);
+					ctx.moveTo(0, l6);     ctx.lineTo(25, l6);
 					ctx.moveTo(0, l6 + 5); ctx.lineTo(25, l6 + 5);
 				};
 			ctx.closePath();
@@ -88,11 +92,11 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 	function draw_text () {
 		ctx.save();
 			if(note != '') {
-				ctx.shadowColor = "rgb(190, 190, 190)";
-				ctx.shadowOffsetX = 1.5;
-				ctx.shadowOffsetY = 1.5;
-				
-				ctx.fillStyle="black";
+				/*if(!isMobile() && false) {
+					ctx.shadowColor = "rgb(190, 190, 190)";
+					ctx.shadowOffsetX = 1.5;
+					ctx.shadowOffsetY = 1.5;
+				};*/
 				
 				ctx.font = "7pt Calibri";
 				if(tone == '♮') { 
@@ -108,7 +112,7 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 			};
 		ctx.restore();
 		
-		ctx.save();
+		/*ctx.save();
 			ctx.strokeStyle = "red";
 			ctx.fillStyle = "red";
 			ctx.font = "7pt Calibri";
@@ -118,10 +122,10 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 					var temp = posToNote();
 					
 					if(tone == '♮' && posToNote() != note) {		
-						/*ctx.fillText(" → ", 33, -14);
+						ctx.fillText(" → ", 33, -14);
 						ctx.fillText(temp[0], 45, -12.5);
 						ctx.font = "4pt Calibri";
-						ctx.fillText(temp[1], 49, -16);*/
+						ctx.fillText(temp[1], 49, -16);
 					}
 					else {
 						var tempT = ' ';
@@ -141,23 +145,21 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 						};
 						
 						if(tempT == ' ') {
-							/*ctx.fillText(" → ", 37, -14);
+							ctx.fillText(" → ", 37, -14);
 							ctx.fillText(temp[0], 52, -12.5);
 							ctx.font = "4pt Calibri";
-							ctx.fillText(temp[1], 56, -16);*/
+							ctx.fillText(temp[1], 56, -16);
 						}
 						else {
-							/*ctx.fillText(" → ", 37, -14);
+							ctx.fillText(" → ", 37, -14);
 							ctx.fillText(tempT + temp[0], 46, -12.5);
 							ctx.font = "4pt Calibri";
-							ctx.fillText(temp[1], 56, -16);*/
-						};
-						
-						
+							ctx.fillText(temp[1], 56, -16);
+						};		
 					};
 				};
 			};
-		ctx.restore();
+		ctx.restore();*/
 	};
 
 	function draw_curr_note () {
@@ -166,17 +168,16 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 		
 		if(c_clef) { pos_y -= 5.0; };
 		
-		ctx.fillStyle   = "black";
-		ctx.strokeStyle = "black";
-		
 		ctx.save();
 			ctx.translate(pos_x, pos_y);
 			ctx.rotate(-(10 * Math.PI) / 180);
 			ctx.scale(1.25, 0.9);
 			
-			ctx.shadowColor = "rgb(190, 190, 190)";
-			ctx.shadowOffsetX = 2;
-			ctx.shadowOffsetY = 2;
+			/*if(!isMobile() && false) {
+				ctx.shadowColor = "rgb(190, 190, 190)";
+				ctx.shadowOffsetX = 2;
+				ctx.shadowOffsetY = 2;
+			}*/
 			
 			ctx.beginPath();
 				ctx.arc(0, 0, 3, 0, Math.PI * 2, false);
@@ -247,9 +248,11 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 					ctx.rotate(-(10 * Math.PI) / 180);
 					ctx.scale(1.25, 0.9);
 					
-					ctx.shadowColor = "rgb(190, 190, 190)";
-					ctx.shadowOffsetX = 2;
-					ctx.shadowOffsetY = 2;
+					/*if(!isMobile() && false) {
+						ctx.shadowColor = "rgb(190, 190, 190)";
+						ctx.shadowOffsetX = 2;
+						ctx.shadowOffsetY = 2;
+					}*/
 					
 					ctx.beginPath();
 						ctx.arc(0, 0, 3, 0, Math.PI * 2, false);

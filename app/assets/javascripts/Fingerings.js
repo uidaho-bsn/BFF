@@ -49,7 +49,7 @@ $(document).ready(function() {
 		if(typeof note_tone_id != 'undefined') { var note_tone = note_tone_id; }
 		else                                   { var note_tone = '1:f3_natural'; };
 		
-		fingerings_canvas = new Fingerings_Canvas(keys_string, note_tone, type, isMobile());
+		fingerings_canvas = new Fingerings_Canvas(keys_string, note_tone, type);
 	}
 	else {
 		alert("Error: Could not get canvas context!");
@@ -60,3 +60,14 @@ function isMobile() {
   var index = navigator.appVersion.indexOf("Mobile");
   return (index > -1);
 }
+
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       || 
+          window.webkitRequestAnimationFrame || 
+          window.mozRequestAnimationFrame    || 
+          window.oRequestAnimationFrame      || 
+          window.msRequestAnimationFrame     || 
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+})();

@@ -2,7 +2,7 @@
  * @author Max Stillwell
  */
 
-function Fingerings_Canvas(keys_string, note_tone, type, mobile) {
+function Fingerings_Canvas(keys_string, note_tone, type) {
 	/* Private Variables */
 	var fingering_chart1; var fingering_chart2; var fingering_chart3;
 	var note_chart = new Array(3);
@@ -56,22 +56,31 @@ function Fingerings_Canvas(keys_string, note_tone, type, mobile) {
 	
 	m_ctx.canvas.width = (number_of_fingerings > 1)?200 + (200 * scale_X * number_of_fingerings):200 * scale_X;
 	
-	if(mobile) {
-		m_canvas.onclick      = OnClick;
-		//m_canvas.touchstart = MouseMoved;
-		//m_canvas.touchend   = OnClick;
+	if(isMobile()) {
+		m_canvas.onclick = OnClick;
 	}
 	else {
 		m_canvas.onclick     = OnClick;
 		m_canvas.onmousemove = MouseMoved;
 	};
-	
-	return setInterval(Update, 150);
+
+	if(isMobile()) {
+		return setInterval(Update, 250);
+	}
+	else {
+		(function animloop(){
+      		requestAnimFrame(animloop);
+	      	Update();
+	 	})();
+	};
 	/* End Constructor */
 	
 	/* Begin Draw Functions */
 	function draw() {
 		clear();
+		
+		ctx.fillStyle = "black";
+		ctx.font = "12pt Calibri";
 		
 		//if(debug_show)  { draw_debug(); };
 		
@@ -88,33 +97,33 @@ function Fingerings_Canvas(keys_string, note_tone, type, mobile) {
 	};
 	
 	function draw_add() {
-		ctx.save();
-			ctx.fillStyle = "black";
+		ctx.save();			
 			if(add_hover) {
 				ctx.fillStyle = "rgb(255, 0, 0)";
 			};
 			
-			ctx.shadowColor = "rgb(190, 190, 190)";
-			ctx.shadowOffsetX = 1.5;
-			ctx.shadowOffsetY = 1.5;
-			
-			ctx.font = "12pt Calibri";
+			/*if(!isMobile() && false) {
+				ctx.shadowColor = "rgb(190, 190, 190)";
+				ctx.shadowOffsetX = 1.5;
+				ctx.shadowOffsetY = 1.5;
+			}*/
+					
 			ctx.fillText("Add Note to Fingering", 8, canvas.height - 20);
 		ctx.restore();
 	};
 	
 	function draw_remove() {
 		ctx.save();
-			ctx.fillStyle = "black";
 			if(remove_hover) {
 				ctx.fillStyle = "rgb(255, 0, 0)";
 			};
 			
-			ctx.shadowColor = "rgb(190, 190, 190)";
-			ctx.shadowOffsetX = 1.5;
-			ctx.shadowOffsetY = 1.5;
+			/*if(!isMobile() && false) {
+				ctx.shadowColor = "rgb(190, 190, 190)";
+				ctx.shadowOffsetX = 1.5;
+				ctx.shadowOffsetY = 1.5;
+			}*/
 			
-			ctx.font = "12pt Calibri";
 			ctx.fillText("Remove Note from Fingering", 8, canvas.height - 3);
 		ctx.restore();
 	};
@@ -123,25 +132,23 @@ function Fingerings_Canvas(keys_string, note_tone, type, mobile) {
 		ctx.save()
 			if(help_show) { ctx.drawImage(HelpImg, 0, 0); };
 		
-			ctx.fillStyle = "black";
 			if(help_hover) {
 				ctx.fillStyle = "rgb(255, 0, 0)";
 			};
 			
-			ctx.shadowColor = "rgb(190, 190, 190)";
-			ctx.shadowOffsetX = 1.5;
-			ctx.shadowOffsetY = 1.5;
+			/*if(!isMobile() && false) {
+				ctx.shadowColor = "rgb(190, 190, 190)";
+				ctx.shadowOffsetX = 1.5;
+				ctx.shadowOffsetY = 1.5;
+			}*/
 			
-			ctx.font = "12pt Calibri";
 			ctx.fillText("Legend", 8, canvas.height - 40);
 		ctx.restore();
 	};
 	
 	function draw_debug() {
 		ctx.save();
-			ctx.font = "6pt Calibri";
-			ctx.fillStyle = "black";
-			ctx.fillText(pointer + " (" + mouse_X + "," + mouse_Y + ")", 100, 235);
+			ctx.fillText(pointer + " (" + mouse_X + "," + mouse_Y + ")", mouse_X, mouse_Y);
 		ctx.restore();
 	};
 	/* End Draw Functions */
@@ -159,7 +166,6 @@ function Fingerings_Canvas(keys_string, note_tone, type, mobile) {
 		if(!help_show) { update_mouse(); };
 		
 		m_ctx.drawImage(canvas, 0, 0);
-		//requestAnimationFrame(Update);
 	};
 	
 	function update_mouse() {
@@ -213,7 +219,7 @@ function Fingerings_Canvas(keys_string, note_tone, type, mobile) {
 	
 	/* Begin Events */
 	function OnClick(e) {
-		if(mobile) {
+		if(isMobile()) {
 			mouse_X = e.pageX - (m_canvas.offsetLeft + m_canvas.offsetParent.offsetLeft);
 			mouse_Y = e.pageY - (m_canvas.offsetTop  + m_canvas.offsetParent.offsetTop);
 			
