@@ -2,7 +2,7 @@
  * @author Max Stillwell
  */
 
-function Fingerings_Canvas(keys_string, note_tone, type) {
+function Fingerings_Canvas(keys_string, note_tone, type, mobile) {
 	/* Private Variables */
 	var fingering_chart1; var fingering_chart2; var fingering_chart3;
 	var note_chart = new Array(3);
@@ -56,13 +56,15 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	
 	m_ctx.canvas.width = (number_of_fingerings > 1)?200 + (200 * scale_X * number_of_fingerings):200 * scale_X;
 	
-	<% if :mobile %>
+	if(mobile) {
 		m_canvas.onclick      = OnClick;
-		m_canvas.onmousemove  = MouseMoved;
-	<% else %>
-		m_canvas.ontouchstart = MouseMoved;
-		m_canvas.ontouchend   = OnClick;
-	<% end %>
+		//m_canvas.touchstart = MouseMoved;
+		//m_canvas.touchend   = OnClick;
+	}
+	else {
+		m_canvas.onclick     = OnClick;
+		m_canvas.onmousemove = MouseMoved;
+	};
 	
 	return setInterval(Update, 150);
 	/* End Constructor */
@@ -211,6 +213,13 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	
 	/* Begin Events */
 	function OnClick(e) {
+		if(mobile) {
+			mouse_X = e.pageX - (m_canvas.offsetLeft + m_canvas.offsetParent.offsetLeft);
+			mouse_Y = e.pageY - (m_canvas.offsetTop  + m_canvas.offsetParent.offsetTop);
+			
+			update_mouse();
+		};	
+
 		if(help_hover) { 
 			debug_show = !debug_show;
 			help_show  = !help_show;
@@ -271,13 +280,6 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 		
 		if(pointer) { document.body.style.cursor = 'pointer'; }
 		else        { document.body.style.cursor = 'default'; };
-	};
-	
-	function OnTouch(e) {
-		OnClick(e);
-		
-		mouse_X = mouse_Y = 0;
-		e.page_x = e.page_y = 0;
 	};
 	/* End Events */
 	

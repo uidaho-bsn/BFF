@@ -49,9 +49,14 @@ $(document).ready(function() {
 		if(typeof note_tone_id != 'undefined') { var note_tone = note_tone_id; }
 		else                                   { var note_tone = '1:f3_natural'; };
 		
-		fingerings_canvas = new Fingerings_Canvas(keys_string, note_tone, type);
+		fingerings_canvas = new Fingerings_Canvas(keys_string, note_tone, type, isMobile());
 	}
 	else {
 		alert("Error: Could not get canvas context!");
 	};
 });
+
+function isMobile() {
+  var index = navigator.appVersion.indexOf("Mobile");
+  return (index > -1);
+}

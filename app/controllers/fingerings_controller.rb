@@ -1,6 +1,6 @@
 class FingeringsController < ApplicationController
   before_filter :require_login
-  before_filter :require_admin, :only => [:edit, :destroy]
+  before_filter :require_admin, :only => [:destroy]
   
   def index
     @fingerings = Fingering.all.sort_by(&:created_at)
