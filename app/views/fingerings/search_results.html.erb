@@ -36,7 +36,7 @@
 	</center>
 	</div>
 	<br />
-<% if notice == nil %>
+	<% if notice == nil %>
 <div class="apple_pagination">
 
 	<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next"%> 
@@ -46,5 +46,71 @@
 	<br>
 	<%= link_to 'Search More Fingerings', search_fingerings_path %>
 </div>
+				<table>
+				<tr>
+					<th align="left">
+						<% if @fingerings.first.approved %>
+							Fingering has been approved.
+						<% else %>
+							Fingering has not been approved.
+						<% end %>
+					</th>
+					
+					<th></th>
+				</tr>
+				
+				<% if current_user.isAdmin %>
+					<tr>
+						<td>Keys String</td>
+						<td align="center"><%= @fingerings.first.fingering_status %></td>
+					</tr>
+					
+					<tr>
+						<td>Notes String</td>
+						<td align="center"><%= @fingerings.first.note_tone %></td>
+					</tr>
+				<% end %>
+				
+				<tr>
+					<td>Entered on</td>
+					<td align="center"><%= @fingerings.first.created_at %></td>
+				</tr>
+				
+				<tr>
+					<td>Entered by</td>
+					<td align="center"><%= @fingerings.first.user_name %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Type</td>
+					<td align="center"><%= @fingerings.first.keytype.titleize %></td>
+				</tr>
+				
+				<tr>
+					<td>Upvotes (Beginner|Intermediate|Advanced|Professional)</td>
+					<td align="center"><%= @fingerings.first.votes_beginner %>|<%= @fingerings.first.votes_intermediate %>|<%= @fingerings.first.votes_advanced %>|<%= @fingerings.first.votes_professional %></td>
+				</tr>
+				
+				<tr>
+					<td>Downvotes (Beginner|Intermediate|Advanced|Professional)</td>
+					<td align="center"><%= @fingerings.first.dvotes_beginner %>|<%= @fingerings.first.dvotes_intermediate %>|<%= @fingerings.first.dvotes_advanced %>|<%= @fingerings.first.dvotes_professional %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Source</td>
+					<td align="center"><%= @fingerings.first.source %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Comment</td>
+					<td align="center"><%= @fingerings.first.comments %></td>
+				</tr>
+				
+				<tr><th></th><th></th></tr>
+			</table>		
+		</div>
+	
+	
+
 <% end %>
 
