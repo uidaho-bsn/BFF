@@ -82,8 +82,6 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 		ctx.fillStyle = "black";
 		ctx.font = "12pt Calibri";
 		
-		//if(debug_show)  { draw_debug(); };
-		
 		if(number_of_fingerings < 2 && type != "show") { draw_add(); };
 		if(number_of_fingerings > 1 && type != "show") { draw_remove(); };
 		
@@ -91,9 +89,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	};
 	
 	function clear() {	
-		ctx.fillStyle = "#fff";		
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
-		//ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 	};
 	
 	function draw_add() {
@@ -145,18 +141,12 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 			ctx.fillText("Legend", 8, canvas.height - 40);
 		ctx.restore();
 	};
-	
-	function draw_debug() {
-		ctx.save();
-			ctx.fillText(pointer + " (" + mouse_X + "," + mouse_Y + ")", mouse_X, mouse_Y);
-		ctx.restore();
-	};
 	/* End Draw Functions */
 	
 	/* Begin Update Functions */
 	function Update() {
 		canvas = document.createElement('canvas');
-		canvas.width = m_canvas.width;
+		canvas.width  = m_canvas.width;
 		canvas.height = m_canvas.height;
 		
 		ctx = m_canvas.getContext('2d');
@@ -177,14 +167,16 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 		
 		if((mouse_X > 3 && mouse_X < 100) && (mouse_Y < (canvas.height - 5) && mouse_Y > (canvas.height - 15)))  { remove_hover = true; };
 		
-		if(help_hover       && pointer == '')     { pointer = 'help'; }
-		else if(!help_hover && pointer == 'help') { pointer = '' };
-		
-		if(add_hover       && pointer == '')    { pointer = 'add'; }
-		else if(!add_hover && pointer == 'add') { pointer = '' };
-		
-		if(remove_hover       && pointer == '')    { pointer = 'remove'; }
-		else if(!remove_hover && pointer == 'remove') { pointer = '' };
+		if(!isMobile()){
+			if(help_hover       && pointer == '')     { pointer = 'help'; }
+			else if(!help_hover && pointer == 'help') { pointer = '' };
+			
+			if(add_hover       && pointer == '')    { pointer = 'add'; }
+			else if(!add_hover && pointer == 'add') { pointer = '' };
+			
+			if(remove_hover       && pointer == '')    { pointer = 'remove'; }
+			else if(!remove_hover && pointer == 'remove') { pointer = '' };
+		};
 
 		if(type == "show" || type == "new" || type == "edit") {
 			ctx.save();
@@ -212,7 +204,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 			ctx.restore();
 		}
 		else if(type == "fingering_search") {
-			
+			alert("Not Implemeted in Fingerings_Canvas!")
 		};
 	};
 	/* End Update Functions */
@@ -220,9 +212,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	/* Begin Events */
 	function OnClick(e) {
 		if(isMobile()) {
-			mouse_X = e.pageX - (m_canvas.offsetLeft + m_canvas.offsetParent.offsetLeft);
-			mouse_Y = e.pageY - (m_canvas.offsetTop  + m_canvas.offsetParent.offsetTop);
-			
+			MouseMoved(e);
 			update_mouse();
 		};	
 
@@ -284,8 +274,10 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 		mouse_X = e.pageX - (m_canvas.offsetLeft + m_canvas.offsetParent.offsetLeft);
 		mouse_Y = e.pageY - (m_canvas.offsetTop  + m_canvas.offsetParent.offsetTop);
 		
-		if(pointer) { document.body.style.cursor = 'pointer'; }
-		else        { document.body.style.cursor = 'default'; };
+		if(!isMobile()) {
+			if(pointer && !isMobile()) { document.body.style.cursor = 'pointer'; }
+			else        { document.body.style.cursor = 'default'; };
+		};
 	};
 	/* End Events */
 	

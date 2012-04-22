@@ -191,7 +191,20 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 			ctx.fillText(tone, pos_x - 10, pos_y + 3);
 		};
 		
-		if(noteToPos() == 0 || noteToPos > 11) {
+		if(noteToPos() == 10 && c_clef) {
+			ctx.save();
+				ctx.translate(pos_x, l1 - 5);
+				
+				ctx.beginPath();
+					ctx.moveTo(-7, 0);
+					ctx.lineTo(7, 0);
+				ctx.closePath();
+				
+				ctx.stroke();
+			ctx.restore();
+		}
+		
+		if((noteToPos() == 0 && !c_clef) || noteToPos > 11) {
 			ctx.save();
 				ctx.translate(pos_x, l6);
 				
@@ -204,7 +217,7 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 			ctx.restore();
 		};
 		
-		if(noteToPos() > 11 || noteToPos() == 0) {
+		if(noteToPos() > 11 || (noteToPos() == 0 && !c_clef)) {
 			ctx.save();
 				ctx.translate(pos_x, l6);
 				
@@ -277,7 +290,20 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 					};
 				};
 				
-				if(i > 11 || i == 0) {
+				if(i == 10 && c_clef) {
+					ctx.save();
+						ctx.translate(pos_x, l1 - 5);
+						
+						ctx.beginPath();
+							ctx.moveTo(-7, 0);
+							ctx.lineTo(7, 0);
+						ctx.closePath();
+						
+						ctx.stroke();
+					ctx.restore();
+				}
+						
+				if(i > 11 || (i == 0 && !c_clef)) {
 					ctx.save();
 						ctx.translate(pos_x, l6);
 						
