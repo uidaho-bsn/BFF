@@ -111,6 +111,22 @@ class FingeringsController < ApplicationController
   
   def like
     @fingering = Fingering.find(params[:id])
+
+    if @fingering.votes_professional == nil
+      @fingering.votes_professional = 0
+    end
+    
+    if @fingering.votes_advanced == nil
+      @fingering.votes_advanced = 0
+    end
+      
+    if @fingering.votes_intermediate == nil
+      @fingering.votes_intermediate = 0
+    end
+      
+    if @fingering.votes_beginner == nil
+      @fingering.votes_beginner = 0
+    end
     
     if current_user.skill == "professional" 
       @fingering.votes_professional += 1
@@ -142,6 +158,22 @@ class FingeringsController < ApplicationController
   
   def dislike
     @fingering = Fingering.find(params[:id])
+    
+    if @fingering.dvotes_professional == nil
+      @fingering.dvotes_professional = 0
+    end
+    
+    if @fingering.dvotes_advanced == nil
+      @fingering.dvotes_advanced = 0
+    end
+      
+    if @fingering.dvotes_intermediate == nil
+      @fingering.dvotes_intermediate = 0
+    end
+      
+    if @fingering.dvotes_beginner == nil
+      @fingering.dvotes_beginner = 0
+    end
     
     if current_user.skill == "professional" 
       @fingering.dvotes_professional += 1
