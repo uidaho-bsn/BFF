@@ -1,8 +1,8 @@
 == BFF (Bassoon Fingering Finder)
 
 == Description
-Ever wanted to know the best Bassoon fingering to use for a passage of music but don't want to look through pages upon pages of 
-fingerings? Well then, Bassoon Fingering Finder is for you! Bassoon Fingering Finder is a web application for looking up Bassoon fingerings 
+Ever wanted to know the best bassoon fingering to use for a passage of music but don't want to look through pages upon pages of 
+fingerings? Well then, Bassoon Fingering Finder is for you! Bassoon Fingering Finder is a web application for looking up bassoon fingerings 
 for a note or series of notes. Bassoon Fingering Finder is currently in development by a Senior Design Team from the University of Idaho. 
 Questions or suggestions? Send us an email at cs-tab@uidaho.edu!
 
@@ -15,10 +15,10 @@ Git Wiki: link:https://github.com/Sverk/TAB/wiki
 cs-tab@uidaho.edu
 
 == Sponsor
-Susan Hess
+Dr. Susan Hess
 
 == Advisor
-Terry Soule
+Dr. Terry Soule
 
 == Developers
 Jacob Flynn
