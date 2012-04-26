@@ -5,6 +5,7 @@
 <% content_for :content do %>
 	<table>
 		<tr>
+			<th>ID</th>
 			<th>Note(s)</th>
 			<th>Upvotes(B|I|A|P)</th>
 			<th>Downvotes(B|I|A|P)</th>
@@ -13,6 +14,7 @@
 
 		<% @fingerings.each do |fingering| %>
 			<tr>
+				<td><%= fingering.id %></td>
 			    <td><%= link_to fingering.pretty_notes, fingering, "data-ajax" => "false", "data-transition" => "none" %></td>
 			    <td align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></td>
 				<td align="center"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></td>
@@ -24,7 +26,7 @@
 			</tr>
 		<% end %>
 		
-		<tr><th></th><th></th><th></th><th></th></tr>
+		<tr><th></th><th></th><th></th><th></th><th></th></tr>
 	</table>
 	
 	<%= form_tag({:action => "new", :controller => "fingerings"}, {:method => :get, "data-ajax" => "false", "data-transition" => "none", :style => "display:inline;"}) do %>
