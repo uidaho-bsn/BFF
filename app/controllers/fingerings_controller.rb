@@ -128,7 +128,7 @@ class FingeringsController < ApplicationController
       @fingering.votes_beginner = 0
     end
     
-    if current_user.skill == "professional" 
+    if current_user.skill == "professional"
       @fingering.votes_professional += 1
     elsif current_user.skill == "advanced"
       @fingering.votes_advanced += 1
@@ -139,13 +139,19 @@ class FingeringsController < ApplicationController
     end
     
     if @fingering.save
-      if cookies[:votes] != nil
+      if cookies[:votes] != nil and cookies[:votes_user] != nil
         @votes = Array.new()
         @votes = cookies[:votes]
         @votes << @fingering.id.to_s()
         cookies[:votes] = @votes
+        
+        @voters = Array.new()
+        @voters = cookies[:votes_user]
+        @voters << current_user.login
+        cookies[:votes_user] = @voters 
       else 
         cookies[:votes] = @fingering.id.to_s()
+        cookies[:votes_user] = current_user.login
       end
       debugger
       @fingering.score = self.rating # re-rate the fingering every time it is liked or disliked
@@ -186,13 +192,19 @@ class FingeringsController < ApplicationController
     end
     
     if @fingering.save
-      if cookies[:votes] != nil
+      if cookies[:votes] != nil and cookies[:votes_user] != nil
         @votes = Array.new()
         @votes = cookies[:votes]
         @votes << @fingering.id.to_s()
         cookies[:votes] = @votes
+        
+        @voters = Array.new()
+        @voters = cookies[:votes_user]
+        @voters << current_user.login
+        cookies[:votes_user] = @voters 
       else 
         cookies[:votes] = @fingering.id.to_s()
+        cookies[:votes_user] = current_user.login
       end
       @fingering.score = self.rating # re-rate the fingering every time it is liked or disliked
       @fingering.save

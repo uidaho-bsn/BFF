@@ -100,13 +100,13 @@
 			<% end %>
 		
 			<% if cookies[:votes] != nil %>
-				<% if !cookies[:votes].include?(@fingering.id.to_s()) %>
+				<% if !cookies[:votes].include?(@fingering.id.to_s()) or !cookies[:votes_user].include?(current_user.login) %>
 					<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
 						<%= submit_tag "Like", :id => "submit" %>
 					<% end %>
 				<% end %>
 			
-				<% if !cookies[:votes].include?(@fingering.id.to_s()) %>
+				<% if !cookies[:votes].include?(@fingering.id.to_s()) or !cookies[:votes_user].include?(current_user.login) %>
 					<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :style => "display:inline;"}) do %>
 						<%= submit_tag "Dislike", :id => "submit" %>
 					<% end %>
