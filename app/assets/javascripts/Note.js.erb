@@ -44,6 +44,7 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 	function draw() {
 		ctx.fillStyle   = "black";
 		ctx.strokeStyle = "black";
+		ctx.font = "7pt Calibri";
 		
 		draw_staff();
 		
@@ -98,16 +99,21 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 					ctx.shadowOffsetY = 1.5;
 				};*/
 				
-				ctx.font = "7pt Calibri";
 				if(tone == '♮') { 
-					ctx.fillText(note[0], 25, -12.5);
-					ctx.font = "4pt Calibri";
-					ctx.fillText(note[1], 30, -16);
+					if(isMobile()) { ctx.fillText(note, 25, -12.5); }
+					else { 
+						ctx.fillText(note[0], 25, -12.5);
+						ctx.font = "4pt Calibri";
+						ctx.fillText(note[1], 30, -16); 
+					};
 				}
 				else { 
-					ctx.fillText(tone + note[0], 25, -12.5);
-					ctx.font = "4pt Calibri";
-					ctx.fillText(note[1], 36, -16);
+					if(isMobile()) { ctx.fillText(note, 36, -10); }
+					else {
+						ctx.fillText(tone + note[0], 25, -12.5);
+						ctx.font = "4pt Calibri";
+						ctx.fillText(note[1], 36, -16); 
+					};
 				};
 			};
 		ctx.restore();
