@@ -5,6 +5,9 @@
 			<script>
 				var fingering_id = "<%= @fingerings.first.fingering_status %>";
 				var note_tone_id = "<%= @fingerings.first.note_tone %>";
+				$(document).bind("mobileinit", function(){
+				  $defaultPageTransition = "none";
+				});
 			</script>
 	<% end %>
 <% end %>
