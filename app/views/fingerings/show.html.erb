@@ -140,6 +140,12 @@
 				<% end %>
 			<% end %>
 			
+			<% if !current_user.isAdmin %>
+				<%= form_tag({:action => "reset_votes", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<%= submit_tag "Reset Votes", :id => "submit", :confirm => "This will reset votes for this fingering. Are you sure you wish to do this?" %>
+				<% end %>
+			<% end %>	
+			
 			<% if current_user.isAdmin %>
 				<%= form_tag({:action => "destroy", :controller => "fingerings"}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
 					<%= submit_tag "Delete", :id => "submit", :confirm => "Are you sure?" %>

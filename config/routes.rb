@@ -23,6 +23,7 @@ Tab::Application.routes.draw do
       put :approve
       put :like
       put :dislike
+      put :reset_votes
     end
     
     collection do

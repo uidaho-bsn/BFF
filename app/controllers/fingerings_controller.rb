@@ -109,6 +109,27 @@ class FingeringsController < ApplicationController
     end
   end
   
+  def reset_votes
+    @fingering = Fingering.find(params[:id])
+
+=begin  
+    @fingering.votes_professional = 0
+    @fingering.votes_advanced = 0
+    @fingering.votes_intermediate = 0
+    @fingering.votes_beginner = 0
+=end
+    @fingering.dvotes_professional = 0
+    @fingering.dvotes_advanced = 0
+    @fingering.dvotes_intermediate = 0
+    @fingering.dvotes_beginner = 0
+   
+    if @fingering.save
+      redirect_to @fingering, :notice => "Fingering votes were reset."
+    else
+      redirect_to @fingering, :notice => "Fingering votes failed to be reset."
+    end
+  end
+  
   def like
     @fingering = Fingering.find(params[:id])
 
