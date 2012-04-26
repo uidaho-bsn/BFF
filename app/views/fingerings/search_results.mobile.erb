@@ -20,12 +20,11 @@
 	        	<a href="www.google.com/chrome">Chrome</a> </p>
 		</canvas>
 	</center>
-	</div>
 	<br />
 	
 	<% if notice == nil %>
 	<div class="apple_pagination">
-		<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next", "data-ajax" => "false", "data-transition" => "none",%> 
+		<%= will_paginate {@fingerings, :params => params, :previous_label => "Previous", :next_label => "Next"}, {"data-ajax" => "false", "data-transition" => "none"} %> 
 	<% end %>
 	
 	<br />
