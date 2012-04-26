@@ -1,6 +1,12 @@
 <% content_for :head do %>
 	<title>BFF::Search Results</title>
-	<%= javascript_include_tag :Fingerings %>
+	<% if notice == nil %>
+		<%= javascript_include_tag :Fingerings %>
+			<script>
+				var fingering_id = "<%= @fingerings.first.fingering_status %>";
+				var note_tone_id = "<%= @fingerings.first.note_tone %>";
+			</script>
+	<% end %>
 <% end %>
 
 <% content_for :content do %>
@@ -19,7 +25,7 @@
 	
 	<% if notice == nil %>
 	<div class="apple_pagination">
-		<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next"%> 
+		<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next", "data-ajax" => "false", "data-transition" => "none",%> 
 	<% end %>
 	
 	<br />
