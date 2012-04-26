@@ -8,10 +8,10 @@
 			<% end %>
 			
 			<% if current_session != nil %>
-				<% if params[:controller] == "fingerings" and params[:action] == "index" %>
-					<li class="current-menu-item"><%= link_to "All Fingerings", root_url + "fingerings" %></li>
+				<% if params[:controller] == "fingerings" and params[:action] == "search" %>
+					<li class="current-menu-item"><%= link_to "Search Fingerings", root_url + "fingerings/search" %></li>
 				<% else %>
-					<li><%= link_to "All Fingerings", root_url + "fingerings" %></li>
+					<li><%= link_to "Search Fingerings", root_url + "fingerings/search" %></li>
 				<% end %>
 			<% end %>
 			
@@ -24,10 +24,10 @@
 			<% end %>
 			
 			<% if current_session != nil %>
-				<% if params[:controller] == "fingerings" and params[:action] == "search" %>
-					<li class="current-menu-item"><%= link_to "Search Fingerings", root_url + "fingerings/search" %></li>
+				<% if params[:controller] == "fingerings" and params[:action] == "index" %>
+					<li class="current-menu-item"><%= link_to "All Fingerings", root_url + "fingerings" %></li>
 				<% else %>
-					<li><%= link_to "Search Fingerings", root_url + "fingerings/search" %></li>
+					<li><%= link_to "All Fingerings", root_url + "fingerings" %></li>
 				<% end %>
 			<% end %>
 			
