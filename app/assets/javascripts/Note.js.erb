@@ -26,7 +26,7 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 		f_clef = false;
 		c_clef = true;
 		
-		if(noteToPos() > 8) {
+		if(noteToPos() > 8 || noteToPos() == -1) {
 			c_clef = false;
 			g_clef = true;
 		};
