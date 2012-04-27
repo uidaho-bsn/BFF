@@ -125,7 +125,7 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y, canvas_type) {
 			if(status >= 2 && status <= 4) {
 				ctx.beginPath();
 					switch(parseInt(status)) {
-						case 2: // x/y Pressed Key
+						case 2: // 1/4 Pressed Key
 							ctx.arc(0, 0, r, 1.25 * Math.PI, 1.75 * Math.PI, false);
 							ctx.lineTo(0,0);
 							ctx.lineTo(-r * Math.cos(0.25 * Math.PI), -r * Math.sin(0.75 * Math.PI));
@@ -135,8 +135,8 @@ function Key(name, x, y, r, t, type, status, offset_x, offset_y, canvas_type) {
 							ctx.moveTo(-r, 0);
 							ctx.lineTo(r, 0);
 						break;
-						case 4: // y/x Pressed Key
-							ctx.arc(0, 0, r, 0.25 * Math.PI, 0.75 * Math.PI, false);
+						case 4: // 3/4 Pressed Key
+							ctx.arc(0, 0, r, 0.25 * Math.PI, 0.75 * Math.PI, true);
 							ctx.lineTo(0,0);
 							ctx.lineTo(-r * Math.cos(1.25 * Math.PI), -r * Math.sin(1.75 * Math.PI));
 						break;
