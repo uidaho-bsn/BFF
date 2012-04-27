@@ -45,7 +45,7 @@ body
 
 .wrapper
 {
-	width: 966px;
+	width: 1025px;
 	margin: 0px auto;
 	position: relative;
 }
@@ -108,8 +108,8 @@ h6{ font-size: 20px; }
 #page-content
 {
 	float: left;
-	width: 906px;
-	margin-left: 30px;
+	width: 1020px;
+	margin-left: 25px;
 	line-height: 1.5em;
 }
 
