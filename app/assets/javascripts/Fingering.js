@@ -26,7 +26,7 @@ function Fingering(keys_string, offset_x, offset_y, type) {
 	var hole_1				  = new Key("hole_1",               130, 15,  8,  0, 						'circle',              keys_string[15], offset_x, offset_y, type);
 	var trill_fsharp 		  = new Key("trill_fsharp",         145, 47,  10, 0,						'oval-small',          keys_string[16], offset_x, offset_y, type);
 	var hole_2				  = new Key("hole_2",               130, 37,  8,  0, 						'circle',              keys_string[17], offset_x, offset_y, type);
-	var trill_eflat 		  = new Key("trill_eflat",          0,    0,  0,  0,                        'oval-small',          keys_string[18], offset_x, offset_y, type);
+	var trill_eflat 		  = new Key("trill_eflat",          145, 5,   10, 0,                        'oval-small',          keys_string[18], offset_x, offset_y, type);
 	var hole_3				  = new Key("hole_3",               130, 60,  8,  0, 						'circle',              keys_string[19], offset_x, offset_y, type);
 	var low_eflat 			  = new Key("low_eflat",            150, 73,  10, -( 190 * Math.PI ) / 180, 'half-circle',         keys_string[20], offset_x, offset_y, type);
 	var low_dflat 			  = new Key("low_dflat",            151, 76,  10, -( 10 * Math.PI  ) / 180, 'half-circle',         keys_string[21], offset_x, offset_y, type);
