@@ -416,6 +416,17 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 	function OnClick() {
 		note = posToNote();
 		
+		if(!clef_hover) {
+			if(noteToPos() == 11 && !g_clef) {
+				clef_hover = true;
+				var reverse = false;
+			}
+			else if(noteToPos() == 0 && !f_clef) {
+				clef_hover = true;
+				var reverse = true;
+			};
+		};
+		
 		if(tone_hover) {
 			switch(tone) {
 				case '♯': //Sharp
@@ -430,23 +441,45 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 			};
 		}
 		else if(clef_hover) {
-			if(f_clef) {
-				f_clef = false;
-				c_clef = true;
-				
-				if(noteToPos() == -1) { note = "d3"; };
+			if(reverse) {
+				if(f_clef) {
+					f_clef = false;
+					g_clef = true;
+					
+					if(noteToPos() == -1) { note = "g5"; };
+				}
+				else if(c_clef) {
+					c_clef = false;
+					f_clef = true;
+					
+					if(noteToPos() == -1) { note = "b3"; };
+				}
+				else if(g_clef) {
+					g_clef = false;
+					c_clef = true;
+					
+					if(noteToPos() == -1) { note = "a4"; };
+				};				
 			}
-			else if(c_clef) {
-				c_clef = false;
-				g_clef = true;
-				
-				if(noteToPos() == -1) { note = "c4"; };
-			}
-			else if(g_clef) {
-				g_clef = false;
-				f_clef = true;
-				
-				if(noteToPos() == -1) { note = "b3"; };
+			else {
+				if(f_clef) {
+					f_clef = false;
+					c_clef = true;
+					
+					if(noteToPos() == -1) { note = "d3"; };
+				}
+				else if(c_clef) {
+					c_clef = false;
+					g_clef = true;
+					
+					if(noteToPos() == -1) { note = "c4"; };
+				}
+				else if(g_clef) {
+					g_clef = false;
+					f_clef = true;
+					
+					if(noteToPos() == -1) { note = "b3"; };
+				};
 			};
 		};
 	};
