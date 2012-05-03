@@ -1,5 +1,10 @@
 <% content_for :head do %>
 	<title>BFF:Home</title>
+	<script>
+		$(document).bind("mobileinit", function(){
+		  $.mobile.defaultPageTransition = none;
+		});
+	</script>
 <% end %>
 
 <% content_for :content do %>

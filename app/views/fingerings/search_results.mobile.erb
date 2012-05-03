@@ -2,13 +2,10 @@
 	<title>BFF::Search Results</title>
 	<% if notice == nil %>
 		<%= javascript_include_tag :Fingerings %>
-			<script>
-				var fingering_id = "<%= @fingerings.first.fingering_status %>";
-				var note_tone_id = "<%= @fingerings.first.note_tone %>";
-				$(document).bind("mobileinit", function(){
-				  $.mobile.defaultPageTransition = none;
-				});
-			</script>
+		<script>
+			var fingering_id = "<%= @fingerings.first.fingering_status %>";
+			var note_tone_id = "<%= @fingerings.first.note_tone %>";
+		</script>
 	<% end %>
 <% end %>
 
