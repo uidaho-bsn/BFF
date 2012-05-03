@@ -23,12 +23,12 @@
 	<br />
 	
 	<% if notice == nil %>
-	<div class="apple_pagination">
-		<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next" %> 
+		<div class="apple_pagination">
+			<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next" %> 
 	<% end %>
+			<br />
 	
-	<br />
-		<%= link_to 'Search More Fingerings', search_fingerings_path %>
-	</div>
+			<%= link_to 'Search More Fingerings', search_fingerings_path %>
+		</div>
 <% end %>
 
