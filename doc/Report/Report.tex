@@ -199,6 +199,14 @@ engineering project for CS383/384. However, Ruby/Rails is ubiquitous
 in web development currently and would be an opportunity to learn
 a new language and web framework.
 
+\subsection{Applet Language: Java vs. Flash vs. JavaScript+HTML5}
+Java and flash are both often used in web development to build applets and therefore are
+well supported on most modern PC browsers with up to date plugins. However, mobile browsers 
+this is not the case with Java applets unable to run on Android and iPhone, and Flash only running 
+on newer versions of the Android OS. JavaScript+HTML5 is fairly new but runs on any browser including
+mobile devices albeit with varying levels of support for various features, and requires no extra plugins
+to install and keep up to date.
+
 \subsection{Validation Methods: In-house vs. Devise}
 Because the application was fairly small and specific, the team decided
 in-house validation may be easier and better suited to the application.
@@ -216,7 +224,6 @@ fingering two had 1 like and no dislikes, fingering 2 would be rated
 higher than fingering one, even though fingering 1 should be rated
 higher.
 
-
 \section{Concept Selection}
 \subsection{Implementation Model: Web application vs. Fully Mobile}
 Because the sponsor still wanted a mobile application in addition
@@ -228,11 +235,15 @@ However, the team decided that gaining experience working with Ruby
 on Rails, which is ubiquitous in web application development, would
 be prudent.
 
+\subsection{Applet Language: Java vs. Flash vs. JavaScript+HTML5}
+Since the application was to be mobile device compatible JavaScript+HTML5 was
+chosen for the language of the applet that was to handle the entering, display, and
+editing of bassoon key fingerings.
+
 \subsection{Validation Methods: In-house vs. Devise}
 However, after trying to implement Devise on partially implemented
 application, it became apparent that the application was too far along
 in development to gain use from Devise.
-
 
 \subsection{Search Results Rating Algorithm: Ratio Rating vs. Confidence Interval Rating}
 The team decided to use a more accurate rating algorithm that take
