@@ -179,7 +179,7 @@ Create an interactive web application that would include
 
 \subsection{Tasks and Schedule}
 \begin{enumerate}
-\item First Infrastructure 
+\item Infrastructure 
 
 \begin{enumerate}
 \item Database 
@@ -264,11 +264,12 @@ to Jacob and search bugs to Sasha.
 
 \subsection{Implementation Model: Web application vs. Fully Mobile}
 
-Though the project proposal suggested the model be implemented via
-a web application, our sponsor voiced the need to have the application
-be functional on mobile devices as well. Though it would be an interesting
-opportunity to build a fully mobile application, the team had no experience
-with building mobile applications.
+The initial project proposal requested a mobile application be created
+for iPhone/iPad.  The benefits of a mobile application are a more
+complete control of the mobile device for better optimization, and
+the potential to charge for the application.  The benefits of making
+a Web application are a significantly extended user base, as well
+as being able open up the choice of programming languages.
 
 
 \subsection{Programming Language: Python/Django vs. Ruby/Rails}
@@ -279,7 +280,8 @@ that lend themselves to web development. All members of the team had
 experience working with Python and Django previously on the software
 engineering project for CS383/384. However, Ruby/Rails is ubiquitous
 in web development currently and would be an opportunity to learn
-a new language and web framework.
+a new language and web framework. While keeping with a language
+similar to those the team is used to working with.
 
 
 \subsection{Applet Language: Java vs. Flash vs. JavaScript+HTML5 }
@@ -301,7 +303,13 @@ in-house validation may be easier and better suited to the application.
 However, as the application continued to develop, it became a much
 larger application than originally modeled. The validation plug-in,
 Devise, provides built-in validation tools that are easy to integrate
-with applications.
+with new applications. Some of the primary features we looked at, and
+needed are: 
+\begin{enumerate}
+\item Basic users with a user name, password, and email
+\item Administrative flag
+\item Basic functions for New, Show, Edit, and Delete
+\end{enumerate}
 
 
 \subsection{Search Results Rating Algorithm: Ratio Rating vs. Confidence Interval
@@ -315,21 +323,26 @@ fingering two had 1 like and no dislikes, fingering 2 would be rated
 higher than fingering one, even though fingering 1 should be rated
 higher.
 
+
 \section{Concept Selection}
 
 
 \subsection{Implementation Model: Web application vs. Fully Mobile}
 
-Because the sponsor still wanted a mobile application in addition
-to a web application, the team decided to implement a mobile compatible
-web application to cater to users of both PC's and mobile devices.
+The team had little to no practical knowledge of the programming language
+used for iPhone development, objective C.  They also believed the extended
+user base, allowing for all mobile devices as well as computers, would
+be a great benefit to the application. Therefore Web application was selected.
 
 
 \subsection{Programming Language: Python/Django vs. Ruby/Rails}
 
-However, the team decided that gaining experience working with Ruby
-on Rails, which is ubiquitous in web application development, would
-be prudent.
+After each team member wrote a small application with Ruby/Rails
+it was decided to go with Ruby/Rails.  It was clear that Ruby has
+syntax very similar to that of Python, and that Rails presented 
+many features we wanted during our pervious development with
+Django.
+
 
 \subsection{Applet Language: Java vs. Flash vs. JavaScript+HTML5}
 
@@ -337,11 +350,14 @@ Since the application was to be mobile device compatible JavaScript+HTML5
 was chosen for the language of the applet that was to handle the entering,
 display, and editing of bassoon key fingerings.
 
+
 \subsection{Validation Methods: In-house vs. Devise}
 
-However, after trying to implement Devise on partially implemented
-application, it became apparent that the application was too far along
-in development to gain use from Devise.
+We made a few attempts to use Devise in our application. Each of these
+attempts was met with more problems that solutions.  It appeared we
+would spend more time working on fixing the Devise conflicts that we
+would simply building the features from scratch.
+
 
 \subsection{Search Results Rating Algorithm: Ratio Rating vs. Confidence Interval Rating}
 
@@ -395,8 +411,65 @@ the control flow cycle.
 
 
 
-\subsection{Components and How Integrated}
+\subsection{Components and Integration}
 
+\subsection{Components}
+The main site is shown below in both the mobile and the full site views.
+The site has locations for basic users to input new fingering/note
+combinations, view and edit their profile, and search for fingering/note
+combinations.
+
+**PICTURES!**
+Full Site View:
+
+Mobile Site View:
+
+The administrative view of the site is only slightly different. A page to
+list all users is available, allowing an administrator to view/edit/delete
+any other user. There is also a page to view all fingerings.  This allows
+administrators to approve new fingerings, allowing them to have a non-negative
+score in the search.
+
+**PICTURES!**
+Full Site View:
+
+Mobile Site View:
+
+
+The initial step in the application is to add a new fingering. You can see the
+staff at the top to set which note this will be, and the fingering chart to
+set which keys should be pressed, and how.
+
+**PICTURES!**
+Full Site View:
+
+Mobile Site View:
+
+The next step is to search for that fingering.  First you see just the staff
+for a note. This will search the database for any note/fingering combination
+containing that note.
+
+**PICTURES!**
+Full Site View:
+
+Mobile Site View:
+
+
+It will then display a sorted list of the note/fingering combinations, and 
+provide a next button to access the rest of the notes.
+
+**PICTURES!**
+Full Site View:
+
+Mobile Site View:
+
+\subsection{Integration}
+The features shown and explained above are all integrated using a PostGres
+database. The database has two main sections, a list of users, and a list of
+note/fingering combinations. The application will pull this information off
+the database depending on which page it is on. The page also decides how to
+display the information, using a CSS to enforce a similar style across the
+pages. 
 
 \subsection{Results from Tests/Analysis}
 
