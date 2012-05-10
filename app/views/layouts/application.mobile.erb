@@ -6,6 +6,12 @@
 		<%= stylesheet_link_tag 'mobile' if mobile_device? %>
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <script type="text/javascript">
+			$(document).bind("mobileinit", function(){
+			  $.mobile.defaultPageTransition = 'none';
+			  $.mobile.ajaxEnabled = false;
+			});
+		</script>
         <script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
 		<%= csrf_meta_tags %>
 		<%= yield :head %>
@@ -17,8 +23,8 @@
 				<h3>Bassoon Fingering Finder</h3>
 			    <div data-role="navbar" data-iconpos="top">
 			        <ul>
-			            <li><%= link_to "Home", root_url + 'home', {"data-transition" => "none"} %>
-			            <li><%= link_to "Fingerings", root_url + 'fingerings', {"data-transition" => "none"} %></li>
+			            <li><%= link_to "Home", root_url + 'home' %>
+			            <li><%= link_to "Fingerings", root_url + 'fingerings' %></li>
 			        </ul>
 			        <%= render 'layouts/login' %>
 			    </div>
@@ -32,7 +38,7 @@
                 <div data-role="navbar" data-iconpos="top">
                     <ul>
                         <li><%= link_to "Contact", root_url + 'home/contact' %></li>
-                        <li><%= link_to "Full Site", {:mobile => 0}, "data-transition" => "none", "data-ajax" => "false" %></li>
+                        <li><%= link_to "Full Site", {:mobile => 0} %></li>
                     </ul>
                 </div>
             </div>
