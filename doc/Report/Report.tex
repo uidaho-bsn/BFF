@@ -15,6 +15,7 @@
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{setspace}
+\usepackage{xunicode}
 \onehalfspacing
 \usepackage[unicode=true,
  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
@@ -58,11 +59,11 @@
 \rfoot{\pageref{LastPage}}
 
 
-%\setlength{\parindent}{0.0cm} %Uncomment to remove paragraph indents.
+
 
 \makeatother
 
-\usepackage{xunicode}
+
 \begin{document}
 
 \title{Bassoon Fingering Finder}
@@ -82,11 +83,11 @@
 
 \tableofcontents{}\clearpage{}
 
+\setlength{\parindent}{0.0cm} %Uncomment to remove paragraph indents.
+\setlength{\parskip}{0.15cm}
 \setcounter{page}{1} \pagenumbering{arabic}
 
-
 \section{Executive Summary}
-
 We designed a web application that helps bassoonists of all skill
 levels find and learn new fingerings with an easy to use interface.
 
@@ -107,12 +108,10 @@ on their skill level. It also gives bassoonists a social medium for
 sharing fingerings, as well as suggestions and preferences for certain
 fingerings.
 
-
+\clearpage
 \section{Background}
 
-
 \subsection{Motivation}
-
 The Bassoon Fingering Finder Team is very interested in evolutionary
 computation and artificial intelligence, as well as mobile applications.
 This project will not only help bassoonists, but also allowed the
@@ -123,7 +122,6 @@ it also gave the team experience with compatibility and mobile applications.
 
 
 \subsection{Need}
-
 Currently bassoonists have very few options when it comes to finding
 fingerings quickly (which many times imperative during a concert or
 recital). There are books listing hundreds of standard fingerings,
@@ -137,7 +135,6 @@ but also allowed them to communicate with fellow bassoonists.
 
 
 \subsection{Benefits}
-
 This project will benefit bassoonists, from beginners to professionals,
 and will provide a way for bassoonists to communicate through a bassoon
 specific application. Bassoonists will be able to add, edit, delete,
@@ -146,7 +143,7 @@ interface, as well as manage fingerings they have added, 'like'/'dislike'
 fingerings, and access the application via personal computer or mobile
 devices.
 
-
+\clearpage
 \section{Problem Definition}
 
 
@@ -174,26 +171,23 @@ Create an interactive web application that would include
 \item Supports Chrome/Firefox/Safari/Opera 
 \end{itemize}
 
+\clearpage
 \section{Project Plan}
 
 
 \subsection{Tasks and Schedule}
 \begin{enumerate}
 \item Infrastructure 
-
 \begin{enumerate}
 \item Database 
-
 \begin{enumerate}
 \item For users 
 \item For note/fingering combinations 
 \end{enumerate}
 \item Users 
-
 \begin{enumerate}
 \item Authentication 
 \item Basic user 
-
 \begin{enumerate}
 \item Administrative user 
 \end{enumerate}
@@ -203,13 +197,11 @@ Create an interactive web application that would include
 \end{enumerate}
 \end{enumerate}
 \item Web page 
-
 \begin{enumerate}
 \item Information organization 
 \item Professional appearance 
 \end{enumerate}
 \item Application 
-
 \begin{enumerate}
 \item Fingering chart 
 \item Scale for notes 
@@ -226,14 +218,14 @@ Create an interactive web application that would include
 \end{enumerate}
 
 \subsection{Team Responsibilities}
-
+\subsubsection{Jacob}
 Jacob's primary task was the infrastructure. He worked to get the
 user authentication, time zone specification, and skill level functioning.
 He setup the ability for users to be able to view and edit their 'profile'
 information, containing their skill level, email address, etc. Once
 those tasks were done, he moved to work on bug reports and assist
 with the application section when needed.
-
+\subsubsection{Sasha}
 Sasha's primary task was implementing the mailer and search capabilities.
 The mailer was used to automatically email users when they registered
 for the site, as well as when they forgot their password (the mailer
@@ -248,7 +240,7 @@ searched for fingerings of a specific note, the resulting fingerings
 were ordered to show users fingerings that were rated highly and that
 are appropriate for the user's skill level. Sasha also designed and
 completed the BFF poster for the Engineering EXPO. 
-
+\subsubsection{Max}
 Max's primary task was the JavaScript, HTML5, \& CSS related parts.
 He mainly worked on the HTML5+JavaScript canvas for the note/fingering
 entry, editing, and display. He also worked on the browser side validation
@@ -258,9 +250,8 @@ for things like tabs and tables. Lastly he handled filtering most
 bug reports to their respective developers, i.e. filtering user bugs
 to Jacob and search bugs to Sasha.
 
-
+\clearpage
 \section{Concepts Considered}
-
 
 \subsection{Implementation Model: Web application vs. Fully Mobile}
 
@@ -305,11 +296,11 @@ larger application than originally modeled. The validation plug-in,
 Devise, provides built-in validation tools that are easy to integrate
 with new applications. Some of the primary features we looked at, and
 needed are: 
-\begin{enumerate}
+\begin{itemize}
 \item Basic users with a user name, password, and email
 \item Administrative flag
 \item Basic functions for New, Show, Edit, and Delete
-\end{enumerate}
+\end{itemize}
 
 
 \subsection{Search Results Rating Algorithm: Ratio Rating vs. Confidence Interval
@@ -322,7 +313,6 @@ For example, if fingering one had 100 likes and 50 dislikes, while
 fingering two had 1 like and no dislikes, fingering 2 would be rated
 higher than fingering one, even though fingering 1 should be rated
 higher.
-
 
 \section{Concept Selection}
 
@@ -374,44 +364,35 @@ as follows:
 Where $\hat{p}=\frac{1}{n}$ and $z=1.96$ (for a 95\% confidence
 interval).
 
-
+\clearpage
 \section{System Architecture}
 
-
 \subsection{Conceptual Design}
-
 Conceptually, the web application would be based on a Model-View-Controller
 architecture: 
 
-The user interacts with the user interface (e.g. adding fingerings). 
+\begin{figure}[h]
+\begin{center}
+\caption{MVC Architecture}
+\includegraphics[scale=0.125]{MVC}
+\end{center}
+\end{figure}
 
-The controller handles the input event from the user interface, and
-converts the event into an appropriate user action understandable
-for the model. 
-
-The controller notifies the model of the user action (e.g. adding
-the fingering to the database).
-
+\begin{itemize}
+\item The user interacts with the user interface (e.g. adding fingerings). 
+\item The controller handles the input event from the user interface, and converts the event into an appropriate user action understandable for the model. 
+\item The controller notifies the model of the user action (e.g. adding the fingering to the database).
+\end{itemize}
 A view queries the model to generate an appropriate user interface
 (for example the view lists the shopping cart's contents). The view
 gets its own data from the model. In some implementations, the controller
 may issue a general instruction to the view to render itself. In others,
 the view is automatically notified by the model of changes in state
-(observer) that require a screen update. 
-
-The user interface waits for further user interactions, which restarts
+(observer) that require a screen update. The user interface waits for further user interactions, which restarts
 the control flow cycle.
 
-\begin{figure}[H]
-\caption{MVC Architecture}
-
-
-\includegraphics[scale=0.15]{MVC} 
-\end{figure}
-
-
-
-\subsection{Components and Integration}
+\clearpage
+\section{Components and Integration}
 
 \subsection{Components}
 The main site is shown below in both the mobile and the full site views.
@@ -419,49 +400,54 @@ The site has locations for basic users to input new fingering/note
 combinations, view and edit their profile, and search for fingering/note
 combinations.
 
-**PICTURES!**
-Full Site View:
+\begin{figure}[H]
+%\begin{center}
+\caption{Full Site View}
+\includegraphics[scale=0.55]{1} 
+%\end{center}
+\end{figure}
+\begin{figure}[H]
+%\begin{center}
+\caption{Mobile Site View}
+\includegraphics[scale=0.55]{2} 
+%\end{center}
+\end{figure}
 
-Mobile Site View:
-
-The administrative view of the site is only slightly different. A page to
-list all users is available, allowing an administrator to view/edit/delete
-any other user. There is also a page to view all fingerings.  This allows
-administrators to approve new fingerings, allowing them to have a non-negative
-score in the search.
-
-**PICTURES!**
-Full Site View:
-
-Mobile Site View:
-
+The administrative view of the site is only slightly different. A link is added to allow administrators to view all users.  This allows them to view/edit/delete and set users as administrators. There is also a page to view all fingerings.  This allows
+administrators to approve new fingerings.
 
 The initial step in the application is to add a new fingering. You can see the
 staff at the top to set which note this will be, and the fingering chart to
 set which keys should be pressed, and how.
 
-**PICTURES!**
-Full Site View:
-
-Mobile Site View:
+\begin{figure}[H]
+%\begin{center}
+\caption{Full Site View}
+\includegraphics[scale=0.75]{3} 
+%\end{center}
+\end{figure}
 
 The next step is to search for that fingering.  First you see just the staff
 for a note. This will search the database for any note/fingering combination
 containing that note.
 
-**PICTURES!**
-Full Site View:
+\begin{figure}[H]
+%\begin{center}
+\caption{Full Site View}
+\includegraphics[scale=0.75]{5} 
+%\end{center}
+\end{figure}
 
-Mobile Site View:
-
-
+\clearpage
 It will then display a sorted list of the note/fingering combinations, and 
 provide a next button to access the rest of the notes.
 
-**PICTURES!**
-Full Site View:
-
-Mobile Site View:
+\begin{figure}[H]
+%\begin{center}
+\caption{Full Site View}
+\includegraphics[scale=0.75]{7} 
+%\end{center}
+\end{figure}
 
 \subsection{Integration}
 The features shown and explained above are all integrated using a PostGres
@@ -492,7 +478,7 @@ at the application and while they were initially confused about the
 layout of the fingering chart, they appreciated the application for
 the problem it solves.
 
-
+\clearpage
 \section{Future Work}
 
 Work for this project is intended to continue next semester in order
