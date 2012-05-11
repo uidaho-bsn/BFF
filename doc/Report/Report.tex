@@ -4,7 +4,6 @@
 \renewcommand{\ttdefault}{lmtt}
 \renewcommand{\familydefault}{\rmdefault}
 \usepackage[T1]{fontenc}
-\usepackage[latin9]{inputenc}
 \usepackage{geometry}
 \geometry{verbose,tmargin=3cm,bmargin=3cm,lmargin=3cm,rmargin=3cm}
 \usepackage{fancyhdr}
@@ -30,6 +29,7 @@
 
 %% Because html converters don't know tabularnewline
 \providecommand{\tabularnewline}{\\}
+
 
 
 \usepackage{lmodern}\renewcommand{\sfdefault}{lmss}
@@ -59,6 +59,7 @@
 
 \makeatother
 
+\usepackage{xunicode}
 \begin{document}
 
 \title{Bassoon Fingering Finder}
@@ -107,12 +108,12 @@ May 11, 2012
 
 The subsequent report is a summary of the web application proposed
 to allow bassoonists to search, access, and learn about new fingerings.
-This report decribes the motivation, importance, and benefits of the
+This report decries the motivation, importance, and benefits of the
 project, as well as conceptual design, tasks, implementation details,
 and final product of the project. 
 
 The goal of this project was to develop a web application that would
-allow bassoonists to perform the aformentioned tasks easily on personal
+allow bassoonists to perform the aforementioned tasks easily on personal
 computers, tablets, or smartphones, as well as providing a social
 hub for bassoonists of all skill levels. The final implementation
 of the application is functional on all necessary devices mentioned,
@@ -121,7 +122,7 @@ Users are able to add, delete, edit, and search for fingerings, as
 required. Users are also able to comment upon fingerings, as well
 as 'like' or 'dislike' fingerings, as suggested for the social aspect
 of the application. This report describes the implementation and integration
-of these components, as well as desicions regarding their design.
+of these components, as well as decisions regarding their design.
 
 Because additional features may be necessary for more verbose application,
 the project is planned to be continued and implemented as a mobile
@@ -364,8 +365,12 @@ in-house validation may be easier and better suited to the application.
 However, as the application continued to develop, it became a much
 larger application than originally modeled. The validation plug-in,
 Devise, provides built-in validation tools that are easy to integrate
-with applications.
-
+with applications. Some of the features included:
+\begin{itemize}
+\item Basic users, including a username, password, and email
+\item Administrative Flag
+\item Basic functions for New, Show, Edit, and Delete
+\end{itemize}
 
 \subsection{Search Results Rating Algorithm: Ratio Rating vs. Confidence Interval
 Rating}
@@ -384,16 +389,18 @@ higher.
 
 \subsection{Implementation Model: Web application vs. Fully Mobile}
 
-Because the sponsor still wanted a mobile application in addition
-to a web application, the team decided to implement a mobile compatible
-web application to cater to users of both PC's and mobile devices.
+Because the sponsor wanted a mobile application in addition to a web
+application, the team decided to implement a mobile compatible web
+application to cater to users of both PC's and mobile devices. The
+team also had little knowledge of the programming language used for
+iPhone development, Objective C. Creating a web application would
+also extend the user base, which would be beneficial.
 
 
 \subsection{Programming Language: Python/Django vs. Ruby/Rails}
 
-However, the team decided that gaining experience working with Ruby
-on Rails, which is ubiquitous in web application development, would
-be prudent.
+The team decided that gaining experience working with Ruby on Rails,
+which is ubiquitous in web application development, would be prudent.
 
 
 \subsection{Applet Language: Java vs. Flash vs. JavaScript+HTML5}
@@ -405,9 +412,10 @@ display, and editing of bassoon key fingerings.
 
 \subsection{Validation Methods: In-house vs. Devise}
 
-However, after trying to implement Devise on partially implemented
-application, it became apparent that the application was too far along
-in development to gain use from Devise.
+After attempting to implement Devise on partially implemented application,
+it became apparent that the application would no longer benefit from
+Devise because it would be too difficult to integrate Devise with
+the almost fully developed application. 
 
 
 \subsection{Search Results Rating Algorithm: Ratio Rating vs. Confidence Interval
@@ -415,7 +423,7 @@ Rating}
 
 The team decided to use a more accurate rating algorithm that take
 into account the volume of likes/dislikes and how well received the
-fingering is (i.e. if it is `controversial'). The algorithm used is
+fingering is (i.e. if it is 'controversial'). The algorithm used is
 as follows:
 
 \[
@@ -538,7 +546,7 @@ adding the fingering to the database).
 
 
 The view queries the model to generate the view showing that the fingering
-was sucessfully entered.
+was successfully entered.
 
 \begin{figure}[H]
 \caption{Fingering Added to the Database}
@@ -568,6 +576,35 @@ editing a user profile, deleting fingerings, or searching fingerings.
 \centering{}
 \end{figure}
 
+
+The application consists of both mobile and full site views. Though
+both versions are fully functional, the mobile version is optimized
+for mobile browsers. The application grants users the ability to input
+new fingerings/note combinations, view and edit the user profile,
+and search fingerings/note combinations.
+
+\begin{figure}[H]
+
+
+\caption{Mobile Site Examples}
+
+
+\begin{centering}
+\includegraphics[scale=0.6]{2.JPG}\qquad{}\includegraphics[scale=0.48]{6.JPG}
+\par\end{centering}
+
+\end{figure}
+
+
+Administrators have increased access, including viewing all users,
+which allows administrators to view, edit, or delete any other user
+(in case of misuse). There is also a page to view all fingerings,
+which allows administrators to approve new fingerings.
+
+The users and fingerings are stored in a PostGres database. Information
+is retrieved from the database and, based on the page the user is
+interacting with, a page is rendered appropriately (using CSS to enforce
+a similar style across the site). 
 
 
 \subsection{Results from Tests/Analysis}
@@ -605,7 +642,7 @@ is not limited to the following:
 \begin{enumerate}
 \item Being able to hear the sound of each note as it is selected. 
 \item Searching more than just standard fingerings, (i.e. the fingerings
-searchable on the site will only be basic, and in order to view many
+search-able on the site will only be basic, and in order to view many
 alternate fingerings one would have to pay for the app) 
 \item A mobile optimized version of the site. 
 \item Input of multiple fingering/note combinations. 
