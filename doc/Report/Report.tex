@@ -4,6 +4,7 @@
 \renewcommand{\ttdefault}{lmtt}
 \renewcommand{\familydefault}{\rmdefault}
 \usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
 \usepackage{geometry}
 \geometry{verbose,tmargin=3cm,bmargin=3cm,lmargin=3cm,rmargin=3cm}
 \usepackage{fancyhdr}
@@ -27,8 +28,8 @@
 
 \makeatletter
 
+%% Because html converters don't know tabularnewline
 \providecommand{\tabularnewline}{\\}
-
 
 
 \usepackage{lmodern}\renewcommand{\sfdefault}{lmss}
@@ -47,22 +48,17 @@
 \usepackage{lastpage}\renewcommand{\thepart}{}
 \renewcommand{\thesection}{}
 \renewcommand{\thesubsection}{}
-
-
 \fancyhf{}
 \headheight 14.49998pt
-\pagestyle{fancy}
+
 \rhead{Bassoon Fingering Finder}
-\lfoot{\thepage}
-\cfoot{of}
-\rfoot{\pageref{LastPage}}
+\cfoot{\thepage}
 
 
 %\setlength{\parindent}{0.0cm} %Uncomment to remove paragraph indents.
 
 \makeatother
 
-\usepackage{xunicode}
 \begin{document}
 
 \title{Bassoon Fingering Finder}
@@ -70,10 +66,20 @@
 
 \author{Jacob Flynn, Sasha Solomon, Max Stillwell}
 
+
+\date{Computer Science Senior Design }
+
 \maketitle
 \begin{center}
-\begin{figure}
-\centering{}\includegraphics{bff_logo1_small} 
+May 11, 2011
+\par\end{center}
+
+\medskip{}
+
+
+\begin{center}
+\begin{figure}[H]
+\centering{}\includegraphics{bff_logo1} 
 \end{figure}
 
 \par\end{center}
@@ -83,6 +89,45 @@
 \tableofcontents{}\clearpage{}
 
 \setcounter{page}{1} \pagenumbering{arabic}
+
+\begin{singlespace}
+\noindent \begin{flushright}
+May 11, 2012
+\par\end{flushright}
+\end{singlespace}
+
+\noindent Susan Hess, D.M.A.
+
+\noindent Lionel Hampton School of Music
+
+\noindent University of Idaho
+
+
+\section{Letter of Transmittal}
+
+The subsequent report is a summary of the web application proposed
+to allow bassoonists to search, access, and learn about new fingerings.
+This report decribes the motivation, importance, and benefits of the
+project, as well as conceptual design, tasks, implementation details,
+and final product of the project. 
+
+The goal of this project was to develop a web application that would
+allow bassoonists to perform the aformentioned tasks easily on personal
+computers, tablets, or smartphones, as well as providing a social
+hub for bassoonists of all skill levels. The final implementation
+of the application is functional on all necessary devices mentioned,
+and is usable via all common browsers, including mobile browsers.
+Users are able to add, delete, edit, and search for fingerings, as
+required. Users are also able to comment upon fingerings, as well
+as 'like' or 'dislike' fingerings, as suggested for the social aspect
+of the application. This report describes the implementation and integration
+of these components, as well as desicions regarding their design.
+
+Because additional features may be necessary for more verbose application,
+the project is planned to be continued and implemented as a mobile
+application for optimization on mobile devices. The application's
+ownership will be transmitted via Heroku, where the application is
+currently hosted. 
 
 
 \section{Executive Summary}
@@ -224,6 +269,24 @@ Create an interactive web application that would include
 \item Like/Dislike a note/fingering combination 
 \end{enumerate}
 \end{enumerate}
+A schedule was created to ensure that tasks were completed in a timely
+manner, such that the project was complete within the time frame.
+Below is the initial schedule for tasks and dates for when the tasks
+were actually completed. 
+
+\begin{figure}[H]
+
+
+\caption{Tasks Schedule and Dates Completed}
+
+
+\begin{centering}
+\includegraphics[scale=0.5]{schedule}
+\par\end{centering}
+
+\end{figure}
+
+
 
 \subsection{Team Responsibilities}
 
@@ -315,6 +378,7 @@ fingering two had 1 like and no dislikes, fingering 2 would be rated
 higher than fingering one, even though fingering 1 should be rated
 higher.
 
+
 \section{Concept Selection}
 
 
@@ -331,11 +395,13 @@ However, the team decided that gaining experience working with Ruby
 on Rails, which is ubiquitous in web application development, would
 be prudent.
 
+
 \subsection{Applet Language: Java vs. Flash vs. JavaScript+HTML5}
 
 Since the application was to be mobile device compatible JavaScript+HTML5
 was chosen for the language of the applet that was to handle the entering,
 display, and editing of bassoon key fingerings.
+
 
 \subsection{Validation Methods: In-house vs. Devise}
 
@@ -343,7 +409,9 @@ However, after trying to implement Devise on partially implemented
 application, it became apparent that the application was too far along
 in development to gain use from Devise.
 
-\subsection{Search Results Rating Algorithm: Ratio Rating vs. Confidence Interval Rating}
+
+\subsection{Search Results Rating Algorithm: Ratio Rating vs. Confidence Interval
+Rating}
 
 The team decided to use a more accurate rating algorithm that take
 into account the volume of likes/dislikes and how well received the
@@ -364,38 +432,142 @@ interval).
 
 \subsection{Conceptual Design}
 
-Conceptually, the web application would be based on a Model-View-Controller
-architecture: 
-
-The user interacts with the user interface (e.g. adding fingerings). 
-
-The controller handles the input event from the user interface, and
+Conceptually, the web application is based on a Model-View-Controller
+architecture (Figure 1): 
+\begin{itemize}
+\item The user interacts with the user interface (e.g. adding fingerings). 
+\item The controller handles the input event from the user interface, and
 converts the event into an appropriate user action understandable
 for the model. 
+\item The controller notifies the model of the user action (e.g. adding
+the fingering to the database). The controller houses the class methods/functions,
+while the model houses the structure of objects.
+\item The database of fingerings interacts the controller when additions,
+deletions, and queries are made for fingerings. 
+\item A view queries the model to generate an appropriate user interface
+(e.g. the view shows the fingering entered). The controller issues
+an instruction to the view so it can render itself.
+\item The user interface waits for user interactions, which restarts the
+cycle.
+\end{itemize}
+\begin{figure}[H]
 
-The controller notifies the model of the user action (e.g. adding
-the fingering to the database).
 
-A view queries the model to generate an appropriate user interface
-(for example the view lists the shopping cart's contents). The view
-gets its own data from the model. In some implementations, the controller
-may issue a general instruction to the view to render itself. In others,
-the view is automatically notified by the model of changes in state
-(observer) that require a screen update. 
+\caption{MVC Architecture within BFF}
 
-The user interface waits for further user interactions, which restarts
-the control flow cycle.
+
+\includegraphics[scale=0.15]{MVC}
+
+\end{figure}
+
+
+The user interface for the application was one of the most important
+components because it is what the users will see and interact with
+to use the application. Initially Dr. Hess drafted bassoon fingering
+charts, which we then used to design the user interface. Users are
+able to click fingering holes on the chart interface and change the
+way the hole is filled (1/4 covered, trill, fully covered, etc.). 
 
 \begin{figure}[H]
-\caption{MVC Architecture}
+\caption{Dr. Hess's Initial Fingering Chart}
 
 
-\includegraphics[scale=0.15]{MVC} 
+\begin{centering}
+\includegraphics[scale=0.6]{susan_fingerings}
+\par\end{centering}
+
+\end{figure}
+
+
+\begin{figure}[H]
+\begin{centering}
+\caption{Final Fingering Chart Implementation}
+
+\par\end{centering}
+
+\centering{}\includegraphics[scale=0.6]{fingering_implement}
 \end{figure}
 
 
 
-\subsection{Components and How Integrated}
+\subsection{Components and Integration}
+
+Again, the application is based on a Model-View-Controller architecture
+(as seen in Figure 1). An example how the model, view, and controller
+are integrated with each other is a user adding a fingering: 
+
+The user interacts with the user interface (e.g. adding fingerings)
+by clicking the fingering holes they wish to fill. By clicking the
+'Submit' button, the controller is notified of an input event. 
+
+\begin{figure}[H]
+\caption{User Entering Fingerings}
+
+
+\centering{}\includegraphics[scale=0.6]{view_enter}
+\end{figure}
+
+
+The controller handles the 'Submit' event from the user interface,
+and converts the event into an appropriate user action understandable
+for the model. 
+
+\begin{figure}[H]
+\caption{User Submitting Fingering}
+
+
+\noindent \begin{centering}
+\includegraphics[scale=0.45]{submit_add}
+\par\end{centering}
+
+\end{figure}
+
+
+The controller notifies the model of the user action (e.g. internally
+adding the fingering to the database).
+
+\begin{figure}[H]
+\caption{Controller Function for Adding Fingerings}
+
+
+\begin{centering}
+\includegraphics[scale=0.7]{controller_add}
+\par\end{centering}
+
+\end{figure}
+
+
+The view queries the model to generate the view showing that the fingering
+was sucessfully entered.
+
+\begin{figure}[H]
+\caption{Fingering Added to the Database}
+
+
+\noindent \centering{}\includegraphics[scale=0.45]{database_add}
+\end{figure}
+
+
+The user interface waits for user interactions, which restarts the
+cycle.
+
+\medskip{}
+
+
+This cycle applies to other components of the application, such as
+editing a user profile, deleting fingerings, or searching fingerings. 
+
+\begin{figure}[H]
+\caption{Conceptual Flow of User Interaction}
+
+
+\begin{centering}
+\includegraphics[scale=0.15]{flow}
+\par\end{centering}
+
+\centering{}
+\end{figure}
+
 
 
 \subsection{Results from Tests/Analysis}
@@ -408,16 +580,14 @@ feedback about the features that were functioning and fully implemented.
 The response remained positive after we moved to a larger test group
 including students and associates of our Dr. Hess. While Dr. Hess
 continued to be the primary tester, submitting the majority of bug
-reports and feature requests, the other users did not mention any
-major concerns about the application.
+reports and feature requests, the other users did not voice any major
+concerns about the application.
 
-We were also able to get some feedback during the Engineering EXPO.
-This was also fairly positive. One of the biggest questions was if
-we could, or if we planned, on expanding the application to other
-instruments. We also had a number of non-bassoon players take a look
-at the application and while they were initially confused about the
-layout of the fingering chart, they appreciated the application for
-the problem it solves.
+We were also able to get some feedback during the Engineering EXPO,
+which was positive. One of the biggest questions was if we could,
+or if we planned, on expanding the application to other instruments.
+We also had a number of non-bassoon players show interest in application
+and appreciated the application for the problem it solves.
 
 
 \section{Future Work}
@@ -448,6 +618,10 @@ implemented by a future Computer Science Senior Design Team. \clearpage{}
 
 
 \section{Appendices}
+
+The appendices include software and application requirements, requirements
+for users and admins, sections of code, example fingerings, and screenshots
+of the application.
 
 
 \subsection{Software Requirements}
@@ -623,5 +797,102 @@ fingerings. (Requires Login) \tabularnewline
 \item None. \end{itemize}
 \tabularnewline
 \hline 
-\end{tabular}\\[0.5cm] 
+\end{tabular}\\[0.5cm]
+
+
+\subsection{Users Controller Snippet}
+
+\includegraphics[scale=0.7]{users_controller}
+
+
+\subsection{Fingerings Controller Snippet}
+
+\includegraphics[scale=0.7]{fingerings_controller}
+
+
+\subsection{Fingerings Database Migration (Rails)}
+
+\includegraphics[scale=0.7]{database_migration}
+
+
+\subsection{Searching Example (View)}
+
+\begin{figure}[H]
+\caption{}
+
+
+\begin{centering}
+\includegraphics[scale=0.5]{search_example}
+\par\end{centering}
+
+\end{figure}
+
+
+
+\subsection{Search Results Example (View)}
+
+\begin{figure}[H]
+\caption{}
+
+
+\begin{centering}
+\includegraphics[scale=0.45]{search_results_example}
+\par\end{centering}
+
+\end{figure}
+
+
+
+\subsection{Example Fingerings}
+
+
+\subsubsection{G Sharp (Treble Clef)}
+
+\begin{figure}[H]
+\caption{}
+
+
+\begin{centering}
+\includegraphics[scale=0.6]{fingering3}
+\par\end{centering}
+
+\end{figure}
+
+
+
+\subsubsection{E flat (Bass Clef)}
+
+\begin{figure}[H]
+\caption{}
+
+
+\begin{centering}
+\includegraphics[scale=0.6]{fingering4}
+\par\end{centering}
+
+\end{figure}
+
+
+
+\subsubsection{C Natural (Tenor Clef)}
+
+\begin{figure}[H]
+\caption{}
+
+
+\centering{}\includegraphics[scale=0.6]{fingering1}
+\end{figure}
+
+
+
+\subsubsection{Multiple Fingerings: F Natural to G Natural (Bass Clef)}
+
+\begin{figure}[H]
+\caption{}
+
+
+\includegraphics[scale=0.45]{multifingerings}
+
+\end{figure}
+
 \end{document}
