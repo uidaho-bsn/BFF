@@ -29,3 +29,4 @@ tmp
 *.class
 *.pyc
 *.pyo
+*.sqlite3
