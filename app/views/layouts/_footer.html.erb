@@ -3,14 +3,14 @@
 		<li class="col">
 			<h6>Pages</h6>
 			<ul>
-				<li class="page_item"><a href="index.html">Home</a></li>
+				<li class="page_item"><%= link_to "Home", root_url %></li>
 				<li class="page_item"><%= link_to "Contact", root_url + "home/contact"  %></li>
 			</ul>
 		</li>
 		<li class="col">
 			<h6>Links</h6>
 			<ul>
-				<li class="page_item"><a href="https://github.com/Sverk/TAB/issues">Report a Bug</a></li>
+				<li class="page_item"><a href="https://github.com/uidaho-bsn/BFF/issues">Report a Bug</a></li>
 				<% if mobile_device? %>
 					<li class="page_item"><%= link_to "Full Site", :mobile => 0 %></li>
 				<% else %>
