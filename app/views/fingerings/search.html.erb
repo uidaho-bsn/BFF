@@ -25,7 +25,7 @@
 	<%= form_tag({:action => 'search_results', :controller => "fingerings"}, {:method => "post", :id => "form", :style => "display:inline;"}) do %>
 		<%= hidden_field "fingering", "note_tone" %>
 		
-		<%= submit_tag "Submit", :id => "submit", :onclick => "fingering_note_tone.value = fingerings_canvas.ToString();" %>
+		<%= submit_tag "Search", :id => "submit", :onclick => "fingering_note_tone.value = fingerings_canvas.ToString();" %>
 	<% end %>
 	
 	<%= form_tag({:action => 'index', :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
