@@ -164,15 +164,15 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     
     respond_to do |format|
-      if @user == current_user 
-        @user.logout
+      if @user == current_user
+  	    session[:user] = nil
         @user.destroy
-        
-        format.html { redirect_to root_url }
+
+        redirect_to root_url, :notice => "User \"" + @user.login + "\" Deleted" and return
       else
         @user.destroy
-        
-        format.html { redirect_to root_url }
+
+        redirect_to root_url + "users/" , :notice => "User \"" + @user.login + "\" Deleted" and return
       end
     end
   end
