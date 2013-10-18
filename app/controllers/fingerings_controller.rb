@@ -28,11 +28,10 @@ class FingeringsController < ApplicationController
   
   def search_results
       @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('score DESC') 
-      debugger
       if @Results != []
         @fingerings = @Results.paginate(:page => params[:page], :per_page => 1)#, :order => 'score DESC')
       else
-        flash[:notice] = "No fingerings match that note(s)."
+        flash[:notice] = "No fingerings match the requested note(s)."
       end
     
   end
