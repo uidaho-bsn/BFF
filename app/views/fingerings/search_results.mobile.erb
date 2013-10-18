@@ -10,7 +10,8 @@
 <% end %>
 
 <% content_for :content do %>
-	<center>
+	<% if @fingerings != nil %>
+		<center>
 		<canvas id="show_fingering" width="500" height="600">
 	    	<p>Unfortunately, your browser is currently unsupported by our web 
 	        	application. We are sorry for the inconvenience. Please use one of the 
@@ -19,7 +20,12 @@
 	        	<a href="http://www.mozilla.com">Firefox</a> <br />
 	        	<a href="www.google.com/chrome">Chrome</a> </p>
 		</canvas>
-	</center>
+		</center>
+	<% elsif notice != nil %>
+		<font color="red"><%= notice %></font>
+	<% end %>
+
+
 	<br />
 	
 	<% if notice == nil %>
@@ -29,6 +35,10 @@
 			<br />
 	
 			<%= link_to 'Search More Fingerings', search_fingerings_path %>
+			<% if @fingerings == nil %>
+				<br>
+				<%= link_to 'Add a Fingering', new_fingering_path %>
+			<% end %>
 		</div>
 <% end %>
 
