@@ -25,6 +25,7 @@
 
 <% content_for :content do %>
 	<center>
+	<% if @fingerings != nil %>
 	<canvas id="show_fingering" width="500" height="600">
     	<p>Unfortunately, your browser is currently unsupported by our web 
         	application. We are sorry for the inconvenience. Please use one of the 
@@ -33,6 +34,7 @@
         	<a href="http://www.mozilla.com">Firefox</a> <br />
         	<a href="www.google.com/chrome">Chrome</a> </p>
 	</canvas>
+	<% end %>
 	</center>
 	</div>
 	<br />
@@ -45,7 +47,12 @@
 
 	<br>
 	<%= link_to 'Search More Fingerings', search_fingerings_path %>
+	<% if @fingerings == nil %>
+		<br>
+		<%= link_to 'Add a Fingering', new_fingering_path %>
+	<% end %>
 </div>
+				<% if @fingerings != nil and @fingerings.first != nil %>
 				<table>
 				<tr>
 					<th align="left">
@@ -107,7 +114,8 @@
 				</tr>
 				
 				<tr><th></th><th></th></tr>
-			</table>		
+			</table>
+			<% end %>		
 		</div>
 	
 	
