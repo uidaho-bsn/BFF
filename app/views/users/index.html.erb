@@ -7,6 +7,10 @@
 <% end %>
 
 <% content_for :content do %>
+	<% if notice != nil %>
+		<font color="red"><%= notice %></font>
+	<% end %>
+
 	<table>
   		<tr>
 			<th>Username</th>
