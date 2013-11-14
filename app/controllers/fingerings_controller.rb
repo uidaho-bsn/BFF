@@ -27,7 +27,7 @@ class FingeringsController < ApplicationController
   end
   
   def search_results
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('score DESC') 
+      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('keytype DESC') 
       if @Results != []
         @fingerings = @Results.paginate(:page => params[:page], :per_page => 1)#, :order => 'score DESC')
       else
@@ -63,7 +63,11 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_advanced     = 0
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
-    @fingering.approved  = false
+    if(!current_user.isAdmin)
+        @fingering.approved  = false
+    else
+	@fingering.approved = true
+    end
     @fingering.score = 0
 
     if @fingering.save
@@ -81,6 +85,10 @@ class FingeringsController < ApplicationController
 
   def update
     @fingering = Fingering.find(params[:id])
+
+    if(!current_user.isAdmin) #TODO notify admin if fingering is edited
+	@fingering.approved = false
+    end
 
     if @fingering.update_attributes(params[:fingering])
       redirect_to @fingering, :notice => 'Fingering was successfully updated.'
