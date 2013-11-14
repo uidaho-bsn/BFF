@@ -3,8 +3,11 @@ class FingeringsController < ApplicationController
   before_filter :require_admin, :only => [:destroy]
   
   def index
-    @fingerings = Fingering.all.sort_by(&:created_at)
-
+    if(!current_user.isAdmin)
+	@fingerings = Fingering.where(approved: true).sort_by(&:created_at) # only show approved fingerings to non-admin
+    else
+        @fingerings = Fingering.all.sort_by(&:created_at)
+    end
     respond_to do |format|
       format.html { }
       if current_user.isAdmin
@@ -27,7 +30,11 @@ class FingeringsController < ApplicationController
   end
   
   def search_results
+   if(!current_user.isAdmin)
+      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).order('keytype DESC') 
+   else
       @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('keytype DESC') 
+   end
       if @Results != []
         @fingerings = @Results.paginate(:page => params[:page], :per_page => 1)#, :order => 'score DESC')
       else
