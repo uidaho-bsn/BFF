@@ -63,7 +63,7 @@ ul.tabs li.current a
 	background-position: 0px -80px;
 }
 
-.panes { margin-top: 30px; }
+.panes { margin-top: 30px; text-align:center;}
 
 body.home .panes{ margin-top: 0px; }
 
