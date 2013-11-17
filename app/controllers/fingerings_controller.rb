@@ -74,6 +74,10 @@ class FingeringsController < ApplicationController
   end
 
   def create
+    if !current_user.isAdmin #non admins can no longer specify if a fingering they entered is standard/alaternate, force it to always be alternate
+      params[:fingering]["keytype"] = 'alternate'
+    end
+
     @fingering = Fingering.create!(params[:fingering])
     @fingering.votes_beginner     = 0
     @fingering.votes_intermediate = 0
@@ -200,7 +204,6 @@ class FingeringsController < ApplicationController
         cookies[:votes] = @fingering.id.to_s()
         cookies[:votes_user] = current_user.login
       end
-      debugger
       @fingering.score = self.rating # re-rate the fingering every time it is liked or disliked
       @fingering.save
       redirect_to @fingering, :notice => "Fingering was liked."
