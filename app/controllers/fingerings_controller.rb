@@ -100,6 +100,7 @@ class FingeringsController < ApplicationController
       else
         msg = 'created.'
       end
+      @fingering.send_fingering_submitted #send email to admins (new fingering submitted which needs approval)
       redirect_to fingerings_url, :notice => 'Fingering was successfully ' + msg
     else
       render action: "new"

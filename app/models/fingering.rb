@@ -42,4 +42,8 @@ class Fingering < ActiveRecord::Base
 
     return ret
   end
+
+  def send_fingering_submitted
+    FingeringMailer.fingering_submitted_email(self).deliver 
+  end
 end
