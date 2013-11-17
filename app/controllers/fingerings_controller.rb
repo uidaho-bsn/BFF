@@ -31,28 +31,42 @@ class FingeringsController < ApplicationController
   
   def search_results
    if(!current_user.isAdmin)
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).order('keytype DESC') 
+      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).order('show_first DESC').order('keytype DESC') 
    else
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('keytype DESC') 
+      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('show_first DESC').order('keytype DESC') 
    end
+#debugger
       if @Results != []
         @fingerings = @Results.paginate(:page => params[:page], :per_page => 1)#, :order => 'score DESC')
+#	debugger
+	puts "hi"
       else
         flash[:notice] = "No fingerings match the requested note(s)."
-      end
-    
+      end    
   end
   def show
     @fingering        = Fingering.find(params[:id])
     @fingering_status = @fingering.fingering_status
     @note_tone        = @fingering.note_tone
+
+    params[:fingering] = @fingering
+    params[:fingering]["note_tone"] = @note_tone
+    params[:fingering]["show_first"] = true
+#    debugger
+    @fingering.show_first = true
+    @fingering.save
+#debugger
+    search_results
+
+    @fingering.show_first = false
+    @fingering.save
     
-    respond_to do |format|
-      format.html { }
-      if current_user.isAdmin
-        format.json { render json: @fingering }
-      end
-    end
+#    respond_to do |format|
+#      format.html { }
+#      if current_user.isAdmin
+#        format.json { render json: @fingering }
+#      end
+#    end
   end
 
   def new

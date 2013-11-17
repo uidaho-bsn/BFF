@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120420002546) do
+ActiveRecord::Schema.define(:version => 20131115004436) do
 
   create_table "fingerings", :force => true do |t|
     t.string   "note_tone"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20120420002546) do
     t.integer  "dvotes_advanced"
     t.integer  "dvotes_professional"
     t.float    "score"
+    t.boolean  "show_first",          :default => false
   end
 
   create_table "forem_forums", :force => true do |t|

@@ -1,0 +1,163 @@
+<% content_for :head do %>
+	<title>BFF::Fingering ID #<%= @fingering.id %></title>
+	<%= javascript_include_tag :Fingerings %>
+	<%= javascript_include_tag :Tabs %>
+	<script>
+		var fingering_id = "<%= @fingering_status %>";
+		var note_tone_id = "<%= @note_tone %>";
+	</script>
+<% end %>
+
+<% content_for :page_title do %>
+	Fingering ID #<%= @fingering.id %>
+<% end %>
+
+<% content_for :page_subtitle do %>
+	Entered on: <%= @fingering.created_at %> by <%= @fingering.user_name %>
+<% end %>
+
+<% content_for :content do %>
+	<div id="tabs">
+		<ul class="tabs">
+			<li><a href="#tabs-1" class=""><span>Show Fingering</span></a></li>
+			<li><a href="#tabs-2" class=""><span>Show Help</span></a></li>
+		</ul>
+		
+		<div id="tabs-1" class="panes">
+			<canvas id="show_fingering" width="500" height="600">
+		    	<p>Unfortunately, your browser is currently unsupported by our web 
+		        	application. We are sorry for the inconvenience. Please use one of the 
+		        	supported browsers listed below. </p>
+		        <p>Supported browsers: 
+		        	<a href="http://www.mozilla.com">Firefox</a> <br />
+		        	<a href="www.google.com/chrome">Chrome</a> </p>
+			</canvas>
+			
+			<br />
+				
+			<table class="fingering-info">
+				<tr>
+					<th align="left">
+						<% if @fingering.approved %>
+							Fingering has been approved.
+						<% else %>
+							Fingering has not been approved.
+						<% end %>
+					</th>
+					
+					<th></th>
+				</tr>
+				
+				<% if current_user.isAdmin %>
+					<tr>
+						<td>Keys String</td>
+						<td align="center"><%= @fingering_status %></td>
+					</tr>
+					
+					<tr>
+						<td>Notes String</td>
+						<td align="center"><%= @note_tone %></td>
+					</tr>
+				<% end %>
+				
+				<tr>
+					<td>Entered on</td>
+					<td align="center"><%= @fingering.created_at %></td>
+				</tr>
+				
+				<tr>
+					<td>Entered by</td>
+					<td align="center"><%= @fingering.user_name %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Type</td>
+					<td align="center"><%= @fingering.keytype.titleize %></td>
+				</tr>
+				
+				<tr>
+					<td>Upvotes (Beginner|Intermediate|Advanced|Professional)</td>
+					<td align="center"><%= @fingering.votes_beginner %>|<%= @fingering.votes_intermediate %>|<%= @fingering.votes_advanced %>|<%= @fingering.votes_professional %></td>
+				</tr>
+				
+				<tr>
+					<td>Downvotes (Beginner|Intermediate|Advanced|Professional)</td>
+					<td align="center"><%= @fingering.dvotes_beginner %>|<%= @fingering.dvotes_intermediate %>|<%= @fingering.dvotes_advanced %>|<%= @fingering.dvotes_professional %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Source</td>
+					<td align="center"><%= @fingering.source %></td>
+				</tr>
+				
+				<tr>
+					<td>Fingering Comment</td>
+					<td style="display: table-cell">
+						<%= @fingering.comments %>
+					</td>
+					<td>
+				</tr>
+				
+				<tr><th></th><th></th></tr>
+			</table>
+			
+			<% if current_user.isAdmin %>
+				<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<% if @fingering.approved %>
+						<%= submit_tag "Unapprove", :id => "submit" %>
+					<% else %>
+						<%= submit_tag "Approve", :id => "submit" %>
+					<% end %>
+				<% end %>
+			<% end %>
+		
+			<% if cookies[:votes] != nil and cookies[:votes_user] != nil %>
+				<% if !cookies[:votes].include?(@fingering.id.to_s()) or !cookies[:votes_user].include?(current_user.login) %>
+					<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+						<%= submit_tag "Like", :id => "submit" %>
+					<% end %>
+				<% end %>
+			
+				<% if !cookies[:votes].include?(@fingering.id.to_s()) or !cookies[:votes_user].include?(current_user.login) %>
+					<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+						<%= submit_tag "Dislike", :id => "submit" %>
+					<% end %>
+				<% end %>
+			<% else %>
+				<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<%= submit_tag "Like", :id => "submit" %>
+				<% end %>
+			
+				<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<%= submit_tag "Dislike", :id => "submit" %>
+				<% end %>	
+			<% end %>
+		
+			<%= form_tag({:action => "index", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+				<%= submit_tag "Back", :id => "submit" %>
+			<% end %>
+		
+			<% if current_user.isAdmin or current_user.login == @fingering.user_name %>
+				<%= form_tag({:action => "edit", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+					<%= submit_tag "Edit", :id => "submit" %>
+				<% end %>
+			<% end %>
+			
+			<% if current_user.isAdmin %>
+				<%= form_tag({:action => "reset_votes", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<%= submit_tag "Reset Votes", :id => "submit", :confirm => "This will reset votes for this fingering. Are you sure you wish to do this?" %>
+				<% end %>
+			<% end %>	
+			
+			<% if current_user.isAdmin %>
+				<%= form_tag({:action => "destroy", :controller => "fingerings"}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
+					<%= submit_tag "Delete", :id => "submit", :confirm => "Are you sure?" %>
+				<% end %>
+			<% end %>		
+		</div>
+		
+		<div id="tabs-2"  class="panes">
+			<%= render "help" %>
+		</div>
+	</div>
+<% end %>
