@@ -115,6 +115,51 @@
 				
 				<tr><th></th><th></th></tr>
 			</table>
+			<% if current_user.isAdmin %>
+					<% if @fingerings.first.approved %>
+						<a href="/fingerings/<% @fingerings.first.id %>">Approve</a>
+					<% else %>
+					<% end %>
+			<% end %>
+		
+			<% if cookies[:votes] != nil and cookies[:votes_user] != nil %>
+				<% if !cookies[:votes].include?(@fingerings.first.id.to_s()) or !cookies[:votes_user].include?(current_user.login) %>
+					<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+						<%= submit_tag "Like", :id => "submit" %>
+					<% end %>
+				<% end %>
+			
+				<% if !cookies[:votes].include?(@fingerings.first.id.to_s()) or !cookies[:votes_user].include?(current_user.login) %>
+					<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+						<%= submit_tag "Dislike", :id => "submit" %>
+					<% end %>
+				<% end %>
+			<% else %>
+				<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<%= submit_tag "Like", :id => "submit" %>
+				<% end %>
+			
+				<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<%= submit_tag "Dislike", :id => "submit" %>
+				<% end %>	
+			<% end %>
+		
+			<%= form_tag({:action => "index", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+				<%= submit_tag "Back", :id => "submit" %>
+			<% end %>
+		
+			<% if current_user.isAdmin or current_user.login == @fingerings.first.user_name %>
+
+			<% end %>
+			
+			<% if current_user.isAdmin %>
+
+			<% end %>	
+			
+			<% if current_user.isAdmin %>
+
+			<% end %>		
+		</div>
 			<% end %>		
 		</div>
 <% end %>

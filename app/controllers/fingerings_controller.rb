@@ -31,7 +31,7 @@ class FingeringsController < ApplicationController
   
   def search_results
    if(!current_user.isAdmin)
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).order('show_first DESC').order('keytype DESC') 
+      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true)#.order('show_first DESC').order('keytype DESC') 
    else
       @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('show_first DESC').order('keytype DESC') 
    end
@@ -52,21 +52,22 @@ class FingeringsController < ApplicationController
     params[:fingering] = @fingering
     params[:fingering]["note_tone"] = @note_tone
     params[:fingering]["show_first"] = true
-#    debugger
-    @fingering.show_first = true
-    @fingering.save
-#debugger
-    search_results
 
-    @fingering.show_first = false
-    @fingering.save
-    
-#    respond_to do |format|
-#      format.html { }
-#      if current_user.isAdmin
-#        format.json { render json: @fingering }
-#      end
-#    end
+    Fingering.update_all(:show_first => false)
+    Fingering.update(params[:id], :show_first => true)
+
+    if(!current_user.isAdmin)
+         @fingerings = Fingering.where(:note_tone => @note_tone).where(approved:true).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
+   else
+         @fingerings = Fingering.where(:note_tone => @note_tone).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
+   end
+
+    respond_to do |format|
+      format.html { }
+      if current_user.isAdmin
+        format.json { render json: @fingering }
+      end
+    end
   end
 
   def new
