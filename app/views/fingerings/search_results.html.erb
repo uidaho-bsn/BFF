@@ -1,6 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::Search Fingering</title>
-	<% if notice == nil %>
+	<% if @fingerings != nil %>
 		<%= javascript_include_tag :Fingerings %>
 			<script>
 				var fingering_id = "<%= @fingerings.first.fingering_status %>";
@@ -38,7 +38,7 @@
 	</center>
 	</div>
 	<br />
-	<% if notice == nil %>
+	<% if @fingerings != nil %>
 <div class="apple_pagination">
 
 	<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next"%> 
