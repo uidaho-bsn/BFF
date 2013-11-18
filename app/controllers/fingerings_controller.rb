@@ -64,6 +64,17 @@ class FingeringsController < ApplicationController
       params[:fingering]["keytype"] = 'alternate'
     end
 
+    @same_fingerings = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(:fingering_status => params[:fingering][:fingering_status])
+
+    if (@same_fingerings != []) 
+      if (@same_fingerings[0][:approved] == false)
+        msg = 'has already been entered and is currently pending approval.'
+      else
+        msg = 'already exists (please see fingering ID #' + @same_fingerings[0][:id].to_s + ').'
+      end
+      redirect_to fingerings_url, :notice => 'The ' + @same_fingerings[0].pretty_notes + ' fingering you just entered was not submitted because it ' + msg and return
+    end
+
     @fingering = Fingering.create!(params[:fingering])
     @fingering.votes_beginner     = 0
     @fingering.votes_intermediate = 0
@@ -74,15 +85,22 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_advanced     = 0
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
+    
     if(!current_user.isAdmin)
         @fingering.approved  = false
     else
-	@fingering.approved = true
+	      @fingering.approved = true
     end
+    
     @fingering.score = 0
 
     if @fingering.save
-      redirect_to fingerings_url, :notice => 'Fingering was successfully created.'
+      if (!current_user.isAdmin)
+        msg = 'submitted for approval.'
+      else
+        msg = 'created.'
+      end
+      redirect_to fingerings_url, :notice => 'Fingering was successfully ' + msg
     else
       render action: "new"
     end
