@@ -44,6 +44,9 @@ class Fingering < ActiveRecord::Base
   end
 
   def send_fingering_submitted
-    FingeringMailer.fingering_submitted_email(self).deliver 
+    @admins = User.where(admin: true);
+    @admins.each do |admin|
+      FingeringMailer.fingering_submitted_email(self, admin).deliver 
+    end
   end
 end

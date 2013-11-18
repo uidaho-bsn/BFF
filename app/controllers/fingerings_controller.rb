@@ -97,10 +97,10 @@ class FingeringsController < ApplicationController
     if @fingering.save
       if (!current_user.isAdmin)
         msg = 'submitted for approval.'
+        @fingering.send_fingering_submitted #send email to admins if regular user submits a new fingering
       else
         msg = 'created.'
       end
-      @fingering.send_fingering_submitted #send email to admins (new fingering submitted which needs approval)
       redirect_to fingerings_url, :notice => 'Fingering was successfully ' + msg
     else
       render action: "new"
@@ -116,12 +116,18 @@ class FingeringsController < ApplicationController
   def update
     @fingering = Fingering.find(params[:id])
 
-    if(!current_user.isAdmin) #TODO notify admin if fingering is edited
-	@fingering.approved = false
+    if(!current_user.isAdmin)
+	    @fingering.approved = false
+      @fingering.send_fingering_submitted
     end
 
     if @fingering.update_attributes(params[:fingering])
-      redirect_to @fingering, :notice => 'Fingering was successfully updated.'
+      if !current_user.isAdmin
+        msg = 'Fingering was successfully updated, and has been resubmitted for approval.'
+      else
+        msg = 'Fingering was successfully updated.'
+      end
+      redirect_to @fingering, :notice => msg
     else
       render action: "edit"
     end

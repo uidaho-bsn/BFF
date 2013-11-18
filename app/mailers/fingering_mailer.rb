@@ -7,15 +7,9 @@ default :from => "from@example.com"
   #   en.user_mailer.password_reset.subject
   #
 
-  def fingering_submitted_email(fingering)
+  def fingering_submitted_email(fingering, admin)
     @fingering = fingering
-    @admins = User.where(admin: true);
-    debugger
-    @admins.each do |admin|
-      @fingering = fingering
-      @admin = admin
-      mail(:to => admin.email, :subject => "Fingering Submitted for Approval", :from  => 'bassoonfingeringfinder@gmail.com')  
-    end
+    mail(:to => admin.email, :subject => "Fingering Submitted for Approval", :from  => 'bassoonfingeringfinder@gmail.com') 
   end
 
 end
