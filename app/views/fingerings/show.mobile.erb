@@ -30,11 +30,13 @@
 			<table>
 				<tr>
 					<th align="left">
-						<% if @fingering.approved %>
-							Fingering has been approved.
-						<% else %>
-							Fingering has not been approved.
-						<% end %>
+						<% if current_user.isAdmin %>
+							<% if @fingerings.first.approved %>
+								Fingering has been approved.
+							<% else %>
+								Fingering has not been approved.
+							<% end %>
+						<% end %>					
 					</th>
 					
 					<th></th>

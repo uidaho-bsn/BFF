@@ -17,8 +17,8 @@
 
 <% content_for :page_subtitle do %>
 	<% if notice != nil %>
-	        <font color="red"><%= notice %></font>
-	<% elsif  @fingerings != nil  %>
+        <font color="red"><%= notice %></font>
+	<% elsif  @fingerings != nil %>
 		Fingering ID #<%= @fingerings.first.id %>
 	<% end %>
 <% end %>
@@ -40,11 +40,8 @@
 	<br />
 	<% if @fingerings != nil %>
 <div class="apple_pagination">
-  <% if @fingerings != nil %>
 	<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next"%> 
-
-	<% end %>
-  <% end %>
+  	<% end %>
 	<br>
 	<%= link_to 'Search More Fingerings', search_fingerings_path %>
 	<% if @fingerings == nil %>
@@ -56,11 +53,13 @@
 				<table class="fingering-info">
 				<tr>
 					<th align="left">
+					<% if current_user.isAdmin %>
 						<% if @fingerings.first.approved %>
 							Fingering has been approved.
 						<% else %>
 							Fingering has not been approved.
 						<% end %>
+					<% end %>
 					</th>
 					
 					<th></th>
@@ -146,7 +145,7 @@
 				<%= submit_tag "Back", :id => "submit" %>
 			<% end %>
 		
-			<% if current_user.isAdmin or current_user.login == @fingering.user_name %>
+			<% if current_user.isAdmin or current_user.login == @fingerings.first.user_name %>
 				<%= form_tag({:action => "edit", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
 					<%= submit_tag "Edit", :id => "submit" %>
 				<% end %>
