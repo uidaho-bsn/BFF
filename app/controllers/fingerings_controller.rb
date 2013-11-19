@@ -33,7 +33,7 @@ class FingeringsController < ApplicationController
    if(!current_user.isAdmin)
       @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true)#.order('show_first DESC').order('keytype DESC') 
    else
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('show_first DESC').order('keytype DESC') 
+        @Results = Fingering.where(:note_tone => params[:fingering][:note_tone])#.order('show_first DESC').order('keytype DESC')
    end
 #debugger
       if @Results != []
