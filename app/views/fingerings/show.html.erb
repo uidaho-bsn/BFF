@@ -16,11 +16,11 @@
 <% end %>
 
 <% content_for :page_subtitle do %>
-	<% if notice != nil || @fingerings == nil %>
-	        <font color="red"><%= notice %></font>
+	<% if notice != nil %>
+		<p><font color="red"><%= notice %></font></p>
 	<% else %>
-		Fingering ID #<%= @fingerings.first.id %>
-	<% end %>
+		Entered on: <%= @fingering.created_at %> by <%= @fingering.user_name %>
+	<% end %>	
 <% end %>
 
 <% content_for :content do %>

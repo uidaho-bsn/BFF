@@ -1,6 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::Search Results</title>
-	<% if notice == nil %>
+	<% if @fingerings != nil %>
 		<%= javascript_include_tag :Fingerings %>
 		<script>
 			var fingering_id = "<%= @fingerings.first.fingering_status %>";
@@ -10,6 +10,10 @@
 <% end %>
 
 <% content_for :content do %>
+	<% if notice != nil %>
+		<p><font color="red"><%= notice %></font></p>
+	<% end %>
+
 	<% if @fingerings != nil %>
 		<center>
 		<canvas id="show_fingering" width="500" height="600">
@@ -21,14 +25,12 @@
 	        	<a href="www.google.com/chrome">Chrome</a> </p>
 		</canvas>
 		</center>
-	<% elsif notice != nil %>
-		<font color="red"><%= notice %></font>
 	<% end %>
 
 
 	<br />
 	
-	<% if notice == nil %>
+	<% if @fingerings != nil %>
 		<div class="apple_pagination">
 			<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next" %> 
 	<% end %>

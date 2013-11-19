@@ -27,7 +27,7 @@ td
 	white-space: -pre-wrap;                  /* Opera 4-6 */
 	white-space: -o-pre-wrap;                /* Opera 7 */
 	white-space: -moz-pre-wrap;              /* Mozilla */
-	/*white-space: -hp-pre-wrap;               /* HP Printers */*/
+	/*white-space: -hp-pre-wrap;               /* HP Printers */
 	white-space: -moz-pre-wrap !important;   /* Mozilla*/
 	word-wrap: break-word;                   /* IE 5+ */
 	/*word-break: break-all;*/
