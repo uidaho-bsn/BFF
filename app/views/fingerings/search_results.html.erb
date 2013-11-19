@@ -79,16 +79,6 @@
 				<% end %>
 				
 				<tr>
-					<td>Entered on</td>
-					<td align="center"><%= @fingerings.first.created_at %></td>
-				</tr>
-				
-				<tr>
-					<td>Entered by</td>
-					<td align="center"><%= @fingerings.first.user_name %></td>
-				</tr>
-				
-				<tr>
 					<td>Fingering Type</td>
 					<td align="center"><%= @fingerings.first.keytype.titleize %></td>
 				</tr>
@@ -101,6 +91,11 @@
 				<tr>
 					<td>Downvotes (Beginner|Intermediate|Advanced|Professional)</td>
 					<td align="center"><%= @fingerings.first.dvotes_beginner %>|<%= @fingerings.first.dvotes_intermediate %>|<%= @fingerings.first.dvotes_advanced %>|<%= @fingerings.first.dvotes_professional %></td>
+				</tr>
+				
+				<tr>
+					<td>Entered by</td>
+					<td align="center"><%= @fingerings.first.user_name %></td>
 				</tr>
 				
 				<tr>
