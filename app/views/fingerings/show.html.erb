@@ -1,15 +1,18 @@
 <% content_for :head do %>
-	<title>BFF::Fingering ID #<%= @fingering.id %></title>
-	<%= javascript_include_tag :Fingerings %>
-	<%= javascript_include_tag :Tabs %>
-	<script>
-		var fingering_id = "<%= @fingering_status %>";
-		var note_tone_id = "<%= @note_tone %>";
-	</script>
+	<title>BFF::Search Fingering</title>
+	<% if notice == nil && @fingerings != nil%>
+		<%= javascript_include_tag :Fingerings %>
+			<script>
+				var fingering_id = "<%= @fingerings.first.fingering_status %>";
+				var note_tone_id = "<%= @fingerings.first.note_tone %>";
+			</script>
+	<% end %>
+	
 <% end %>
 
+
 <% content_for :page_title do %>
-	Fingering ID #<%= @fingering.id %>
+	Search Results: 
 <% end %>
 
 <% content_for :page_subtitle do %>
@@ -21,28 +24,39 @@
 <% end %>
 
 <% content_for :content do %>
-	<div id="tabs">
-		<ul class="tabs">
-			<li><a href="#tabs-1" class=""><span>Show Fingering</span></a></li>
-			<li><a href="#tabs-2" class=""><span>Show Help</span></a></li>
-		</ul>
-		
-		<div id="tabs-1" class="panes">
-			<canvas id="show_fingering" width="500" height="600">
-		    	<p>Unfortunately, your browser is currently unsupported by our web 
-		        	application. We are sorry for the inconvenience. Please use one of the 
-		        	supported browsers listed below. </p>
-		        <p>Supported browsers: 
-		        	<a href="http://www.mozilla.com">Firefox</a> <br />
-		        	<a href="www.google.com/chrome">Chrome</a> </p>
-			</canvas>
-			
-			<br />
-				
-			<table class="fingering-info">
+	<center>
+	<% if @fingerings != nil %>
+	<canvas id="show_fingering" width="500" height="600">
+    	<p>Unfortunately, your browser is currently unsupported by our web 
+        	application. We are sorry for the inconvenience. Please use one of the 
+        	supported browsers listed below. </p>
+        <p>Supported browsers: 
+        	<a href="http://www.mozilla.com">Firefox</a> <br />
+        	<a href="www.google.com/chrome">Chrome</a> </p>
+	</canvas>
+	<% end %>
+	</center>
+	</div>
+	<br />
+	<% if notice == nil %>
+<div class="apple_pagination">
+  <% if @fingerings != nil %>
+	<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next"%> 
+
+	<% end %>
+  <% end %>
+	<br>
+	<%= link_to 'Search More Fingerings', search_fingerings_path %>
+	<% if @fingerings == nil %>
+		<br>
+		<%= link_to 'Add a Fingering', new_fingering_path %>
+	<% end %>
+</div>
+				<% if @fingerings != nil and @fingerings.first != nil %>
+				<table class="fingering-info">
 				<tr>
 					<th align="left">
-						<% if @fingering.approved %>
+						<% if @fingerings.first.approved %>
 							Fingering has been approved.
 						<% else %>
 							Fingering has not been approved.
@@ -55,56 +69,47 @@
 				<% if current_user.isAdmin %>
 					<tr>
 						<td>Keys String</td>
-						<td align="center"><%= @fingering_status %></td>
+						<td align="center"><%= @fingerings.first.fingering_status %></td>
 					</tr>
 					
 					<tr>
 						<td>Notes String</td>
-						<td align="center"><%= @note_tone %></td>
+						<td align="center"><%= @fingerings.first.note_tone %></td>
 					</tr>
 				<% end %>
 				
 				<tr>
-					<td>Entered on</td>
-					<td align="center"><%= @fingering.created_at %></td>
-				</tr>
-				
-				<tr>
-					<td>Entered by</td>
-					<td align="center"><%= @fingering.user_name %></td>
-				</tr>
-				
-				<tr>
 					<td>Fingering Type</td>
-					<td align="center"><%= @fingering.keytype.titleize %></td>
+					<td align="center"><%= @fingerings.first.keytype.titleize %></td>
 				</tr>
 				
 				<tr>
 					<td>Upvotes (Beginner|Intermediate|Advanced|Professional)</td>
-					<td align="center"><%= @fingering.votes_beginner %>|<%= @fingering.votes_intermediate %>|<%= @fingering.votes_advanced %>|<%= @fingering.votes_professional %></td>
+					<td align="center"><%= @fingerings.first.votes_beginner %>|<%= @fingerings.first.votes_intermediate %>|<%= @fingerings.first.votes_advanced %>|<%= @fingerings.first.votes_professional %></td>
 				</tr>
 				
 				<tr>
 					<td>Downvotes (Beginner|Intermediate|Advanced|Professional)</td>
-					<td align="center"><%= @fingering.dvotes_beginner %>|<%= @fingering.dvotes_intermediate %>|<%= @fingering.dvotes_advanced %>|<%= @fingering.dvotes_professional %></td>
+					<td align="center"><%= @fingerings.first.dvotes_beginner %>|<%= @fingerings.first.dvotes_intermediate %>|<%= @fingerings.first.dvotes_advanced %>|<%= @fingerings.first.dvotes_professional %></td>
+				</tr>
+				
+				<tr>
+					<td>Entered by</td>
+					<td align="center"><%= @fingerings.first.user_name %></td>
 				</tr>
 				
 				<tr>
 					<td>Fingering Source</td>
-					<td align="center"><%= @fingering.source %></td>
+					<td align="center"><%= @fingerings.first.source %></td>
 				</tr>
 				
 				<tr>
 					<td>Fingering Comment</td>
-					<td style="display: table-cell">
-						<%= @fingering.comments %>
-					</td>
-					<td>
+					<td align="center"><%= @fingerings.first.comments %></td>
 				</tr>
 				
 				<tr><th></th><th></th></tr>
 			</table>
-			
 			<% if current_user.isAdmin %>
 				<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 					<% if @fingering.approved %>
@@ -159,9 +164,6 @@
 				<% end %>
 			<% end %>		
 		</div>
-		
-		<div id="tabs-2"  class="panes">
-			<%= render "help" %>
-		</div>
-	</div>
+		<% end %>
 <% end %>
+
