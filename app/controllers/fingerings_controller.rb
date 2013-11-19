@@ -31,15 +31,12 @@ class FingeringsController < ApplicationController
   
   def search_results
    if(!current_user.isAdmin)
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true)#.order('show_first DESC').order('keytype DESC') 
+      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).order('keytype DESC')
    else
-        @Results = Fingering.where(:note_tone => params[:fingering][:note_tone])#.order('show_first DESC').order('keytype DESC')
+        @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('keytype DESC')
    end
-#debugger
       if @Results != []
-        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1)#, :order => 'score DESC')
-#	debugger
-	puts "hi"
+        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1), :order => 'keytype DESC')
       else
         flash[:notice] = "No fingerings match the requested note(s)."
       end    
