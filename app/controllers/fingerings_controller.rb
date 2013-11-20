@@ -4,9 +4,9 @@ class FingeringsController < ApplicationController
   
   def index
     if(!current_user.isAdmin)
-	@fingerings = Fingering.where(approved: true).sort_by(&:created_at) # only show approved fingerings to non-admin
+	@fingerings = Fingering.where(approved: true).sort_by(&:note_tone) # only show approved fingerings to non-admin
     else
-        @fingerings = Fingering.all.sort_by(&:created_at)
+        @fingerings = Fingering.all.sort_by(&:note_tone)
     end
     respond_to do |format|
       format.html { }
@@ -36,7 +36,7 @@ class FingeringsController < ApplicationController
         @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('keytype DESC')
    end
       if @Results != []
-        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1), :order => 'keytype DESC')
+        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1).order('keytype DESC')
       else
         flash[:notice] = "No fingerings match the requested note(s)."
       end    

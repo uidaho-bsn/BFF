@@ -11,37 +11,37 @@
 		<p><font color="red"><%= notice %></font></p>
 	<% end %>
 	
-	<table>
-		<tr>
-			<th>ID</th>
-			<th>Note(s)</th>
-			<th>Upvotes(B|I|A|P)</th>
-			<th>Downvotes(B|I|A|P)</th>
-			<th>User</th>
-			<th>Date/Time</th>
-		</tr>
-		<% postNotice = 0 %>
-		<% @fingerings.each do |fingering| %>
-			<tr class="<% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %>">
-			    <td><%= fingering.id %></td>
-			    <td><%= link_to fingering.pretty_notes, fingering %></td>
-			    <td align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></td>
-				<td align="center"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></td>
+	<div class="table">
+		<div class="row header">
+			<div class="column heading id">ID</div>
+			<div class="column heading">Note(s)</div>
+			<div class="column heading vote">Upvotes(B|I|A|P)</div>
+			<div class="column heading vote">Downvotes(B|I|A|P)</div>
+			<div class="column heading">User</div>
+			<div class="column heading">Date/Time</div>
+		</div>
+		<% 	postNotice = 0 %>
+		<% @fingerings.each do |fingering| %> 
+			<div class="<% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> row">
+			    <div class="column"><%= fingering.id %></div>
+			    <div class="column"><%= link_to fingering.pretty_notes, fingering %></div>
+			     <div class="column vote"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></div>
+				 <div class="column vote"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></div>
 		    	<% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
-		    		<td align="center"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></td>
+		    		 <div class="column"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></div>
 		    	<% else %>
-	    			<td align="center"><%= fingering.user_name %></td>
+	    			 <div class="column"><%= fingering.user_name %></div>
 		    	<% end %>
-			    <td align="center"><%= fingering.created_at %></td>
-			</tr>
+			     <div class="column"><%= l fingering.created_at, :format => :long %></div>
+			</div>
 		<% end %>
+		</tr>
 		<% if(postNotice == 1) %> 
 		   <script type="text/javascript">
 		     $('span.subtitle').append("<span style='color:red;font-size:120%;'>There are fingerings which need approval (marked by red bars)</span>");
 		   </script>
 		<% end %>
-		<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
-	</table>
+	</div>
 	
 	<%= form_tag({:action => "new", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
 		<%= submit_tag "New", :id => "submit" %>
