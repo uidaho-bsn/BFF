@@ -2,7 +2,7 @@
  * @author Max Stillwell
  */
 
-function Fingerings_Canvas(keys_string, note_tone, type) {
+function Fingerings_Canvas(keys_string, note_tone, type, showLegend) {
 	/* Private Variables */
 	var fingering_chart1; var fingering_chart2; var fingering_chart3;
 	var note_chart = new Array(3);
@@ -11,6 +11,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	var help_hover = false; var help_show = false;
 	var add_hover  = false; var remove_hover = false;
 	var debug_show = false;
+	var show_legend = showLegend;
 	/* Public Functions */
 	this.Update   = Update;
 	this.ToString = ToString;
@@ -81,11 +82,16 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 		
 		ctx.fillStyle = "black";
 		ctx.font = "12pt Calibri";
-		
-		if(number_of_fingerings < 2 && type != "show") { draw_add(); };
-		if(number_of_fingerings > 1 && type != "show") { draw_remove(); };
-		
-		draw_help();
+
+		if(number_of_fingerings < 2 && type != "show") {
+			draw_add();
+		};
+		if(number_of_fingerings > 1 && type != "show") {
+			draw_remove();
+		};
+		if(show_legend) {
+			draw_help();
+		};
 	};
 	
 	function clear() {
@@ -121,7 +127,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 				ctx.shadowOffsetY = 1.5;
 			}*/
 			
-			ctx.fillText("Remove Note from Fingering", 8, canvas.height - 3);
+			ctx.fillText("Remove Note from Fingering", 8, canvas.height - 5);
 		ctx.restore();
 	};
 	
@@ -138,8 +144,13 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 				ctx.shadowOffsetX = 1.5;
 				ctx.shadowOffsetY = 1.5;
 			}*/
-			
-			ctx.fillText("Legend", 8, canvas.height - 40);
+			if (help_show) {
+				text = "To Fingering";
+			}
+			else {
+				text = "To Legend";
+			}
+			ctx.fillText(text, 8, canvas.height - 40);
 		ctx.restore();
 	};
 	/* End Draw Functions */
@@ -161,12 +172,18 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 	
 	function update_mouse() {
 		help_hover = add_hover = remove_hover = false;
-		
-		if((mouse_X > 3 && mouse_X < 50) && (mouse_Y < (canvas.height - 35) && mouse_Y > (canvas.height - 55))) { help_hover = true; };
+	
+		if(show_legend && (mouse_X > 3 && mouse_X < 90) && (mouse_Y < (canvas.height - 35) && mouse_Y > (canvas.height - 55))) {
+			help_hover = true;
+		};
 
-		if((mouse_X > 3 && mouse_X < 125) && (mouse_Y < (canvas.height - 15) && mouse_Y > (canvas.height - 35))) { add_hover = true; };
+		if(type != "show" && number_of_fingerings < 2 && (mouse_X > 3 && mouse_X < 150) && (mouse_Y < (canvas.height - 15) && mouse_Y > (canvas.height - 35))) {
+			add_hover = true;
+		};
 		
-		if((mouse_X > 3 && mouse_X < 100) && (mouse_Y < (canvas.height - 5) && mouse_Y > (canvas.height - 15)))  { remove_hover = true; };
+		if(type != "show" && number_of_fingerings > 1 && (mouse_X > 3 && mouse_X < 200) && (mouse_Y < (canvas.height - 5) && mouse_Y > (canvas.height - 15)))  {
+			remove_hover = true;
+		};
 		
 		if(!isMobile()){
 			if(help_hover       && pointer == '')     { pointer = 'help'; }
@@ -217,7 +234,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 			update_mouse();
 		};	
 
-		if(help_hover) { 
+		if(help_hover) {
 			debug_show = !debug_show;
 			help_show  = !help_show;
 			
@@ -276,7 +293,7 @@ function Fingerings_Canvas(keys_string, note_tone, type) {
 		mouse_Y = e.pageY - (m_canvas.offsetTop  + m_canvas.offsetParent.offsetTop);
 		
 		if(!isMobile()) {
-			if(pointer && !isMobile()) { document.body.style.cursor = 'pointer'; }
+			if(pointer) { document.body.style.cursor = 'pointer'; }
 			else        { document.body.style.cursor = 'default'; };
 		};
 	};
