@@ -1,6 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::Search Fingering</title>
-	<% if notice == nil && @fingerings != nil%>
+	<% if @fingerings != nil%>
 		<%= javascript_include_tag :Fingerings %>
 			<script>
 				var fingering_id = "<%= @fingerings.first.fingering_status %>";
@@ -17,9 +17,9 @@
 
 <% content_for :page_subtitle do %>
 	<% if notice != nil %>
-		<p><font color="red"><%= notice %></font></p>
-	<% else %>
-		Entered on: <%= @fingering.created_at %> by <%= @fingering.user_name %>
+		<font color="red"><%= notice %></font>
+	<% elsif  @fingerings != nil %>
+		Fingering ID #<%= @fingerings.first.id %>
 	<% end %>	
 <% end %>
 
@@ -38,12 +38,9 @@
 	</center>
 	</div>
 	<br />
-	<% if notice == nil %>
 <div class="apple_pagination">
   <% if @fingerings != nil %>
 	<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next"%> 
-
-	<% end %>
   <% end %>
 	<br>
 	<%= link_to 'Search More Fingerings', search_fingerings_path %>
@@ -56,10 +53,12 @@
 				<table class="fingering-info">
 				<tr>
 					<th align="left">
-						<% if @fingerings.first.approved %>
-							Fingering has been approved.
-						<% else %>
-							Fingering has not been approved.
+						<% if current_user.isAdmin %>
+							<% if @fingerings.first.approved %>
+								Fingering has been approved.
+							<% else %>
+								Fingering has not been approved.
+							<% end %>
 						<% end %>
 					</th>
 					
