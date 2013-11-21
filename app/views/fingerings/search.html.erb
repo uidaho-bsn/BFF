@@ -7,10 +7,6 @@
 	Search for a fingering:
 <% end %>
 
-<% content_for :page_subtitle do %>
-	This is a work in progress!
-<% end %>
-
 <% content_for :content do %>
 	<canvas id="search_by_note" width="500" height="200">
     	<p>Unfortunately, your browser is currently unsupported by our web 
@@ -25,7 +21,7 @@
 	<%= form_tag({:action => 'search_results', :controller => "fingerings"}, {:method => "post", :id => "form", :style => "display:inline;"}) do %>
 		<%= hidden_field "fingering", "note_tone" %>
 		
-		<%= submit_tag "Submit", :id => "submit", :onclick => "fingering_note_tone.value = fingerings_canvas.ToString();" %>
+		<%= submit_tag "Search", :id => "submit", :onclick => "fingering_note_tone.value = fingerings_canvas.ToString();" %>
 	<% end %>
 	
 	<%= form_tag({:action => 'index', :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>

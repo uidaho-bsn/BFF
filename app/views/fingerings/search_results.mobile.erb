@@ -1,6 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::Search Results</title>
-	<% if notice == nil %>
+	<% if @fingerings != nil %>
 		<%= javascript_include_tag :Fingerings %>
 		<script>
 			var fingering_id = "<%= @fingerings.first.fingering_status %>";
@@ -10,7 +10,12 @@
 <% end %>
 
 <% content_for :content do %>
-	<center>
+	<% if notice != nil %>
+		<p><font color="red"><%= notice %></font></p>
+	<% end %>
+
+	<% if @fingerings != nil %>
+		<center>
 		<canvas id="show_fingering" width="500" height="600">
 	    	<p>Unfortunately, your browser is currently unsupported by our web 
 	        	application. We are sorry for the inconvenience. Please use one of the 
@@ -19,16 +24,23 @@
 	        	<a href="http://www.mozilla.com">Firefox</a> <br />
 	        	<a href="www.google.com/chrome">Chrome</a> </p>
 		</canvas>
-	</center>
+		</center>
+	<% end %>
+
+
 	<br />
 	
-	<% if notice == nil %>
+	<% if @fingerings != nil %>
 		<div class="apple_pagination">
 			<%= will_paginate @fingerings, :params => params, :previous_label => "Previous", :next_label => "Next" %> 
 	<% end %>
 			<br />
 	
 			<%= link_to 'Search More Fingerings', search_fingerings_path %>
+			<% if @fingerings == nil %>
+				<br>
+				<%= link_to 'Add a Fingering', new_fingering_path %>
+			<% end %>
 		</div>
 <% end %>
 

@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name='TAB' content="Fill me in!" />
+		<%= javascript_include_tag "application" %>
 		<%= stylesheet_link_tag 'application', :media => 'all' %>
 		<%= yield :head %>
 	    <!--[if lt IE 9]>
@@ -13,7 +14,7 @@
 
 	<body>
 		<div id="header">
-			<%= image_tag "other/logo.png", :alt => "Bassoon Fingering Finder"%>
+			<%= link_to image_tag("other/logo.png"), root_url, :alt => "Bassoon Fingering Finder" %>
 			<%= render "layouts/login" %>
 		</div>
 		<div id="menu">
