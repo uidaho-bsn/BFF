@@ -1,5 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::Fingerings</title>
+	<%= javascript_include_tag "application" %>
 <% end %>
 
 <% content_for :page_title do %>
@@ -11,29 +12,31 @@
 		<p><font color="red"><%= notice %></font></p>
 	<% end %>
 	
-	<div class="table">
-		<div class="row header">
-			<div class="column heading id">ID</div>
-			<div class="column heading">Note(s)</div>
-			<div class="column heading vote">Upvotes(B|I|A|P)</div>
-			<div class="column heading vote">Downvotes(B|I|A|P)</div>
-			<div class="column heading">User</div>
-			<div class="column heading">Date/Time</div>
-		</div>
+	<table id="allfingerings">
+		<thead>
+			<tr class="heading">
+				<th data-sort="int">ID</th>
+				<th data-sort="notename">Note(s)</th>
+				<th>Upvotes(B|I|A|P)</th>
+				<th>Downvotes(B|I|A|P)</th>
+				<th data-sort="string">User</th>
+				<th>Date/Time</th>
+			</tr>
+		</thead>
 		<% 	postNotice = 0 %>
 		<% @fingerings.each do |fingering| %> 
-			<div class="<% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> row">
-			    <div class="column"><%= fingering.id %></div>
-			    <div class="column"><%= link_to fingering.pretty_notes, fingering %></div>
-			     <div class="column vote"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></div>
-				 <div class="column vote"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></div>
+			<tr class="<% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child">
+			    <td><%= fingering.id %></td>
+			    <td><%= link_to fingering.pretty_notes, fingering %></td>
+			    <td align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></td>
+				<td align="center"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></td>
 		    	<% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
-		    		 <div class="column"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></div>
+		    		<td align="center"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></td>
 		    	<% else %>
-	    			 <div class="column"><%= fingering.user_name %></div>
+	    			<td align="center"><%= fingering.user_name %></td>
 		    	<% end %>
-			     <div class="column"><%= l fingering.created_at, :format => :long %></div>
-			</div>
+			    <td align="center"><%= l fingering.created_at, :format => :long %></td>
+			</tr>
 		<% end %>
 		</tr>
 		<% if(postNotice == 1) %> 
@@ -41,7 +44,98 @@
 		     $('span.subtitle').append("<span style='color:red;font-size:120%;'>There are fingerings which need approval (marked by red bars)</span>");
 		   </script>
 		<% end %>
-	</div>
+	</table>
+	
+	<script type="text/javascript">
+		var moveChildren;
+		$(document).ready(function() {
+			var table = $("#allfingerings").stupidtable({
+			    "notename":function(a,b){
+					if(a.substring(0,1) == '♭')	
+			    		aEnd = 1;
+			    	else if(a.substring(0,1) == '♮')
+			    		aEnd = 2;
+			    	else if(a.substring(0,1) == '♯')
+						aEnd = 3;
+					if(b.substring(0,1) == '♭')	
+			    		bEnd = 1;
+			    	else if(b.substring(0,1) == '♮')
+			    		bEnd = 2;
+			    	else if(b.substring(0,1) == '♯')
+						bEnd = 3;
+
+			       if(a.substring(2) > b.substring(2)) // compare octave 
+						return 1;
+			       else if (a.substring(2) < b.substring(2)) 
+			       		return -1;
+			        // are equal octave
+			       if(a.substring(1,2) > b.substring(1,2))// check note name
+			       		return 1;
+			       else if(a.substring(1,2) < b.substring(1,2))
+			       		return -1;
+			       // same note name
+			       if(aEnd > bEnd) //check accidental
+			       		return 1;
+			       else
+			       		return -1;
+			}
+			});
+			$('tr.heading th:nth-child(2)').click(); // sort by note name
+			var ntoNat = function(n) {
+				if(n == '♭')
+					return 'b';
+				else if(n == '♮')
+					return 'n';
+				else if(n == '♯')
+					return 's';
+			}
+			// traverse table here and make wrapper divs for hiding
+			$counter = 0;
+			$('tbody tr').each(function() {
+				$thisString = $(this).children('td:nth-child(2)').children('a').html();
+				$origString = $thisString;
+				$thisString = ntoNat($thisString.substr(0,1)) + $thisString.substr(1,2)
+				if($('.type-' + $thisString).length < 1) { // create a parent
+					if($('.parent').length < 1) {
+						$('<tr id="parent-' + $thisString + '" str="'+ $thisString +'" class="parent"><td colspan="6">' + $origString + '</td></tr>').insertBefore('tr.child:first-of-type');						
+					} else {
+						$('<tr id="parent-' +$thisString + '" str="'+ $thisString +'" class="parent"><td colspan="6">' + $origString + '</td></tr>').insertAfter(this);
+						console.log($thisString);
+					}
+				}
+				$(this).addClass('type-' + $thisString);
+				$(this).attr('str', $thisString);
+				$(this).attr('id', 'child-' + $thisString);
+			});
+			$('tr.parent').each(function() {
+				if($('.type-' + $(this).attr('str')).hasClass('unapproved'))
+					$(this).addClass('unapproved');
+			});
+			moveChildren = function() {
+				$str = $(this).attr('str');
+				if($('.child.type-' + $str + '.moved').length < 1) {
+					$(this).insertAfter('#parent-' + $str);
+				} else {
+					$(this).insertAfter('.child.type-' + $str + '.moved:last-of-type');					
+				}
+				$(this).addClass('moved');
+			}
+			$('tr.parent').click(function() {
+				if(!$(this).hasClass('visible')) {
+					$('tr').removeClass('visible'); // only display one at a time
+					$('.type-' + $(this).attr('str')).addClass('visible');
+					$(this).addClass('visible');					
+				} else {
+					$(this).removeClass('visible');
+					$('.type-' + $(this).attr('str')).removeClass('visible');
+				}
+			});
+			$(window).load(function() {
+				$('.child').each(moveChildren);
+			});
+		});
+		
+	</script>
 	
 	<%= form_tag({:action => "new", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
 		<%= submit_tag "New", :id => "submit" %>

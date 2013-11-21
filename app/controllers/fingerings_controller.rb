@@ -41,7 +41,7 @@ class FingeringsController < ApplicationController
       @fingerings = @Results.paginate(:page => params[:page], :per_page => 1).order('keytype DESC')
     else
       flash[:notice] = "No fingerings match the requested note(s)."
-    end    
+    end
   end
 
   def show

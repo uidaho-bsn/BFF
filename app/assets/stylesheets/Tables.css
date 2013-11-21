@@ -7,14 +7,15 @@ table
 	margin-bottom:28px;
 	width:100%;
 }
-div.table {border-bottom:10px solid #000;width:80%}
+div.table {border-bottom:10px solid #000;width:80%;}
 div.column {display:inline-block;padding:10px;text-align:center;min-width:80px;}
 div.column:last-of-type {min-width:130px;text-align:center;}
 div.column:first-of-type {min-width:40px;}
 div.row {border-left:4px solid transparent;border-bottom:1px solid #000;}
 div.vote {min-width:120px;}
 div.header {background-color:#000; color:#FFF;}
-th 
+div.table a:hover {color:#000 !important;}
+tr.heading th
 {
 	border-top:5px solid #555555;
 	color: #ffffff;
@@ -39,11 +40,16 @@ td
 	/*word-break: break-all;*/
 }
 
+/*td.fake {border-bottom:0;width:100%;display:block;}*/
+tr.child {display:none;}
+tr.child.visible {display:table-row;}
+tr.parent, tr.parent td {text-align:left;}
+
 td, th { border-bottom: 1px solid #1f1f1f;}
 td {text-align:center;}
 
 tr {width:auto;}
-div.unapproved {border-left:4px solid red;background-color:rgba(255, 0, 0, .1);}
+tr.unapproved {border-left:4px solid red;background-color:rgba(255, 0, 0, .1);}
 
 table.fingering-info td:first-of-type {text-align:left;}
 tablw.fingering-info td:last-of-type {text-align:center;}
