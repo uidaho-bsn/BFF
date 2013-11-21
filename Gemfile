@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby "2.0.0"
 
 # Rails
-gem 'rails'
+gem 'rails', '>= 3.2'
 gem 'thin'
 
 gem 'jquery-rails'
