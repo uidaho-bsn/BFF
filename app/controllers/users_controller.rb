@@ -35,7 +35,7 @@ class UsersController < ApplicationController
           exception = "Invalid email"
         end
        
-         if exception
+        if exception
           redirect_to root_url, :notice => "The email you entered doesn't seem to be a real email. You can change your email in the User Profile."
         else
           redirect_to root_url, :notice => "Registration Successful"
@@ -65,12 +65,12 @@ class UsersController < ApplicationController
   def forgot_password
     if request.post?
       usr = User.find_by_email(params[:user][:email])
-      usr.send_new_password if usr
       
-      if ActionMailer::Base.deliveries.empty? 
-        flash[:notice] = "Email was not found. Are you sure you entered your correct email?"
-      else
+      if usr
+      	usr.send_new_password 
         redirect_to root_url, :notice => "A new password has been sent to your email."
+      else
+        flash.now[:notice] = "Email was not found. Are you sure you entered your correct email?"
       end
     end
   end
@@ -164,15 +164,15 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     
     respond_to do |format|
-      if @user == current_user 
-        @user.logout
+      if @user == current_user
+  	    session[:user] = nil
         @user.destroy
-        
-        format.html { redirect_to root_url }
+
+        redirect_to root_url, :notice => "User \"" + @user.login + "\" Deleted" and return
       else
         @user.destroy
-        
-        format.html { redirect_to root_url }
+
+        redirect_to root_url + "users/" , :notice => "User \"" + @user.login + "\" Deleted" and return
       end
     end
   end

@@ -84,9 +84,10 @@
 #form #submit,
 #login-form #submit
 {
-	width: 76px;
+	min-width: 76px;
+	width:auto;
 	margin: 5px 0px;
-	padding: 5px 0px;
+	padding: 5px 10px;
 	color: #f1f1f1;
 	
 	background: #515558;

@@ -30,10 +30,12 @@
 				<table>
 					<tr><th></th><th></th></tr>
 					
+					<% if current_user.isAdmin %>
 					<tr>
 						<td><label for="fingering_type">Fingering Type</label></td>
 						<td align="center"><%= select 'fingering', 'keytype', [['Standard', 'standard'], ['Alternate', 'alternate']]%></td>
 					</tr>
+					<% end %>
 					
 					<tr>
 						<td><label for="fingering_source">Fingering Source</label></td>

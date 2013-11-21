@@ -49,7 +49,13 @@ $(document).ready(function() {
 		if(typeof note_tone_id != 'undefined') { var note_tone = note_tone_id; }
 		else                                   { var note_tone = '1:f3_natural'; };
 		
-		fingerings_canvas = new Fingerings_Canvas(keys_string, note_tone, type);
+		if (document.getElementById('search_by_note')) {
+			show_legend = false;
+		}
+		else {
+			show_legend = true;
+		}
+		fingerings_canvas = new Fingerings_Canvas(keys_string, note_tone, type, show_legend);
 	}
 	else {
 		alert("Error: Could not get canvas context!");

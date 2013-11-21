@@ -3,8 +3,11 @@ class FingeringsController < ApplicationController
   before_filter :require_admin, :only => [:destroy]
   
   def index
-    @fingerings = Fingering.all.sort_by(&:created_at)
-
+    if(!current_user.isAdmin)
+	@fingerings = Fingering.where(approved: true).sort_by(&:created_at) # only show approved fingerings to non-admin
+    else
+        @fingerings = Fingering.all.sort_by(&:created_at)
+    end
     respond_to do |format|
       format.html { }
       if current_user.isAdmin
@@ -27,20 +30,37 @@ class FingeringsController < ApplicationController
   end
   
   def search_results
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('score DESC') 
-      debugger
-      if @Results != []
-        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1)#, :order => 'score DESC')
-      else
-        flash[:notice] = "No fingerings match that note(s)."
-      end
-    
+    if(!current_user.isAdmin)
+      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).order('keytype DESC')
+    else
+      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('keytype DESC')
+    end
+
+    if @Results != []
+      @fingerings = @Results.paginate(:page => params[:page], :per_page => 1).order('keytype DESC')
+    else
+      flash[:notice] = "No fingerings match the requested note(s)."
+    end    
   end
+
   def show
     @fingering        = Fingering.find(params[:id])
     @fingering_status = @fingering.fingering_status
     @note_tone        = @fingering.note_tone
-    
+
+    params[:fingering] = @fingering
+    params[:fingering]["note_tone"] = @note_tone
+    params[:fingering]["show_first"] = true
+
+    Fingering.update_all(:show_first => false)
+    Fingering.update(params[:id], :show_first => true)
+
+    if(!current_user.isAdmin)
+         @fingerings = Fingering.where(:note_tone => @note_tone).where(approved:true).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
+   else
+         @fingerings = Fingering.where(:note_tone => @note_tone).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
+   end
+
     respond_to do |format|
       format.html { }
       if current_user.isAdmin
@@ -54,6 +74,21 @@ class FingeringsController < ApplicationController
   end
 
   def create
+    if !current_user.isAdmin #non admins can no longer specify if a fingering they entered is standard/alaternate, force it to always be alternate
+      params[:fingering]["keytype"] = 'alternate'
+    end
+
+    @same_fingerings = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(:fingering_status => params[:fingering][:fingering_status])
+
+    if (@same_fingerings != []) 
+      if (@same_fingerings[0][:approved] == false)
+        msg = 'has already been entered and is currently pending approval.'
+      else
+        msg = 'already exists (please see fingering ID #' + @same_fingerings[0][:id].to_s + ').'
+      end
+      redirect_to fingerings_url, :notice => 'The ' + @same_fingerings[0].pretty_notes + ' fingering you just entered was not submitted because it ' + msg and return
+    end
+
     @fingering = Fingering.create!(params[:fingering])
     @fingering.votes_beginner     = 0
     @fingering.votes_intermediate = 0
@@ -64,11 +99,23 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_advanced     = 0
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
-    @fingering.approved  = false
+    
+    if(!current_user.isAdmin)
+        @fingering.approved  = false
+    else
+	      @fingering.approved = true
+    end
+    
     @fingering.score = 0
 
     if @fingering.save
-      redirect_to fingerings_url, :notice => 'Fingering was successfully created.'
+      if (!current_user.isAdmin)
+        msg = 'submitted for approval.'
+        @fingering.send_fingering_submitted #send email to admins if regular user submits a new fingering
+      else
+        msg = 'created.'
+      end
+      redirect_to fingerings_url, :notice => 'Fingering was successfully ' + msg
     else
       render action: "new"
     end
@@ -83,8 +130,18 @@ class FingeringsController < ApplicationController
   def update
     @fingering = Fingering.find(params[:id])
 
+    if(!current_user.isAdmin)
+	    @fingering.approved = false
+      @fingering.send_fingering_submitted
+    end
+
     if @fingering.update_attributes(params[:fingering])
-      redirect_to @fingering, :notice => 'Fingering was successfully updated.'
+      if !current_user.isAdmin
+        msg = 'Fingering was successfully updated, and has been resubmitted for approval.'
+      else
+        msg = 'Fingering was successfully updated.'
+      end
+      redirect_to @fingering, :notice => msg
     else
       render action: "edit"
     end
@@ -172,7 +229,6 @@ class FingeringsController < ApplicationController
         cookies[:votes] = @fingering.id.to_s()
         cookies[:votes_user] = current_user.login
       end
-      debugger
       @fingering.score = self.rating # re-rate the fingering every time it is liked or disliked
       @fingering.save
       redirect_to @fingering, :notice => "Fingering was liked."
