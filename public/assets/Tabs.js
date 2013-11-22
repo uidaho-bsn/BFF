@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#tabs div").hide(),$("#tabs div:first").show(),$("#tabs ul li:first").addClass("active"),$("#tabs ul li a").click(function(){$("#tabs ul li").removeClass("active"),$(this).parent().addClass("active");var e=$(this).attr("href");return $("#tabs div").hide(),$(e).show(),!1})});
