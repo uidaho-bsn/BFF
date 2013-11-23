@@ -57,9 +57,9 @@ class FingeringsController < ApplicationController
 
     if(!current_user.isAdmin)
          @fingerings = Fingering.where(:note_tone => @note_tone).where(approved:true).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
-   else
+    else
          @fingerings = Fingering.where(:note_tone => @note_tone).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
-   end
+    end
 
     respond_to do |format|
       format.html { }
@@ -151,7 +151,7 @@ class FingeringsController < ApplicationController
     @fingering = Fingering.find(params[:id])
     @fingering.destroy
 
-    redirect_to fingerings_url
+    redirect_to fingerings_url, :notice =>"Fingering (ID #" + params[:id].to_s + ") deleted."
   end
   
   def approve
