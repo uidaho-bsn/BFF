@@ -9,6 +9,8 @@
 
 body.home .tabs { padding: 0px 30px; }
 
+#tabs-2 {text-align:left;}
+
 ul.tabs li 
 { 
 	display: block;

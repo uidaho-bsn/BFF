@@ -16,22 +16,23 @@
 			<li><a href="#tabs-2" class=""><span>Show Help</span></a></li>
 		</ul>
 		
-		<div id="tabs-1" class="panes">
-			<canvas id="new_fingering" width="500" height="600">
-		    	<p>Unfortunately, your browser is currently unsupported by our web 
-		        	application. We are sorry for the inconvenience. Please use one of the 
-		        	supported browsers listed below. </p>
-		        <p>Supported browsers: 
-		        	<a href="http://www.mozilla.com">Firefox</a> <br />
-		        	<a href="www.google.com/chrome">Chrome</a> </p>
-			</canvas>
+		<div id="tabs-1" class="panes" style="text-align:center;">
+			  <canvas id="new_fingering" width="500" height="600">
+		    	    <p>Unfortunately, your browser is currently unsupported by our web 
+		              application. We are sorry for the inconvenience. Please use one of the 
+		              supported browsers listed below. </p>
+		            <p>Supported browsers: 
+		              <a href="http://www.mozilla.com">Firefox</a> <br />
+		              <a href="www.google.com/chrome">Chrome</a> </p>
+			  </canvas>
+
 		
 			<br /><br />
 			<%= form_tag({:action => 'create', :controller => "fingerings"}, {:method => "post", :id => "form", :style => "display:inline;"}) do %>
 				<%= hidden_field "fingering", "fingering_status" %>
 				<%= hidden_field "fingering", "note_tone" %>
 				
-				<table>
+				<table id="new-fingering-info">
 					<tr><th></th><th></th></tr>
 					
 					<% if current_user.isAdmin %>
@@ -51,7 +52,6 @@
 						<td align="center"><%= text_area 'fingering', 'comments', :size => "33x5" %></td>
 					</tr>
 				</table>
-				
 				<%= submit_tag "Submit", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
 			<% end %>
 			
