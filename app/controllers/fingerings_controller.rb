@@ -30,17 +30,29 @@ class FingeringsController < ApplicationController
   end
   
   def search_results
-    if(!current_user.isAdmin)
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).order('keytype DESC')
-    else
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('keytype DESC')
-    end
+    if (params != nil && params[:fingering] != nil && params[:fingering][:keytype] != nil)
+      if (params[:fingering][:keytype] == "standard" || params[:fingering][:keytype] == "alternate")
+        if(!current_user.isAdmin)
+          @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).where(keytype: params[:fingering][:keytype]).order('keytype DESC')
+        else
+          @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(keytype: params[:fingering][:keytype]).order('keytype DESC')
+        end
+      elsif #(params[:fingering][:keytype] == "standard/alternate" or some other case)
+        if(!current_user.isAdmin)
+          @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).order('keytype DESC')
+        else
+          @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('keytype DESC')
+        end
+      end
 
-    if @Results != []
-      @fingerings = @Results.paginate(:page => params[:page], :per_page => 1).order('keytype DESC')
+      if @Results != []
+        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1).order('keytype DESC')
+      else
+        flash[:notice] = "No fingerings match the requested note(s)."
+      end
     else
-      flash[:notice] = "No fingerings match the requested note(s)."
-    end    
+      flash[:notice] = "An error occured (likely while switching between the mobile and full site). Try refreshing or going back and re-entering the search parameters."
+    end  
   end
 
   def show
@@ -57,9 +69,9 @@ class FingeringsController < ApplicationController
 
     if(!current_user.isAdmin)
          @fingerings = Fingering.where(:note_tone => @note_tone).where(approved:true).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
-   else
+    else
          @fingerings = Fingering.where(:note_tone => @note_tone).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
-   end
+    end
 
     respond_to do |format|
       format.html { }
@@ -151,7 +163,7 @@ class FingeringsController < ApplicationController
     @fingering = Fingering.find(params[:id])
     @fingering.destroy
 
-    redirect_to fingerings_url
+    redirect_to fingerings_url, :notice =>"Fingering (ID #" + params[:id].to_s + ") deleted."
   end
   
   def approve
