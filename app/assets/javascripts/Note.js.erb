@@ -168,7 +168,7 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 	};
 
 	function draw_curr_note () {
-		var pos_x = (noteToPos() > 11)?75 - (10 * (noteToPos() - 11)):75 + (10 * noteToPos());
+		var pos_x = 75;
 		var pos_y = (noteToPos() > 11)?l6 + (2.5 * (noteToPos() - 11)):l6 - (2.5 * noteToPos());
 		
 		if(c_clef) { 
@@ -258,7 +258,7 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 		ctx.strokeStyle = "red";
 		
 		for(i = 0; i < 15; i++) {
-			var pos_x = (i > 11)?75 - (10 * (i - 11)):75 + (10 * i);
+			var pos_x = 75;
 			var pos_y = (i > 11)?l6 + (2.5 * (i - 11)):l6 - (2.5 * i);
 			
 			if(c_clef) { 
