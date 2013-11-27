@@ -8,6 +8,26 @@ class FingeringsController < ApplicationController
     else
         @fingerings = Fingering.all.sort_by(&:note_tone)
     end
+
+# uncomment the following lines to update the database (split note_tone into separate columns)
+#    @allFingerings = Fingering.all.sort_by(&:note_tone)
+#    @allFingerings.each do |f|
+#       @origString = f.note_tone
+#       @accidental = @origString.split('_')[1]
+#       @octave = @origString[3]
+#       @note_name = @origString[2]
+#       if @accidental == "flat"
+#         f.accidental = 1
+#       elsif @accidental == "natural"
+#         f.accidental = 2
+#       else
+#         f.accidental = 3
+#       end
+#       f.octave = @octave
+#       f.note_name = @note_name
+#       f.save
+#    end
+
     respond_to do |format|
       format.html { }
       if current_user.isAdmin
@@ -109,6 +129,20 @@ class FingeringsController < ApplicationController
     
     @fingering.score = 0
 
+    @origString = @fingering.note_tone
+    @accidental = @origString.split('_')[1]
+    @octave = @origString[3]
+    @note_name = @origString[2]
+    if @accidental == "flat"
+      @fingering.accidental = 1
+    elsif @accidental == "natural"
+      @fingering.accidental = 2
+    else
+      @fingering.accidental = 3
+    end
+    @fingering.octave = @octave
+    @fingering.note_name = @note_name
+
     if @fingering.save
       if (!current_user.isAdmin)
         msg = 'submitted for approval.'
@@ -135,6 +169,22 @@ class FingeringsController < ApplicationController
 	    @fingering.approved = false
       @fingering.send_fingering_submitted
     end
+
+    @origString = @fingering.note_tone
+    @accidental = @origString.split('_')[1]
+    @octave = @origString[3]
+    @note_name = @origString[2]
+    if @accidental == "flat"
+      @fingering.accidental = 1
+    elsif @accidental == "natural"
+      @fingering.accidental = 2
+    else
+      @fingering.accidental = 3
+    end
+    @fingering.octave = @octave
+    @fingering.note_name = @note_name
+
+    debugger
 
     if @fingering.update_attributes(params[:fingering])
       if !current_user.isAdmin

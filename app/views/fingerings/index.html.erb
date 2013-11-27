@@ -1,6 +1,7 @@
 <% content_for :head do %>
 	<title>BFF::Fingerings</title>
 	<%= javascript_include_tag "application" %>
+	<%= javascript_include_tag "stupidtable.min.js" %>
 <% end %>
 
 <% content_for :page_title do %>
@@ -94,13 +95,12 @@
 			$('tbody tr').each(function() {
 				$thisString = $(this).children('td:nth-child(2)').children('a').html();
 				$origString = $thisString;
-				$thisString = ntoNat($thisString.substr(0,1)) + $thisString.substr(1,2)
+				$thisString = ntoNat($thisString.substr(0,1)) + $thisString.substr(1,2);
 				if($('.type-' + $thisString).length < 1) { // create a parent
 					if($('.parent').length < 1) {
 						$('<tr id="parent-' + $thisString + '" str="'+ $thisString +'" class="parent"><td colspan="6">' + $origString + '</td></tr>').insertBefore('tr.child:first-of-type');						
 					} else {
 						$('<tr id="parent-' +$thisString + '" str="'+ $thisString +'" class="parent"><td colspan="6">' + $origString + '</td></tr>').insertAfter(this);
-						console.log($thisString);
 					}
 				}
 				$(this).addClass('type-' + $thisString);
@@ -116,7 +116,7 @@
 				if($('.child.type-' + $str + '.moved').length < 1) {
 					$(this).insertAfter('#parent-' + $str);
 				} else {
-					$(this).insertAfter('.child.type-' + $str + '.moved:last-of-type');					
+					$(this).insertAfter('.child.type-' + $str + '.moved:last-of-type');
 				}
 				$(this).addClass('moved');
 			}
