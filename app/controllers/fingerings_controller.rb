@@ -160,6 +160,9 @@ class FingeringsController < ApplicationController
     @fingering        = Fingering.find(params[:id])
     @fingering_status = @fingering.fingering_status
     @note_tone        = @fingering.note_tone
+    @octave = @fingering.octave
+    @note_name = @fingering.note_name
+    @accidental = @fingering.accidental
   end
 
   def update
@@ -169,22 +172,6 @@ class FingeringsController < ApplicationController
 	    @fingering.approved = false
       @fingering.send_fingering_submitted
     end
-
-    @origString = @fingering.note_tone
-    @accidental = @origString.split('_')[1]
-    @octave = @origString[3]
-    @note_name = @origString[2]
-    if @accidental == "flat"
-      @fingering.accidental = 1
-    elsif @accidental == "natural"
-      @fingering.accidental = 2
-    else
-      @fingering.accidental = 3
-    end
-    @fingering.octave = @octave
-    @fingering.note_name = @note_name
-
-    debugger
 
     if @fingering.update_attributes(params[:fingering])
       if !current_user.isAdmin
