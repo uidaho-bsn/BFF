@@ -1,7 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::Fingerings</title>
 	<%= javascript_include_tag "application" %>
-	<%= javascript_include_tag "stupidtable.min.js" %>
 <% end %>
 
 <% content_for :page_title do %>
@@ -13,39 +12,37 @@
 		<p><font color="red"><%= notice %></font></p>
 	<% end %>
 	
-	<table id="allfingerings">
-		<thead>
-			<tr class="heading">
-				<th>ID</th>
-				<th>Note(s)</th>
-				<th>Upvotes(B|I|A|P)</th>
-				<th>Downvotes(B|I|A|P)</th>
-				<th data-sort="string">User</th>
-				<th>Date/Time</th>
-			</tr>
-		</thead>
+	<div class="table">
+			<div class="row header">
+				<div class="column">ID</div>
+				<div class="column">Note(s)</div>
+				<div class="column">Upvotes(B|I|A|P)</div>
+				<div class="column">Downvotes(B|I|A|P)</div>
+				<div class="column">User</div>
+				<div>Date/Time</div>
+			</div>
 		<% 	postNotice = 0 %>
 		<% @fingerings.each do |fingering| %> 
-			<tr class="<% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child">
-			    <td><%= fingering.id %></td>
-			    <td><%= link_to fingering.pretty_notes, fingering %></td>
-			    <td align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></td>
-				<td align="center"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></td>
-		    	<% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
-		    		<td align="center"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></td>
-		    	<% else %>
-	    			<td align="center"><%= fingering.user_name %></td>
-		    	<% end %>
-			    <td align="center"><%= l fingering.created_at, :format => :long %></td>
-			</tr>
+			<div class="row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child">
+			    <div class="column"><%= fingering.id %></div>
+			    <div class="column"><%= link_to fingering.pretty_notes, fingering %></div>
+			    <div class="column vote" align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></div>
+			    <div class="column vote" align="center"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></div>
+		    	    <% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
+		    	    <div class="column" align="center"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></div>
+		    	    <% else %>
+	    		    <div class="column" align="center"><%= fingering.user_name %></div>
+		    	    <% end %>
+			    <div class="column" align="center"><%= l fingering.created_at, :format => :long %></div>
+			</div>
 		<% end %>
-		</tr>
+		
 		<% if(postNotice == 1) %> 
 		   <script type="text/javascript">
 		     $('span.subtitle').append("<span style='color:red;font-size:120%;'>There are fingerings which need approval (marked by red bars)</span>");
 		   </script>
 		<% end %>
-	</table>
+	</div>
 	
 <!--
 			$('tbody tr').each(function() {
