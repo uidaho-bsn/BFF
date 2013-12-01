@@ -16,8 +16,8 @@
 	<table id="allfingerings">
 		<thead>
 			<tr class="heading">
-				<th data-sort="int">ID</th>
-				<th data-sort="notename">Note(s)</th>
+				<th>ID</th>
+				<th>Note(s)</th>
 				<th>Upvotes(B|I|A|P)</th>
 				<th>Downvotes(B|I|A|P)</th>
 				<th data-sort="string">User</th>
@@ -47,51 +47,7 @@
 		<% end %>
 	</table>
 	
-	<script type="text/javascript">
-		var moveChildren;
-		$(document).ready(function() {
-			var table = $("#allfingerings").stupidtable({
-			    "notename":function(a,b){
-					if(a.substring(0,1) == '♭')	
-			    		aEnd = 1;
-			    	else if(a.substring(0,1) == '♮')
-			    		aEnd = 2;
-			    	else if(a.substring(0,1) == '♯')
-						aEnd = 3;
-					if(b.substring(0,1) == '♭')	
-			    		bEnd = 1;
-			    	else if(b.substring(0,1) == '♮')
-			    		bEnd = 2;
-			    	else if(b.substring(0,1) == '♯')
-						bEnd = 3;
-
-			       if(a.substring(2) > b.substring(2)) // compare octave 
-						return 1;
-			       else if (a.substring(2) < b.substring(2)) 
-			       		return -1;
-			        // are equal octave
-			       if(a.substring(1,2) > b.substring(1,2))// check note name
-			       		return 1;
-			       else if(a.substring(1,2) < b.substring(1,2))
-			       		return -1;
-			       // same note name
-			       if(aEnd > bEnd) //check accidental
-			       		return 1;
-			       else
-			       		return -1;
-			}
-			});
-			$('tr.heading th:nth-child(2)').click(); // sort by note name
-			var ntoNat = function(n) {
-				if(n == '♭')
-					return 'b';
-				else if(n == '♮')
-					return 'n';
-				else if(n == '♯')
-					return 's';
-			}
-			// traverse table here and make wrapper divs for hiding
-			$counter = 0;
+<!--
 			$('tbody tr').each(function() {
 				$thisString = $(this).children('td:nth-child(2)').children('a').html();
 				$origString = $thisString;
@@ -135,7 +91,7 @@
 			});
 		});
 		
-	</script>
+	</script> -->
 	
 	<%= form_tag({:action => "new", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
 		<%= submit_tag "New", :id => "submit" %>

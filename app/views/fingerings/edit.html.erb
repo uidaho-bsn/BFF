@@ -64,7 +64,7 @@
 					</tr>
 				</table>
 				
-				<%= submit_tag "Save", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\"); fingering_octave.value = fingerings_canvas.ToString(\"note_tones\")[3]; fingering_note_name.value = fingerings_canvas.ToString(\"note_tones\")[2]; var acc = fingerings_canvas.ToString(\"note_tones\").split('_')[1];
+				<%= submit_tag "Save", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\"); fingering_octave.value = fingerings_canvas.ToString(\"note_tones\")[3]; fingering_note_name.value = fingerings_canvas.ToString(\"note_tones\")[2]; var acc = fingerings_canvas.ToString(\"note_tones\").split('_')[1]; acc = acc.split(',')[0];
 				if(acc == 'flat') {fingering_accidental.value = 1;} else if(acc == 'natural') {fingering_accidental.value = 2;} else {fingering_accidental.value = 3;} console.log(fingering_accidental.value);"  %>
 			<% end %>
 			

@@ -4,9 +4,9 @@ class FingeringsController < ApplicationController
   
   def index
     if(!current_user.isAdmin)
-	@fingerings = Fingering.where(approved: true).sort_by(&:note_tone) # only show approved fingerings to non-admin
+	@fingerings = Fingering.where(approved: true).order('octave ASC, note_name ASC, accidental ASC') # only show approved fingerings to non-admin
     else
-        @fingerings = Fingering.all.sort_by(&:note_tone)
+        @fingerings = Fingering.order('octave ASC, note_name ASC, accidental ASC')
     end
 
 # uncomment the following lines to update the database (split note_tone into separate columns)
@@ -14,6 +14,7 @@ class FingeringsController < ApplicationController
 #    @allFingerings.each do |f|
 #       @origString = f.note_tone
 #       @accidental = @origString.split('_')[1]
+#    	@accidental = @accidental.split(',')[0] # only look at first note if multiple
 #       @octave = @origString[3]
 #       @note_name = @origString[2]
 #       if @accidental == "flat"
@@ -131,6 +132,7 @@ class FingeringsController < ApplicationController
 
     @origString = @fingering.note_tone
     @accidental = @origString.split('_')[1]
+    @accidental = @accidental.split(',')[0] # only look at first note if multiple
     @octave = @origString[3]
     @note_name = @origString[2]
     if @accidental == "flat"
@@ -142,6 +144,8 @@ class FingeringsController < ApplicationController
     end
     @fingering.octave = @octave
     @fingering.note_name = @note_name
+
+    debugger
 
     if @fingering.save
       if (!current_user.isAdmin)
