@@ -7,14 +7,9 @@
 				<font color="#bac0c9">Login</font>
 			<% end %>
 			<br />
-		  	<%= text_field "user", "login", :value => "Username", 
-		  		:onfocus => "if(user_login.value == \"Username\"){ user_login.value = ''; }", 
-		  		:onblur  => "if(user_login.value == '') { user_login.value = \"Username\"; }" %>
+		  	<%= text_field "user", "login", :placeholder => "Username" %>
 		  	<br />
-		  	<%= password_field "user", "password", :value => "password", 
-		  		:onfocus => "if(user_password.value == \"password\"){ user_password.value = ''; }", 
-		  		:onblur  => "if(user_password.value == '') { user_password.value = \"password\"; }" %>
-			
+		  	<%= password_field "user", "password", :placeholder => "Password" %>
 			<%= submit_tag "Login", :id => "submit" %>		
 			<br />
 			<%= link_to 'Register', root_url + 'users/register' %> | <%= link_to 'Forgot Password', root_url + 'users/forgot_password' %>

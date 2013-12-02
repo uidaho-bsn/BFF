@@ -45,11 +45,13 @@ tr.child {display:none;}
 tr.child.visible {display:table-row;}
 tr.parent, tr.parent td {text-align:left;}
 
-td, th { border-bottom: 1px solid #1f1f1f;}
+td, th { border-bottom: 1px solid #1f1f1f; text-align:center;}
 td {text-align:center;}
+
+#new-fingering-info, #new-fingering-info tr, #new-fingering-info td, #new-fingering-info label, #new-fingering-info input, #new-fingering-info textarea {text-align:left;}
 
 tr {width:auto;}
 div.unapproved {border-left:4px solid red;background-color:rgba(255, 0, 0, .1);}
 
 table.fingering-info td:first-of-type {text-align:left;}
-tablw.fingering-info td:last-of-type {text-align:center;}
+table.fingering-info td:last-of-type {text-align:center;}

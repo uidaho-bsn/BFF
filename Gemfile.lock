@@ -132,7 +132,7 @@ DEPENDENCIES
   jquery-mobile-rails
   jquery-rails
   pg
-  rails
+  rails (>= 3.2)
   sass-rails
   sqlite3
   therubyracer

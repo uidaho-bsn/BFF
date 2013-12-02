@@ -16,6 +16,8 @@
 	
 	<%= form_tag({:action => 'search_results', :controller => "fingerings"}, {:method => "post", :style => "display:inline;"}) do %>
 		<%= hidden_field "fingering", "note_tone" %>
+
+		<p>Search for Fingerings of Type: <%= select 'fingering', 'keytype', [['Standard/Alternate', 'standard/alternate'], ['Standard Only', 'standard'], ['Alternate Only', 'alternate']] %></p>
 		
 		<%= submit_tag "Search", :id => "submit", :onclick => "fingering_note_tone.value = fingerings_canvas.ToString();" %>
 	<% end %>

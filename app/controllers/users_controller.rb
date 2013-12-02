@@ -27,7 +27,6 @@ class UsersController < ApplicationController
         else
           @user.admin = false
         end
-        
         session[:user] = User.authenticate(@user.login, @user.password)
         begin
           @user.send_welcome # welcome email
@@ -107,17 +106,34 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(params[:id])
-    
+
+    #if user is editing their own account, then require password authentication (else admin is one editing account)
     if current_user == @user
-      @user.password = params[:user][:password]
+      #make sure password provided is the current_user's password
+      if (User.encrypt(params[:user][:password], current_user.salt) == current_user.hashed_password)
+        #check to see if new password given, if so update password
+        if (params[:user][:new_password].strip != "")
+          if (!@user.update_attribute(:password, params[:user][:new_password]))
+            redirect_to edit_user_path(@user), :notice => "Profile Update Failed: Couldn't Reset Password" and return
+          else
+            password_reset = true;
+          end
+        end
+      else
+        redirect_to edit_user_path(@user), :notice => "Profile Update Failed: Incorrect Password" and return
+      end
     end
 
     if @user.update_attribute(:email, params[:user][:email]) and @user.update_attribute(:skill, params[:user][:skill]) and 
       @user.update_attribute(:time_zone, params[:user][:time_zone])
-        redirect_to @user, :notice => "Profile Updated."
+      if password_reset
+        redirect_to @user, :notice => "Password Reset and Profile Updated" and return 
+      else
+        redirect_to @user, :notice => "Profile Updated" and return 
+      end
     else
-      redirect_to edit_user_path(@user), :notice => "Updated Failed"
-    end
+      redirect_to edit_user_path(@user), :notice => "Profile Update Failed" and return
+    end  
   end
 
   def check_email

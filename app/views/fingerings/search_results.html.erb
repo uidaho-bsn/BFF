@@ -52,7 +52,8 @@
 				<% if @fingerings != nil and @fingerings.first != nil %>
 				<table class="fingering-info">
 				<tr class="heading">
-					<th align="left">
+					<th align="left" style="text-align:left;">
+
 					<% if current_user.isAdmin %>
 						<% if @fingerings.first.approved %>
 							Fingering has been approved.
@@ -109,12 +110,19 @@
 				
 				<tr><th></th><th></th></tr>
 			</table>
+
 			<% if current_user.isAdmin %>
-				<%= form_tag({:action => "approve", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
-					<% if @fingerings.first.approved %>
-						<%= submit_tag "Unapprove", :id => "submit" %>
-					<% else %>
+				<% if !@fingerings.first.approved %>
+					<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 						<%= submit_tag "Approve", :id => "submit" %>
+					<% end %>
+				<% end %>
+
+				<%= form_tag({:action => "destroy", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
+					<% if @fingerings.first.approved %>
+						<%= submit_tag "Unapprove", :id => "submit", :confirm => "This action is permanent and cannot be undone. Are you sure you want to unapprove this fingering and delete it?" %>
+					<% else %>
+						<%= submit_tag "Disapprove", :id => "submit", :confirm => "This action is permanent and cannot be undone. Are you sure you want to disapprove this fingering and delete it?" %>
 					<% end %>
 				<% end %>
 			<% end %>
@@ -159,7 +167,7 @@
 			
 			<% if current_user.isAdmin %>
 				<%= form_tag({:action => "destroy", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
-					<%= submit_tag "Delete", :id => "submit", :confirm => "Are you sure?" %>
+					<%= submit_tag "Delete", :id => "submit", :confirm => "This action is permanent and cannot be undone.  Are you sure you want to delete this fingering?" %>
 				<% end %>
 			<% end %>				
 		</div>
