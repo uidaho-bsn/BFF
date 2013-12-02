@@ -11,84 +11,107 @@
 	<% if notice != nil %>
 		<p><font color="red"><%= notice %></font></p>
 	<% end %>
+
+	<style type="text/css">
+	  div.table {border-bottom:10px solid #000;width:80%;}
+	  div.column {display:inline-block;padding:10px;text-align:center;min-width:80px;}
+	  div.column:last-of-type {min-width:130px;text-align:center;}
+	  div.column:nth-child(2) {min-width:20px;}
+	  div.row {border-left:4px solid transparent;}
+	  div.vote {min-width:120px;}
+	  div.notes, div.wrapper div.notes {min-width:0;width:80px;text-align:left;margin-left:4px;}
+	  div.header {background-color:#000; color:#FFF;}
+	  div.table a:hover {color:#000 !important;}
+	  div.unapproved {border-left:4px solid red;background-color:rgba(255, 0, 0, .1);}
+	  div.parent.selected.unapproved {border-left-color:#000;background-color:transparent;}
+	  div.keytype.selected.unapproved {border-left-color:transparent;background-color:transparent;}
+	  div.child {display:none;border-top:1px dotted #000;}
+	  div.parent.selected div.keytype.selected div.child, div.parent.selected div.keytype {display:block;}
+	  div.parent {border-bottom:1px solid #000;}
+	  div.parent.selected {border-left-color:#000;}
+	  div.parent, div.keytype {background-image:url(<%= asset_path 'navigation/closed_triangle.png' %>);background-repeat:no-repeat;background-position:2px 13px;}
+	  div.parent.selected, div.keytype.selected {background-image:url(<%= asset_path 'navigation/open_triangle.png' %>);}
+	</style>
 	
 	<div class="table">
-			<div class="row header">
-				<div class="column">ID</div>
-				<div class="column">Note(s)</div>
-				<div class="column">Upvotes(B|I|A|P)</div>
-				<div class="column">Downvotes(B|I|A|P)</div>
-				<div class="column">User</div>
-				<div>Date/Time</div>
-			</div>
-		<% 	postNotice = 0 %>
-		<% @fingerings.each do |fingering| %> 
-			<div class="row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child">
-			    <div class="column"><%= fingering.id %></div>
-			    <div class="column"><%= link_to fingering.pretty_notes, fingering %></div>
-			    <div class="column vote" align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></div>
-			    <div class="column vote" align="center"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></div>
-		    	    <% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
-		    	    <div class="column" align="center"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></div>
-		    	    <% else %>
-	    		    <div class="column" align="center"><%= fingering.user_name %></div>
-		    	    <% end %>
-			    <div class="column" align="center"><%= l fingering.created_at, :format => :long %></div>
-			</div>
-		<% end %>
-		
-		<% if(postNotice == 1) %> 
-		   <script type="text/javascript">
-		     $('span.subtitle').append("<span style='color:red;font-size:120%;'>There are fingerings which need approval (marked by red bars)</span>");
-		   </script>
-		<% end %>
+	  <div class="row header">
+	    <div class="column notes">Note(s)</div>
+	    <div class="column">ID</div>
+	    <div class="column">Upvotes(B|I|A|P)</div>
+	    <div class="column">Downvotes(B|I|A|P)</div>
+	    <div class="column">User</div>
+	    <div class="column">Date/Time</div>
+	  </div>
+	  <% 	postNotice = 0
+		currString = ''
+		first = 0
+		firstStandard = 1
+		firstAlternate = 0
+	  %>
+	  <% @fingerings.each do |fingering|
+	     if(fingering.pretty_notes != currString) 
+	     if(first != 0) %>
+	</div></div>
+	<% 
+	   firstStandard = 1
+	   firstAlternate = 0
+	   end %>
+	<div class="parent row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<% end %>"><div class="wrapper"><div class="column notes"><%= fingering.pretty_notes %></div></div>
+	  <% if(firstStandard == 1) %>
+	  <div class="row child keytype"><div class="column">Standard</div>
+	  <% firstStandard = 0
+	     end
+
+	     currString = fingering.pretty_notes
+	     first = 1
+	     end
+	     if(firstAlternate == 0 && fingering.keytype == "alternate") %>
+	  </div><div class="row child keytype"><div class="column">Alternate</div>
+	     <% firstAlternate = 1
+		end %>
+	<div class="row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child">
+	  <div class="column notes"></div>
+	  <div class="column"><%= link_to fingering.id, fingering %></div>
+	  <!--<div class="column"><%= link_to fingering.pretty_notes, fingering %></div>-->
+	  <div class="column vote" align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></div>
+	  <div class="column vote" align="center"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></div>
+	  <% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
+	  <div class="column" align="center"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></div>
+	  <% else %>
+	  <div class="column" align="center"><%= fingering.user_name %></div>
+	  <% end %>
+	  <div class="column" align="center"><%= l fingering.created_at, :format => :long %></div>
 	</div>
-	
-<!--
-			$('tbody tr').each(function() {
-				$thisString = $(this).children('td:nth-child(2)').children('a').html();
-				$origString = $thisString;
-				$thisString = ntoNat($thisString.substr(0,1)) + $thisString.substr(1,2);
-				if($('.type-' + $thisString).length < 1) { // create a parent
-					if($('.parent').length < 1) {
-						$('<tr id="parent-' + $thisString + '" str="'+ $thisString +'" class="parent"><td colspan="6">' + $origString + '</td></tr>').insertBefore('tr.child:first-of-type');						
-					} else {
-						$('<tr id="parent-' +$thisString + '" str="'+ $thisString +'" class="parent"><td colspan="6">' + $origString + '</td></tr>').insertAfter(this);
-					}
-				}
-				$(this).addClass('type-' + $thisString);
-				$(this).attr('str', $thisString);
-				$(this).attr('id', 'child-' + $thisString);
-			});
-			$('tr.parent').each(function() {
-				if($('.type-' + $(this).attr('str')).hasClass('unapproved'))
-					$(this).addClass('unapproved');
-			});
-			moveChildren = function() {
-				$str = $(this).attr('str');
-				if($('.child.type-' + $str + '.moved').length < 1) {
-					$(this).insertAfter('#parent-' + $str);
-				} else {
-					$(this).insertAfter('.child.type-' + $str + '.moved:last-of-type');
-				}
-				$(this).addClass('moved');
-			}
-			$('tr.parent').click(function() {
-				if(!$(this).hasClass('visible')) {
-					$('tr').removeClass('visible'); // only display one at a time
-					$('.type-' + $(this).attr('str')).addClass('visible');
-					$(this).addClass('visible');					
-				} else {
-					$(this).removeClass('visible');
-					$('.type-' + $(this).attr('str')).removeClass('visible');
-				}
-			});
-			$(window).load(function() {
-				$('.child').each(moveChildren);
-			});
-		});
-		
-	</script> -->
+	<% end %>
+	</div>
+	<% if(postNotice == 1) %> 
+	<script type="text/javascript">
+	  $('span.subtitle').append("<span style='color:red;font-size:120%;'>There are fingerings which need approval (marked by red bars)</span>");
+	  $('div.row.parent > div.wrapper').click(function() {
+	  if($(this).parent().hasClass('selected')) {
+	  $(this).parent().removeClass('selected');
+	  $(this).parent().children().removeClass('selected');
+	  } else {
+	  $('div.row.parent').removeClass('selected'); /* This line closes all other open parents when a closed parent is clicked, comment out line to change this behavior and allow for multiple note types open at a time*/
+	  $('div.row.parent div').removeClass('selected');
+	  $(this).parent().addClass('selected');
+	  }
+	  });
+	  $('div.row').each(function() {
+	  if($(this).children().hasClass('unapproved'))
+	  $(this).addClass('unapproved');
+	  });
+	  $('div.row.keytype').click(function(e) {
+	  e.stopPropagation();
+	  if($(this).hasClass('selected')) {
+	  $(this).removeClass('selected');
+	  } else {
+	  $(this).addClass('selected');
+	  }	  
+	  });
+	</script>
+	<% end %>
+</div></div>	
 	
 	<%= form_tag({:action => "new", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
 		<%= submit_tag "New", :id => "submit" %>

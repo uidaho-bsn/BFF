@@ -49,7 +49,7 @@ td, th { border-bottom: 1px solid #1f1f1f;}
 td {text-align:center;}
 
 tr {width:auto;}
-tr.unapproved {border-left:4px solid red;background-color:rgba(255, 0, 0, .1);}
+div.unapproved {border-left:4px solid red;background-color:rgba(255, 0, 0, .1);}
 
 table.fingering-info td:first-of-type {text-align:left;}
 tablw.fingering-info td:last-of-type {text-align:center;}

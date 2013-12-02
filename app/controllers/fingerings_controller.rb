@@ -4,9 +4,9 @@ class FingeringsController < ApplicationController
   
   def index
     if(!current_user.isAdmin)
-	@fingerings = Fingering.where(approved: true).order('octave ASC, note_name ASC, accidental ASC') # only show approved fingerings to non-admin
+	@fingerings = Fingering.where(approved: true).order('octave ASC, note_name ASC, accidental ASC, keytype DESC') # only show approved fingerings to non-admin
     else
-        @fingerings = Fingering.order('octave ASC, note_name ASC, accidental ASC')
+        @fingerings = Fingering.order('octave ASC, note_name ASC, accidental ASC, keytype DESC')
     end
 
 # uncomment the following lines to update the database (split note_tone into separate columns)
@@ -144,8 +144,6 @@ class FingeringsController < ApplicationController
     end
     @fingering.octave = @octave
     @fingering.note_name = @note_name
-
-    debugger
 
     if @fingering.save
       if (!current_user.isAdmin)
