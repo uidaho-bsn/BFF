@@ -36,7 +36,7 @@
 	   firstAlternate = 0
 	   end %>
 	<div class="parent row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<% end %>"><div class="wrapper"><div class="column notes"><%= fingering.pretty_notes %></div><div class="column master-count"><%= link_to "",  { :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "standard/alternate", :note_tone => fingering.note_tone}}} %></div></div>
-	  <% if(firstStandard == 1) %>
+	  <% if(firstStandard == 1 && fingering.keytype == "standard") %>
 	  <div class="row child keytype tab"><div class="column tab">Standard</div><div class="column count"><%= link_to "",  \
 { :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "standard", :note_tone => fingering.note_tone}}} %></div>
 	  <% firstStandard = 0
@@ -45,8 +45,11 @@
 	     currString = fingering.pretty_notes
 	     first = 1
 	     end
-	     if(firstAlternate == 0 && fingering.keytype == "alternate") %>
-	  </div><div class="row child keytype tab"><div class="column tab">Alternate</div><div class="column count"><%= link_to "",  \
+	     if(firstAlternate == 0 && fingering.keytype == "alternate")
+	  if(firstStandard != 1) %>
+	  </div>
+	  <% end %>
+	  <div class="row child keytype tab"><div class="column tab">Alternate</div><div class="column count"><%= link_to "",  \
 { :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "alternate", :note_tone => fingering.note_tone}}} %></div>
 	     <% firstAlternate = 1
 		end %>
