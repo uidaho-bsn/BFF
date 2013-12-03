@@ -84,9 +84,10 @@
 #form #submit,
 #login-form #submit
 {
+	float:left;
 	min-width: 76px;
 	width:auto;
-	margin: 5px 0px;
+	margin: 5px 5px 5px 0;
 	padding: 5px 10px;
 	color: #f1f1f1;
 	
@@ -101,6 +102,8 @@
 	
 	border: 1px solid transparent;
 }
+
+#login-form #submit {float:none;}
 
 #form #submit:hover,
 #login-form #submit:hover

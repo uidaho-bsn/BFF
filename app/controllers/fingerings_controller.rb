@@ -4,10 +4,31 @@ class FingeringsController < ApplicationController
   
   def index
     if(!current_user.isAdmin)
-	@fingerings = Fingering.where(approved: true).sort_by(&:created_at) # only show approved fingerings to non-admin
+	@fingerings = Fingering.where(approved: true).order('octave ASC, note_name ASC, accidental ASC, keytype DESC') # only show approved fingerings to non-admin
     else
-        @fingerings = Fingering.all.sort_by(&:created_at)
+        @fingerings = Fingering.order('octave ASC, note_name ASC, accidental ASC, keytype DESC')
     end
+
+# uncomment the following lines to update the database (split note_tone into separate columns)
+#    @allFingerings = Fingering.all.sort_by(&:note_tone)
+#    @allFingerings.each do |f|
+#       @origString = f.note_tone
+#       @accidental = @origString.split('_')[1]
+#    	@accidental = @accidental.split(',')[0] # only look at first note if multiple
+#       @octave = @origString[3]
+#       @note_name = @origString[2]
+#       if @accidental == "flat"
+#         f.accidental = 1
+#       elsif @accidental == "natural"
+#         f.accidental = 2
+#       else
+#         f.accidental = 3
+#       end
+#       f.octave = @octave
+#       f.note_name = @note_name
+#       f.save
+#    end
+
     respond_to do |format|
       format.html { }
       if current_user.isAdmin
@@ -30,17 +51,29 @@ class FingeringsController < ApplicationController
   end
   
   def search_results
-    if(!current_user.isAdmin)
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).order('keytype DESC')
-    else
-      @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('keytype DESC')
-    end
+    if (params != nil && params[:fingering] != nil && params[:fingering][:keytype] != nil)
+      if (params[:fingering][:keytype] == "standard" || params[:fingering][:keytype] == "alternate")
+        if(!current_user.isAdmin)
+          @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).where(keytype: params[:fingering][:keytype]).order('keytype DESC')
+        else
+          @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(keytype: params[:fingering][:keytype]).order('keytype DESC')
+        end
+      elsif #(params[:fingering][:keytype] == "standard/alternate" or some other case)
+        if(!current_user.isAdmin)
+          @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(approved:true).order('keytype DESC')
+        else
+          @Results = Fingering.where(:note_tone => params[:fingering][:note_tone]).order('keytype DESC')
+        end
+      end
 
-    if @Results != []
-      @fingerings = @Results.paginate(:page => params[:page], :per_page => 1).order('keytype DESC')
+      if @Results != []
+        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1).order('keytype DESC')
+      else
+        flash[:notice] = "No fingerings match the requested note(s)."
+      end
     else
-      flash[:notice] = "No fingerings match the requested note(s)."
-    end    
+      flash[:notice] = "An error occured (likely while switching between the mobile and full site). Try refreshing or going back and re-entering the search parameters."
+    end  
   end
 
   def show
@@ -57,9 +90,9 @@ class FingeringsController < ApplicationController
 
     if(!current_user.isAdmin)
          @fingerings = Fingering.where(:note_tone => @note_tone).where(approved:true).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
-   else
+    else
          @fingerings = Fingering.where(:note_tone => @note_tone).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
-   end
+    end
 
     respond_to do |format|
       format.html { }
@@ -108,6 +141,21 @@ class FingeringsController < ApplicationController
     
     @fingering.score = 0
 
+    @origString = @fingering.note_tone
+    @accidental = @origString.split('_')[1]
+    @accidental = @accidental.split(',')[0] # only look at first note if multiple
+    @octave = @origString[3]
+    @note_name = @origString[2]
+    if @accidental == "flat"
+      @fingering.accidental = 1
+    elsif @accidental == "natural"
+      @fingering.accidental = 2
+    else
+      @fingering.accidental = 3
+    end
+    @fingering.octave = @octave
+    @fingering.note_name = @note_name
+
     if @fingering.save
       if (!current_user.isAdmin)
         msg = 'submitted for approval.'
@@ -125,6 +173,9 @@ class FingeringsController < ApplicationController
     @fingering        = Fingering.find(params[:id])
     @fingering_status = @fingering.fingering_status
     @note_tone        = @fingering.note_tone
+    @octave = @fingering.octave
+    @note_name = @fingering.note_name
+    @accidental = @fingering.accidental
   end
 
   def update
@@ -151,7 +202,7 @@ class FingeringsController < ApplicationController
     @fingering = Fingering.find(params[:id])
     @fingering.destroy
 
-    redirect_to fingerings_url
+    redirect_to fingerings_url, :notice =>"Fingering (ID #" + params[:id].to_s + ") deleted."
   end
   
   def approve
