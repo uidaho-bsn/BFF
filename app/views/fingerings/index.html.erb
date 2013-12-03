@@ -18,7 +18,7 @@
 	    <div class="column">ID</div>
 	    <div class="column vote">Upvotes(B|I|A|P)</div>
 	    <div class="column vote">Downvotes(B|I|A|P)</div>
-	    <div class="column">User</div>
+	    <div class="column user">User</div>
 	    <div class="column">Date/Time</div>
 	  </div>
 	  <% 	postNotice = 0
@@ -65,10 +65,11 @@
 	</div>
 	<% end %>
 	</div>
-	<% if(postNotice == 1) %> 
 	<script type="text/javascript">
+	<% if(postNotice == 1) %> 
 	  $('span.subtitle').append("<span style='color:red;font-size:120%;'>There are fingerings which need approval (marked by red bars)</span>");
-	  $('div.row.parent > div.wrapper').click(function() {
+	<% end %>
+		  $('div.row.parent > div.wrapper').click(function() {
 	  if($(this).parent().hasClass('selected')) {
 	  $(this).parent().removeClass('selected');
 	  $(this).parent().children().removeClass('selected');
@@ -108,7 +109,6 @@
 	  });
 	  });
 	</script>
-	<% end %>
 </div></div>	
 	
 	<%= form_tag({:action => "new", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
