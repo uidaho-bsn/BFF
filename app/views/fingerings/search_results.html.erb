@@ -113,7 +113,7 @@
 
 			<% if current_user.isAdmin %>
 				<% if !@fingerings.first.approved %>
-					<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<%= form_tag({:action => "approve", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 						<%= submit_tag "Approve", :id => "submit" %>
 					<% end %>
 				<% end %>
