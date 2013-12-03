@@ -1,1 +1,0 @@
-function Note_Chart(e,t){function n(){ctx.translate(e,t+20),a()}function a(){o.Update()}function r(){o.OnClick()}function i(){return o.ToString()}var o=new Note("f3","♮",e,t+20,200,"search");this.Update=n,this.OnClick=r,this.ToString=i}

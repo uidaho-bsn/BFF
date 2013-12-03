@@ -14,7 +14,7 @@
 <% end %>
 
 <% content_for :page_subtitle do %>
-	Entered on: <%= @fingering.created_at %> by <%= @fingering.user_name %>
+	Entered on: <%= l @fingering.created_at, :format => :long %> by <%= @fingering.user_name %>
 <% end %>
 
 <% content_for :content do %>
@@ -39,6 +39,9 @@
 			<%= form_tag({:action => 'update', :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 				<%= hidden_field "fingering", "fingering_status" %>
 				<%= hidden_field "fingering", "note_tone" %>
+				<%= hidden_field "fingering", "octave" %>
+				<%= hidden_field "fingering", "note_name" %>
+				<%= hidden_field "fingering", "accidental" %>
 				
 				<table>
 					<tr><th></th><th></th></tr>
@@ -61,7 +64,8 @@
 					</tr>
 				</table>
 				
-				<%= submit_tag "Save", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
+				<%= submit_tag "Save", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\"); fingering_octave.value = fingerings_canvas.ToString(\"note_tones\")[3]; fingering_note_name.value = fingerings_canvas.ToString(\"note_tones\")[2]; var acc = fingerings_canvas.ToString(\"note_tones\").split('_')[1]; acc = acc.split(',')[0];
+				if(acc == 'flat') {fingering_accidental.value = 1;} else if(acc == 'natural') {fingering_accidental.value = 2;} else {fingering_accidental.value = 3;} console.log(fingering_accidental.value);"  %>
 			<% end %>
 			
 			<%= form_tag({:action => "show", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
