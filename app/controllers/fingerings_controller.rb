@@ -10,24 +10,24 @@ class FingeringsController < ApplicationController
     end
 
 # uncomment the following lines to update the database (split note_tone into separate columns)
-#    @allFingerings = Fingering.all.sort_by(&:note_tone)
-#    @allFingerings.each do |f|
-#       @origString = f.note_tone
-#       @accidental = @origString.split('_')[1]
-#    	@accidental = @accidental.split(',')[0] # only look at first note if multiple
-#       @octave = @origString[3]
-#       @note_name = @origString[2]
-#       if @accidental == "flat"
-#         f.accidental = 1
-#       elsif @accidental == "natural"
-#         f.accidental = 2
-#       else
-#         f.accidental = 3
-#       end
-#       f.octave = @octave
-#       f.note_name = @note_name
-#       f.save
-#    end
+    @allFingerings = Fingering.all.sort_by(&:note_tone)
+    @allFingerings.each do |f|
+       @origString = f.note_tone
+       @accidental = @origString.split('_')[1]
+    	@accidental = @accidental.split(',')[0] # only look at first note if multiple
+       @octave = @origString[3]
+       @note_name = @origString[2]
+       if @accidental == "flat"
+         f.accidental = 1
+       elsif @accidental == "natural"
+         f.accidental = 2
+       else
+         f.accidental = 3
+       end
+       f.octave = @octave
+       f.note_name = @note_name
+       f.save
+    end
 
     respond_to do |format|
       format.html { }
