@@ -11,34 +11,13 @@
 	<% if notice != nil %>
 		<p><font color="red"><%= notice %></font></p>
 	<% end %>
-
-	<style type="text/css">
-	  div.table {border-bottom:10px solid #000;width:80%;}
-	  div.column {display:inline-block;padding:10px;text-align:center;min-width:80px;}
-	  div.column:last-of-type {min-width:130px;text-align:center;}
-	  div.column:nth-child(2) {min-width:20px;}
-	  div.row {border-left:4px solid transparent;}
-	  div.vote {min-width:120px;}
-	  div.notes, div.wrapper div.notes {min-width:0;width:80px;text-align:left;margin-left:4px;}
-	  div.header {background-color:#000; color:#FFF;}
-	  div.table a:hover {color:#000 !important;}
-	  div.unapproved {border-left:4px solid red;background-color:rgba(255, 0, 0, .1);}
-	  div.parent.selected.unapproved {border-left-color:#000;background-color:transparent;}
-	  div.keytype.selected.unapproved {border-left-color:transparent;background-color:transparent;}
-	  div.child {display:none;border-top:1px dotted #000;}
-	  div.parent.selected div.keytype.selected div.child, div.parent.selected div.keytype {display:block;}
-	  div.parent {border-bottom:1px solid #000;}
-	  div.parent.selected {border-left-color:#000;}
-	  div.parent, div.keytype {background-image:url(<%= asset_path 'navigation/closed_triangle.png' %>);background-repeat:no-repeat;background-position:2px 13px;}
-	  div.parent.selected, div.keytype.selected {background-image:url(<%= asset_path 'navigation/open_triangle.png' %>);}
-	</style>
 	
 	<div class="table">
 	  <div class="row header">
 	    <div class="column notes">Note(s)</div>
 	    <div class="column">ID</div>
-	    <div class="column">Upvotes(B|I|A|P)</div>
-	    <div class="column">Downvotes(B|I|A|P)</div>
+	    <div class="column vote">Upvotes(B|I|A|P)</div>
+	    <div class="column vote">Downvotes(B|I|A|P)</div>
 	    <div class="column">User</div>
 	    <div class="column">Date/Time</div>
 	  </div>
@@ -56,9 +35,9 @@
 	   firstStandard = 1
 	   firstAlternate = 0
 	   end %>
-	<div class="parent row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<% end %>"><div class="wrapper"><div class="column notes"><%= fingering.pretty_notes %></div></div>
+	<div class="parent row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<% end %>"><div class="wrapper"><div class="column notes"><%= fingering.pretty_notes %></div><div class="column master-count"></div></div>
 	  <% if(firstStandard == 1) %>
-	  <div class="row child keytype"><div class="column">Standard</div>
+	  <div class="row child keytype tab"><div class="column tab">Standard</div><div class="column count"></div>
 	  <% firstStandard = 0
 	     end
 
@@ -66,19 +45,19 @@
 	     first = 1
 	     end
 	     if(firstAlternate == 0 && fingering.keytype == "alternate") %>
-	  </div><div class="row child keytype"><div class="column">Alternate</div>
+	  </div><div class="row child keytype tab"><div class="column tab">Alternate</div><div class="column count"></div>
 	     <% firstAlternate = 1
 		end %>
-	<div class="row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child">
+	<div class="row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child fingering">
 	  <div class="column notes"></div>
 	  <div class="column"><%= link_to fingering.id, fingering %></div>
 	  <!--<div class="column"><%= link_to fingering.pretty_notes, fingering %></div>-->
 	  <div class="column vote" align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></div>
 	  <div class="column vote" align="center"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></div>
 	  <% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
-	  <div class="column" align="center"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></div>
+	  <div class="column user" align="center"><%= link_to fingering.user_name, User.find(:first, :conditions => { :login => fingering.user_name }) %></div>
 	  <% else %>
-	  <div class="column" align="center"><%= fingering.user_name %></div>
+	  <div class="column user" align="center"><%= fingering.user_name %></div>
 	  <% end %>
 	  <div class="column" align="center"><%= l fingering.created_at, :format => :long %></div>
 	</div>
@@ -108,6 +87,23 @@
 	  } else {
 	  $(this).addClass('selected');
 	  }	  
+	  });
+	  $('div.column a').click(function(e) {e.stopPropagation();});
+	  $(document).ready(function() {
+	  $('.parent').each(function() {
+	  $size = $(this).find('.fingering').length;
+	  if($size > 1)
+	  $(this).find('div.master-count').append($size + " fingerings");
+	  else
+	  $(this).find('div.master-count').append($size + " fingering");
+	  });
+	  $('.keytype').each(function() {
+	  $size = $(this).find('.fingering').length;
+	  if($size > 1)
+	  $(this).find('div.count').append($size + " fingerings");
+	  else
+	  $(this).find('div.count').append($size + " fingering");
+	  });
 	  });
 	</script>
 	<% end %>

@@ -103,6 +103,8 @@
 	border: 1px solid transparent;
 }
 
+#login-form #submit {float:none;}
+
 #form #submit:hover,
 #login-form #submit:hover
 {
