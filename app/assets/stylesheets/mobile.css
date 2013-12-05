@@ -11,3 +11,6 @@ body {
   border: none;
   margin-top: 20px;
 }
+
+div.split_fingering {margin-bottom: 20px; text-align:left; display:none;} 
+div.split_fingering input {float:left; width:15px !important;}
