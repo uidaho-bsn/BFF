@@ -114,6 +114,15 @@
 			<% if current_user.isAdmin %>
 				<% if !@fingering.approved %>
 					<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+						<% if current_user.isAdmin && @fingerings.first.fingering_status[0] == "2" %>
+							<div class="split_fingering">
+								<input type="checkbox" name="save_first">Save first (left) note in combination as individual alternate fingering on approval</input>
+								<br>
+								<input type="checkbox" name="save_second"/>Save second (right) note in combination as individual alternate fingering on approval</input>
+								<br>
+							</div>
+						<% end %>
+
 						<%= submit_tag "Approve", :id => "submit" %>
 					<% end %>
 				<% end %>
