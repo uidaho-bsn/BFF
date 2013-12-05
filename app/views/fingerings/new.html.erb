@@ -6,7 +6,7 @@
 <% end %>
 
 <% content_for :page_title do %>
-	Enter a new fingering:
+	Enter a new fingering or fingering combination:
 <% end %>
 
 <% content_for :content do %>
@@ -52,6 +52,16 @@
 						<td align="center"><%= text_area 'fingering', 'comments', :size => "33x5" %></td>
 					</tr>
 				</table>
+
+				<% if current_user.isAdmin %>
+				<div class="split_fingering">
+					<input type="checkbox" name="save_first">Save first (left) note in combination as individual alternate fingering on submission</input>
+					<br>
+					<input type="checkbox" name="save_second"/>Save second (right) note in combination as individual alternate fingering on submission</input>
+					<br>
+				</div>
+				<% end %>
+
 				<%= submit_tag "Submit", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
 			<% end %>
 			
@@ -64,4 +74,15 @@
 			<%= render "help" %>
 		</div>
 	</div>
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('canvas').click(function() {
+			if (fingerings_canvas.ToString('note_tones')[0] == '2')
+				$('.split_fingering').css('display', 'block');
+			else
+				$('.split_fingering').css('display', 'none');
+		});
+	});
+	</script>
 <% end %>

@@ -9,7 +9,14 @@
 
 <% content_for :content do %>
 	<% if notice != nil %>
-		<p><font color="red"><%= notice %></font></p>
+		<font color="red"><%= notice %></font>
+	<% elsif  @fingerings != nil %>
+		<% if @fingerings.first.enharmonic_pretty_notes != "" %>
+			<font color="red">Note: Showing results for <%=@fingerings.first.pretty_notes%> and the enharmonic equivalent <%=@fingerings.first.enharmonic_pretty_notes%>
+			</font>
+		<% else %>
+			Fingering ID #<%= @fingerings.first.id %>
+		<% end %>
 	<% end %>
 	
 	<div data-role="collapsible-set" data-theme="" data-content-theme="">
@@ -99,6 +106,15 @@
 			<% if current_user.isAdmin %>
 				<% if !@fingering.approved %>
 					<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+						<% if current_user.isAdmin && @fingerings.first.fingering_status[0] == "2" %>
+							<div class="split_fingering">
+								<input type="checkbox" name="save_first">Save first (left) note in combination as individual alternate fingering on approval</input>
+								<br>
+								<input type="checkbox" name="save_second"/>Save second (right) note in combination as individual alternate fingering on approval</input>
+								<br>
+							</div>
+						<% end %>
+
 						<%= submit_tag "Approve", :id => "submit" %>
 					<% end %>
 				<% end %>
