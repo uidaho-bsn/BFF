@@ -11,7 +11,14 @@
 
 <% content_for :content do %>
 	<% if notice != nil %>
-		<p><font color="red"><%= notice %></font></p>
+		<font color="red"><%= notice %></font>
+	<% elsif  @fingerings != nil %>
+		<% if @fingerings.first.enharmonic_pretty_notes != "" %>
+			<font color="red">Note: Showing results for <%=@fingerings.first.pretty_notes%> and the enharmonic equivalent <%=@fingerings.first.enharmonic_pretty_notes%>
+			</font>
+		<% else %>
+			Fingering ID #<%= @fingerings.first.id %>
+		<% end %>
 	<% end %>
 
 	<% if @fingerings != nil %>
