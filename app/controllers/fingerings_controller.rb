@@ -50,6 +50,7 @@ class FingeringsController < ApplicationController
     end
   end
 
+  #given a note, return the enharmonic equivalent of the note, if an enharmonic equivalent exists (i.e. c sharp returns d flat)
   def getEnharmonicEquivalent(note_tone)
     if (note_tone[0] = "1")
       @origString = note_tone
@@ -91,17 +92,23 @@ class FingeringsController < ApplicationController
   
   def search_results
     if (params != nil && params[:fingering] != nil && params[:fingering][:keytype] != nil)
+      if params[:fingering][:note_tone] != nil
+        @enharmonic_note = getEnharmonicEquivalent(params[:fingering][:note_tone])
+      else
+        @enharmonic_note = ""
+      end
+
       if (params[:fingering][:keytype] == "standard" || params[:fingering][:keytype] == "alternate")
         if(!current_user.isAdmin)
-          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], getEnharmonicEquivalent(params[:fingering][:note_tone])).where(approved:true).where(keytype: params[:fingering][:keytype]).order('keytype DESC')
+          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).where(approved:true).where(keytype: params[:fingering][:keytype]).order('keytype DESC')
         else
-          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], getEnharmonicEquivalent(params[:fingering][:note_tone])).where(keytype: params[:fingering][:keytype]).order('keytype DESC')
+          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).where(keytype: params[:fingering][:keytype]).order('keytype DESC')
         end
       elsif #(params[:fingering][:keytype] == "standard/alternate" or some other case)
         if(!current_user.isAdmin)
-          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], getEnharmonicEquivalent(params[:fingering][:note_tone])).where(approved:true).order('keytype DESC')
+          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).where(approved:true).order('keytype DESC')
         else
-          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], getEnharmonicEquivalent(params[:fingering][:note_tone])).order('keytype DESC')
+          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).order('keytype DESC')
         end
       end
 
@@ -127,10 +134,12 @@ class FingeringsController < ApplicationController
     Fingering.update_all(:show_first => false)
     Fingering.update(params[:id], :show_first => true)
 
+    @enharmonic_note = getEnharmonicEquivalent(@note_tone)
+
     if(!current_user.isAdmin)
-         @fingerings = Fingering.where('note_tone = ? OR note_tone = ?', @note_tone, getEnharmonicEquivalent(@note_tone)).where(approved:true).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
+         @fingerings = Fingering.where('note_tone = ? OR note_tone = ?', @note_tone, @enharmonic_note).where(approved:true).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
     else
-         @fingerings = Fingering.where('note_tone = ? OR note_tone = ?', @note_tone, getEnharmonicEquivalent(@note_tone)).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
+         @fingerings = Fingering.where('note_tone = ? OR note_tone = ?', @note_tone, @enharmonic_note).paginate(:page => params[:page], :per_page => 1, :order => 'show_first DESC').order('keytype DESC')
     end
 
     respond_to do |format|
