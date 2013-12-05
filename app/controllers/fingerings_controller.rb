@@ -106,9 +106,108 @@ class FingeringsController < ApplicationController
     @fingering = Fingering.new(params[:fingering])
   end
 
+  def saveIndividualFingeringFromTrill(position, duringApproval)
+    #the order of operations in this function from here until the line "@fingering.votes_beginner     = 0" are critical
+    #if at all possible, you should avoid changing things around in that particular block of code
+
+    if duringApproval
+      #admin marked checkbox to add an individual fingering while approving a submitted trill/combination fingering
+      #else if !duringApproval admin marked checkbox to add an individual fingerings while submitting a new trill/combination fingering
+      
+      #get trill/combination fingering that is pending approval
+      @approval_fingering = Fingering.find(params[:id])
+
+      #construct params[:fingering] from the basic contents of the approval fingering (we don't want approval fingering id, and other specific info)
+      params[:fingering] = {}
+      params[:fingering][:fingering_status] = @approval_fingering.fingering_status
+      params[:fingering][:note_tone] = @approval_fingering.note_tone
+      params[:fingering][:keytype] = @approval_fingering.keytype
+      params[:fingering][:source] = @approval_fingering.source
+      params[:fingering][:comments] = @approval_fingering.comments
+    end
+
+    if position == "first"
+      @new_fingering_status = "1:" + params[:fingering][:fingering_status].sub("2", "").sub(":", "").split(",")[0]
+      @new_note_tone = "1:" + params[:fingering][:note_tone].sub("2", "").sub(":", "").split(",")[0]
+    elsif position == "second"
+      @new_fingering_status = "1:" + params[:fingering][:fingering_status].sub("2", "").sub(":", "").split(",")[1]
+      @new_note_tone = "1:" + params[:fingering][:note_tone].sub("2", "").sub(":", "").split(",")[1]
+    end
+
+    @same_fingerings = Fingering.where(:note_tone => @new_note_tone).where(:fingering_status => @new_fingering_status)
+
+    if (@same_fingerings != []) #if fingering already exists, return and don't add duplicate to database
+      return
+    end
+      
+    @fingering = Fingering.create!(params[:fingering])
+
+    #important that @fingering.comments is set before updating @fingering.note_tone since comments uses old note_tone when doing pretty_notes 
+    if duringApproval
+      @fingering.comments = "Auto-generated fingering: " + position + " note in " + @fingering.pretty_notes + " fingering combination submitted by " + @approval_fingering.user_name + "."
+    else
+      @fingering.comments = "Auto-generated fingering: " + position + " note in " + @fingering.pretty_notes + " fingering combination submitted by " + current_user.login + "."
+    end
+
+    @fingering.keytype = "alternate"
+    @fingering.source = params[:fingering][:source]
+    @fingering.fingering_status = @new_fingering_status
+    @fingering.note_tone = @new_note_tone
+    @fingering.votes_beginner     = 0
+    @fingering.votes_intermediate = 0
+    @fingering.votes_advanced     = 0
+    @fingering.votes_professional = 0
+    @fingering.dvotes_beginner     = 0
+    @fingering.dvotes_intermediate = 0
+    @fingering.dvotes_advanced     = 0
+    @fingering.dvotes_professional = 0
+    @fingering.user_name = current_user.login
+    
+    #should only ever enter this function when admin, but still safe to do this check
+    if(!current_user.isAdmin)
+        @fingering.approved  = false
+    else
+        @fingering.approved = true
+    end
+    
+    @fingering.score = 0
+
+    @origString = @fingering.note_tone
+    @accidental = @origString.split('_')[1]
+    @accidental = @accidental.split(',')[0] # only look at first note if multiple
+    @octave = @origString[3]
+    @note_name = @origString[2]
+    if @accidental == "flat"
+      @fingering.accidental = 1
+    elsif @accidental == "natural"
+      @fingering.accidental = 2
+    else
+      @fingering.accidental = 3
+    end
+    @fingering.octave = @octave
+    @fingering.note_name = @note_name
+
+    if @fingering.save
+      if (!current_user.isAdmin)
+        #shouldn't ever get here since current_user should always be admin, but leave the check just in case
+        @fingering.send_fingering_submitted #send email to admins if regular user submits a new fingering
+      end
+    else
+      render action: "new"
+    end
+  end    
+
   def create
+    if params[:save_first] != nil && params[:save_first] == "on"
+      saveIndividualFingeringFromTrill("first", false)
+    end
+
+    if params[:save_second] != nil && params[:save_second] == "on"
+      saveIndividualFingeringFromTrill("second", false)
+    end
+
     if !current_user.isAdmin #non admins can no longer specify if a fingering they entered is standard/alaternate, force it to always be alternate
-      params[:fingering]["keytype"] = 'alternate'
+      params[:fingering]["keytype"] = "alternate"
     end
 
     @same_fingerings = Fingering.where(:note_tone => params[:fingering][:note_tone]).where(:fingering_status => params[:fingering][:fingering_status])
@@ -206,6 +305,14 @@ class FingeringsController < ApplicationController
   end
   
   def approve
+    if params[:save_first] != nil && params[:save_first] == "on"
+      saveIndividualFingeringFromTrill("first", true)
+    end
+
+    if params[:save_second] != nil && params[:save_second] == "on"
+      saveIndividualFingeringFromTrill("second", true)
+    end
+
     @fingering = Fingering.find(params[:id])
     
     @fingering.approved = !@fingering.approved
