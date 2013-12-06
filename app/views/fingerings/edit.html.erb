@@ -44,23 +44,23 @@
 				<%= hidden_field "fingering", "accidental" %>
 				
 				<table>
-					<tr><th></th><th></th></tr>
+					<tr class="heading"><th></th><th></th></tr>
 					
 					<% if current_user.isAdmin %>
 					<tr>
 						<td><label for="fingering_type">Fingering Type</label></td>
-						<td align="center"><%= select 'fingering', 'keytype', [['Standard', 'standard'], ['Alternate', 'alternate']]%></td>
+						<td style="text-align:left"><%= select 'fingering', 'keytype', [['Standard', 'standard'], ['Alternate', 'alternate']]%></td>
 					</tr>
 					<% end %>
 					
 					<tr>
 						<td><label for="fingering_source">Fingering Source</label></td>
-						<td align="center"><%= text_field 'fingering', 'source' %></td>
+						<td style="text-align:left"><%= text_field 'fingering', 'source' %></td>
 					</tr>
 					
 					<tr>
-						<td><label for="fingering_comments">Fingering Comment</label></td>
-						<td align="center"><%= text_area 'fingering', 'comments', :size => "33x5" %></td>
+						<td ><label for="fingering_comments">Fingering Comment</label></td>
+						<td style="text-align:left"><%= text_area 'fingering', 'comments', :size => "33x5" %></td>
 					</tr>
 				</table>
 				
