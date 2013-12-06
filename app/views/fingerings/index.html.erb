@@ -85,7 +85,7 @@
 { :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "alternate", :note_tone => fingering.note_tone}}} %></div>
 	     <% firstAlternate = 1
 		end %>
-	<div class="row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child fingering <% if(isTrill == 1) %><%= "trill"%><% end %> <% if(fingering.pretty_notes[0] == 'g')%><%= "moveg"%><% end %>">
+	<div class="row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child fingering <% if(isTrill == 1) %><%= "trill"%><% end %> <% if(fingering.pretty_notes[0] == 'g' && fingering.pretty_notes[1] == '♯')%><%= "moveg"%><% end %>">
 	  <div class="column notes"><% if(isTrill == 1) %><%= "to "%><%= fingering.pretty_notes.split(' to ')[1]%><% end %>&nbsp;</div>
 	  <div class="column"><%= link_to fingering.id, fingering %></div>
 	  <div class="column vote" align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></div>
