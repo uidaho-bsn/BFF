@@ -1,6 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::Search Fingering</title>
-	<% if @fingerings != nil%>
+	<% if @fingerings != nil && @fingerings.first != nil %>
 		<%= javascript_include_tag :Fingerings %>
 			<script>
 				var fingering_id = "<%= @fingerings.first.fingering_status %>";
@@ -18,7 +18,7 @@
 <% content_for :page_subtitle do %>
 	<% if notice != nil %>
 		<font color="red"><%= notice %></font>
-	<% elsif  @fingerings != nil %>
+	<% elsif  @fingerings != nil && @fingerings.first != nil%>
                 <% if @fingerings.first.pretty_notes.include?("/")
                         name1 = @fingerings.first.pretty_notes.split("/")[0]
                         name2 = @fingerings.first.pretty_notes.split("/")[1]
