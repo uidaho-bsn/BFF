@@ -32,6 +32,21 @@
 					
 					<% if current_user.isAdmin %>
 					<tr>
+						<td><label for="admin_order">Admin Order</label></td>
+						<td style="text-align:left">
+						<select name="fingering[admin_order]">
+						<% for i in 1..count_fingerings(@fingering.note_tone) do %>
+							<% if (i == @fingering.admin_order) %>
+								<option value="<%= i %>" selected><%= i %></option> 
+							<% else %>
+								<option value="<%= i %>"><%= i %></option>
+							<% end %>
+						<% end %>
+						</select>
+						</td>
+					</tr>
+					
+					<tr>
 						<td><label for="fingering_type">Fingering Type</label></td>
 						<td align="center"><%= select 'fingering', 'keytype', [['Standard', 'standard'], ['Alternate', 'alternate']]%></td>
 					</tr>

@@ -37,6 +37,12 @@ class FingeringsController < ApplicationController
     end
   end
   
+  #returns the total number of fingerings which match the given note_tone (if enharmonic, return number of fingerings which match note_tone or enharmonic equivalent)
+  def count_fingerings(note)
+    return Fingering.count(:conditions => 'note_tone = "' + note + '"') + Fingering.count(:conditions => 'note_tone = "' + getEnharmonicEquivalent(note) + '"')
+  end
+  helper_method :count_fingerings
+
   def search
     @user = session[:user]
     @fingering = Fingering.new(params[:fingering])
@@ -52,7 +58,7 @@ class FingeringsController < ApplicationController
 
   #given a note, return the enharmonic equivalent of the note, if an enharmonic equivalent exists (i.e. c sharp returns d flat)
   def getEnharmonicEquivalent(note_tone)
-    if (note_tone[0] = "1")
+    if (note_tone[0] == "1")
       @origString = note_tone
       @accidental = @origString.split('_')[1]
       @accidental = @accidental.split(',')[0] # only look at first note if multiple
@@ -210,6 +216,7 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_advanced     = 0
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
+    @fingering.admin_order = count_fingerings(@new_note_tone)
     
     #should only ever enter this function when admin, but still safe to do this check
     if(!current_user.isAdmin)
@@ -279,7 +286,14 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_advanced     = 0
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
-    
+
+    if current_user.isAdmin
+      #todo give admin drop down for this
+      @fingering.admin_order = count_fingerings(@fingering.note_tone)
+    else
+      @fingering.admin_order = count_fingerings(@fingering.note_tone)
+    end
+
     if(!current_user.isAdmin)
         @fingering.approved  = false
     else
@@ -310,7 +324,7 @@ class FingeringsController < ApplicationController
       else
         msg = 'created.'
       end
-      redirect_to fingerings_url, :notice => 'Fingering was successfully ' + msg
+      redirect_to fingerings_url, :notice => 'The ' + @fingering.pretty_notes + ' (ID #' + @fingering.id.to_s + ') fingering was successfully ' + msg
     else
       render action: "new"
     end
@@ -339,6 +353,11 @@ class FingeringsController < ApplicationController
       else
         msg = 'Fingering was successfully updated.'
       end
+
+      #@Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], getEnharmonicEquivalent(params[:fingering][:note_tone]))
+      
+
+
       redirect_to @fingering, :notice => msg
     else
       render action: "edit"
