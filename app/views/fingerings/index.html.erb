@@ -52,10 +52,10 @@
 	   firstAlternate = 0
 	   isTrill = 0
 	   end %>
-	<div class="parent row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<% end %>" octave="<%= fingering.octave %>" note="<%= fingering.note_name %>" accidental="<%= fingering.accidental %>"><div class="wrapper"><div class="column notes"><%= fingering.pretty_notes.split(' to')[0] %></div><div class="column master-count"><%= link_to "",  { :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "standard/alternate", :note_tone => fingering.note_tone}}} %></div></div>
+	<div class="parent row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<% end %>" octave="<%= fingering.octave %>" note="<%= fingering.note_name %>" accidental="<%= fingering.accidental %>"><div class="wrapper"><div class="column notes"><%= fingering.pretty_notes.split(' to')[0] %></div><div class="column master-count"><%= link_to "",  { :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "standard/alternate", :note_tone => "1:" + fingering.note_tone.split(',')[0][2..-1]}}} %></div></div>
 	  <% if(firstStandard == 1 && fingering.keytype == "standard") %>
 	  <div class="row child keytype standard tab"><div class="column tab">Standard</div><div class="column count"><%= link_to "",  \
-{ :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "standard", :note_tone => fingering.note_tone}}} %></div>
+{ :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "standard", :note_tone => "1:" + fingering.note_tone.split(',')[0][2..-1]}}} %></div>
 	  <% firstStandard = 0
 	     end
 
@@ -82,7 +82,7 @@
 	  </div>
 	  <% end %>
 	  <div class="row child keytype alternate tab"><div class="column tab">Alternate</div><div class="column count"><%= link_to "",  \
-{ :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "alternate", :note_tone => fingering.note_tone}}} %></div>
+{ :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "alternate", :note_tone => "1:" + fingering.note_tone.split(',')[0][2..-1]}}} %></div>
 	     <% firstAlternate = 1
 		end %>
 	<div class="row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child fingering <% if(isTrill == 1) %><%= "trill"%><% end %> <% if(fingering.pretty_notes[0] == 'g' && fingering.pretty_notes[1] == '♯')%><%= "moveg"%><% end %>">
@@ -140,13 +140,18 @@
 	  function countFingerings() {
 	   colorRows();
 	   $('.parent').each(function() {
-	    $size = $(this).find('.fingering').length;
+	    $size = $(this).find('.fingering:not(.trill)').length;
+	    $trillSize = $(this).find('.fingering.trill').length;
 	    if($size > 1)
 	     $(this).find('div.master-count a').append($size + " fingerings");
 	    else if($size == 1)
 	     $(this).find('div.master-count a').append($size + " fingering");
 	    else if($size < 1)
 	     $(this).remove();
+	    if($trillSize > 1)
+	     $(this).find('div.master-count').append("  | " + $trillSize + " trill fingerings");
+	    else if($trillSize == 1)
+	     $(this).find('div.master-count').append("  | " + $trillSize + " trill fingering");
 	    if($(this).children('.standard').length == 1) {
 	     if($(this).children('.alternate').length == 1)
   	      $(this).children('.standard').insertBefore($(this).children('.alternate'));
