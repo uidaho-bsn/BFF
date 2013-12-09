@@ -4,9 +4,9 @@ class FingeringsController < ApplicationController
   
   def index
     if(!current_user.isAdmin)
-	@fingerings = Fingering.where(approved: true).order('octave ASC, note_name ASC, accidental ASC, keytype DESC') # only show approved fingerings to non-admin
+	@fingerings = Fingering.where(approved: true).order('octave ASC, note_name ASC, accidental ASC, keytype DESC, admin_order DESC') # only show approved fingerings to non-admin
     else
-        @fingerings = Fingering.order('octave ASC, note_name ASC, accidental ASC, keytype DESC')
+        @fingerings = Fingering.order('octave ASC, note_name ASC, accidental ASC, keytype DESC, admin_order DESC')
     end
 
 # uncomment the following lines to update the database (split note_tone into separate columns)
@@ -37,6 +37,12 @@ class FingeringsController < ApplicationController
     end
   end
   
+  #returns the total number of fingerings which match the given note_tone (if enharmonic, return number of fingerings which match note_tone or enharmonic equivalent)
+  def count_fingerings(note)
+    return Fingering.count(:conditions => 'note_tone = "' + note + '"') + Fingering.count(:conditions => 'note_tone = "' + getEnharmonicEquivalent(note) + '"')
+  end
+  helper_method :count_fingerings
+
   def search
     @user = session[:user]
     @fingering = Fingering.new(params[:fingering])
@@ -52,7 +58,7 @@ class FingeringsController < ApplicationController
 
   #given a note, return the enharmonic equivalent of the note, if an enharmonic equivalent exists (i.e. c sharp returns d flat)
   def getEnharmonicEquivalent(note_tone)
-    if (note_tone[0] = "1")
+    if (note_tone[0] == "1")
       @origString = note_tone
       @accidental = @origString.split('_')[1]
       @accidental = @accidental.split(',')[0] # only look at first note if multiple
@@ -100,20 +106,20 @@ class FingeringsController < ApplicationController
 
       if (params[:fingering][:keytype] == "standard" || params[:fingering][:keytype] == "alternate")
         if(!current_user.isAdmin)
-          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).where(approved:true).where(keytype: params[:fingering][:keytype]).order('keytype DESC')
+          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).where(approved:true).where(keytype: params[:fingering][:keytype]).order('keytype DESC').order('admin_order DESC')
         else
-          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).where(keytype: params[:fingering][:keytype]).order('keytype DESC')
+          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).where(keytype: params[:fingering][:keytype]).order('keytype DESC').order('admin_order DESC')
         end
       elsif #(params[:fingering][:keytype] == "standard/alternate" or some other case)
         if(!current_user.isAdmin)
-          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).where(approved:true).order('keytype DESC')
+          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).where(approved:true).order('keytype DESC').order('admin_order DESC')
         else
-          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).order('keytype DESC')
+          @Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], @enharmonic_note).order('keytype DESC').order('admin_order DESC')
         end
       end
 
       if @Results != []
-        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1).order('keytype DESC')
+        @fingerings = @Results.paginate(:page => params[:page], :per_page => 1).order('keytype DESC').order('admin_order DESC')
       else
         flash[:notice] = "No fingerings match the requested note(s)."
       end
@@ -210,6 +216,7 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_advanced     = 0
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
+    @fingering.admin_order = count_fingerings(@new_note_tone)
     
     #should only ever enter this function when admin, but still safe to do this check
     if(!current_user.isAdmin)
@@ -279,7 +286,14 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_advanced     = 0
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
-    
+
+    if current_user.isAdmin
+      #todo give admin drop down for this
+      @fingering.admin_order = count_fingerings(@fingering.note_tone)
+    else
+      @fingering.admin_order = count_fingerings(@fingering.note_tone)
+    end
+
     if(!current_user.isAdmin)
         @fingering.approved  = false
     else
@@ -310,7 +324,7 @@ class FingeringsController < ApplicationController
       else
         msg = 'created.'
       end
-      redirect_to fingerings_url, :notice => 'Fingering was successfully ' + msg
+      redirect_to fingerings_url, :notice => 'The ' + @fingering.pretty_notes + ' (ID #' + @fingering.id.to_s + ') fingering was successfully ' + msg
     else
       render action: "new"
     end
@@ -339,6 +353,11 @@ class FingeringsController < ApplicationController
       else
         msg = 'Fingering was successfully updated.'
       end
+
+      #@Results = Fingering.where('note_tone = ? OR note_tone = ?', params[:fingering][:note_tone], getEnharmonicEquivalent(params[:fingering][:note_tone]))
+      
+
+
       redirect_to @fingering, :notice => msg
     else
       render action: "edit"

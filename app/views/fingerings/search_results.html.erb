@@ -20,9 +20,9 @@
 		<font color="red"><%= notice %></font>
 	<% elsif  @fingerings != nil %>
 		<% if @fingerings.first.pretty_notes.include?("/")
-		   name1 = @fingerings.first.pretty_notes.split("/")[0]
-		   name2 = @fingerings.first.pretty_notes.split("/")[1]
-		   %>
+		   	name1 = @fingerings.first.pretty_notes.split("/")[0]
+		   	name2 = @fingerings.first.pretty_notes.split("/")[1]
+		   	%>
 			<font color="red">Note: Showing results for <%=name1%> and the enharmonic equivalent <%=name2%>
 			</font>
 		<% else %>
