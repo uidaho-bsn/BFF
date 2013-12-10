@@ -3,6 +3,7 @@
 	<%= javascript_include_tag :Fingerings %>
 	<%= javascript_include_tag :Validation_Fingering %>
 	<%= javascript_include_tag :Tabs %>
+	<%= javascript_include_tag :Dictionary %>
 <% end %>
 
 <% content_for :page_title do %>
@@ -37,6 +38,20 @@
 					
 					<% if current_user.isAdmin %>
 					<tr>
+						<td><label for="admin_order">Admin Order</label></td>
+						<td style="text-align:left">
+						<select id="admin_order_dropdown" name="fingering[admin_order]">
+						<% for i in 1..count_fingerings("1:f3_natural") + 1 do %>
+							<% if (i == count_fingerings("1:f3_natural") + 1) %>
+								<option value="<%= i %>" selected><%= i %></option> 
+							<% else %>
+								<option value="<%= i %>"><%= i %></option>
+							<% end %>
+						<% end %>
+						</select>
+						</td>
+					</tr>
+					<tr>
 						<td><label for="fingering_type">Fingering Type</label></td>
 						<td align="center"><%= select 'fingering', 'keytype', [['Standard', 'standard'], ['Alternate', 'alternate']] %></td>
 					</tr>
@@ -60,6 +75,42 @@
 					<input type="checkbox" name="save_second"/>Save second (right) note in combination as individual alternate fingering on submission</input>
 					<br>
 				</div>
+				<script type="text/javascript">
+				var dictCount = new Dict();
+				var existing_notes = dictCount.New();
+				<% Fingering.select("DISTINCT(note_tone)").each do |f| %>
+				existing_notes.addOrUpdate("<%= f.note_tone %>", "<%= count_fingerings(f.note_tone) %>");
+				<% end %>
+				console.log(existing_notes);
+				$(document).ready(function() {
+					$('canvas').click(function() {
+						if (fingerings_canvas.ToString('note_tones')[0] == '2')
+							$('.split_fingering').css('display', 'block');
+						else
+							$('.split_fingering').css('display', 'none');
+							
+						// change dropdown
+						$tone = fingerings_canvas.ToString('note_tones');
+						if(existing_notes.exists($tone))
+							$number = existing_notes.item($tone);
+						else
+							$number = 1;
+						console.log($number);
+						$('#admin_order_dropdown').text('');
+						
+						$markNum = parseInt($number) + 1;
+						$number = $markNum;									
+							
+						for($i = 1; $i <= parseInt($number); $i++) {
+							if($i == $markNum)
+								$selectedString = "selected";
+							else
+								$selectedString = "";
+							$('#admin_order_dropdown').append('<option value="'+ $i +'" ' + $selectedString + '>'+ $i +'</option>');
+						}
+					});
+				});
+				</script>
 				<% end %>
 
 				<%= submit_tag "Submit", :id => "submit", :onclick => "fingering_fingering_status.value = fingerings_canvas.ToString(\"keys\"); fingering_note_tone.value = fingerings_canvas.ToString(\"note_tones\");" %>
@@ -74,15 +125,4 @@
 			<%= render "help" %>
 		</div>
 	</div>
-
-	<script type="text/javascript">
-	$(document).ready(function() {
-		$('canvas').click(function() {
-			if (fingerings_canvas.ToString('note_tones')[0] == '2')
-				$('.split_fingering').css('display', 'block');
-			else
-				$('.split_fingering').css('display', 'none');
-		});
-	});
-	</script>
 <% end %>
