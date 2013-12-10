@@ -76,6 +76,11 @@
 				
 				<% if current_user.isAdmin %>
 					<tr>
+						<td>Display Order</td>
+						<td align="center"><%= @fingerings.first.admin_order %></td>
+					</tr>
+
+					<tr>
 						<td>Keys String</td>
 						<td align="center"><%= @fingerings.first.fingering_status %></td>
 					</tr>
