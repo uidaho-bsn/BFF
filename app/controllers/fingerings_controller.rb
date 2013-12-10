@@ -302,10 +302,9 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
 
-    # TODO need to handle case of adding individual fingerings from trill as well
     if current_user.isAdmin
       @fingering.admin_order = params[:fingering][:admin_order]
-      updateFingeringOrders(@fingering.id, @fingering.note_tone, params[:fingering][:admin_order], false)
+      updateFingeringOrdersOnNewOrDelete(@fingering.id, @fingering.note_tone, params[:fingering][:admin_order], false)
     else
       @fingering.admin_order = count_fingerings(@fingering.note_tone) + 1
     end
@@ -358,6 +357,8 @@ class FingeringsController < ApplicationController
   def update
     @fingering = Fingering.find(params[:id])
 
+    @old_admin_order = @fingering.admin_order
+
     if(!current_user.isAdmin)
 	    @fingering.approved = false
       @fingering.send_fingering_submitted
@@ -370,8 +371,8 @@ class FingeringsController < ApplicationController
         msg = 'Fingering was successfully updated.'
       end
 
-      if current_user.isAdmin
-        updateFingeringOrders(params[:id], params[:fingering][:note_tone], params[:fingering][:admin_order], false)
+      if (current_user.isAdmin && @old_admin_order != params[:fingering][:admin_order])
+        updateFingeringOrdersOnEdit(params[:id], params[:fingering][:note_tone], @old_admin_order, params[:fingering][:admin_order], false)
       end
 
       redirect_to @fingering, :notice => msg
@@ -380,39 +381,71 @@ class FingeringsController < ApplicationController
     end
   end
 
-  #todo this function needs called when updating, adding and deleting
   #id is the id of the fingering with order admin_order
   #note_tone is the note_tone of the fingering with the given id
-  def updateFingeringOrders(id, note_tone, admin_order, fingering_deleted)
+  def updateFingeringOrdersOnEdit(id, note_tone, old_admin_order, admin_order, fingering_deleted)
     #make sure admin_order is an integer so our comparisons won't fail in the for loop
-    if !(admin_order.is_a? Integer)
+    if (!admin_order.is_a? Integer)
       admin_order = admin_order.to_i
     end
 
-    #get all fingerings with same note_tone or enharmonic equivalent (excluded the fingering with an ID# == id)
-    @same_note_fingerings = Fingering.where('id != ?', id).where('note_tone = ? OR note_tone = ?', note_tone, getEnharmonicEquivalent(note_tone))
-    for i in 0..(@same_note_fingerings.size - 1)
-      if (fingering_deleted)
-        #admin order is being adjusted/added, shift all fingerings with order lower (order is value greater) than admin down one
-        if (@same_note_fingerings[i][:admin_order] >= admin_order)
-          @same_note_fingerings[i][:admin_order] = @same_note_fingerings[i][:admin_order] - 1
-        end
-      else
-        #admin order is being taken out, shift all fingerings with order higher (order is value less) than admin order up one
-        if (@same_note_fingerings[i][:admin_order] >= admin_order)
+    #make sure old admin order is an integer
+    if (!old_admin_order.is_a? Integer)
+      old_admin_order = old_admin_order.to_i
+    end    
+
+    if (old_admin_order > admin_order)
+      #get all fingerings with same note_tone or enharmonic equivalent (excluded the fingering with an ID# == id) and with an admin order that needs updated
+      @same_note_fingerings = Fingering.where('id != ?', id).where('note_tone = ? OR note_tone = ?', note_tone, getEnharmonicEquivalent(note_tone)).where('admin_order < ? AND admin_order >= ?', old_admin_order, admin_order)
+      
+      if (@same_note_fingerings != nil && @same_note_fingerings.size > 0)
+        for i in 0..(@same_note_fingerings.size - 1)
+          #increment admin order
           @same_note_fingerings[i][:admin_order] = @same_note_fingerings[i][:admin_order] + 1
         end
       end
+    elsif (old_admin_order < admin_order) #old_admin_order will not equal admin_order since we check this before calling the function
+      #get all fingerings with same note_tone or enharmonic equivalent (excluded the fingering with an ID# == id) and with an admin order that needs updated
+      @same_note_fingerings = Fingering.where('id != ?', id).where('note_tone = ? OR note_tone = ?', note_tone, getEnharmonicEquivalent(note_tone)).where('admin_order > ? AND admin_order <= ?', old_admin_order, admin_order)
 
+      if (@same_note_fingerings != nil && @same_note_fingerings.size > 0)
+        for i in 0..(@same_note_fingerings.size - 1)
+          #decrement admin order
+          @same_note_fingerings[i][:admin_order] = @same_note_fingerings[i][:admin_order] - 1
+        end
+      end
     end
+  end
 
+  def updateFingeringOrdersOnNewOrDelete(id, note_tone, admin_order, onDelete)
+    #make sure admin_order is an integer so our comparisons won't fail in the for loop
+    if (!admin_order.is_a? Integer)
+      admin_order = admin_order.to_i
+    end
+    
+    #get all fingerings with same note_tone or enharmonic equivalent (excluded the fingering with an ID# == id) and with an admin order that needs updated
+    @same_note_fingerings = Fingering.where('id != ?', id).where('note_tone = ? OR note_tone = ?', note_tone, getEnharmonicEquivalent(note_tone)).where('admin_order >= ?', admin_order)  
+    
+    if (@same_note_fingerings != nil && @same_note_fingerings.size > 0)
+      if (onDelete)
+        #decrement admin orders
+        for i in 0..(@same_note_fingerings.size - 1)
+          @same_note_fingerings[i][:admin_order] = @same_note_fingerings[i][:admin_order] - 1
+        end
+      else  
+        #decrement admin orders
+        for i in 0..(@same_note_fingerings.size - 1)
+          @same_note_fingerings[i][:admin_order] = @same_note_fingerings[i][:admin_order] - 1
+        end
+      end
+    end
 
   end
 
   def destroy
     @fingering = Fingering.find(params[:id])
 
-    updateFingeringOrders(params[:id], @fingering.note_tone, @fingering.admin_order, true)
+    updateFingeringOrdersOnNewOrDelete(params[:id], @fingering.note_tone, @fingering.admin_order, true)
     @pretty_notes = @fingering.pretty_notes
     @fingering.destroy
 
