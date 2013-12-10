@@ -44,6 +44,11 @@ class FingeringsController < ApplicationController
 #      end
 #    end
 
+# uncomment the following lines to update Susan's username from shess@uidaho.edu to shess
+    @susan = User.where('login = ?', "shess@uidaho.edu").update_all(:login => "shess")
+    @susanFingerings = Fingering.where('user_name = ?', "shess@uidaho.edu").update_all(:user_name => "shess")
+    
+    
     respond_to do |format|
       format.html { }
       if current_user.isAdmin
