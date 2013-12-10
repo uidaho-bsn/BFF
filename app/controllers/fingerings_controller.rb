@@ -42,7 +42,6 @@ class FingeringsController < ApplicationController
 #        @fingerings11[i].save
 #      end
 #    end
-  end
 
     respond_to do |format|
       format.html { }
