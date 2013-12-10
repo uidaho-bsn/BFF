@@ -231,7 +231,9 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_advanced     = 0
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
-    @fingering.admin_order = count_fingerings(@new_note_tone) + 1
+
+    #this fingering has been added to database and will be counted in count (that is why we don't do count() + 1)
+    @fingering.admin_order = count_fingerings(@new_note_tone)
     
     #should only ever enter this function when admin, but still safe to do this check
     if(!current_user.isAdmin)
@@ -306,7 +308,8 @@ class FingeringsController < ApplicationController
       @fingering.admin_order = params[:fingering][:admin_order]
       updateFingeringOrdersOnNewOrDelete(@fingering.id, @fingering.note_tone, params[:fingering][:admin_order], false)
     else
-      @fingering.admin_order = count_fingerings(@fingering.note_tone) + 1
+      #this fingering has been added to database and will be counted in count (that is why we don't do count() + 1)
+      @fingering.admin_order = count_fingerings(@fingering.note_tone)
     end
 
     if(!current_user.isAdmin)
@@ -397,11 +400,12 @@ class FingeringsController < ApplicationController
     if (old_admin_order > admin_order)
       #get all fingerings with same note_tone or enharmonic equivalent (excluded the fingering with an ID# == id) and with an admin order that needs updated
       @same_note_fingerings = Fingering.where('id != ?', id).where('note_tone = ? OR note_tone = ?', note_tone, getEnharmonicEquivalent(note_tone)).where('admin_order < ? AND admin_order >= ?', old_admin_order, admin_order)
-      
+   
       if (@same_note_fingerings != nil && @same_note_fingerings.size > 0)
         for i in 0..(@same_note_fingerings.size - 1)
           #increment admin order
           @same_note_fingerings[i][:admin_order] = @same_note_fingerings[i][:admin_order] + 1
+          @same_note_fingerings[i].save
         end
       end
     elsif (old_admin_order < admin_order) #old_admin_order will not equal admin_order since we check this before calling the function
@@ -412,6 +416,7 @@ class FingeringsController < ApplicationController
         for i in 0..(@same_note_fingerings.size - 1)
           #decrement admin order
           @same_note_fingerings[i][:admin_order] = @same_note_fingerings[i][:admin_order] - 1
+          @same_note_fingerings[i].save
         end
       end
     end
@@ -431,11 +436,13 @@ class FingeringsController < ApplicationController
         #decrement admin orders
         for i in 0..(@same_note_fingerings.size - 1)
           @same_note_fingerings[i][:admin_order] = @same_note_fingerings[i][:admin_order] - 1
+          @same_note_fingerings[i].save
         end
       else  
-        #decrement admin orders
+        #increment admin orders
         for i in 0..(@same_note_fingerings.size - 1)
-          @same_note_fingerings[i][:admin_order] = @same_note_fingerings[i][:admin_order] - 1
+          @same_note_fingerings[i][:admin_order] = @same_note_fingerings[i][:admin_order] + 1
+          @same_note_fingerings[i].save
         end
       end
     end
