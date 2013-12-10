@@ -63,8 +63,12 @@ $(document).ready(function() {
 });
 
 function isMobile() {
-  var index = navigator.appVersion.indexOf("Mobile");
-  return (index > -1);
+    return false;
+    /* As of 12/10/2013 the Mobile version of the site has been disable as it is buggy and lacks many features of the full site.
+       Mobile users will be redirected to the full site.
+      var index = navigator.appVersion.indexOf("Mobile");
+      return (index > -1);
+    */
 }
 
 window.requestAnimFrame = (function(){

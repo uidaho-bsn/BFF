@@ -78,6 +78,7 @@
 				<script type="text/javascript">
 				var dictCount = new Dict();
 				var existing_notes = dictCount.New();
+				var changedTone = "1:f3_natural";
 				<% Fingering.select("DISTINCT(note_tone)").each do |f| %>
 				existing_notes.addOrUpdate("<%= f.note_tone %>", "<%= count_fingerings(f.note_tone) %>");
 				<% end %>
@@ -91,23 +92,29 @@
 							
 						// change dropdown
 						$tone = fingerings_canvas.ToString('note_tones');
-						if(existing_notes.exists($tone))
+						if(existing_notes.exists($tone)) {
 							$number = existing_notes.item($tone);
-						else
+							$markNum = parseInt($number) + 1;							
+						}
+						else {							
 							$number = 1;
+							$markNum = 1;
+						}
 
-						$('#admin_order_dropdown').text('');
 						
-						$markNum = parseInt($number) + 1;
 						$number = $markNum;									
 							
-						for($i = 1; $i <= parseInt($number); $i++) {
-							if($i == $markNum)
-								$selectedString = "selected";
-							else
-								$selectedString = "";
-							$('#admin_order_dropdown').append('<option value="'+ $i +'" ' + $selectedString + '>'+ $i +'</option>');
+						if(changedTone != $tone) { // if fingering tone was changed
+							$('#admin_order_dropdown').text('');
+							for($i = 1; $i <= parseInt($number); $i++) {
+								if($i == $markNum)
+									$selectedString = "selected";
+								else
+									$selectedString = "";
+								$('#admin_order_dropdown').append('<option value="'+ $i +'" ' + $selectedString + '>'+ $i +'</option>');
+							}
 						}
+						changedTone = $tone;
 					});
 				});
 				</script>
