@@ -410,9 +410,10 @@ class FingeringsController < ApplicationController
     @fingering = Fingering.find(params[:id])
 
     updateFingeringOrders(params[:id], @fingering.note_tone, @fingering.admin_order, true)
+    @pretty_notes = @fingering.pretty_notes
     @fingering.destroy
 
-    redirect_to fingerings_url, :notice =>"Fingering (ID #" + params[:id].to_s + ") deleted."
+    redirect_to fingerings_url, :notice => @pretty_notes + " fingering (ID #" + params[:id].to_s + ") deleted."
   end
   
   def approve
