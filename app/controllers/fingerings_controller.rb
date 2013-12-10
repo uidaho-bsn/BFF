@@ -383,9 +383,13 @@ class FingeringsController < ApplicationController
   #id is the id of the fingering with order admin_order
   #note_tone is the note_tone of the fingering with the given id
   def updateFingeringOrders(id, note_tone, admin_order, fingering_deleted)
+    #make sure admin_order is an integer so our comparisons won't fail in the for loop
+    if !(admin_order.is_a? Integer)
+      admin_order = admin_order.to_i
+    end
+
     #get all fingerings with same note_tone or enharmonic equivalent (excluded the fingering with an ID# == id)
     @same_note_fingerings = Fingering.where('id != ?', id).where('note_tone = ? OR note_tone = ?', note_tone, getEnharmonicEquivalent(note_tone))
-
     for i in 0..(@same_note_fingerings.size - 1)
       if (fingering_deleted)
         #admin order is being adjusted/added, shift all fingerings with order lower (order is value greater) than admin down one
