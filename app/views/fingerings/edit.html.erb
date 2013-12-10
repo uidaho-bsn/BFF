@@ -61,43 +61,43 @@
 						<% end %>
 						</select>
 						</td>
-					<script type="text/javascript">
-					// create dictionary with all existing numbers in database and dynamically update number dropdown on click
-					var dictCount = new Dict();
-					var existing_notes = dictCount.New();
-					var selectedTone = "<%= @fingering.note_tone %>";
-					var selectedNum = <%= @fingering.admin_order %>;
-					<% Fingering.select("DISTINCT(note_tone)").each do |f| %>
-					existing_notes.addOrUpdate("<%= f.note_tone %>", "<%= count_fingerings(f.note_tone) %>");
-					<% end %>
-						$(document).ready(function() {
-							$('canvas').click(function() {
-								$tone = fingerings_canvas.ToString('note_tones');
-								if(existing_notes.exists($tone))
-									$number = existing_notes.item($tone);
-								else
-									$number = 1;
-								console.log($number);
-								$('#admin_order_dropdown').text('');
-								
-								if($tone == selectedTone) {
-									$markNum = selectedNum;									
-								}
-								else {
-									$markNum = parseInt($number) + 1;
-									$number = parseInt($number) + 1;									
-								}
-									
-								for($i = 1; $i <= parseInt($number); $i++) {
-									if($i == $markNum)
-										$selectedString = "selected";
+						<script type="text/javascript">
+						// create dictionary with all existing numbers in database and dynamically update number dropdown on click
+						var dictCount = new Dict();
+						var existing_notes = dictCount.New();
+						var selectedTone = "<%= @fingering.note_tone %>";
+						var selectedNum = <%= @fingering.admin_order %>;
+						<% Fingering.select("DISTINCT(note_tone)").each do |f| %>
+						existing_notes.addOrUpdate("<%= f.note_tone %>", "<%= count_fingerings(f.note_tone) %>");
+						<% end %>
+							$(document).ready(function() {
+								$('canvas').click(function() {
+									$tone = fingerings_canvas.ToString('note_tones');
+									if(existing_notes.exists($tone))
+										$number = existing_notes.item($tone);
 									else
-										$selectedString = "";
-									$('#admin_order_dropdown').append('<option value="'+ $i +'" ' + $selectedString + '>'+ $i +'</option>');
-								}
+										$number = 1;
+									console.log($number);
+									$('#admin_order_dropdown').text('');
+									
+									if($tone == selectedTone) {
+										$markNum = selectedNum;									
+									}
+									else {
+										$markNum = parseInt($number) + 1;
+										$number = parseInt($number) + 1;									
+									}
+										
+									for($i = 1; $i <= parseInt($number); $i++) {
+										if($i == $markNum)
+											$selectedString = "selected";
+										else
+											$selectedString = "";
+										$('#admin_order_dropdown').append('<option value="'+ $i +'" ' + $selectedString + '>'+ $i +'</option>');
+									}
+								});
 							});
-						});
-					</script>
+						</script>
 					</tr>
 
 					<tr>

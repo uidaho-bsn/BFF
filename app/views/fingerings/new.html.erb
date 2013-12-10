@@ -81,7 +81,7 @@
 				<% Fingering.select("DISTINCT(note_tone)").each do |f| %>
 				existing_notes.addOrUpdate("<%= f.note_tone %>", "<%= count_fingerings(f.note_tone) %>");
 				<% end %>
-				console.log(existing_notes);
+
 				$(document).ready(function() {
 					$('canvas').click(function() {
 						if (fingerings_canvas.ToString('note_tones')[0] == '2')
@@ -95,7 +95,7 @@
 							$number = existing_notes.item($tone);
 						else
 							$number = 1;
-						console.log($number);
+
 						$('#admin_order_dropdown').text('');
 						
 						$markNum = parseInt($number) + 1;
