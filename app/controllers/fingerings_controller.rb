@@ -237,8 +237,8 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
 
-    #this fingering has been added to database and will be counted in count (that is why we don't do count() + 1)
-    @fingering.admin_order = count_fingerings(@new_note_tone)
+    #not exactly sure why, but when we call count_fingerings() here, it only counts existing ones, it doesn't also count this one we are constructing currently
+    @fingering.admin_order = count_fingerings(@new_note_tone) + 1
     
     #should only ever enter this function when admin, but still safe to do this check
     if(!current_user.isAdmin)
