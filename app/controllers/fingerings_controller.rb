@@ -230,7 +230,7 @@ class FingeringsController < ApplicationController
     @fingering.dvotes_advanced     = 0
     @fingering.dvotes_professional = 0
     @fingering.user_name = current_user.login
-    @fingering.admin_order = count_fingerings(@new_note_tone)
+    @fingering.admin_order = count_fingerings(@new_note_tone) + 1
     
     #should only ever enter this function when admin, but still safe to do this check
     if(!current_user.isAdmin)
@@ -306,7 +306,7 @@ class FingeringsController < ApplicationController
       @fingering.admin_order = params[:fingering][:admin_order]
       updateFingeringOrders(@fingering.id, @fingering.note_tone, params[:fingering][:admin_order], false)
     else
-      @fingering.admin_order = count_fingerings(@fingering.note_tone)
+      @fingering.admin_order = count_fingerings(@fingering.note_tone) + 1
     end
 
     if(!current_user.isAdmin)
@@ -408,9 +408,9 @@ class FingeringsController < ApplicationController
 
   def destroy
     @fingering = Fingering.find(params[:id])
-    @fingering.destroy
 
     updateFingeringOrders(params[:id], @fingering.note_tone, @fingering.admin_order, true)
+    @fingering.destroy
 
     redirect_to fingerings_url, :notice =>"Fingering (ID #" + params[:id].to_s + ") deleted."
   end
