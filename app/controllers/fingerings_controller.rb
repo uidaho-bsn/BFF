@@ -45,8 +45,8 @@ class FingeringsController < ApplicationController
     end
 
 # uncomment the following lines to update Susan's username from shess@uidaho.edu to shess
-    @susan = User.where('login = ?', "shess@uidaho.edu").update_all(:login => "shess")
-    @susanFingerings = Fingering.where('user_name = ?', "shess@uidaho.edu").update_all(:user_name => "shess")
+#    @susan = User.where('login = ?', "shess@uidaho.edu").update_all(:login => "shess")
+#    @susanFingerings = Fingering.where('user_name = ?', "shess@uidaho.edu").update_all(:user_name => "shess")
     
     
     respond_to do |format|
@@ -59,7 +59,7 @@ class FingeringsController < ApplicationController
   
   #returns the total number of fingerings which match the given note_tone (if enharmonic, return number of fingerings which match note_tone or enharmonic equivalent)
   def count_fingerings(note)
-    return Fingering.count(:conditions => 'note_tone = "' + note + '"') + Fingering.count(:conditions => 'note_tone = "' + getEnharmonicEquivalent(note) + '"')
+    return Fingering.count(:conditions => '"note_tone" = "' + note + '"') + Fingering.count(:conditions => '"note_tone" = "' + getEnharmonicEquivalent(note) + '"')
   end
   helper_method :count_fingerings
 
