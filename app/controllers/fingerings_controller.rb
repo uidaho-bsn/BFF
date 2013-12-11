@@ -30,19 +30,19 @@ class FingeringsController < ApplicationController
 #    end
 
 #uncomment the following lines to update the database (reset all admin_order values)
-#    @seen = Array.new
-#    @allFingerings = Fingering.all.sort_by(&:note_tone)
-#    @allFingerings.each do |f|
-#      if(@seen.index(f.note_tone) == nil)
-#        @seen.push(f.note_tone)
-#        @seen.push(getEnharmonicEquivalent(f.note_tone))
-#        @fingerings11 = Fingering.where('note_tone = ? OR note_tone = ?', f.note_tone, getEnharmonicEquivalent(f.note_tone)).order('keytype DESC')
-#        for i in 0..(@fingerings11.size - 1) do
-#          @fingerings11[i][:admin_order] = i + 1
-#          @fingerings11[i].save
-#        end
-#      end
-#    end
+    @seen = Array.new
+    @allFingerings = Fingering.all.sort_by(&:note_tone)
+    @allFingerings.each do |f|
+      if(@seen.index(f.note_tone) == nil)
+        @seen.push(f.note_tone)
+        @seen.push(getEnharmonicEquivalent(f.note_tone))
+        @fingerings11 = Fingering.where('note_tone = ? OR note_tone = ?', f.note_tone, getEnharmonicEquivalent(f.note_tone)).order('keytype DESC')
+        for i in 0..(@fingerings11.size - 1) do
+          @fingerings11[i][:admin_order] = i + 1
+          @fingerings11[i].save
+        end
+      end
+    end
 
 # uncomment the following lines to update Susan's username from shess@uidaho.edu to shess
     @susan = User.where('login = ?', "shess@uidaho.edu").update_all(:login => "shess")
