@@ -12,7 +12,7 @@ table
 	  div.column:last-of-type {min-width:130px;text-align:center;}
           div.column:nth-child(2) {min-width:20px;}
           div.tab {margin-left:20px;}
-	  div.column.tab {padding-left:20px;margin-left:0;}
+	  div.column.tab {padding-left:30px !important;margin-left:0;text-align:left;}
 	 /* div.row, div.wrapper {width:100%;overflow:hidden;}*/
           div.row div.column:first-of-type {border-left:4px solid transparent;padding-left:15px;}
           div.vote {min-width:130px;}
@@ -27,7 +27,7 @@ table
 	  div.unapproved div.column:first-of-type {border-left-color: red;}
           div.parent.selected.unapproved {border-left-color:transparent !important;background-color:transparent !important;}
           div.keytype.selected.unapproved {background-color:rgba(255,255,255,.5) !important;}
-	  div.selected.unapproved > div.column:first-of-type, div.selected.unapproved > .wrapper > div.column:first-of-type {border-left-color:transparent;}
+	  div.selected.unapproved > div.column:first-of-type, div.selected.unapproved > .wrapper > div.column:first-of-type, div.selected div.row:not(.unapproved) div.column:first-of-type {border-left-color:transparent;}
           div.child {display:none;border-top:1px dotted #000;}
 	  div.child.fingering {background-color:#FFF;border-left-color:#FFF !important;}
           div.parent.selected div.keytype.selected div.child, div.parent.selected div.keytype {display:block;}
@@ -38,6 +38,11 @@ table
           div.keytype, div.keytype > div.row {border-bottom:none;}
           div.parent.selected, div.keytype.selected {background-image:url(<%= asset_path 'navigation/open_triangle.png' %>);}
 	  div.count, div.master-count {font-style:italic;margin-left:40px;}
+
+div.split_fingering {margin-bottom: 20px; text-align:left; display:none;} 
+div.split_fingering input {float:left; width:15px !important;}
+
+
 tr.heading th
 {
 	border-top:5px solid #555555;

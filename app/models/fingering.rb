@@ -26,7 +26,7 @@ class Fingering < ActiveRecord::Base
 
     for i in 0..(n - 1)
       if temp[i][3..-1] == "natural"
-        tones[i] = "♮"
+        tones[i] = ""#"♮"
       elsif temp[i][3..-1] == "flat"
         tones[i] = "♭"
       elsif temp[i][3..-1] == "sharp"
@@ -34,13 +34,25 @@ class Fingering < ActiveRecord::Base
       end
     end
 
-    # Pretify
-    ret = (n == 1)?(tones[0] + notes[0]):(tones[0] + notes[0] + ' to ')
+    # Prettify
+    ret = (n == 1)?(notes[0][0] + tones[0] + notes[0][1]):(notes[0][0] + tones[0] + notes[0][1] + ' to ')
     for i in 1..n - 1
-      ret = (i + 1 >= n)?(ret + tones[i] + notes[i]):(ret + tones[i] + notes[i] + ' to ')
+      ret = (i + 1 >= n)?(ret + notes[i][0] + tones[i] + notes[i][1]):(ret + notes[i][0] + tones[i] + notes[i][1] + ' to ')
     end
 
-    return ret
+    if((ret[0] == "a" && ret[1] == "♯") || (ret[0] == "b" && ret[1] == "♭"))
+     return "a♯" + ret[2] + "/b♭" + ret[2..-1]
+    elsif((ret[0] == "c" && ret[1] == "♯") || (ret[0] == "d" && ret[1] == "♭"))
+     return "c♯" + ret[2] + "/d♭" + ret[2..-1]
+    elsif((ret[0] == "d" && ret[1] == "♯") || (ret[0] == "e" && ret[1] == "♭"))
+     return "d♯" + ret[2] + "/e♭" + ret[2..-1]
+    elsif((ret[0] == "f" && ret[1] == "♯") || (ret[0] == "g" && ret[1] == "♭"))
+     return "f♯" + ret[2] + "/g♭" + ret[2..-1]
+    elsif((ret[0] == "g" && ret[1] == "♯") || (ret[0] == "a" && ret[1] == "♭"))
+     return "g♯" + ret[2] + "/a♭" + ret[2..-1]
+    else
+     return ret
+    end
   end
 
   def send_fingering_submitted

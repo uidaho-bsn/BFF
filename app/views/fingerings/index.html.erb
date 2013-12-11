@@ -28,35 +28,66 @@
 		firstAlternate = 0
 	  %>
 	  <% @fingerings.each do |fingering|
-	     if(fingering.pretty_notes != currString) 
+	     thisString = fingering.pretty_notes
+	     if(thisString.include?("to")) # if this fingering is a trill,
+	     isTrill = 1 # mark it as such
+	     if(thisString[2] == " " || thisString[2] == "/") # save the first 2 characters if natural
+	     thisString = thisString[0..1]
+	     else
+	     thisString = thisString[0..2] # save the first 3 characters if not
+	     end
+	     else
+	     if(thisString[2] == "/")
+	     thisString = thisString[0..1]
+	     elsif(thisString[3] == "/")
+	     thisString = thisString[0..2]
+	     end
+	     isTrill = 0
+	     end
+	     if((thisString != currString && fingering.accidental != 2) || (thisString != currString && fingering.accidental == 2)) 
 	     if(first != 0) %>
 	</div></div>
 	<% 
 	   firstStandard = 1
 	   firstAlternate = 0
+	   isTrill = 0
 	   end %>
-	<div class="parent row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<% end %>"><div class="wrapper"><div class="column notes"><%= fingering.pretty_notes %></div><div class="column master-count"><%= link_to "",  { :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "standard/alternate", :note_tone => fingering.note_tone}}} %></div></div>
+	<div class="parent row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<% end %>" octave="<%= fingering.octave %>" note="<%= fingering.note_name %>" accidental="<%= fingering.accidental %>"><div class="wrapper"><div class="column notes"><%= fingering.pretty_notes.split(' to')[0] %></div><div class="column master-count"><%= link_to "",  { :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "standard/alternate", :note_tone => "1:" + fingering.note_tone.split(',')[0][2..-1]}}} %></div></div>
 	  <% if(firstStandard == 1 && fingering.keytype == "standard") %>
-	  <div class="row child keytype tab"><div class="column tab">Standard</div><div class="column count"><%= link_to "",  \
-{ :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "standard", :note_tone => fingering.note_tone}}} %></div>
+	  <div class="row child keytype standard tab"><div class="column tab">Standard</div><div class="column count"><%= link_to "",  \
+{ :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "standard", :note_tone => "1:" + fingering.note_tone.split(',')[0][2..-1]}}} %></div>
 	  <% firstStandard = 0
 	     end
 
 	     currString = fingering.pretty_notes
+	     if(currString.include?("to"))
+	     isTrill = 1
+	     if(currString[2] == " " || currString[2] == "/")
+	     currString = currString[0..1]
+	     else
+	     currString = currString[0..2]
+	     end
+	     else
+	     if(currString[2] == "/")
+	     currString = currString[0..1]
+	     elsif(currString[3] == "/")
+	     currString = currString[0..2]
+	     end
+	     isTrill = 0
+	     end
 	     first = 1
 	     end
 	     if(firstAlternate == 0 && fingering.keytype == "alternate")
 	  if(firstStandard != 1) %>
 	  </div>
 	  <% end %>
-	  <div class="row child keytype tab"><div class="column tab">Alternate</div><div class="column count"><%= link_to "",  \
-{ :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "alternate", :note_tone => fingering.note_tone}}} %></div>
+	  <div class="row child keytype alternate tab"><div class="column tab">Alternate</div><div class="column count"><%= link_to "",  \
+{ :controller => :fingerings, :action => :search_results, :params => {:fingering => {:keytype => "alternate", :note_tone => "1:" + fingering.note_tone.split(',')[0][2..-1]}}} %></div>
 	     <% firstAlternate = 1
 		end %>
-	<div class="row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child fingering">
-	  <div class="column notes">&nbsp;</div>
+	<div class="row <% if(!fingering.approved && current_user.isAdmin) %>unapproved<%  postNotice = 1 end %> child fingering <% if(isTrill == 1) %><%= "trill"%><% end %> <% if(fingering.pretty_notes[0] == 'g' && fingering.pretty_notes[1] == '♯')%><%= "moveg"%><% end %>">
+	  <div class="column notes"><% if(isTrill == 1) %><%= "to "%><%= fingering.pretty_notes.split(' to ')[1]%><% end %>&nbsp;</div>
 	  <div class="column"><%= link_to fingering.id, fingering %></div>
-	  <!--<div class="column"><%= link_to fingering.pretty_notes, fingering %></div>-->
 	  <div class="column vote" align="center"><%= fingering.votes_beginner %> | <%= fingering.votes_intermediate %> | <%= fingering.votes_advanced %> | <%= fingering.votes_professional %></div>
 	  <div class="column vote" align="center"><%= fingering.dvotes_beginner %> | <%= fingering.dvotes_intermediate %> | <%= fingering.dvotes_advanced %> | <%= fingering.dvotes_professional %></div>
 	  <% if current_user.isAdmin or (current_user.login == fingering.user_name) %>
@@ -72,19 +103,96 @@
 	<% if(postNotice == 1) %> 
 	  $('span.subtitle').append("<span style='color:red;font-size:120%;'>There are fingerings which need approval (marked by red bars)</span>");
 	<% end %>
-		  $('div.row.parent > div.wrapper').click(function() {
-	  if($(this).parent().hasClass('selected')) {
-	  $(this).parent().removeClass('selected');
-	  $(this).parent().children().removeClass('selected');
-	  } else {
-	  $('div.row.parent').removeClass('selected'); /* This line closes all other open parents when a closed parent is clicked, comment out line to change this behavior and allow for multiple note types open at a time*/
-	  $('div.row.parent div').removeClass('selected');
-	  $(this).parent().addClass('selected');
+	function colorRows() {
+	  $('.row').each(function() {
+	   if($(this).find('*').hasClass('unapproved'))
+	    $(this).addClass('unapproved');
+	  });					
+	}
+
+	$(document).ready(function() {
+	   function moveTrills() {
+	    $('.trill').each(function() {
+	     if($(this).parent().siblings('.keytype.trill').length == 0) {
+	      $(this).parent().parent().append('<div class="row child keytype tab trill"><div class="column tab">Trill</div><div class="column count"></div></div>');
+	     }
+	      $(this).appendTo($(this).parent().siblings('.keytype.trill'));
+	    });
+	   $('.parent[note="g"] .moveg').each(function() {
+	    $octave = $(this).parent().parent().attr('octave');
+	    if($(this).parent().hasClass('standard'))
+	     $type = "standard";
+	    else if($(this).parent().hasClass('alternate'))
+	     $type = "alternate";
+	    else
+	     $type = "trill";
+	    if($('.parent[octave="' + $octave + '"][note="a"][accidental="1"]').length > 0) { /* already has a in octave */
+	     if($('.parent[octave="' + $octave + '"][note="a"][accidental="1"] .keytype.' + $type).length > 0) { /* already has subcat in octave */
+	      $(this).appendTo('.parent[octave="' + $octave + '"][note="a"][accidental="1"] .keytype.' + $type);
+	     } else {
+	      $(this).parent().appendTo('.parent[octave="' + $octave + '"][note="a"][accidental="1"]');
+	     }
+	    } else { /* create parent a octave */
+	     $(this).parent().parent().attr('accidental', '1').attr('note', 'a2').insertBefore($('.parent[octave="' + $octave + '"]')[0]);
+	    }
+	   });
 	  }
-	  });
-	  $('div.row').each(function() {
-	  if($(this).children().hasClass('unapproved'))
-	  $(this).addClass('unapproved');
+	  function countFingerings() {
+	   colorRows();
+	   $('.parent').each(function() {
+	    $size = $(this).find('.fingering:not(.trill)').length;
+	    $trillSize = $(this).find('.fingering.trill').length;
+	    if($size > 1)
+	     $(this).find('div.master-count a').append($size + " fingerings");
+	    else if($size == 1)
+	     $(this).find('div.master-count a').append($size + " fingering");
+	    else if($size < 1)
+	     $(this).remove();
+	    if($trillSize > 1)
+	     $(this).find('div.master-count').append("  | " + $trillSize + " trill fingerings");
+	    else if($trillSize == 1)
+	     $(this).find('div.master-count').append("  | " + $trillSize + " trill fingering");
+	    if($(this).children('.standard').length == 1) {
+	     if($(this).children('.alternate').length == 1)
+  	      $(this).children('.standard').insertBefore($(this).children('.alternate'));
+	     else
+  	      $(this).children('.standard').insertBefore($(this).children('.trill'));
+	    if($(this).attr('note') == 'a2')
+	     $(this).attr('note', 'a');
+	    }
+	    if($(this).children('.alternate').length == 1) {
+	     if($(this).children('.standard').length == 1)
+  	      $(this).children('.alternate').insertAfter($(this).children('.standard'));
+	     else
+  	      $(this).children('.alternate').insertBefore($(this).children('.trill'));
+	    }
+	    $(this).children('.trill').appendTo($(this));
+	   });
+	   $('.keytype').each(function() {
+	     $size = $(this).find('.fingering').length;
+	     if($size > 1) {
+	      if(!$(this).hasClass('trill')) {
+	       $(this).find('div.count a').append($size + " fingerings");
+	      } else {
+	       $(this).find('div.count').append($size + " fingerings");
+	      }
+	     } else {
+	      if(!$(this).hasClass('trill')) {
+    	       $(this).find('div.count a').append($size + " fingering");
+	      } else {
+	       $(this).find('div.count').append($size + " fingering");
+	      }
+	     }
+	   });
+	  $('div.row.parent > div.wrapper').click(function() {
+	   if($(this).parent().hasClass('selected')) {
+	    $(this).parent().removeClass('selected');
+	    $(this).parent().children().removeClass('selected');
+	   } else {
+	    $('div.row.parent').removeClass('selected'); /* This line closes all other open parents when a closed parent is clicked, comment out line to change this behavior and allow for multiple note types open at a time*/
+	    $('div.row.parent div').removeClass('selected');
+	    $(this).parent().addClass('selected');
+	   }
 	  });
 	  $('div.row.keytype').click(function(e) {
 	  e.stopPropagation();
@@ -95,21 +203,12 @@
 	  }	  
 	  });
 	  $('div.column a').click(function(e) {e.stopPropagation();});
-	  $(document).ready(function() {
-	  $('.parent').each(function() {
-	  $size = $(this).find('.fingering').length;
-	  if($size > 1)
-	  $(this).find('div.master-count a').append($size + " fingerings");
-	  else
-	  $(this).find('div.master-count a').append($size + " fingering");
-	  });
 	  $('.keytype').each(function() {
-	  $size = $(this).find('.fingering').length;
-	  if($size > 1)
-	  $(this).find('div.count a').append($size + " fingerings");
-	  else
-	  $(this).find('div.count a').append($size + " fingering");
+	   if($(this).children('.row').length < 1)
+	    $(this).remove();
 	  });
+	 }
+	$.when(moveTrills()).then(countFingerings());
 	  });
 	</script>
 </div></div>	
