@@ -111,7 +111,7 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 					else {
 						ctx.fillText(note[0] + tone, 25, -12.5);
 						ctx.font = "4pt Calibri";
-						ctx.fillText(note[1], 37, -12); 
+						ctx.fillText(note[1], 37.5, -13); 
 					};
 				};
 			};
@@ -196,7 +196,10 @@ function Note(note, tone, offset_x, offset_y, length, type) {
 		
 		if(tone != '♮') {
 			ctx.font = "8pt Calibri";
-			ctx.fillText(tone, pos_x - 10, pos_y + 4);
+			if(tone == '♭')
+ 				ctx.fillText(tone, pos_x - 12, pos_y + 3);
+			else
+ 				ctx.fillText(tone, pos_x - 12, pos_y + 4);
 		};
 		
 		if(noteToPos() == 10 && c_clef) {

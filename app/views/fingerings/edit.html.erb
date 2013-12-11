@@ -3,6 +3,7 @@
 	<%= javascript_include_tag :Fingerings %>
 	<%= javascript_include_tag :Validation_Fingering %>
 	<%= javascript_include_tag :Tabs %>
+	<%= javascript_include_tag :Dictionary %>
 	<script>
 		var fingering_id = "<%= @fingering_status %>";
 		var note_tone_id = "<%= @note_tone %>";
@@ -47,6 +48,76 @@
 					<tr class="heading"><th></th><th></th></tr>
 					
 					<% if current_user.isAdmin %>
+					<tr>
+						<td><label for="admin_order">Admin Order</label></td>
+						<td style="text-align:left">
+						<select id="admin_order_dropdown" name="fingering[admin_order]">
+						<% for i in 1..count_fingerings(@fingering.note_tone) do %>
+							<% if (i == @fingering.admin_order) %>
+								<option value="<%= i %>" selected><%= i %></option> 
+							<% else %>
+								<option value="<%= i %>"><%= i %></option>
+							<% end %>
+						<% end %>
+						</select>
+						</td>
+						<script type="text/javascript">
+						// create dictionary with all existing numbers in database and dynamically update number dropdown on click
+						var dictCount = new Dict();
+						var existing_notes = dictCount.New();
+						var selectedTone = "<%= @fingering.note_tone %>";
+						var selectedNum = <%= @fingering.admin_order %>;
+						var changedTone = "none";
+						<% Fingering.select("DISTINCT(note_tone)").each do |f| %>
+						existing_notes.addOrUpdate("<%= f.note_tone %>", "<%= count_fingerings(f.note_tone) %>");
+						<% end %>
+							$(document).ready(function() {
+								$('canvas').click(function() {
+									$tone = fingerings_canvas.ToString('note_tones');
+									if(existing_notes.exists($tone))
+										$number = parseInt(existing_notes.item($tone));
+									else
+										$number = 1;
+									
+									if($tone == selectedTone) {
+										$markNum = selectedNum;							
+										$number = existing_notes.item($tone);		
+									}
+									else {
+										if(existing_notes.exists($tone)) {
+											$number = parseInt(existing_notes.item($tone));
+											$markNum = parseInt($number) + 1;							
+										} else {							
+											$number = 1;
+											$markNum = 1;
+										}
+										$number = $markNum;									
+									}
+									if(changedTone != $tone && $tone != selectedTone) { // if fingering tone was changed
+										$('#admin_order_dropdown').text('');
+										for($i = 1; $i <= parseInt($number); $i++) {
+											if($i == $markNum)
+												$selectedString = "selected";
+											else
+												$selectedString = "";
+											$('#admin_order_dropdown').append('<option value="'+ $i +'" ' + $selectedString + '>'+ $i +'</option>');
+										}
+									} else if(changedTone != $tone && $tone == selectedTone) {
+										$('#admin_order_dropdown').text('');
+										for($i = 1; $i <= parseInt($number); $i++) {
+											if($i == $markNum)
+												$selectedString = "selected";
+											else
+												$selectedString = "";
+											$('#admin_order_dropdown').append('<option value="'+ $i +'" ' + $selectedString + '>'+ $i +'</option>');
+										}
+									}
+									changedTone = $tone;
+								});
+							});
+						</script>
+					</tr>
+
 					<tr>
 						<td><label for="fingering_type">Fingering Type</label></td>
 						<td style="text-align:left"><%= select 'fingering', 'keytype', [['Standard', 'standard'], ['Alternate', 'alternate']]%></td>

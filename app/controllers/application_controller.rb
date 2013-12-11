@@ -27,11 +27,13 @@ class ApplicationController < ActionController::Base
   private
  
   def mobile_device?
-    if session[:mobile_param]
-      session[:mobile_param] == "1"
-    else
-      request.user_agent =~ /Mobile|webOS/
-    end
+#    if session[:mobile_param]
+#      session[:mobile_param] == "1"
+#    else
+#      request.user_agent =~ /Mobile|webOS/
+#    end
+# As of 12/10/2013 the mobile version of the site has been disabled as it is buggy and lacks many features of the full site.
+     return false
   end
   helper_method :mobile_device?
 

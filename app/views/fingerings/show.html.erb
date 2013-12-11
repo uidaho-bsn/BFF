@@ -1,6 +1,6 @@
 <% content_for :head do %>
 	<title>BFF::Search Fingering</title>
-	<% if @fingerings != nil%>
+	<% if @fingerings != nil && @fingerings.first != nil %>
 		<%= javascript_include_tag :Fingerings %>
 			<script>
 				var fingering_id = "<%= @fingerings.first.fingering_status %>";
@@ -18,7 +18,7 @@
 <% content_for :page_subtitle do %>
 	<% if notice != nil %>
 		<font color="red"><%= notice %></font>
-	<% elsif  @fingerings != nil %>
+	<% elsif  @fingerings != nil && @fingerings.first != nil%>
                 <% if @fingerings.first.pretty_notes.include?("/")
                         name1 = @fingerings.first.pretty_notes.split("/")[0]
                         name2 = @fingerings.first.pretty_notes.split("/")[1]
@@ -76,6 +76,11 @@
 				
 				<% if current_user.isAdmin %>
 					<tr>
+						<td>Display Order</td>
+						<td align="center"><%= @fingerings.first.admin_order %></td>
+					</tr>
+
+					<tr>
 						<td>Keys String</td>
 						<td align="center"><%= @fingerings.first.fingering_status %></td>
 					</tr>
@@ -121,7 +126,7 @@
 
 			<% if current_user.isAdmin %>
 				<% if !@fingering.approved %>
-					<%= form_tag({:action => "approve", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<%= form_tag({:action => "approve", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 						<% if current_user.isAdmin && @fingerings.first.fingering_status[0] == "2" %>
 							<div class="split_fingering">
 								<input type="checkbox" name="save_first">Save first (left) note in combination as individual alternate fingering on approval</input>
@@ -135,7 +140,7 @@
 					<% end %>
 				<% end %>
 
-				<%= form_tag({:action => "destroy", :controller => "fingerings"}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
+				<%= form_tag({:action => "destroy", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
 					<% if @fingering.approved %>
 						<%= submit_tag "Unapprove", :id => "submit", :confirm => "This action is permanent and cannot be undone. Are you sure you want to unapprove this fingering and delete it?" %>
 					<% else %>
@@ -146,22 +151,22 @@
 		
 			<% if cookies[:votes] != nil and cookies[:votes_user] != nil %>
 				<% if !cookies[:votes].include?(@fingering.id.to_s()) or !cookies[:votes_user].include?(current_user.login) %>
-					<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<%= form_tag({:action => "like", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 						<%= submit_tag "Like", :id => "submit" %>
 					<% end %>
 				<% end %>
 			
 				<% if !cookies[:votes].include?(@fingering.id.to_s()) or !cookies[:votes_user].include?(current_user.login) %>
-					<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+					<%= form_tag({:action => "dislike", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 						<%= submit_tag "Dislike", :id => "submit" %>
 					<% end %>
 				<% end %>
 			<% else %>
-				<%= form_tag({:action => "like", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+				<%= form_tag({:action => "like", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 					<%= submit_tag "Like", :id => "submit" %>
 				<% end %>
 			
-				<%= form_tag({:action => "dislike", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+				<%= form_tag({:action => "dislike", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 					<%= submit_tag "Dislike", :id => "submit" %>
 				<% end %>	
 			<% end %>
@@ -171,19 +176,19 @@
 			<% end %>
 		
 			<% if current_user.isAdmin or current_user.login == @fingering.user_name %>
-				<%= form_tag({:action => "edit", :controller => "fingerings"}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
+				<%= form_tag({:action => "edit", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :get, :id => "form", :style => "display:inline;"}) do %>
 					<%= submit_tag "Edit", :id => "submit" %>
 				<% end %>
 			<% end %>
 			
 			<% if current_user.isAdmin %>
-				<%= form_tag({:action => "reset_votes", :controller => "fingerings"}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
+				<%= form_tag({:action => "reset_votes", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :put, :id => "form", :style => "display:inline;"}) do %>
 					<%= submit_tag "Reset Votes", :id => "submit", :confirm => "This will reset votes for this fingering. Are you sure you wish to do this?" %>
 				<% end %>
 			<% end %>	
 			
 			<% if current_user.isAdmin %>
-				<%= form_tag({:action => "destroy", :controller => "fingerings"}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
+				<%= form_tag({:action => "destroy", :controller => "fingerings", :id => @fingerings.first.id}, {:method => :delete, :id => "form", :style => "display:inline;"}) do %>
 					<%= submit_tag "Delete", :id => "submit", :confirm => "This action is permanent and cannot be undone.  Are you sure you want to delete this fingering?" %>
 				<% end %>
 			<% end %>		
