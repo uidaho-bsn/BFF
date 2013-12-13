@@ -9,8 +9,6 @@ Questions or suggestions? Send us an email at bassoonfingeringfinder@gmail.com!
 == Links
 Team Webpage: link:http://mindworks.shoutwiki.com/wiki/Bassoon_Fingering_Finder_(BFF)
 
-Git Wiki: link:https://github.com/uidaho-bsn/BFF/wiki
-
 == Contact Address
 bassoonfingeringfinder@gmail.com
 
