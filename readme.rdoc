@@ -7,7 +7,7 @@ for a note or series of notes. Bassoon Fingering Finder is currently in developm
 Questions or suggestions? Send us an email at bassoonfingeringfinder@gmail.com!
 
 == Links
-Team Webpage: link:http://seniordesign.engr.uidaho.edu/2011-2012/BassoonApp/index.html
+Team Webpage: link:http://mindworks.shoutwiki.com/wiki/Bassoon_Fingering_Finder_(BFF)
 
 Git Wiki: link:https://github.com/uidaho-bsn/BFF/wiki
 
@@ -18,11 +18,11 @@ bassoonfingeringfinder@gmail.com
 Dr. Susan Hess
 
 == Advisor
-Dr. Terry Soule
+Dr. Paul Oman
 
 == Developers
-Jacob Flynn
-
-Max Stillwell
-
-Sasha Solomon
+* Ryan Sacksteder
+* Pierce Trey
+* Jacob Flynn
+* Max Stillwell
+* Sasha Solomon
