@@ -7,7 +7,7 @@ for a note or series of notes. Bassoon Fingering Finder is currently in developm
 Questions or suggestions? Send us an email at bassoonfingeringfinder@gmail.com!
 
 == Links
-Team Webpage: link:http://mindworks.shoutwiki.com/wiki/Bassoon_Fingering_Finder_(BFF)
+Team Webpage: link:http://mindworks.shoutwiki.com/wiki/Bassoon_Fingering_Finder_%28BFF%29
 
 == Contact Address
 bassoonfingeringfinder@gmail.com
